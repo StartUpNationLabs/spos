@@ -11,7 +11,6 @@
       "options": {
         "engine": "docker",
         "push": true,
-        "load": true,
         "platforms": ["linux/amd64", "linux/arm64"],
         "metadata": {
           "images": ["ghcr.io/startupnationlabs/spos/sample-react"],
