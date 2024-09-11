@@ -26,7 +26,8 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
-        "preset": "angular"
+        "preset": "angular",
+        "postTargets": ["tag-docker", "github"]
       }
     },
     "tag-docker": {
@@ -36,6 +37,13 @@
           "wsl docker tag ghcr.io/startupnationlabs/spos/sample-react:sha-$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:{version}"
         ],
         "parallel": false
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
       }
     }
   }
