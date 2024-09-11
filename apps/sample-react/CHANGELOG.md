@@ -1,3 +1,15 @@
+## 0.2.2 (2024-09-11)
+
+
+### 🩹 Fixes
+
+- **sample-react:** docker retag ([ad54c63](https://github.com/StartUpNationLabs/spos/commit/ad54c63))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.1 (2024-09-11)
 
 
