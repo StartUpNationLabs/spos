@@ -1,3 +1,15 @@
+## 0.2.1 (2024-09-11)
+
+
+### 🩹 Fixes
+
+- **sample-react:** docker build push ([7870e5d](https://github.com/StartUpNationLabs/spos/commit/7870e5d))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.0 (2024-09-11)
 
 
