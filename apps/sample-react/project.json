@@ -12,6 +12,7 @@
         "engine": "docker",
         "metadata": {
           "images": ["ghcr.io/startupnationlabs/spos/sample-react"],
+          "push": true,
           "load": true,
           "tags": [
             "type=schedule",
