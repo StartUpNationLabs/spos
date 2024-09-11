@@ -1,3 +1,15 @@
+## 0.2.3 (2024-09-11)
+
+
+### 🩹 Fixes
+
+- **sample-react:** unessary * in Dockerfile ([47be165](https://github.com/StartUpNationLabs/spos/commit/47be165))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.2 (2024-09-11)
 
 
