@@ -11,6 +11,7 @@
       "options": {
         "engine": "docker",
         "push": true,
+        "load": true,
         "platforms": ["linux/amd64", "linux/arm64"],
         "metadata": {
           "images": ["ghcr.io/startupnationlabs/spos/sample-react"],
@@ -29,8 +30,7 @@
       "options": {
         "cwd": "apps/sample-react",
         "commands": [
-          "docker pull ghcr.io/startupnationlabs/spos/sample-react:$(git rev-parse --abbrev-ref HEAD)",
-          "docker tag ghcr.io/startupnationlabs/spos/sample-react:$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')",
+          "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/sample-react:$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')",
           "docker push ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')"
         ],
         "parallel": false
