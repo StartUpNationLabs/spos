@@ -1,3 +1,17 @@
+## 0.2.4 (2024-09-11)
+
+
+### 🩹 Fixes
+
+- **sample-react:** docker multiarch tagging ([bd9cd93](https://github.com/StartUpNationLabs/spos/commit/bd9cd93))
+
+- **sample-react:** remove load export docker ([ee6496a](https://github.com/StartUpNationLabs/spos/commit/ee6496a))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.3 (2024-09-11)
 
 
