@@ -7,13 +7,20 @@
   "targets": {
     "container": {
       "executor": "@nx-tools/nx-container:build",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "options": {
         "engine": "docker",
         "push": true,
-        "platforms": ["linux/amd64", "linux/arm64"],
+        "platforms": [
+          "linux/amd64",
+          "linux/arm64"
+        ],
         "metadata": {
-          "images": ["ghcr.io/startupnationlabs/spos/sample-react"],
+          "images": [
+            "ghcr.io/startupnationlabs/spos/sample-react"
+          ],
           "tags": [
             "type=schedule",
             "type=ref,event=branch",
@@ -29,8 +36,7 @@
       "options": {
         "cwd": "apps/sample-react",
         "commands": [
-          "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/sample-react:$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')",
-          "docker push ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')"
+          "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.') ghcr.io/startupnationlabs/spos/sample-react:$(git rev-parse --abbrev-ref HEAD)"
         ],
         "parallel": false
       }
