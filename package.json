@@ -14,7 +14,6 @@
   "devDependencies": {
     "@commitlint/cli": "^18.0.0",
     "@commitlint/config-angular": "^18.0.0",
-    "@jscutlery/semver": "^5.3.1",
     "@nx-tools/container-metadata": "^6.0.2",
     "@nx-tools/nx-container": "^6.0.2",
     "@nx/eslint": "19.7.2",

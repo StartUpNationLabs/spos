@@ -23,28 +23,15 @@
         }
       }
     },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "angular",
-        "postTargets": ["tag-docker", "github"]
-      }
-    },
     "tag-docker": {
       "executor": "nx:run-commands",
       "options": {
+        "cwd": "apps/sample-react",
         "commands": [
-          "docker tag ghcr.io/startupnationlabs/spos/sample-react:sha-$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:{version}",
-          "docker push ghcr.io/startupnationlabs/spos/sample-react:{version}"
+          "docker tag ghcr.io/startupnationlabs/spos/sample-react:$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')",
+          "docker push ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')"
         ],
         "parallel": false
-      }
-    },
-    "github": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "{tag}",
-        "notes": "{notes}"
       }
     }
   }
