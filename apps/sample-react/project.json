@@ -10,10 +10,10 @@
       "dependsOn": ["build"],
       "options": {
         "engine": "docker",
+        "push": true,
+        "platforms": ["linux/amd64", "linux/arm64"],
         "metadata": {
           "images": ["ghcr.io/startupnationlabs/spos/sample-react"],
-          "push": true,
-          "load": true,
           "tags": [
             "type=schedule",
             "type=ref,event=branch",
@@ -29,6 +29,7 @@
       "options": {
         "cwd": "apps/sample-react",
         "commands": [
+          "docker pull ghcr.io/startupnationlabs/spos/sample-react:$(git rev-parse --abbrev-ref HEAD)",
           "docker tag ghcr.io/startupnationlabs/spos/sample-react:$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')",
           "docker push ghcr.io/startupnationlabs/spos/sample-react:$(npm pkg get version --workspaces=false | jq --raw-output '.')"
         ],
