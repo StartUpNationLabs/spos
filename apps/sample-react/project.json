@@ -34,7 +34,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "wsl docker tag ghcr.io/startupnationlabs/spos/sample-react:sha-$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:{version}"
+          "docker tag ghcr.io/startupnationlabs/spos/sample-react:sha-$(git rev-parse --abbrev-ref HEAD) ghcr.io/startupnationlabs/spos/sample-react:{version}",
+          "docker push ghcr.io/startupnationlabs/spos/sample-react:{version}"
         ],
         "parallel": false
       }
