@@ -51,12 +51,12 @@ jobs:
         run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=container --parallel=2
       - name: Semantic Release
         shell: bash
-        run: yarn nx affected --base=last-release --target=version
+        run: npx nx release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Tag last-release
         shell: bash
         run: |
-          git tag -f last-release
-          git push origin last-release --force
+          git push && git push --tags
+          npx nx affected -t tag-docker

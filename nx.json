@@ -73,7 +73,11 @@
       "preVersionCommand": "npx nx run-many -t build",
       "conventionalCommits": true
     },
-
+    "git": {
+      "commit": true,
+      "commitArgs": "--no-verify",
+      "tag": true
+    },
     "changelog": {
       "automaticFromRef": true,
       "projectChangelogs": {
