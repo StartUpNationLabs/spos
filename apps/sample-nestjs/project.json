@@ -8,7 +8,9 @@
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "options": {
         "buildTarget": "sample-nestjs:build",
         "runBuildTargetDependencies": false
@@ -21,42 +23,42 @@
           "buildTarget": "sample-nestjs:build:production"
         }
       }
-    }
-  },
-  "container": {
-    "executor": "@nx-tools/nx-container:build",
-    "dependsOn": [
-      "build"
-    ],
-    "options": {
-      "engine": "docker",
-      "push": true,
-      "platforms": [
-        "linux/amd64",
-        "linux/arm64"
+    },
+    "container": {
+      "executor": "@nx-tools/nx-container:build",
+      "dependsOn": [
+        "build"
       ],
-      "metadata": {
-        "images": [
-          "ghcr.io/startupnationlabs/spos/sample-nestjs"
+      "options": {
+        "engine": "docker",
+        "push": true,
+        "platforms": [
+          "linux/amd64",
+          "linux/arm64"
         ],
-        "tags": [
-          "type=schedule",
-          "type=ref,event=branch",
-          "type=ref,event=tag",
-          "type=ref,event=pr",
-          "type=sha,prefix=sha-"
-        ]
+        "metadata": {
+          "images": [
+            "ghcr.io/startupnationlabs/spos/sample-nestjs"
+          ],
+          "tags": [
+            "type=schedule",
+            "type=ref,event=branch",
+            "type=ref,event=tag",
+            "type=ref,event=pr",
+            "type=sha,prefix=sha-"
+          ]
+        }
       }
-    }
-  },
-  "tag-docker": {
-    "executor": "nx:run-commands",
-    "options": {
-      "cwd": "apps/sample-nestjs",
-      "commands": [
-        "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/sample-nestjs:$(npm pkg get version --workspaces=false | jq --raw-output '.') ghcr.io/startupnationlabs/spos/sample-nestjs:$(git rev-parse --abbrev-ref HEAD)"
-      ],
-      "parallel": false
+    },
+    "tag-docker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/sample-nestjs",
+        "commands": [
+          "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/sample-nestjs:$(npm pkg get version --workspaces=false | jq --raw-output '.') ghcr.io/startupnationlabs/spos/sample-nestjs:$(git rev-parse --abbrev-ref HEAD)"
+        ],
+        "parallel": false
+      }
     }
   }
 }
