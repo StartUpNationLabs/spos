@@ -6,7 +6,7 @@ resources:
 images:
   - name: ghcr.io/startupnationlabs/spos/frontend-bff
     newName: ghcr.io/startupnationlabs/spos/frontend-bff
-    newTag: sha-69ef30b
+    newTag: sha-ac2afdd
 
 patches:
   - target:
