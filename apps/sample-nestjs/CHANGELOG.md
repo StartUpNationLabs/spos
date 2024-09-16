@@ -1,3 +1,15 @@
+## 0.2.2 (2024-09-16)
+
+
+### 🩹 Fixes
+
+- add missing release conf ([ac2afdd](https://github.com/StartUpNationLabs/spos/commit/ac2afdd))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.1 (2024-09-16)
 
 
