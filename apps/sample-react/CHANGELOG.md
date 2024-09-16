@@ -1,3 +1,32 @@
+## 0.2.6 (2024-09-16)
+
+
+### 🚀 Features
+
+- **sample-nestjs:** add build and release ([798e1fc](https://github.com/StartUpNationLabs/spos/commit/798e1fc))
+
+- **frontend:** add component libs and apps for frontend ([4460eba](https://github.com/StartUpNationLabs/spos/commit/4460eba))
+
+
+### 🩹 Fixes
+
+- don't use nx cloud ([19e0514](https://github.com/StartUpNationLabs/spos/commit/19e0514))
+
+- remove nx cloud for image building ([69ef30b](https://github.com/StartUpNationLabs/spos/commit/69ef30b))
+
+- remove nx cloud for image building ([43aef5a](https://github.com/StartUpNationLabs/spos/commit/43aef5a))
+
+- remove nx cloud for image building ([c09f742](https://github.com/StartUpNationLabs/spos/commit/c09f742))
+
+- remove nx cloud for image building ([9dddb24](https://github.com/StartUpNationLabs/spos/commit/9dddb24))
+
+- **sample-nestjs:** init ([e6cbcfc](https://github.com/StartUpNationLabs/spos/commit/e6cbcfc))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.5 (2024-09-11)
 
 

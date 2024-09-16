@@ -5,5 +5,42 @@
   "projectType": "application",
   "tags": [],
   "// targets": "to see all targets run: nx show project frontend-workflow --web",
-  "targets": {}
+  "targets": {
+    "container": {
+      "executor": "@nx-tools/nx-container:build",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "engine": "docker",
+        "push": true,
+        "platforms": [
+          "linux/amd64",
+          "linux/arm64"
+        ],
+        "metadata": {
+          "images": [
+            "ghcr.io/startupnationlabs/spos/frontend-workflow"
+          ],
+          "tags": [
+            "type=schedule",
+            "type=ref,event=branch",
+            "type=ref,event=tag",
+            "type=ref,event=pr",
+            "type=sha,prefix=sha-"
+          ]
+        }
+      }
+    },
+    "tag-docker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/frontend-workflow",
+        "commands": [
+          "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/frontend-workflow:$(npm pkg get version --workspaces=false | jq --raw-output '.') ghcr.io/startupnationlabs/spos/frontend-workflow:$(git rev-parse --abbrev-ref HEAD)"
+        ],
+        "parallel": false
+      }
+    }
+  }
 }
