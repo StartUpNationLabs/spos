@@ -1,3 +1,15 @@
+## 0.2.0 (2024-09-16)
+
+
+### 🚀 Features
+
+- Addition of kind infrastructure and deployment ([05067b1](https://github.com/StartUpNationLabs/spos/commit/05067b1))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.1.1 (2024-09-16)
 
 
