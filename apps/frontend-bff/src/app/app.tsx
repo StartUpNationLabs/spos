@@ -1,28 +1,11 @@
 import NxWelcome from './nx-welcome';
 
-import { Route, Routes, Link } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
+import { UiCommon } from '@spos/ui/common';
 
 export function App() {
   return (
     <div>
-      <NxWelcome title="frontend-bff" />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
       <Routes>
         <Route
           path="/"
@@ -33,6 +16,7 @@ export function App() {
             </div>
           }
         />
+        <Route path="/common" element={<UiCommon />} />
         <Route
           path="/page-2"
           element={

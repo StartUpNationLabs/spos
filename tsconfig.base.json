@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@spos/ui/components": ["libs/ui/components/src/index.ts"]
+      "@spos/ui/common": ["libs/ui/common/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
