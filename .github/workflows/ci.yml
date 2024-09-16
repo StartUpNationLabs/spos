@@ -51,7 +51,7 @@ jobs:
         run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=container --parallel=2 --no-cloud
       - name: Semantic Release
         shell: bash
-        run: npx nx release
+        run: npx nx --skip-nx-cache release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
