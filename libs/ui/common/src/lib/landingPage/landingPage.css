@@ -1,0 +1,19 @@
+.title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900; /* You can change to 400 for regular weight */
+}
+
+.plus-minus-select {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900; 
+    font-size: 100px;
+}
+  
+.table-button {
+    width: 150px;
+    height: 150px;         /* Padding around the container */  
+}
+
+.horizontal-container {
+    display: flex;           /* Enables flexbox */
+  }

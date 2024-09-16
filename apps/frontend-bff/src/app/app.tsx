@@ -2,6 +2,7 @@ import NxWelcome from './nx-welcome';
 
 import { Link, Route, Routes } from 'react-router-dom';
 import { UiCommon } from '@spos/ui/common';
+import { TableSquare } from '@spos/ui/common';
 
 export function App() {
   return (
@@ -16,6 +17,7 @@ export function App() {
             </div>
           }
         />
+        <Route path="/tables" element={<TableSquare />} />
         <Route path="/common" element={<UiCommon />} />
         <Route
           path="/page-2"
