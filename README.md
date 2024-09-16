@@ -80,3 +80,32 @@ And join the Nx community:
 - [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
 - [Our Youtube channel](https://www.youtube.com/@nxdevtools)
 - [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+## Cluster part
+
+To start the cluster you need the following tools :
+- kind
+- kubectl
+- openlens (to see it in a gui)
+- helm
+
+Create the cluster with the given configuration file :
+- kind create cluster --config kind-cluster.yml
+
+To see if it was deployed succesfully :
+- kubectl get node
+
+Then to export the configuration and see the cluster in open lens :
+- kind export kubeconfig
+- cat ~/.kube/config
+
+Copy paste the result into open lens -> catalog -> cluster -> from kubeconfig -> add cluster
+
+Here are a few plugin that are usefull for open lens (three line upper left -> file -> extensions) :
+- @alebcay/openlens-node-pod-menu
+- @nevalla/kube-resource-map
+
+Then for the kind cluster we want to deploy we go to the kind folder and do :
+- kubectl apply -y .
+
+If done correctly every node of this project should be deployed

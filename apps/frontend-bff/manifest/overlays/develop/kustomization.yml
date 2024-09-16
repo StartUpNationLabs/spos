@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - ../../base
+
+images:
+  - name: ghcr.io/startupnationlabs/spos/frontend-bff
+    newName: ghcr.io/startupnationlabs/spos/frontend-bff
+    newTag: sha-69ef30b
+
+patches:
+  - target:
+      kind: Ingress
+      name: ingress-frontend-bff
+    path: ingress-patch.yml
