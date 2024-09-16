@@ -2,22 +2,13 @@ import NxWelcome from './nx-welcome';
 
 import { Link, Route, Routes } from 'react-router-dom';
 import { UiCommon } from '@spos/ui/common';
-import { TableSquare } from '@spos/ui/common';
+import { LandingPage } from '@spos/ui/common';
 
 export function App() {
   return (
     <div>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route path="/tables" element={<TableSquare />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/common" element={<UiCommon />} />
         <Route
           path="/page-2"
