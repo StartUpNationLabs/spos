@@ -1,3 +1,15 @@
+## 0.2.1 (2024-09-16)
+
+
+### 🩹 Fixes
+
+- Change nginx configuration ([75d9cf0](https://github.com/StartUpNationLabs/spos/commit/75d9cf0))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.2.0 (2024-09-16)
 
 
