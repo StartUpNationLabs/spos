@@ -8,6 +8,12 @@ import { useState } from 'react';
 import { Router } from 'react-router-dom';
 
 export function Offers() {
+
+    const offersSelect = ({offer}) => {
+        console.log(offer);
+    }
+
+
     return (
         <Box margin='170px' marginTop='30vw'>
             <Typography align='center'  variant="h1" component="h2" fontSize="10vw" fontWeight="bold" marginBottom="4vw" >
@@ -19,7 +25,7 @@ export function Offers() {
             width="60vw"
             margin="auto"
             >
-                <Button className='offer-button' variant="contained" fullWidth={true} style={{
+                <Button className='offer-button' onClick={offersSelect("classic")} variant="contained" fullWidth={true} style={{
                     padding: '20px 50px', // Plus grand bouton
                     fontSize: '5vw',      // Texte plus grand
                     borderRadius: "60px",
@@ -27,7 +33,7 @@ export function Offers() {
                     background: '#313131',
                     marginTop: '4vw'
                 }} key="one">Classic</Button>,
-                <Button className='offer-button' variant="contained" fullWidth={true} style={{
+                <Button className='offer-button' onClick={offersSelect("Cousinade")} variant="contained" fullWidth={true} style={{
                     padding: '20px 50px', // Plus grand bouton
                     fontSize: '5vw',      // Texte plus grand
                     borderRadius: "60px",
@@ -35,14 +41,14 @@ export function Offers() {
                     background: '#313131',
                     marginTop: '4vw'
                 }} key="two">Cousinade</Button>,
-                <Button className='offer-button' variant="contained" fullWidth={true} style={{
+                <Button className='offer-button' onClick={offersSelect("Company")} variant="contained" fullWidth={true} style={{
                     padding: '20px 50px', // Plus grand bouton
                     fontSize: '5vw',      // Texte plus grand
                     borderRadius: "60px",
                     color: 'white',
                     background: '#313131',
                     marginTop: '4vw'
-                }} key="three">Comanie</Button>,
+                }} key="three">Company</Button>,
             </Box>
         </Box>
     );
