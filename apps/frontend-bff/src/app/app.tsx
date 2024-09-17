@@ -1,14 +1,14 @@
 import NxWelcome from './nx-welcome';
 
 import { Link, Route, Routes } from 'react-router-dom';
-import { UiCommon } from '@spos/ui/common';
-import { LandingPage } from '@spos/ui/common';
+import { LandingPage, Offers, UiCommon } from '@spos/ui/common';
 
 export function App() {
   return (
     <div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/offers" element={<Offers />} />
         <Route path="/common" element={<UiCommon />} />
         <Route
           path="/page-2"

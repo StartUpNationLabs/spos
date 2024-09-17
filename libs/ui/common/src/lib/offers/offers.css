@@ -1,0 +1,10 @@
+.offers-container {
+    width: 60vw;
+    height: 60vw;
+}
+
+.offer-button{
+    padding: '20px 50px';
+    border-radius: '50px';
+    font-size: '4vw';
+}

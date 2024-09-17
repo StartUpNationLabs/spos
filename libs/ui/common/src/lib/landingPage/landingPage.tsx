@@ -13,7 +13,7 @@ export function LandingPage() {
 
     const validateTables = () => {
         console.log({totalPeople})
-        navigate("/common")
+        navigate("/offers")
     }
 
     return (
