@@ -8,50 +8,41 @@ import { useState } from 'react';
 import { Router } from 'react-router-dom';
 
 export function Offers() {
-    const myColor = red[500]
-    const buttons = [
-        <Button className='offer-button' style={{
-            padding: '20px 50px', // Plus grand bouton
-            fontSize: '6vw',      // Texte plus grand
-            borderWidth: '0.5vw',
-            color: '#333',
-            borderColor: '#333'
-        }} key="one">Classic</Button>,
-        <Button className='offer-button' style={{
-            padding: '20px 50px', // Plus grand bouton
-            fontSize: '6vw',      // Texte plus grand
-            borderWidth: '0.5vw',
-            color: '#333',
-            borderColor: '#333'
-        }} key="two">Cousinade</Button>,
-        <Button className='offer-button' style={{
-            padding: '20px 50px', // Plus grand bouton
-            fontSize: '6vw',      // Texte plus grand
-            borderWidth: '0.5vw',
-            color: '#333',
-            borderColor: '#333'
-        }} key="three">Comanie</Button>,
-    ];
-
     return (
         <Box margin='170px' marginTop='30vw'>
-            <Typography align='center'  variant="h1" component="h2" fontSize="10vw" fontWeight="bold" >
+            <Typography align='center'  variant="h1" component="h2" fontSize="10vw" fontWeight="bold" marginBottom="4vw" >
                 Offers
             </Typography>
             <Box
-            display="flex"
             justifyContent="center"  // Center horizontally
-            alignItems="center"      // Center vertically
-            marginTop="8vw"
+            textAlign="center"
+            width="60vw"
+            margin="auto"
             >
-                <ButtonGroup
-                    className='offers-container'
-                    orientation="vertical"
-                    aria-label="Vertical button group"
-                    variant="text"
-                >
-                    {buttons}
-                </ButtonGroup>
+                <Button className='offer-button' variant="contained" fullWidth={true} style={{
+                    padding: '20px 50px', // Plus grand bouton
+                    fontSize: '5vw',      // Texte plus grand
+                    borderRadius: "60px",
+                    color: 'white',
+                    background: '#313131',
+                    marginTop: '4vw'
+                }} key="one">Classic</Button>,
+                <Button className='offer-button' variant="contained" fullWidth={true} style={{
+                    padding: '20px 50px', // Plus grand bouton
+                    fontSize: '5vw',      // Texte plus grand
+                    borderRadius: "60px",
+                    color: 'white',
+                    background: '#313131',
+                    marginTop: '4vw'
+                }} key="two">Cousinade</Button>,
+                <Button className='offer-button' variant="contained" fullWidth={true} style={{
+                    padding: '20px 50px', // Plus grand bouton
+                    fontSize: '5vw',      // Texte plus grand
+                    borderRadius: "60px",
+                    color: 'white',
+                    background: '#313131',
+                    marginTop: '4vw'
+                }} key="three">Comanie</Button>,
             </Box>
         </Box>
     );
