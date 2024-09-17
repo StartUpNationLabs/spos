@@ -17,8 +17,8 @@ export function LandingPage() {
     }
 
     return (
-        <Box margin='170px'>
-            <Typography align='center'  variant="h1" component="h2"  fontWeight="bold" >
+        <Box margin='170px' marginTop='20vw'>
+            <Typography align='center'  variant="h1" component="h2" fontSize="8vw" fontWeight="bold" >
                 Tables
             </Typography>
             <Grid2 container spacing={4} justifyContent="center" marginTop="60px">
@@ -37,7 +37,7 @@ export function LandingPage() {
                     style={{
                         padding: '20px 50px', // Plus grand bouton
                         borderRadius: '50px',  // Coins arrondis
-                        fontSize: '30px',      // Texte plus grand
+                        fontSize: '4vw',      // Texte plus grand
                     }}
                     >
                     Validate

@@ -3,10 +3,10 @@ import './landingPage.css';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Typography, Box } from "@mui/material";
 import { useState } from 'react';
 
-export function NbPeopleSelector({totalSize, totalPeople, setTotalPeople}) {
+export function NbPeopleSelector({totalPeople, setTotalPeople}) {
     const [nbPeople, setNbPeople] = useState(0)
 
     const addPerson = () => {
@@ -24,17 +24,17 @@ export function NbPeopleSelector({totalSize, totalPeople, setTotalPeople}) {
     };
 
     return (
-        <div className="horizontal-container">
-            <IconButton onClick={addPerson}  style={{maxWidth: totalSize/3, minWidth: totalSize/3}}>
-                <AddIcon sx={{ fontSize: 45 }} style={{ color: 'black' }}/>
+        <Box className="horizontal-container">
+            <IconButton onClick={addPerson}  style={{maxWidth: "33%", minWidth: "33%"}}>
+                <AddIcon sx={{ fontSize: "4vw" }} style={{ color: 'black' }}/>
             </IconButton>
-            <Typography align="center" variant="h3" component="h4"  fontWeight="bold" style={{maxWidth: totalSize/3, minWidth: totalSize/3}}>
+            <Typography align="center" variant="h3" component="h4" fontSize="4vw" fontWeight="bold" style={{maxWidth: "33%", minWidth: "33%"}}>
                 {nbPeople}
             </Typography>
-            <IconButton onClick={removePerson} style={{maxWidth: totalSize/3, minWidth: totalSize/3}} >
-                <RemoveRoundedIcon sx={{ fontSize: 45 }} style={{ color: 'black' }}/>
+            <IconButton onClick={removePerson} style={{maxWidth: "33%", minWidth: "33%"}} >
+                <RemoveRoundedIcon sx={{ fontSize: "4vw" }} style={{ color: 'black' }}/>
             </IconButton>
-        </div>
+        </Box>
     );
 }
 

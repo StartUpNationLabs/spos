@@ -12,16 +12,17 @@ export function TableSquare({tableNumber, totalPeople, setTotalPeople}) {
     }
 
     return (
-        <div>
-            <Button onClick={showHidePeopleSelector} variant="contained" className='table-button' color={showPeopleSelector? 'success':'primary' }>
+        <Box className="table-box">
+            <Button onClick={showHidePeopleSelector} variant="contained" fullWidth={true} className="table-button" color={showPeopleSelector? 'success':'primary' }>
                 <Typography variant="h1" component="h2"  fontWeight="bold">
                 {tableNumber+1}
                 </Typography>
             </Button>
-            <Box margin="15px"></Box>
-            { showPeopleSelector ? <NbPeopleSelector totalSize={200} totalPeople={totalPeople} setTotalPeople={setTotalPeople}/> : null }
+            <Box margin="5%"></Box>
+            { showPeopleSelector ? <NbPeopleSelector totalPeople={totalPeople} setTotalPeople={setTotalPeople}/> : null }
+            <Box margin="2%"></Box>
             
-        </div>
+        </Box>
     );
 }
 
