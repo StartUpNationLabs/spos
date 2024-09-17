@@ -1,0 +1,36 @@
+.bottom-button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.popup-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(139, 196, 227, 0.9); /* Fond bleu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1000; /* Assure que la popup est au-dessus de tout */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Bouton de fermeture dans la popup */
+.close-button {
+    margin-top: 20px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
