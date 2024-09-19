@@ -41,7 +41,7 @@ export function Orders() {
             {open && (
                 <Box className="popup-fullscreen">
                     <Button variant="contained" onClick={togglePopup} className="close-button">
-                        Close
+                        Orders
                     </Button>
                     
                     <Box sx={{ 
