@@ -1,3 +1,15 @@
+## 0.3.0 (2024-09-21)
+
+
+### 🚀 Features
+
+- **frontend-workflow:** Addition of group billing page ([a00eee9](https://github.com/StartUpNationLabs/spos/commit/a00eee9))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.2.2 (2024-09-16)
 
 
