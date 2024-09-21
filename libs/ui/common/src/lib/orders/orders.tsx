@@ -43,10 +43,10 @@ export function Orders() {
                     <Button variant="contained" onClick={togglePopup} className="close-button">
                         Orders
                     </Button>
-                    
-                    <Box sx={{ 
-                        display: 'flex', 
-                        flexDirection: 'column', 
+
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'flex-start',
                         mt: 15,
                         pl: 2,
@@ -54,14 +54,14 @@ export function Orders() {
                         overflowY: 'auto'
                     }}>
                         {Object.keys(ordersData).map((section) => (
-                            <Section 
-                                key={section} 
-                                title={section.charAt(0).toUpperCase() + section.slice(1)} 
-                                orders={ordersData[section]} 
+                            <Section
+                                key={section}
+                                title={section.charAt(0).toUpperCase() + section.slice(1)}
+                                orders={ordersData[section]}
                             />
                         ))}
                     </Box>
-                    
+
                     <Box className="bottom-button">
                         <Button variant="contained" sx={{ width: 500 }}>
                             Serve
