@@ -57,19 +57,11 @@ export function Orders() {
                                 fontWeight="bold"
                                 style={{ color: 'black' }}>
                         Orders
-<<<<<<< HEAD
-                    </Button>
-
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-=======
                     </Typography>
                     
                     <Box sx={{ 
                         display: 'flex', 
                         flexDirection: 'column', 
->>>>>>> navbar
                         alignItems: 'flex-start',
                         mt: 4,
                         pl: 0,

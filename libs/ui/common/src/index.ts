@@ -3,8 +3,5 @@ export * from './lib/tables/landingPage';
 export * from './lib/offers/offers';
 export * from './lib/orders/orders';
 export * from './lib/summary/summary';
-<<<<<<< HEAD
 export * from './lib/groupBillingPage/groupBillingPage';
-=======
 export * from './lib/utils/navbar';
->>>>>>> navbar
