@@ -1,22 +1,21 @@
-import './groupBillingPage.css';
-import { Button, Typography, Box } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export function GroupBilling() {
   const navigate = useNavigate();
   const billingData = [
     {
-      number : 1,
-      elements : [
-        {quantity : 1, item: {id: 1, name: "Coca", price: 1.5}},
-        {quantity : 2, item: {id: 2, name: "Fried chicken", price: 4.35}}
+      number: 1,
+      elements: [
+        { quantity: 1, item: { id: 1, name: "Coca", price: 1.5 } },
+        { quantity: 2, item: { id: 2, name: "Fried chicken", price: 4.35 } }
       ]
     },
     {
-      number : 2,
-      elements : [
-        {quantity : 1, item: {id: 3, name: "Orangina", price: 1.5}},
-        {quantity : 6, item: {id: 4, name: "Mozzarella stick", price: 1}}
+      number: 2,
+      elements: [
+        { quantity: 1, item: { id: 3, name: "Orangina", price: 1.5 } },
+        { quantity: 6, item: { id: 4, name: "Mozzarella stick", price: 1 } }
       ]
     }
   ];
@@ -28,47 +27,50 @@ export function GroupBilling() {
   }, 0);
 
   const validatePayment = () => {
-    console.log({totalPrice})
-    navigate("/")
-}
+    console.log({ totalPrice });
+    navigate("/");
+  }
 
   return (
-    <div id='billing-container' className='container'>
-      <Box className="group-billing">
-        <Typography align='left'  variant="h1" component="h2" fontSize="8vw" fontWeight="bold">
+    <Box sx={{ backgroundColor: '#d9d9d9', minHeight: '100dvh', paddingTop: '5dvh', paddingLeft: '5dvw', paddingRight: '5dvw',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
+      <Box sx={{ minHeight: '75dvh'}}>
+        <Typography variant="h2" component="h2" sx={{ fontSize: '8vw', fontWeight: 'bold', paddingLeft: '100px' }}>
           Billing
         </Typography>
-        <div id="billing-section">
-          {billingData.map(table => (
-            <div key={table.number}>
-              <Typography id='table-title' align='left'  variant="h3" component="h3" fontSize="5vw" fontWeight="bold" >
-                {"Table " + table.number}
-              </Typography>
-              <table>
-                {table.elements.map(element => (
-                  <tbody key={element.item.id}>
-                    <tr>
-                      <td>{element.quantity} x {element.item.name}</td>
-                      <td>{element.quantity * element.item.price}$</td>
-                    </tr>
-                  </tbody>
-                ))}
-              </table>
-            </div>
-          ))}
-        </div>
+        {billingData.map((table, index) => (
+          <Box key={index} sx={{ margin: '2vh 0', backgroundColor: '#d9d9d9' }}>
+            <Typography variant="h3" component="h3" sx={{ fontSize: '5vw', fontWeight: 'bold', textDecoration: 'underline' }}>
+              {"Table " + table.number}
+            </Typography>
+            <Box sx={{ padding: '2vh 0' }}>
+              {table.elements.map((element, index) => (
+                <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', padding: '1vh 3vw' }}>
+                  <Typography variant="body1" component="span" fontWeight={400} fontSize={'3vw'}>
+                    {element.quantity} x {element.item.name}
+                  </Typography>
+                  <Typography variant="body1" component="span" fontWeight={400} fontSize={'3vw'}>
+                    ${element.quantity * element.item.price}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        ))}
       </Box>
-      <Box id="summary-section">
-        <hr />
-        <div>
-          <p>Total : {totalPrice}$</p>
+      <Box sx={{ padding: '3vh 5vw', backgroundColor: '#d9d9d9' }}>
+        <hr style={{border: 'none', borderTop:'1px solid rgba(0, 0, 0, 1)', margin: '20px 0'}} />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="body1" component="span" fontWeight={400} fontSize={'3vw'}>
+            Total: ${totalPrice}
+          </Typography>
           <Button onClick={validatePayment} variant="contained" color="inherit"
-            style={{padding: '20px 50px', borderRadius: '50px', fontSize: '4vw'}}>
+            sx={{ padding: '20px 50px', borderRadius: '50px', fontSize: '4vw' }}>
             Paid
           </Button>
-        </div>
+        </Box>
       </Box>
-    </div>
+    </Box>
   );
 }
 
