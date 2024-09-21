@@ -2,7 +2,7 @@ import './orders.css';
 import { Button, Typography, Box } from "@mui/material";
 import { useState } from 'react';
 import Section from './section';
-
+import BackButton from '../utils/backButton';
 
 export function Orders() {
     const [open, setOpen] = useState(false);
@@ -33,26 +33,50 @@ export function Orders() {
     return (
         <Box margin={10} marginTop="20vw">
             <Box className="bottom-button">
-                <Button variant="contained" onClick={togglePopup} sx={{ width: 500 }}>
+            <Button
+                    onClick={togglePopup}
+                    variant="contained"
+                    color="primary"
+                    style={{
+                        padding: '20px 50px', 
+                        borderRadius: '50px',  
+                        fontSize: '4vw',     
+                    }}
+                    >
                     Orders
                 </Button>
             </Box>
 
             {open && (
                 <Box className="popup-fullscreen">
-                    <Button variant="contained" onClick={togglePopup} className="close-button">
+                    <BackButton onClick={() => setOpen(false)} /> 
+                    <Typography align='center'  
+                                variant="h1" 
+                                component="h2" 
+                                fontSize="7.5vw" 
+                                fontWeight="bold"
+                                style={{ color: 'black' }}>
                         Orders
-                    </Button>
+                    </Typography>
                     
                     <Box sx={{ 
                         display: 'flex', 
                         flexDirection: 'column', 
                         alignItems: 'flex-start',
-                        mt: 15,
-                        pl: 2,
-                        maxHeight: '80vh',
-                        overflowY: 'auto'
+                        mt: 4,
+                        pl: 0,
+                        
                     }}>
+                        <Box width='90%' 
+                            marginLeft='5%' 
+                            bgcolor='#FFFFFF' 
+                            height="62vh"
+                            sx={{
+                                overflowY: 'auto', 
+                                maxHeight: '62vh', 
+                                padding: 2,        
+                            }}>
+
                         {Object.keys(ordersData).map((section) => (
                             <Section 
                                 key={section} 
@@ -60,10 +84,21 @@ export function Orders() {
                                 orders={ordersData[section]} 
                             />
                         ))}
+                        </Box>
+
                     </Box>
                     
                     <Box className="bottom-button">
-                        <Button variant="contained" sx={{ width: 500 }}>
+                        <Button
+                        variant="contained"
+                    
+                        style={{
+                            backgroundColor: '#003366',
+                            padding: '20px 50px', 
+                            borderRadius: '50px',  
+                            fontSize: '4vw',     
+                        }}
+                        >
                             Serve
                         </Button>
                     </Box>
