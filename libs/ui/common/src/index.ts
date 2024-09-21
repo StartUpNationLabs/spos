@@ -5,3 +5,4 @@ export * from './lib/orders/orders';
 export * from './lib/summary/summary';
 export * from './lib/groupBillingPage/groupBillingPage';
 export * from './lib/utils/navbar';
+export * from './lib/commandsR/commands';

@@ -40,7 +40,8 @@ export function Orders() {
                     style={{
                         padding: '20px 50px', 
                         borderRadius: '50px',  
-                        fontSize: '4vw',     
+                        fontSize: '4vw', 
+                        backgroundColor: '#003366'    
                     }}
                     >
                     Orders
@@ -49,7 +50,7 @@ export function Orders() {
 
             {open && (
                 <Box className="popup-fullscreen">
-                    <BackButton onClick={() => setOpen(false)} /> 
+                    <BackButton onClick={() => setOpen(false)} color={'white'} top={20} left={20}/> 
                     <Typography align='center'  
                                 variant="h1" 
                                 component="h2" 

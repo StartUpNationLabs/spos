@@ -8,8 +8,8 @@ const tables = [
     { id: 4 },
 ];
 
-export function NavBar() {
-    const [selectedTable, setSelectedTable] = useState(1);
+export function NavBar({ tables}) {
+    const [selectedTable, setSelectedTable] = useState(tables[0]?.id || 1); 
 
     return (
         <Box sx={{ display: 'flex', height: '100vh', alignItems: 'flex-start',backgroundColor: 'lightgray', }}>
