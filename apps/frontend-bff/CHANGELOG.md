@@ -1,3 +1,15 @@
+## 0.4.0 (2024-09-21)
+
+
+### 🚀 Features
+
+- **frontend-workflow:** Addition of table billing page ([0273004](https://github.com/StartUpNationLabs/spos/commit/0273004))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.3.0 (2024-09-21)
 
 
