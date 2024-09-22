@@ -2,6 +2,7 @@
 import { Button, Typography, Box } from "@mui/material";
 import { useState } from 'react';
 import CommandNumber from "./commandNumber";
+import "./section.css";
 
 const Section = ({ title, orders }) => (
     <Box sx={{ marginBottom: 3 }}>
