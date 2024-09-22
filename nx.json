@@ -81,7 +81,8 @@
       "sample-react",
       "sample-nestjs",
       "frontend-workflow",
-      "frontend-bff"
+      "frontend-bff",
+      "ui-common"
     ],
     "projectsRelationship": "independent",
     "version": {
