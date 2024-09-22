@@ -1,25 +1,85 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import './orderingChoices.css'
+import './orderingChoices.css';
+import { useCurrentSelectedOrder } from './stores/currentSelectedOrder';
 
 export const OrderingChoices = ({ selectedTable }) => {
     const { orders } = selectedTable;
+    const { setOrder } = useCurrentSelectedOrder(); 
+
+    const [selectedOrders, setSelectedOrders] = useState({});
+
+    const handleSelectOrder = (category, index) => {
+        setSelectedOrders(prev => {
+            const isSelected = prev[category]?.[index];
+
+            if (isSelected) {
+                const { [index]: removed, ...rest } = prev[category];
+                return {
+                    ...prev,
+                    [category]: rest,
+                };
+            } else {
+                return {
+                    ...prev,
+                    [category]: {
+                        ...prev[category],
+                        [index]: { count: 0 } 
+                    }
+                };
+            }
+        });
+    };
+
+    const handleIncrease = (category, index) => {
+        setSelectedOrders(prev => {
+            const currentCount = prev[category]?.[index]?.count || 0;
+            const newCount = currentCount + 1;
+
+            setOrder(category, index, newCount);
+
+            return {
+                ...prev,
+                [category]: {
+                    ...prev[category],
+                    [index]: { count: newCount }
+                }
+            };
+        });
+    };
+
+    const handleDecrease = (category, index) => {
+        setSelectedOrders(prev => {
+            const currentCount = prev[category]?.[index]?.count || 0;
+            const newCount = Math.max(0, currentCount - 1); 
+
+            setOrder(category, index, newCount);
+
+            return {
+                ...prev,
+                [category]: {
+                    ...prev[category],
+                    [index]: { count: newCount }
+                }
+            };
+        });
+    };
 
     return (
         <Box
             className="custom-scrollbar"
             sx={{
-                padding: '16px', 
+                padding: '16px',
                 marginTop: '90px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
-                height: '460px', 
-                overflowY: 'auto', 
-                border: '1px solid #ccc', 
-                width: 'calc(100% - 32px)', 
-                position: 'relative', 
-                left: '0', 
+                height: '460px',
+                overflowY: 'auto',
+                border: '1px solid #ccc',
+                width: 'calc(100% - 32px)',
+                position: 'relative',
+                left: '0',
             }}
         >
             {Object.keys(orders).map((category) => (
@@ -27,28 +87,42 @@ export const OrderingChoices = ({ selectedTable }) => {
                     <Typography variant="h6">{category}</Typography>
                     <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {orders[category].length > 0 ? (
-                            orders[category].map((order, index) => (
-                                <Button
-                                    key={index}
-                                    variant="contained"
-                                    sx={{
-                                        width: '100px',
-                                        height: '100px',
-                                        borderRadius: '0px',
-                                        backgroundColor: '#ff6f61',
-                                        color: 'white',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        fontSize: '1.2rem',
-                                        '&:hover': {
-                                            backgroundColor: '#ff4d94',
-                                        },
-                                    }}
-                                >
-                                    {order}
-                                </Button>
-                            ))
+                            orders[category].map((order, index) => {
+                                const count = selectedOrders[category]?.[index]?.count || 0;
+                                const isSelected = Boolean(selectedOrders[category]?.[index]);
+
+                                return (
+                                    <Box key={index} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <Button
+                                            variant="contained"
+                                            onClick={() => handleSelectOrder(category, index)}
+                                            sx={{
+                                                width: '100px',
+                                                height: '100px',
+                                                borderRadius: '0px',
+                                                backgroundColor: isSelected ? 'green' : '#ff6f61',
+                                                color: 'white',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                fontSize: '1.2rem',
+                                                '&:hover': {
+                                                    backgroundColor: isSelected ? 'darkgreen' : '#ff4d94',
+                                                },
+                                            }}
+                                        >
+                                            {order}
+                                        </Button>
+                                        {isSelected && (
+                                            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
+                                                <Button onClick={() => handleDecrease(category, index)}>-</Button>
+                                                <Typography>{count}</Typography>
+                                                <Button onClick={() => handleIncrease(category, index)}>+</Button>
+                                            </Box>
+                                        )}
+                                    </Box>
+                                );
+                            })
                         ) : (
                             <Typography>No Choices</Typography>
                         )}

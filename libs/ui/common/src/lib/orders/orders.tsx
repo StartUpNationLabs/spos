@@ -4,31 +4,31 @@ import { useState } from 'react';
 import Section from './section';
 import BackButton from '../utils/backButton';
 
+const ordersData = {
+    drink: {
+        'Table 1': [
+            { order: 33, status: 'completed' },
+            { order: 32, status: 'pending' }
+        ],
+        'Table 2': [{ order: 41, status: 'completed' }]
+    },
+    starter: {
+        'Table 3': [
+            { order: 23, status: 'pending' },
+            { order: 22, status: 'completed' }
+        ],
+        'Table 1': [{ order: 15, status: 'completed' }]
+    },
+    mainCourse: {
+        'Table 2': [{ order: 39, status: 'pending' }],
+        'Table 3': [{ order: 24, status: 'completed' }]
+    }
+};
+
 export function Orders() {
     const [open, setOpen] = useState(false);
 
     const togglePopup = () => setOpen(prevOpen => !prevOpen);
-
-    const ordersData = {
-        drink: {
-            'Table 1': [
-                { order: 33, status: 'completed' },
-                { order: 32, status: 'pending' }
-            ],
-            'Table 2': [{ order: 41, status: 'completed' }]
-        },
-        starter: {
-            'Table 3': [
-                { order: 23, status: 'pending' },
-                { order: 22, status: 'completed' }
-            ],
-            'Table 1': [{ order: 15, status: 'completed' }]
-        },
-        mainCourse: {
-            'Table 2': [{ order: 39, status: 'pending' }],
-            'Table 3': [{ order: 24, status: 'completed' }]
-        }
-    };
 
     return (
         <Box margin={10} marginTop="20vw">

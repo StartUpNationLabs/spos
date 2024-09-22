@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 
-const tables = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-];
-
 export function NavBar({ tables, setSelectedTable }) {
     const [selectedTable, setSelectedTableLocal] = useState(tables[0]?.id || 1); 
 
