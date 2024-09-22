@@ -1,56 +1,38 @@
-import { CenterFocusStrong } from '@mui/icons-material';
-import './offers.css';
-import { useNavigate } from "react-router-dom";
-import { Button, Typography, ButtonGroup, Box } from "@mui/material";
-import { red } from '@mui/material/colors';
+import {Box, Button, Typography} from "@mui/material";
 import * as React from 'react';
-import { useState } from 'react';
-import { Router } from 'react-router-dom';
+import {useOffers} from "./stores/offers";
+import {useGroups} from "../tables/stores/groups";
 
 export function Offers() {
-
-    const offersSelect = ({offer}) => {
-        console.log(offer);
-    }
-
-
-    return (
-        <Box margin='170px' marginTop='30vw'>
-            <Typography align='center'  variant="h1" component="h2" fontSize="10vw" fontWeight="bold" marginBottom="4vw" >
-                Offers
-            </Typography>
-            <Box
-            justifyContent="center"  // Center horizontally
-            textAlign="center"
-            width="60vw"
-            margin="auto"
-            >
-                <Button className='offer-button' onClick={offersSelect("classic")} variant="contained" fullWidth={true} style={{
-                    padding: '20px 50px', // Plus grand bouton
-                    fontSize: '5vw',      // Texte plus grand
-                    borderRadius: "60px",
-                    color: 'white',
-                    background: '#313131',
-                    marginTop: '4vw'
-                }} key="one">Classic</Button>,
-                <Button className='offer-button' onClick={offersSelect("Cousinade")} variant="contained" fullWidth={true} style={{
-                    padding: '20px 50px', // Plus grand bouton
-                    fontSize: '5vw',      // Texte plus grand
-                    borderRadius: "60px",
-                    color: 'white',
-                    background: '#313131',
-                    marginTop: '4vw'
-                }} key="two">Cousinade</Button>,
-                <Button className='offer-button' onClick={offersSelect("Company")} variant="contained" fullWidth={true} style={{
-                    padding: '20px 50px', // Plus grand bouton
-                    fontSize: '5vw',      // Texte plus grand
-                    borderRadius: "60px",
-                    color: 'white',
-                    background: '#313131',
-                    marginTop: '4vw'
-                }} key="three">Company</Button>,
-            </Box>
-        </Box>
-    );
+  const offers = useOffers(state => state.offers);
+  const addGroup = useGroups(state => state.addGroup);
+  return (
+    <Box display={"flex"} alignItems={"center"} flexDirection={"column"} justifyContent={"start"} width={"100%"}
+         height={"100vh"}>
+      <Typography align='center' variant="h1" component="h2" fontSize="10vw" fontWeight="bold" paddingTop={"150px"}>
+        Offers
+      </Typography>
+      <Box
+        justifyContent="center"  // Center horizontally
+        textAlign="center"
+        width="60vw"
+        margin="auto"
+      >
+        {offers.map((offer) => (
+          <Button className='offer-button' onClick={() => {
+            addGroup(offer.name)
+          }} variant="contained" fullWidth={true} style={{
+            padding: '20px 50px', // Plus grand bouton
+            fontSize: '5vw',      // Texte plus grand
+            borderRadius: "60px",
+            color: 'white',
+            background: '#313131',
+            marginTop: '4vw'
+          }} key={offer.name}>{offer.name}</Button>
+        ))}
+      </Box>
+    </Box>
+  );
 }
+
 export default Offers;

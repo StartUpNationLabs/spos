@@ -6,11 +6,9 @@ import {useState} from 'react';
 import {useTables} from "./stores/tables";
 
 export function LandingPage() {
-  const [totalPeople, setTotalPeople] = useState(0);
   const navigate = useNavigate();
   const tables = useTables(state => state.tables);
-  const validateTables = () => {
-    console.log({totalPeople})
+  const navigateTables = () => {
     navigate("/offers")
   }
 
@@ -28,7 +26,7 @@ export function LandingPage() {
       </Grid>
       <Box textAlign='center' marginTop="60px">
         <Button
-          onClick={validateTables}
+          onClick={navigateTables}
           variant="contained"
           color="success"
         >
