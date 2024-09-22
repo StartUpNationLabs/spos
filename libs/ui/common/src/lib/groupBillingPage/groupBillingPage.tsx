@@ -17,49 +17,7 @@ export function GroupBilling() {
         { quantity: 1, item: { id: 3, name: "Orangina", price: 1.5 } },
         { quantity: 6, item: { id: 4, name: "Mozzarella stick", price: 1 } }
       ]
-    },
-    {
-      number: 1,
-      elements: [
-        { quantity: 1, item: { id: 1, name: "Coca", price: 1.5 } },
-        { quantity: 2, item: { id: 2, name: "Fried chicken", price: 4.35 } }
-      ]
-    },
-    {
-      number: 2,
-      elements: [
-        { quantity: 1, item: { id: 3, name: "Orangina", price: 1.5 } },
-        { quantity: 6, item: { id: 4, name: "Mozzarella stick", price: 1 } }
-      ]
-    },
-    {
-      number: 1,
-      elements: [
-        { quantity: 1, item: { id: 1, name: "Coca", price: 1.5 } },
-        { quantity: 2, item: { id: 2, name: "Fried chicken", price: 4.35 } }
-      ]
-    },
-    {
-      number: 2,
-      elements: [
-        { quantity: 1, item: { id: 3, name: "Orangina", price: 1.5 } },
-        { quantity: 6, item: { id: 4, name: "Mozzarella stick", price: 1 } }
-      ]
-    },
-    {
-      number: 1,
-      elements: [
-        { quantity: 1, item: { id: 1, name: "Coca", price: 1.5 } },
-        { quantity: 2, item: { id: 2, name: "Fried chicken", price: 4.35 } }
-      ]
-    },
-    {
-      number: 2,
-      elements: [
-        { quantity: 1, item: { id: 3, name: "Orangina", price: 1.5 } },
-        { quantity: 6, item: { id: 4, name: "Mozzarella stick", price: 1 } }
-      ]
-    },
+    }
   ];
 
   const totalPrice = billingData.reduce((total, { elements }) => {
