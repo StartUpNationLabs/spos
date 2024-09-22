@@ -1,3 +1,15 @@
+## 0.4.1 (2024-09-22)
+
+
+### 🩹 Fixes
+
+- **frontend-workflow:** landing page ([05f09a5](https://github.com/StartUpNationLabs/spos/commit/05f09a5))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.4.0 (2024-09-21)
 
 
