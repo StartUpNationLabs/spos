@@ -1,5 +1,6 @@
 export * from './lib/ui-common';
 export * from './lib/tables/landingPage';
+export * from './lib/tables/tableSquare';
 export * from './lib/offers/offers';
 export * from './lib/orders/orders';
 export * from './lib/summary/summary';
