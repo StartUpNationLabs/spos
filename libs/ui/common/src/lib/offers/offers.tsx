@@ -21,7 +21,7 @@ export function Offers() {
     <Box display={"flex"} alignItems={"center"} flexDirection={"column"} justifyContent={"start"}
          width={"100%"}
          height={"100vh"}>
-      <Typography align='center' variant="h2" component="h2" fontWeight="bold" paddingTop={"150px"}>
+      <Typography align='center' variant="h1" component="h2" fontWeight="bold" paddingTop={"150px"}>
         Offers
       </Typography>
       <Box
