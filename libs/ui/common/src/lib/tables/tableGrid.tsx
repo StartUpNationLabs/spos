@@ -53,7 +53,7 @@ export function TableGrid() {
       <Grid width={"100%"}>
         <Box  width={"100%"}>
           <Typography variant="h4" component="h2" fontWeight="bold">
-            Group Tables
+            Reserved Tables
           </Typography>
         </Box>
         <GroupTables/>
@@ -61,7 +61,7 @@ export function TableGrid() {
       <Grid width={"100%"}>
         <Box width={"100%"}>
           <Typography variant="h4" component="h2" fontWeight="bold">
-            Reserved Tables
+            Free Tables
           </Typography>
         </Box>
         <FreeTables/>
