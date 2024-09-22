@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import NavBar from '../utils/navbar';
 import Orders from '../orders/orders';
 import BackButton from '../utils/backButton';
@@ -10,7 +10,7 @@ const tables = [
     {
         id: 1,
         orders: {
-            Drinks: ['Coke', 'Pepsi'],
+            Drinks: ['Coke', 'Pepsi','Coke', 'Pepsi','Coke', 'Pepsi'],
             Starter: ['Salad'],
             MainCourse: ['Steak'],
             Dessert: ['Ice Cream'],
@@ -45,16 +45,18 @@ const tables = [
     },
 ];
 
-
-
 export function Commands() {
-
-    const [selectedTable, setSelectedTable] = useState(tables[1]); 
+    const [selectedTable, setSelectedTable] = useState(tables[1]);
 
     return (
         <div>
-            <Box sx={{ minHeight: '100dvh', display: 'flex', flexDirection: 'row' }}>
-                <Box sx={{ boxSizing: 'border-box', width: 'fit-content', borderRight: '2px solid #000' }}>
+            <Box sx={{ minHeight: '100dvh', 
+                display: 'flex', 
+                flexDirection: 'row', 
+                width: '100%' }}>
+                <Box sx={{ boxSizing: 'border-box', 
+                            width: 'fit-content', 
+                            borderRight: '2px solid #000' }}>
                     <NavBar
                         tables={tables}
                         setSelectedTable={(tableId) =>
@@ -62,11 +64,14 @@ export function Commands() {
                         }
                     />
                 </Box>
-                <BackButton color={'black'} top={20} left={150}></BackButton>
-                {selectedTable && <OrderingChoices selectedTable={selectedTable} />}
-                <Orders></Orders>
+                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}> 
+                    <BackButton color={'black'} top={20} left={150}></BackButton>
+                    {selectedTable && <OrderingChoices selectedTable={selectedTable} />}
+                    <Orders></Orders>
+                </Box>
             </Box>
         </div>
     );
 }
+
 export default Commands;

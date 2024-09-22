@@ -19,7 +19,6 @@ export function App() {
           }
         />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/navbar" element={<NavBar />} />
         <Route path="/groupBilling" element={<GroupBilling />} />
         <Route path="/commands" element={<Commands />} />
 

@@ -1,17 +1,25 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
+import './orderingChoices.css'
 
 export const OrderingChoices = ({ selectedTable }) => {
     const { orders } = selectedTable;
 
     return (
         <Box
+            className="custom-scrollbar"
             sx={{
-                padding: '16px',
-                marginTop: '90px', 
+                padding: '16px', 
+                marginTop: '90px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '16px',
+                gap: '14px',
+                height: '460px', 
+                overflowY: 'auto', 
+                border: '1px solid #ccc', 
+                width: 'calc(100% - 32px)', 
+                position: 'relative', 
+                left: '0', 
             }}
         >
             {Object.keys(orders).map((category) => (
@@ -27,14 +35,14 @@ export const OrderingChoices = ({ selectedTable }) => {
                                         width: '100px',
                                         height: '100px',
                                         borderRadius: '0px',
-                                        backgroundColor: '#ff6f61', 
+                                        backgroundColor: '#ff6f61',
                                         color: 'white',
                                         display: 'flex',
                                         justifyContent: 'center',
                                         alignItems: 'center',
-                                        fontSize: '1.2rem', 
+                                        fontSize: '1.2rem',
                                         '&:hover': {
-                                            backgroundColor: '#ff4d94', 
+                                            backgroundColor: '#ff4d94',
                                         },
                                     }}
                                 >
@@ -42,7 +50,7 @@ export const OrderingChoices = ({ selectedTable }) => {
                                 </Button>
                             ))
                         ) : (
-                            <Typography>No orders</Typography>
+                            <Typography>No Choices</Typography>
                         )}
                     </Box>
                 </Box>
