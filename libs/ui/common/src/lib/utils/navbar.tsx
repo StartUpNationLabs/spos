@@ -8,17 +8,27 @@ const tables = [
     { id: 4 },
 ];
 
-export function NavBar() {
-    const [selectedTable, setSelectedTable] = useState(1);
+export function NavBar({ tables, setSelectedTable }) {
+    const [selectedTable, setSelectedTableLocal] = useState(tables[0]?.id || 1); 
+
+    const handleTableSelection = (tableId) => {
+        setSelectedTableLocal(tableId);
+        setSelectedTable(tableId); 
+    };
 
     return (
-        <Box sx={{ display: 'flex', height: '100vh', alignItems: 'flex-start',backgroundColor: 'lightgray', }}>
+        <Box sx={{ 
+            display: 'flex', 
+            height: '100vh', 
+            alignItems: 'flex-start',
+            backgroundColor: 'lightgray', 
+            }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {tables.map((table) => (
                     <Button
                         key={table.id}
                         variant="contained"
-                        onClick={() => setSelectedTable(table.id)} 
+                        onClick={() => handleTableSelection(table.id)} 
                         sx={{
                             width: selectedTable === table.id ? '120px' : '100px', 
                             height: '100px',

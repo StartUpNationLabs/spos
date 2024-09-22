@@ -1,7 +1,7 @@
 import NxWelcome from './nx-welcome';
 
 import { Link, Route, Routes } from 'react-router-dom';
-import { LandingPage, Offers, Orders, GroupBilling, Summary, NavBar, TableBilling } from '@spos/ui/common';
+import { LandingPage, Offers, UiCommon,Orders, GroupBilling, Summary, NavBar, TableBilling , Commands } from '@spos/ui/common';
 
 export function App() {
   return (
@@ -19,9 +19,9 @@ export function App() {
           }
         />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/navbar" element={<NavBar />} />
         <Route path="/groupBilling" element={<GroupBilling />} />
         <Route path="/tableBilling" element={<TableBilling />} />
+        <Route path="/commands" element={<Commands />} />
 
       </Routes>
       {/* END: routes */}
