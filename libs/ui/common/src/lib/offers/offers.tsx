@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 export function Offers() {
   const offers = useOffers(state => state.offers);
   const addGroup = useGroups(state => state.addGroup);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   function onClick(offer) {
     return () => {
