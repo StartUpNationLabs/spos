@@ -1,14 +1,13 @@
 import NxWelcome from './nx-welcome';
 
 import { Link, Route, Routes } from 'react-router-dom';
-import { LandingPage, Offers, Orders, GroupBilling, Summary, NavBar, TableBilling, TableSquare } from '@spos/ui/common';
+import { LandingPage, Offers, UiCommon,Orders, GroupBilling, Summary, NavBar, TableBilling , Commands } from '@spos/ui/common';
 
 export function App() {
   return (
     <div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/tableButton" element={<TableSquare tableNumber={1}/>} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/summary" element={<Summary />} />
         <Route
@@ -20,9 +19,9 @@ export function App() {
           }
         />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/navbar" element={<NavBar />} />
         <Route path="/groupBilling" element={<GroupBilling />} />
         <Route path="/tableBilling" element={<TableBilling />} />
+        <Route path="/commands" element={<Commands />} />
 
       </Routes>
       {/* END: routes */}
