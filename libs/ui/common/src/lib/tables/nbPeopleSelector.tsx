@@ -1,11 +1,6 @@
-
-import {ReactNode, useState} from 'react';
 import * as React from 'react';
-import {
-  Unstable_NumberInput as BaseNumberInput,
-  NumberInputProps,
-} from '@mui/base/Unstable_NumberInput';
-import { styled } from '@mui/system';
+import {NumberInputProps, Unstable_NumberInput as BaseNumberInput,} from '@mui/base/Unstable_NumberInput';
+import {styled} from '@mui/system';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -23,14 +18,14 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
       } as any}
       slotProps={{
         incrementButton: {
-          children: <AddIcon fontSize="small" />,
+          children: <AddIcon fontSize="small"/>,
           className: 'increment',
         },
         decrementButton: {
-          children: <RemoveIcon fontSize="small" />,
+          children: <RemoveIcon fontSize="small"/>,
         },
       }}
-      {...props }
+      {...props}
       ref={ref}
     />
   );
@@ -61,7 +56,7 @@ const grey = {
 };
 
 const StyledInputRoot = styled('div')(
-  ({ theme }) => `
+  ({theme}) => `
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 400;
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
@@ -73,7 +68,7 @@ const StyledInputRoot = styled('div')(
 );
 
 const StyledInput = styled('input')(
-  ({ theme }) => `
+  ({theme}) => `
   font-size: 0.875rem;
   font-family: inherit;
   font-weight: 400;
@@ -108,7 +103,7 @@ const StyledInput = styled('input')(
 );
 
 const StyledButton = styled('button')(
-  ({ theme }) => `
+  ({theme}) => `
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 0.875rem;
   box-sizing: border-box;
@@ -144,26 +139,5 @@ const StyledButton = styled('button')(
   }
 `,
 );
-export function NbPeopleSelector({totalPeople, setTotalPeople}) {
-    const [nbPeople, setNbPeople] = useState(0)
 
-    const addPerson = () => {
-        setNbPeople(nbPeople + 1)
-        setTotalPeople(totalPeople + 1)
-    };
-
-    const removePerson = () => {
-        if (nbPeople > 0){
-            setNbPeople(nbPeople - 1)
-        }
-        if (totalPeople > 0){
-            setTotalPeople(totalPeople - 1)
-        }
-    };
-
-    return (
-      <NumberInput aria-label="Table Input" min={1} max={99} defaultValue={1} />
-    );
-}
-
-export default NbPeopleSelector;
+export default NumberInput;

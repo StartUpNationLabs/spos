@@ -3,11 +3,12 @@ import TableSquare from './tableSquare';
 import {Button, Typography, Box, Grid2 as Grid} from "@mui/material";
 import * as React from 'react';
 import {useState} from 'react';
+import {useTables} from "./stores/tables";
 
 export function LandingPage() {
   const [totalPeople, setTotalPeople] = useState(0);
   const navigate = useNavigate();
-
+  const tables = useTables(state => state.tables);
   const validateTables = () => {
     console.log({totalPeople})
     navigate("/offers")
@@ -19,9 +20,9 @@ export function LandingPage() {
         Tables
       </Typography>
       <Grid container spacing={4} justifyContent={"center"} alignItems={"center"} marginTop="60px" maxHeight='60vh'  overflow='auto' maxWidth={800} >
-        {Array.from(Array(15)).map((_, index) => (
+        {tables.map((value, index) => (
           <Grid key={index}  >
-            <TableSquare tableNumber={index} totalPeople={totalPeople} setTotalPeople={setTotalPeople}></TableSquare>
+            <TableSquare tableNumber={value.id}></TableSquare>
           </Grid>
         ))}
       </Grid>
