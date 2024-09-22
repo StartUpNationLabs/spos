@@ -26,7 +26,7 @@ export function TableSquare({tableNumber}) {
                 aspectRatio: 1,
 
               }}
-              color={showPeopleSelector ? 'success' : 'primary'}>
+              color={showPeopleSelector ? 'success' : 'secondary'}>
         <Box
           display="flex"
           alignItems="center"
@@ -39,15 +39,19 @@ export function TableSquare({tableNumber}) {
           </Typography>
         </Box>
       </Button>
-      <Box margin="5%"></Box>
-      {showPeopleSelector ? <NumberInput aria-label="Table Input"
+      {showPeopleSelector ? <>
+        <Box margin="5%"></Box>
+
+        <NumberInput aria-label="Table Input"
                                          min={1}
                                          max={99}
                                          value={currentTablePeople}
                                          onChange={(e, value) => setTable(tableNumber, value as number)}
 
-      /> : <></>}
-      <Box margin="2%"></Box>
+      />
+        <Box margin="2%"></Box>
+
+      </> : <></>}
 
     </Box>
   );

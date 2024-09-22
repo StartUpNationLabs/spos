@@ -8,3 +8,4 @@ export * from './lib/groupBillingPage/groupBillingPage';
 export * from './lib/tableBillingPage/tableBilling';
 export * from './lib/utils/navbar';
 export * from './lib/commandsR/commands';
+export {TableGrid} from "./lib/tables/tableGrid";
