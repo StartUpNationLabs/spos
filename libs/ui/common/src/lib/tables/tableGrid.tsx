@@ -3,17 +3,22 @@ import {Box, Button, Grid2 as Grid, Typography} from "@mui/material";
 import TableSquare from "./tableSquare";
 import * as React from "react";
 import {useGroups} from "./stores/groups";
+import {useNavigate} from "react-router-dom";
 
 function GroupSquare(props: {
   tableNumbers: string[];
 }) {
+  const navigate = useNavigate();
   return <Box width={"fit-content"}>
     <Button
       variant="contained"
       sx={{
         aspectRatio: 1,
 
-      }}>
+      }}
+
+      onClick={() => navigate("/commands")}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -51,7 +56,7 @@ export function TableGrid() {
     <Grid container spacing={4} justifyContent={"center"} alignItems={"center"} marginTop="60px" maxHeight='60vh'
           overflow='auto' maxWidth={800}>
       <Grid width={"100%"}>
-        <Box  width={"100%"}>
+        <Box width={"100%"}>
           <Typography variant="h4" component="h2" fontWeight="bold">
             Reserved Tables
           </Typography>
