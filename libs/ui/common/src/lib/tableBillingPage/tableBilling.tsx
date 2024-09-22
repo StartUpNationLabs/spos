@@ -67,7 +67,7 @@ export function TableBilling() {
   return (
     <Box sx={{minHeight: '100dvh', display: 'flex', flexDirection: 'row'}}>
       <Box sx={{boxSizing: 'border-box', width: 'fit-content', borderRight: '2px solid #000'}}>
-        <NavBar 
+        <NavBar
           tables={tablesData}
           setSelectedTable={(tableId) => setSelectedTableById(tablesData, tableId, setSelectedTable)
         }/>
@@ -76,7 +76,7 @@ export function TableBilling() {
           paddingTop: '5dvh', paddingLeft: '5dvw', paddingRight: '5dvw'
         }}>
         <div id="billing-section" style={{minHeight: '75dvh'}}>
-          <Typography variant="h2" component="h2" sx={{ fontSize: '8vw', fontWeight: 'bold', paddingLeft: '100px' }}>
+          <Typography variant="h2" component="h2" sx={{ fontSize: '8vw', fontWeight: 'bold', textAlign: 'center' }}>
             Billing
           </Typography>
           <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
@@ -96,19 +96,21 @@ export function TableBilling() {
               </Button>
             </div>
           </div>
-          {data.map((element, index) => (
-            <div key={index} style={{display: "flex", flexDirection: "row",
-              justifyContent: "space-between", padding: '1vh 3vw', fontSize: '4vw',
-              alignItems: "center"}}>
-              <div>
-                <Button sx={{fontSize: '4vw', color: '#000'}} onClick={() => handleIncrementDecrement(index, -1)}>-</Button>
-                <span>{quantities[index].quantity}/{element.remaining}</span>
-                <Button sx={{fontSize: '4vw', color: '#000'}} onClick={() => handleIncrementDecrement(index, 1)}>+</Button>
-                <span> {element.item.name}</span>
+          <Box sx={{overflow: 'auto', maxHeight: '60dvh'}}>
+            {data.map((element, index) => (
+              <div key={index} style={{display: "flex", flexDirection: "row",
+                justifyContent: "space-between", padding: '0vh 3vw', fontSize: '4vw',
+                alignItems: "center"}}>
+                <div>
+                  <Button sx={{fontSize: '4vw', color: '#000'}} onClick={() => handleIncrementDecrement(index, -1)}>-</Button>
+                  <span>{quantities[index].quantity}/{element.remaining}</span>
+                  <Button sx={{fontSize: '4vw', color: '#000'}} onClick={() => handleIncrementDecrement(index, 1)}>+</Button>
+                  <span> {element.item.name}</span>
+                </div>
+                <span>{element.item.price}$</span>
               </div>
-              <span>{element.item.price}$</span>
-            </div>
-          ))}
+            ))}
+          </Box>
         </div>
         <Box sx={{ padding: '3vh 5vw', backgroundColor: '#d9d9d9' }}>
         <hr style={theme.hr} />
