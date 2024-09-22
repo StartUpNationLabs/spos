@@ -2,6 +2,8 @@ import { Button, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 import NavBar from "../utils/navbar";
+import { setSelectedTableById, tablesData } from '../utils/tableUtils';
+
 
 const theme = {
   hr: {
@@ -59,11 +61,16 @@ export function TableBilling() {
     console.log(getTotalPrice())
     navigate("/")
   }
+  const [selectedTable, setSelectedTable] = useState(tablesData[1]);
+
 
   return (
     <Box sx={{minHeight: '100dvh', display: 'flex', flexDirection: 'row'}}>
       <Box sx={{boxSizing: 'border-box', width: 'fit-content', borderRight: '2px solid #000'}}>
-        <NavBar />
+        <NavBar 
+          tables={tablesData}
+          setSelectedTable={(tableId) => setSelectedTableById(tablesData, tableId, setSelectedTable)
+        }/>
       </Box>
       <Box id="test" sx={{boxSizing: 'border-box', backgroundColor: '#d9d9d9', flexGrow: 1,
           paddingTop: '5dvh', paddingLeft: '5dvw', paddingRight: '5dvw'
