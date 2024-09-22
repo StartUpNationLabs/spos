@@ -1,3 +1,15 @@
+## 0.2.0 (2024-09-22)
+
+
+### 🚀 Features
+
+- **fontend-bff:** Addition of speed dial to pay with group or pay with table ([d332c58](https://github.com/StartUpNationLabs/spos/commit/d332c58))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.1.0 (2024-09-22)
 
 
