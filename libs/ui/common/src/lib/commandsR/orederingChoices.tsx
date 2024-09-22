@@ -4,27 +4,33 @@ import './orderingChoices.css';
 import { useCurrentSelectedOrder } from './stores/currentSelectedOrder';
 
 export const OrderingChoices = ({ selectedTable }) => {
-    const { orders } = selectedTable;
+    const { orders, id: tableId } = selectedTable; 
     const { setOrder } = useCurrentSelectedOrder(); 
 
     const [selectedOrders, setSelectedOrders] = useState({});
 
     const handleSelectOrder = (category, index) => {
         setSelectedOrders(prev => {
-            const isSelected = prev[category]?.[index];
+            const isSelected = prev[tableId]?.[category]?.[index];
 
             if (isSelected) {
-                const { [index]: removed, ...rest } = prev[category];
+                const { [index]: removed, ...rest } = prev[tableId][category];
                 return {
                     ...prev,
-                    [category]: rest,
+                    [tableId]: {
+                        ...prev[tableId],
+                        [category]: rest,
+                    },
                 };
             } else {
                 return {
                     ...prev,
-                    [category]: {
-                        ...prev[category],
-                        [index]: { count: 0 } 
+                    [tableId]: {
+                        ...prev[tableId],
+                        [category]: {
+                            ...prev[tableId]?.[category],
+                            [index]: { count: 0 } 
+                        }
                     }
                 };
             }
@@ -33,16 +39,19 @@ export const OrderingChoices = ({ selectedTable }) => {
 
     const handleIncrease = (category, index) => {
         setSelectedOrders(prev => {
-            const currentCount = prev[category]?.[index]?.count || 0;
+            const currentCount = prev[tableId]?.[category]?.[index]?.count || 0;
             const newCount = currentCount + 1;
 
             setOrder(category, index, newCount);
 
             return {
                 ...prev,
-                [category]: {
-                    ...prev[category],
-                    [index]: { count: newCount }
+                [tableId]: {
+                    ...prev[tableId],
+                    [category]: {
+                        ...prev[tableId]?.[category],
+                        [index]: { count: newCount }
+                    }
                 }
             };
         });
@@ -50,16 +59,19 @@ export const OrderingChoices = ({ selectedTable }) => {
 
     const handleDecrease = (category, index) => {
         setSelectedOrders(prev => {
-            const currentCount = prev[category]?.[index]?.count || 0;
+            const currentCount = prev[tableId]?.[category]?.[index]?.count || 0;
             const newCount = Math.max(0, currentCount - 1); 
 
             setOrder(category, index, newCount);
 
             return {
                 ...prev,
-                [category]: {
-                    ...prev[category],
-                    [index]: { count: newCount }
+                [tableId]: {
+                    ...prev[tableId],
+                    [category]: {
+                        ...prev[tableId]?.[category],
+                        [index]: { count: newCount }
+                    }
                 }
             };
         });
@@ -88,8 +100,8 @@ export const OrderingChoices = ({ selectedTable }) => {
                     <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {orders[category].length > 0 ? (
                             orders[category].map((order, index) => {
-                                const count = selectedOrders[category]?.[index]?.count || 0;
-                                const isSelected = Boolean(selectedOrders[category]?.[index]);
+                                const count = selectedOrders[tableId]?.[category]?.[index]?.count || 0;
+                                const isSelected = Boolean(selectedOrders[tableId]?.[category]?.[index]);
 
                                 return (
                                     <Box key={index} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
