@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../utils/backButton";
 
 export function GroupBilling() {
   const navigate = useNavigate();
@@ -31,6 +32,11 @@ export function GroupBilling() {
     navigate("/");
   }
 
+  function onClickBackButton() {
+    console.log('clicked on back button... redirection to be implemented');
+    navigate("/commands");
+  }
+
   return (
     <Box sx={{ backgroundColor: '#d9d9d9', minHeight: '100dvh', paddingTop: '5dvh', paddingLeft: '5dvw', paddingRight: '5dvw',
       display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
@@ -41,6 +47,7 @@ export function GroupBilling() {
         <Box sx={{overflow: 'auto', maxHeight: '70dvh'}}>
           {billingData.map((table, index) => (
             <Box key={index} sx={{ margin: '2vh 0', backgroundColor: '#d9d9d9' }}>
+              <BackButton onClick={onClickBackButton} color={'black'} top={20} left={20}></BackButton>
               <Typography variant="h3" component="h3" sx={{ fontSize: '5vw', fontWeight: 'bold', textDecoration: 'underline' }}>
                 {"Table " + table.number}
               </Typography>

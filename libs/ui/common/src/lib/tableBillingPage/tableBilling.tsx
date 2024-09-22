@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 import NavBar from "../utils/navbar";
 import { setSelectedTableById, tablesData } from '../utils/tableUtils';
+import BackButton from "../utils/backButton";
 
 
 const theme = {
@@ -63,6 +64,10 @@ export function TableBilling() {
   }
   const [selectedTable, setSelectedTable] = useState(tablesData[1]);
 
+  function onClickBackButton() {
+    console.log('clicked on back button... redirection to be implemented');
+    navigate("/commands");
+  }
 
   return (
     <Box sx={{minHeight: '100dvh', display: 'flex', flexDirection: 'row'}}>
@@ -76,6 +81,7 @@ export function TableBilling() {
           paddingTop: '5dvh', paddingLeft: '5dvw', paddingRight: '5dvw'
         }}>
         <div id="billing-section" style={{minHeight: '75dvh'}}>
+          <BackButton onClick={onClickBackButton} color={'black'} top={20} left={150}></BackButton>
           <Typography variant="h2" component="h2" sx={{ fontSize: '8vw', fontWeight: 'bold', textAlign: 'center' }}>
             Billing
           </Typography>

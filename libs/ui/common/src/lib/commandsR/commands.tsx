@@ -12,8 +12,10 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from '@mui/icons-material/Close';
 import DollarIcon from '@mui/icons-material/AttachMoney';
+import { useNavigate } from 'react-router-dom';
 
 export function Commands() {
+    const navigate = useNavigate();
     const [selectedTable, setSelectedTable] = useState(tablesData[1]);
 
     const speedDialActions = [
@@ -23,16 +25,19 @@ export function Commands() {
 
     function onClickBackButton() {
       console.log('clicked on back button... redirection to be implemented');
+      navigate("/");
     }
 
     function onClickTableBilling() {
       //TODO: Do the redirection with the table id
       console.log('table billing button... redirection to be implemented');
+      navigate("/tableBilling");
     }
 
     function onClickGroupBilling() {
       //TODO: Do the redirection with the group id
       console.log('group billing button... redirection to be implemented');
+      navigate("/groupBilling");
     }
 
     return (

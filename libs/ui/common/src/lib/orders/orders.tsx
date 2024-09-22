@@ -31,7 +31,7 @@ export function Orders() {
     const togglePopup = () => setOpen(prevOpen => !prevOpen);
 
     return (
-        <Box margin={10} marginTop="20vw">
+        <Box margin={10}>
             <Box className="bottom-button">
             <Button
                     onClick={togglePopup}

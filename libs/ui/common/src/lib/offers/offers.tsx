@@ -19,9 +19,9 @@ export function Offers() {
 
   return (
     <Box display={"flex"} alignItems={"center"} flexDirection={"column"} justifyContent={"start"}
-         width={"100%"}
+         width={"100vw"}
          height={"100vh"}>
-      <Typography align='center' variant="h1" component="h2" fontWeight="bold" paddingTop={"150px"}>
+      <Typography align='center' variant="h1" component="h2" fontWeight="bold" paddingTop={"17vh"}>
         Offers
       </Typography>
       <Box
@@ -30,17 +30,17 @@ export function Offers() {
         display={"flex"}
         flexDirection={"column"}
         alignItems={"center"}
-        paddingTop={"50px"}
-
+        paddingTop={"7vh"}
+        width="60vw"
       >
         {offers.map((offer) => (
           <Button onClick={onClick(offer)} variant="contained" fullWidth={true} style={{
             borderRadius: "60px",
             color: 'white',
-            margin: '10px',
+            margin: '10px', 
             background: '#313131',
           }} key={offer.name}>
-            <Typography variant={"h6"}>{offer.name}</Typography>
+            <Typography variant={"h3"}>{offer.name}</Typography>
           </Button>
         ))}
       </Box>
