@@ -80,7 +80,7 @@ const decreaseItem = (state: TableState, tableId: number, newOrder: Order) => {
   for(const tableKey in state.tables){
     const table = state.tables[tableKey]
     if (table.id === tableId) {
-       let newTable = {
+       const newTable = {
         ...table,
         orders: table.orders
           .map((order) => {
