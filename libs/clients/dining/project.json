@@ -1,0 +1,35 @@
+{
+  "name": "clients-dining",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/clients/dining/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/clients/dining",
+        "main": "libs/clients/dining/src/index.ts",
+        "tsConfig": "libs/clients/dining/tsconfig.lib.json",
+        "assets": ["libs/clients/dining/*.md"]
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          {
+            "command": "npx rimraf libs/clients/dining/src",
+            "description": "Clean up generated API client"
+          },
+          {
+            "command": "npx openapi-generator-cli generate -i libs/clients/dining/openapi.yaml -g typescript-axios -o libs/clients/dining/src --ignore-file-override=.openapi-generator-ignore --additional-properties=useSingleRequestParameter=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models",
+            "description": "Generate API client from OpenAPI spec"
+          }
+        ]
+      }
+    }
+  }
+}

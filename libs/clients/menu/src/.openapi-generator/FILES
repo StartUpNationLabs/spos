@@ -1,0 +1,17 @@
+.npmignore
+.openapi-generator-ignore
+api.ts
+api/health-api.ts
+api/menus-api.ts
+base.ts
+common.ts
+configuration.ts
+index.ts
+models/add-menu-item-dto.ts
+models/health-controller-check200-response-info-value.ts
+models/health-controller-check200-response.ts
+models/health-controller-check503-response.ts
+models/index.ts
+models/menu-item-id-not-found-exception.ts
+models/menu-item-short-name-already-exists-exception.ts
+models/menu-item.ts
