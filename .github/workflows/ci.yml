@@ -12,9 +12,18 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 50
+
+      - name: Setup Git
+        run: |
+          git config user.name "GitHub Bot"
+          git config user.email "gituser@example.com"
+      #      # This enables task distribution via Nx Cloud
+      #      # Run this command as early as possible, before dependencies are installed
+      #      # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
+      #      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
 
       # Cache node_modules
       - uses: actions/setup-node@v4
@@ -41,10 +50,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Build images'
         run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=container --parallel=2 --no-cloud
-      - name: Setup Git
-        run: |
-          git config user.name "GitHub Bot"
-          git config user.email "gituser@example.com"
       - name: Semantic Release
         shell: bash
         run: npx nx release
