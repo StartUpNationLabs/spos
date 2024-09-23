@@ -1,3 +1,15 @@
+## 0.2.1 (2024-09-23)
+
+
+### 🩹 Fixes
+
+- remove the possiblilty to create emtpy groups ([57ed740](https://github.com/StartUpNationLabs/spos/commit/57ed740))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.0 (2024-09-22)
 
 
