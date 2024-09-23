@@ -1,3 +1,15 @@
+## 0.4.1 (2024-09-23)
+
+
+### 🩹 Fixes
+
+- **frontend-bff:** Fix commands component for merge conflict + missing groupId ([a2c338e](https://github.com/StartUpNationLabs/spos/commit/a2c338e))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.4.0 (2024-09-23)
 
 
