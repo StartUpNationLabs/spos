@@ -1,10 +1,10 @@
-import { Button, Typography, Box } from "@mui/material";
+import { Button } from "@mui/material";
 import { useState } from 'react';
 
-const CommandNumber = ({ number, status }) => {
-    const backgroundColor = status === 'completed' ? 'green' : 'orange';
+const CommandNumber = ({ number, status, isServed, isSelected, onClick }) => {
+    const backgroundColor = isSelected ? 'blue' : (status === 'completed' ? 'green' : 'orange'); // Mettre en surbrillance si sélectionné
     return (
-        <Box 
+        <Button 
             sx={{
                 width: 50,
                 height: 50,
@@ -18,9 +18,11 @@ const CommandNumber = ({ number, status }) => {
                 margin: 1,
                 boxShadow: '0px 4px 8px rgba(0,0,0,0.2)',
             }}
+            onClick={onClick}
         >
             {number}
-        </Box>
+        </Button>
     );
 };
+
 export default CommandNumber;
