@@ -5,9 +5,9 @@ import * as React from "react";
 import {useGroups} from "./stores/groups";
 import {useNavigate} from "react-router-dom";
 
-function GroupSquare(props: {
-  tableNumbers: string[];
-}) {
+function GroupSquare(props: Readonly<{
+  tableNumbers: string[], groupId:string
+}>) {
   const navigate = useNavigate();
   return <Box width={"fit-content"}>
     <Button
@@ -17,7 +17,7 @@ function GroupSquare(props: {
 
       }}
 
-      onClick={() => navigate("/commands")}
+      onClick={() => navigate("/commands/"+props.groupId)}
     >
       <Box
         display="flex"
@@ -44,7 +44,7 @@ function GroupTables() {
     <Grid container spacing={4} justifyContent={"center"} alignItems={"center"}>
       {groups.map((value, index) => (
         <Grid key={index}>
-          <GroupSquare tableNumbers={Object.keys(value.tables)}></GroupSquare>
+          <GroupSquare tableNumbers={Object.keys(value.tables)} groupId={value.groupId}></GroupSquare>
         </Grid>
       ))}
     </Grid>

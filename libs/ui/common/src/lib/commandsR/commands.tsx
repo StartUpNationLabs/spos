@@ -12,11 +12,12 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from '@mui/icons-material/Close';
 import DollarIcon from '@mui/icons-material/AttachMoney';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export function Commands() {
     const navigate = useNavigate();
     const [selectedTable, setSelectedTable] = useState(tablesData[1]);
+    const { groupId } = useParams();
 
     const speedDialActions = [
       { icon: <TableRestaurantIcon />, name: 'Table Payment', operation: onClickTableBilling },
@@ -50,10 +51,11 @@ export function Commands() {
                             width: 'fit-content',
                             borderRight: '2px solid #000' }}>
                     <NavBar
-                        tables={tablesData}
+                        groupId={groupId ?? ''}
                         setSelectedTable={(tableId: number) =>
-                            setSelectedTableById(tablesData, tableId, setSelectedTable)
+                            setSelectedTableById(tablesData.map(element => element.id), tableId, setSelectedTable)
                         }
+                        setSelectedTableParentFunction={setSelectedTable}
                     />
                     <SpeedDial
                       ariaLabel="SpeedDial basic example"

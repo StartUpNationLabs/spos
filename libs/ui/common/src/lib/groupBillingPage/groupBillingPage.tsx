@@ -31,7 +31,7 @@ export function GroupBilling() {
   }
 
   const navigate = useNavigate();
-  const [billingData, setBillingData] = useState(() => getGroupItemByTable());
+  const [billingData,] = useState(() => getGroupItemByTable());
 
   const totalPrice = billingData.reduce((total, { elements }) => {
     return total + elements.reduce((sum, { remaining, item }) => {

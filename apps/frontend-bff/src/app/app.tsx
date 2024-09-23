@@ -21,7 +21,7 @@ export function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/groupBilling" element={<GroupBilling />} />
         <Route path="/tableBilling" element={<TableBilling />} />
-        <Route path="/commands" element={<Commands />} />
+        <Route path="/commands/:groupId" element={<Commands />} />
 
       </Routes>
       {/* END: routes */}
