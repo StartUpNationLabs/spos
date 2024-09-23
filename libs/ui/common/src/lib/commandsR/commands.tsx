@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function Commands() {
     const navigate = useNavigate();
-    const [selectedTable, setSelectedTable] = useState(tablesData[1]);
+    const [selectedTable, setSelectedTable] = useState(tablesData[0]);
 
     const speedDialActions = [
       { icon: <TableRestaurantIcon />, name: 'Table Payment', operation: onClickTableBilling },
@@ -48,7 +48,8 @@ export function Commands() {
                 width: '100%' }}>
                 <Box sx={{ boxSizing: 'border-box',
                             width: 'fit-content',
-                            borderRight: '2px solid #000' }}>
+                            borderRight: '2px solid #000',
+                            }}>
                     <NavBar
                         tables={tablesData}
                         setSelectedTable={(tableId: number) =>

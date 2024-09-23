@@ -12,7 +12,7 @@ export function NavBar({ tables, setSelectedTable }) {
     return (
         <Box sx={{ 
             display: 'flex', 
-            height: '100vh', 
+            height: '100dvh', 
             alignItems: 'flex-start',
             backgroundColor: 'lightgray', 
             }}>

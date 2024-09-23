@@ -1,10 +1,7 @@
-
-import { Button, Typography, Box } from "@mui/material";
-import { useState } from 'react';
+import { Box, Typography } from "@mui/material";
 import CommandNumber from "./commandNumber";
-import "./section.css";
 
-const Section = ({ title, orders }) => (
+const Section = ({ title, orders, selectedOrder, onSelectOrder }) => (
     <Box sx={{ marginBottom: 3 }}>
         <Typography variant="h6" gutterBottom sx={{ color: 'black', fontSize: 24 }}>
             {title}
@@ -15,11 +12,14 @@ const Section = ({ title, orders }) => (
                     {table}
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                    {ordersList.map((order, index) => (
+                    {ordersList.map((order) => (
                         <CommandNumber 
-                            key={index} 
+                            key={order.orderId} 
                             number={order.order} 
                             status={order.status} 
+                            isServed={order.isServed}
+                            isSelected={selectedOrder && selectedOrder.orderId === order.orderId}  // Comparer pour savoir si c'est sélectionné
+                            onClick={() => onSelectOrder(title.toLowerCase(), table, order.orderId)}  // Passer la commande sélectionnée
                         />
                     ))}
                 </Box>
@@ -27,4 +27,5 @@ const Section = ({ title, orders }) => (
         ))}
     </Box>
 );
+
 export default Section;
