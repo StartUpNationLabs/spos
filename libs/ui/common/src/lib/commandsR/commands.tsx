@@ -12,15 +12,16 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from '@mui/icons-material/Close';
 import DollarIcon from '@mui/icons-material/AttachMoney';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTableSummary } from './stores/tableSummary';
 import Summary from '../summary/summary';
 
 export function Commands() {
     const navigate = useNavigate();
+    const {groupId} = useParams();
     const [selectedTable, setSelectedTable] = useState(tablesMenu[0]);
     const haveCurrentCommand = useTableSummary(state=>state.tables).length > 0;
-    
+
     const speedDialActions = [
       { icon: <TableRestaurantIcon />, name: 'Table Payment', operation: onClickTableBilling },
       { icon: <GroupsIcon />, name: 'Group Payment', operation: onClickGroupBilling }
@@ -53,15 +54,9 @@ export function Commands() {
                             width: 'fit-content',
                             borderRight: '2px solid #000' }}>
                     <NavBar
-<<<<<<< HEAD
                         groupId={groupId ?? ''}
                         setSelectedTable={(tableId: number) =>
-                            setSelectedTableById(tablesData.map(element => element.id), tableId, setSelectedTable)
-=======
-                        tables={tablesMenu}
-                        setSelectedTable={(tableId: number) =>
                             setSelectedTableById(tablesMenu, tableId, setSelectedTable)
->>>>>>> 0a5d69d (add command front logique)
                         }
                         setSelectedTableParentFunction={setSelectedTable}
                     />
