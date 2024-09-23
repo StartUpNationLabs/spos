@@ -1,3 +1,15 @@
+## 0.5.0 (2024-09-23)
+
+
+### 🚀 Features
+
+- **frontend-bff:** Make navbar dynamic ([0550c30](https://github.com/StartUpNationLabs/spos/commit/0550c30))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.4.2 (2024-09-23)
 
 
