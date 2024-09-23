@@ -3,7 +3,7 @@ import { Box, SpeedDial } from '@mui/material';
 import NavBar from '../utils/navbar';
 import Orders from '../orders/orders';
 import BackButton from '../utils/backButton';
-import OrderingChoices from './orederingChoices';
+import OrderingChoices from './orderingChoices';
 import { setSelectedTableById, tablesMenu } from '../utils/tableUtils';
 //SpeedDial imports
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
@@ -15,6 +15,7 @@ import DollarIcon from '@mui/icons-material/AttachMoney';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTableSummary } from './stores/tableSummary';
 import Summary from '../summary/summary';
+import { group } from 'console';
 
 export function Commands() {
     const navigate = useNavigate();
@@ -78,7 +79,7 @@ export function Commands() {
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                     <BackButton onClick={onClickBackButton} color={'black'} top={20} left={150}></BackButton>
-                    {selectedTable && <OrderingChoices selectedTable={selectedTable} />}
+                    {selectedTable && <OrderingChoices selectedTable={selectedTable} groupId={groupId ?? ''} />}
                     {haveCurrentCommand && <Summary></Summary>}
                     {!haveCurrentCommand && <Orders></Orders>}
                 </Box>

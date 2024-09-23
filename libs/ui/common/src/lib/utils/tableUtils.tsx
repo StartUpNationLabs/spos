@@ -1,9 +1,10 @@
+import { Table } from "../commandsR/orderingChoices";
 
-export const tablesMenu = [
+export const tablesMenu : Table[] = [
     {
         id: 1,
         orders: {
-            Drinks: ['Coke', 'Pepsi','Coke', 'Pepsi','Coke', 'Pepsi'],
+            Drink: ['Coke', 'Pepsi','Coke', 'Pepsi','Coke', 'Pepsi'],
             Starter: ['Salad'],
             MainCourse: ['Steak'],
             Dessert: ['Ice Cream'],
