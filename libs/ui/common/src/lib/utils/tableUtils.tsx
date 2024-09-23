@@ -1,5 +1,5 @@
 
-export const tablesData = [
+export const tablesMenu = [
     {
         id: 1,
         orders: {
@@ -37,6 +37,14 @@ export const tablesData = [
         },
     },
 ];
+
+export const classicMenu = {
+        Drinks: ['Coke', 'Pepsi','Coke', 'Pepsi','Coke', 'Pepsi'],
+        Starter: ['Salad'],
+        MainCourse: ['Steak'],
+        Dessert: ['Ice Cream'],
+}
+
 
 export const setSelectedTableById = (tables, tableId, setSelectedTable) => {
     const foundTable = tables.find((table) => table.id === tableId);

@@ -1,39 +1,46 @@
 import './orders.css';
 import { Button, Typography, Box } from "@mui/material";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Section from './section';
 import BackButton from '../utils/backButton';
-
-const ordersData = {
-    drink: {
-        'Table 1': [
-            { order: 33, status: 'completed' },
-            { order: 32, status: 'pending' }
-        ],
-        'Table 2': [{ order: 41, status: 'completed' }]
-    },
-    starter: {
-        'Table 3': [
-            { order: 23, status: 'pending' },
-            { order: 22, status: 'completed' }
-        ],
-        'Table 1': [{ order: 15, status: 'completed' }]
-    },
-    mainCourse: {
-        'Table 2': [{ order: 39, status: 'pending' }],
-        'Table 3': [{ order: 24, status: 'completed' }]
-    }
-};
+import useStore from './stores/serve';
 
 export function Orders() {
     const [open, setOpen] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null); 
+
+    const { ordersData, setServed } = useStore();
 
     const togglePopup = () => setOpen(prevOpen => !prevOpen);
+
+    useEffect(() => {
+        if (selectedOrder) {
+            console.log("Selected Order changed:", selectedOrder);
+        }
+    }, [selectedOrder]);
+
+    const handleSelectOrder = (section, table, orderId) => {
+        console.log("Selecting an order...");
+        setSelectedOrder({ section, table, orderId });
+    };
+
+    const handleServe = () => {
+        console.log("Serve Button clicked");
+        if (selectedOrder) {
+            console.log("Selected order:", selectedOrder);
+            const { section, table, orderId } = selectedOrder;
+            setServed(section, table, orderId, true);
+            console.log("After serving:", ordersData); 
+
+            setSelectedOrder(null);  
+        }
+    };
+   
 
     return (
         <Box margin={10}>
             <Box className="bottom-button">
-            <Button
+                <Button
                     onClick={togglePopup}
                     variant="contained"
                     color="primary"
@@ -43,7 +50,7 @@ export function Orders() {
                         fontSize: '4vw', 
                         backgroundColor: '#003366'    
                     }}
-                    >
+                >
                     Orders
                 </Button>
             </Box>
@@ -66,7 +73,6 @@ export function Orders() {
                         alignItems: 'flex-start',
                         mt: 4,
                         pl: 0,
-                        
                     }}>
                         <Box width='90%' 
                             marginLeft='5%' 
@@ -77,28 +83,30 @@ export function Orders() {
                                 maxHeight: '62vh', 
                                 padding: 2,        
                             }}>
-
-                        {Object.keys(ordersData).map((section) => (
-                            <Section
-                                key={section}
-                                title={section.charAt(0).toUpperCase() + section.slice(1)}
-                                orders={ordersData[section]}
-                            />
-                        ))}
+                            
+                            {Object.keys(ordersData).map((section) => (
+                                <Section
+                                    key={section}
+                                    title={section.charAt(0).toUpperCase() + section.slice(1)}
+                                    orders={ordersData[section]}
+                                    onSelectOrder={handleSelectOrder}
+                                    selectedOrder={selectedOrder}  
+                                />
+                            ))}
                         </Box>
-
                     </Box>
 
                     <Box className="bottom-button">
                         <Button
-                        variant="contained"
-                    
-                        style={{
-                            backgroundColor: '#003366',
-                            padding: '20px 50px', 
-                            borderRadius: '50px',  
-                            fontSize: '4vw',     
-                        }}
+                            variant="contained"
+                            style={{
+                                backgroundColor: '#003366',
+                                padding: '20px 50px', 
+                                borderRadius: '50px',  
+                                fontSize: '4vw',     
+                            }}
+                            onClick={handleServe}  
+                            disabled={!selectedOrder}  
                         >
                             Serve
                         </Button>

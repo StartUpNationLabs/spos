@@ -1,10 +1,11 @@
 import { create } from "zustand";
 
-interface CurrentSelectedOrderState {
+export interface CurrentSelectedOrderState {
   orders: { [category: string]: { [orderId: number]: number } };
   setOrder: (category: string, orderId: number, count: number) => void;
   resetOrders: () => void;
 }
+
 
 export const useCurrentSelectedOrder = create<CurrentSelectedOrderState>((set) => ({
   orders: {},
