@@ -4,8 +4,8 @@ import './orderingChoices.css';
 import { useCurrentSelectedOrder } from './stores/currentSelectedOrder';
 
 export const OrderingChoices = ({ selectedTable }) => {
-    const { orders, id: tableId } = selectedTable; 
-    const { setOrder } = useCurrentSelectedOrder(); 
+    const { orders, id: tableId } = selectedTable;
+    const { setOrder } = useCurrentSelectedOrder();
 
     const [selectedOrders, setSelectedOrders] = useState({});
 
@@ -29,7 +29,7 @@ export const OrderingChoices = ({ selectedTable }) => {
                         ...prev[tableId],
                         [category]: {
                             ...prev[tableId]?.[category],
-                            [index]: { count: 0 } 
+                            [index]: { count: 0 }
                         }
                     }
                 };
@@ -60,7 +60,7 @@ export const OrderingChoices = ({ selectedTable }) => {
     const handleDecrease = (category, index) => {
         setSelectedOrders(prev => {
             const currentCount = prev[tableId]?.[category]?.[index]?.count || 0;
-            const newCount = Math.max(0, currentCount - 1); 
+            const newCount = Math.max(0, currentCount - 1);
 
             setOrder(category, index, newCount);
 
@@ -82,7 +82,7 @@ export const OrderingChoices = ({ selectedTable }) => {
             className="custom-scrollbar"
             sx={{
                 padding: '16px',
-                marginTop: '110px', 
+                marginTop: '110px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
@@ -104,7 +104,7 @@ export const OrderingChoices = ({ selectedTable }) => {
                                 const isSelected = Boolean(selectedOrders[tableId]?.[category]?.[index]);
 
                                 return (
-                                    <Box key={index} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <Box key={index} sx={{ display: 'inline', flexDirection: 'column', alignItems: 'center' }}>
                                         <Button
                                             variant="contained"
                                             onClick={() => handleSelectOrder(category, index)}
@@ -126,10 +126,10 @@ export const OrderingChoices = ({ selectedTable }) => {
                                             {order}
                                         </Button>
                                         {isSelected && (
-                                            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
-                                                <Button onClick={() => handleDecrease(category, index)}>-</Button>
+                                            <Box sx={{ display: 'inline-flex', justifyContent: 'center', marginTop: '8px' }}>
+                                                <Button sx={{ minWidth: '4vh' }} onClick={() => handleDecrease(category, index)}>-</Button>
                                                 <Typography>{count}</Typography>
-                                                <Button onClick={() => handleIncrease(category, index)}>+</Button>
+                                                <Button sx={{ minWidth: '4vh'}} onClick={() => handleIncrease(category, index)}>+</Button>
                                             </Box>
                                         )}
                                     </Box>
