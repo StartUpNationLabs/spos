@@ -1,3 +1,18 @@
+## 0.5.0 (2024-09-23)
+
+
+### 🚀 Features
+
+- add clients for backend ([26381de](https://github.com/StartUpNationLabs/spos/commit/26381de))
+
+- **frontend-bff:** Make navbar dynamic ([0550c30](https://github.com/StartUpNationLabs/spos/commit/0550c30))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.4.1 (2024-09-23)
 
 
