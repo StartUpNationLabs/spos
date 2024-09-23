@@ -1,3 +1,18 @@
+## 0.3.1 (2024-09-23)
+
+
+### 🩹 Fixes
+
+- **frontend-workflow:** landing page ([05f09a5](https://github.com/StartUpNationLabs/spos/commit/05f09a5))
+
+- **fontend-bff:** Change the billing workflow ([720c7cf](https://github.com/StartUpNationLabs/spos/commit/720c7cf))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.3.0 (2024-09-21)
 
 

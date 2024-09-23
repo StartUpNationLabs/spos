@@ -1,3 +1,15 @@
+## 0.4.2 (2024-09-23)
+
+
+### 🩹 Fixes
+
+- **fontend-bff:** Change the billing workflow ([720c7cf](https://github.com/StartUpNationLabs/spos/commit/720c7cf))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.4.1 (2024-09-22)
 
 
