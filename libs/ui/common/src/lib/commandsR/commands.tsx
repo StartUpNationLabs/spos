@@ -16,7 +16,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 export function Commands() {
     const navigate = useNavigate();
-    const [selectedTable, setSelectedTable] = useState(tablesData[1]);
+    const [selectedTable, setSelectedTable] = useState(tablesData[0]);
     const { groupId } = useParams();
 
     const speedDialActions = [
