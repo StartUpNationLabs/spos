@@ -1,29 +1,41 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../utils/backButton";
+import React, { useState } from 'react';
+import { TableItem } from "../tableBillingPage/tableBilling";
+
+interface TableSummary {
+  number: number;
+  elements: TableItem[]
+}
 
 export function GroupBilling() {
+
+  const getGroupItemByTable = () : TableSummary[] => {
+    return [
+      {
+        number: 1,
+        elements: [
+          { remaining: 1, item: { id: 1, name: "Coca", price: 1.5 } },
+          { remaining: 2, item: { id: 2, name: "Fried chicken", price: 4.35 } }
+        ]
+      },
+      {
+        number: 2,
+        elements: [
+          { remaining: 1, item: { id: 3, name: "Orangina", price: 1.5 } },
+          { remaining: 6, item: { id: 4, name: "Mozzarella stick", price: 1 } }
+        ]
+      }
+    ];
+  }
+
   const navigate = useNavigate();
-  const billingData = [
-    {
-      number: 1,
-      elements: [
-        { quantity: 1, item: { id: 1, name: "Coca", price: 1.5 } },
-        { quantity: 2, item: { id: 2, name: "Fried chicken", price: 4.35 } }
-      ]
-    },
-    {
-      number: 2,
-      elements: [
-        { quantity: 1, item: { id: 3, name: "Orangina", price: 1.5 } },
-        { quantity: 6, item: { id: 4, name: "Mozzarella stick", price: 1 } }
-      ]
-    }
-  ];
+  const [billingData, setBillingData] = useState(() => getGroupItemByTable());
 
   const totalPrice = billingData.reduce((total, { elements }) => {
-    return total + elements.reduce((sum, { quantity, item }) => {
-      return sum + quantity * item.price;
+    return total + elements.reduce((sum, { remaining, item }) => {
+      return sum + remaining * item.price;
     }, 0);
   }, 0);
 
@@ -55,10 +67,10 @@ export function GroupBilling() {
                 {table.elements.map((element, index) => (
                   <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', padding: '0 3vw' }}>
                     <Typography variant="body1" component="span" fontWeight={400} fontSize={'3vw'}>
-                      {element.quantity} x {element.item.name}
+                      {element.remaining} x {element.item.name}
                     </Typography>
                     <Typography variant="body1" component="span" fontWeight={400} fontSize={'3vw'}>
-                      {element.quantity * element.item.price}$
+                      {element.remaining * element.item.price}$
                     </Typography>
                   </Box>
                 ))}

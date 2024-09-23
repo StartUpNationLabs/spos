@@ -14,26 +14,44 @@ const theme = {
   }
 };
 
+export interface Item {
+  id: number;
+  name: string;
+  price: number;
+}
+
+export interface TableItem {
+  item: Item;
+  remaining: number;
+}
+
+interface TableItemForBilling {
+  item: Item;
+  remaining: number;
+  quantity: number;
+}
+
 export function TableBilling() {
   const navigate = useNavigate();
 
   const tableNumber = 1;
 
-  const data = [
-    {remaining : 1, item: {id: 1, name: "Coca", price: 1.5}},
-    {remaining : 2, item: {id: 2, name: "Fried chicken", price: 4.35}}
-  ]
-
-  const [quantities, setQuantities] = useState(data.map((item) => ({ quantity: 0, ...item })));
   const getTotalPrice = (): number => {
-    return quantities.reduce((acc, { quantity, item }) => acc + (quantity * item.price), 0);
+    return data.reduce((acc, {quantity, item}) => acc + (quantity * item.price), 0);
   };
+
+  const getTableItems = (): TableItem[]  => {
+    return [
+      {remaining : 1, item: {id: 1, name: "Coca", price: 1.5}},
+      {remaining : 2, item: {id: 2, name: "Fried chicken", price: 4.35}}
+    ];
+  }
 
 
   const handleIncrementDecrement = (index: number, delta: number) => {
-    setQuantities((prevQuantities) => {
-      const updatedQuantities = [...prevQuantities];
-      let newQuantity = prevQuantities[index].quantity + delta;
+    setData((prevData: TableItemForBilling[]) => {
+      const updatedData = [...prevData];
+      let newQuantity = prevData[index].quantity + delta;
 
       // Ensure the quantity is not less than 0
       if (newQuantity < 0) {
@@ -44,18 +62,22 @@ export function TableBilling() {
         newQuantity = data[index].remaining;
       }
 
-      updatedQuantities[index].quantity = newQuantity;
+      updatedData[index].quantity = newQuantity;
 
-      return updatedQuantities;
+      return updatedData;
     });
   };
 
+  function mapTableItemForBilling(previousData: TableItemForBilling, remaining: number) : TableItemForBilling {
+    return {quantity: remaining, item: previousData.item, remaining: previousData.remaining};
+  }
+
   const handleSelectAll = () => {
-    setQuantities((prevQuantities) => prevQuantities.map((item, index) => ({ ...item, quantity: data[index].remaining })));
+    setData((prevData) => prevData.map(element => mapTableItemForBilling(element, element.remaining)));
   };
 
   const handleUnselectAll = () => {
-    setQuantities((prevQuantities) => prevQuantities.map((item, index) => ({ ...item, quantity: 0 })));
+    setData((prevData) => prevData.map(element => mapTableItemForBilling(element, 0)));
   };
 
   const validatePayment = () => {
@@ -63,6 +85,7 @@ export function TableBilling() {
     navigate("/")
   }
   const [selectedTable, setSelectedTable] = useState(tablesData[1]);
+  const [data, setData] = useState(() => getTableItems().map(item => ({...item, quantity: 0})));
 
   function onClickBackButton() {
     console.log('clicked on back button... redirection to be implemented');
@@ -74,7 +97,7 @@ export function TableBilling() {
       <Box sx={{boxSizing: 'border-box', width: 'fit-content', borderRight: '2px solid #000'}}>
         <NavBar
           tables={tablesData}
-          setSelectedTable={(tableId) => setSelectedTableById(tablesData, tableId, setSelectedTable)
+          setSelectedTable={(tableId: number) => setSelectedTableById(tablesData, tableId, setSelectedTable)
         }/>
       </Box>
       <Box id="test" sx={{boxSizing: 'border-box', backgroundColor: '#d9d9d9', flexGrow: 1,
@@ -109,7 +132,7 @@ export function TableBilling() {
                 alignItems: "center"}}>
                 <div>
                   <Button sx={{fontSize: '4vw', color: '#000'}} onClick={() => handleIncrementDecrement(index, -1)}>-</Button>
-                  <span>{quantities[index].quantity}/{element.remaining}</span>
+                  <span>{data[index].quantity}/{element.remaining}</span>
                   <Button sx={{fontSize: '4vw', color: '#000'}} onClick={() => handleIncrementDecrement(index, 1)}>+</Button>
                   <span> {element.item.name}</span>
                 </div>
