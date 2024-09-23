@@ -27,7 +27,6 @@ const ordersData = {
 
 export function Orders() {
     const [open, setOpen] = useState(false);
-
     const togglePopup = () => setOpen(prevOpen => !prevOpen);
 
     return (

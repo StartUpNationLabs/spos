@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import './orderingChoices.css';
 import { useCurrentSelectedOrder } from './stores/currentSelectedOrder';
+import { useTableSummary } from './stores/tableSummary';
+import { classicMenu } from '../utils/tableUtils';
 
 export const OrderingChoices = ({ selectedTable }) => {
     const { orders, id: tableId } = selectedTable;
     const { setOrder } = useCurrentSelectedOrder();
 
     const [selectedOrders, setSelectedOrders] = useState({});
+    const addOrUpdateOrder = useTableSummary(state=>state.addOrUpdateOrder);
+    const decreaseOrderQuantity = useTableSummary(state=>state.decreaseOrderQuantity);
+    const tables = useTableSummary(state=>state.tables);
+    console.log(tables);
 
     const handleSelectOrder = (category, index) => {
+
         setSelectedOrders(prev => {
             const isSelected = prev[tableId]?.[category]?.[index];
 
@@ -43,6 +50,21 @@ export const OrderingChoices = ({ selectedTable }) => {
             const newCount = currentCount + 1;
 
             setOrder(category, index, newCount);
+            const order = {
+                category: category,
+                name: classicMenu?.[category]?.[index],
+                quantity: 1,
+                price: 2.5,
+            }
+            addOrUpdateOrder(tableId, order);
+
+            //const [tableSummaryContent, arrayId] = getTableIfExist(summaryContent);
+            //Add to orders 
+
+            //summaryContent[arrayId] = tableSummaryContent;
+            //setSummaryContent(summaryContent);
+
+
 
             return {
                 ...prev,
@@ -63,6 +85,13 @@ export const OrderingChoices = ({ selectedTable }) => {
             const newCount = Math.max(0, currentCount - 1);
 
             setOrder(category, index, newCount);
+            const order = {
+                category: category,
+                name: classicMenu?.[category]?.[index],
+                quantity: 1,
+                price: 2.5,
+            }
+            decreaseOrderQuantity(tableId, order)
 
             return {
                 ...prev,
@@ -146,3 +175,10 @@ export const OrderingChoices = ({ selectedTable }) => {
 };
 
 export default OrderingChoices;
+
+
+
+function getTableIfExist(summaryContent): [any, any] {
+    throw new Error('Function not implemented.');
+}
+

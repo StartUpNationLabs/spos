@@ -4,7 +4,7 @@ import NavBar from '../utils/navbar';
 import Orders from '../orders/orders';
 import BackButton from '../utils/backButton';
 import OrderingChoices from './orederingChoices';
-import { setSelectedTableById, tablesData } from '../utils/tableUtils';
+import { setSelectedTableById, tablesMenu } from '../utils/tableUtils';
 //SpeedDial imports
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
@@ -12,13 +12,15 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from '@mui/icons-material/Close';
 import DollarIcon from '@mui/icons-material/AttachMoney';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useTableSummary } from './stores/tableSummary';
+import Summary from '../summary/summary';
 
 export function Commands() {
     const navigate = useNavigate();
-    const [selectedTable, setSelectedTable] = useState(tablesData[0]);
-    const { groupId } = useParams();
-
+    const [selectedTable, setSelectedTable] = useState(tablesMenu[0]);
+    const haveCurrentCommand = useTableSummary(state=>state.tables).length > 0;
+    
     const speedDialActions = [
       { icon: <TableRestaurantIcon />, name: 'Table Payment', operation: onClickTableBilling },
       { icon: <GroupsIcon />, name: 'Group Payment', operation: onClickGroupBilling }
@@ -51,9 +53,15 @@ export function Commands() {
                             width: 'fit-content',
                             borderRight: '2px solid #000' }}>
                     <NavBar
+<<<<<<< HEAD
                         groupId={groupId ?? ''}
                         setSelectedTable={(tableId: number) =>
                             setSelectedTableById(tablesData.map(element => element.id), tableId, setSelectedTable)
+=======
+                        tables={tablesMenu}
+                        setSelectedTable={(tableId: number) =>
+                            setSelectedTableById(tablesMenu, tableId, setSelectedTable)
+>>>>>>> 0a5d69d (add command front logique)
                         }
                         setSelectedTableParentFunction={setSelectedTable}
                     />
@@ -76,7 +84,8 @@ export function Commands() {
                 <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                     <BackButton onClick={onClickBackButton} color={'black'} top={20} left={150}></BackButton>
                     {selectedTable && <OrderingChoices selectedTable={selectedTable} />}
-                    <Orders></Orders>
+                    {haveCurrentCommand && <Summary></Summary>}
+                    {!haveCurrentCommand && <Orders></Orders>}
                 </Box>
             </Box>
         </div>
