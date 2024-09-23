@@ -19,8 +19,8 @@ export function App() {
           }
         />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/groupBilling" element={<GroupBilling />} />
-        <Route path="/tableBilling" element={<TableBilling />} />
+        <Route path="/groupBilling/:groupId" element={<GroupBilling />} />
+        <Route path="/tableBilling/:groupId" element={<TableBilling />} />
         <Route path="/commands/:groupId" element={<Commands />} />
 
       </Routes>

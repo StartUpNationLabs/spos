@@ -32,13 +32,13 @@ export function Commands() {
     function onClickTableBilling() {
       //TODO: Do the redirection with the table id
       console.log('table billing button... redirection to be implemented');
-      navigate("/tableBilling");
+      navigate("/tableBilling/"+groupId);
     }
 
     function onClickGroupBilling() {
       //TODO: Do the redirection with the group id
       console.log('group billing button... redirection to be implemented');
-      navigate("/groupBilling");
+      navigate("/groupBilling/"+groupId);
     }
 
     return (

@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../utils/backButton";
 import React, { useState } from 'react';
 import { TableItem } from "../tableBillingPage/tableBilling";
@@ -10,6 +10,7 @@ interface TableSummary {
 }
 
 export function GroupBilling() {
+  const { groupId } = useParams();
 
   const getGroupItemByTable = () : TableSummary[] => {
     return [
@@ -46,7 +47,7 @@ export function GroupBilling() {
 
   function onClickBackButton() {
     console.log('clicked on back button... redirection to be implemented');
-    navigate("/commands");
+    navigate("/commands/"+groupId);
   }
 
   return (

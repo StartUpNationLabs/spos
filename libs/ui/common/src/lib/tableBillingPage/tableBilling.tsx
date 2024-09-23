@@ -1,5 +1,5 @@
 import { Button, Typography, Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useState } from 'react';
 import NavBar from "../utils/navbar";
 import { setSelectedTableById, tablesData } from '../utils/tableUtils';
@@ -33,6 +33,7 @@ interface TableItemForBilling {
 
 export function TableBilling() {
   const navigate = useNavigate();
+  const { groupId } = useParams();
 
   const tableNumber = 1;
 
@@ -89,16 +90,17 @@ export function TableBilling() {
 
   function onClickBackButton() {
     console.log('clicked on back button... redirection to be implemented');
-    navigate("/commands");
+    navigate("/commands/"+groupId);
   }
 
   return (
     <Box sx={{minHeight: '100dvh', display: 'flex', flexDirection: 'row'}}>
       <Box sx={{boxSizing: 'border-box', width: 'fit-content', borderRight: '2px solid #000'}}>
         <NavBar
-          tables={tablesData}
-          setSelectedTable={(tableId: number) => setSelectedTableById(tablesData, tableId, setSelectedTable)
-        }/>
+          groupId={groupId ?? ''}
+          setSelectedTable={(tableId: number) => setSelectedTableById(tablesData, tableId, setSelectedTable)}
+          setSelectedTableParentFunction={undefined}
+        />
       </Box>
       <Box id="test" sx={{boxSizing: 'border-box', backgroundColor: '#d9d9d9', flexGrow: 1,
           paddingTop: '5dvh', paddingLeft: '5dvw', paddingRight: '5dvw'
