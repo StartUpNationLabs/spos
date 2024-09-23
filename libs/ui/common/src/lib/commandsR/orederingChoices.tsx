@@ -82,11 +82,11 @@ export const OrderingChoices = ({ selectedTable }) => {
             className="custom-scrollbar"
             sx={{
                 padding: '16px',
-                marginTop: '90px',
+                marginTop: '110px', 
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
-                height: '460px',
+                height: '80vh',
                 overflowY: 'auto',
                 border: '1px solid #ccc',
                 width: 'calc(100% - 32px)',
