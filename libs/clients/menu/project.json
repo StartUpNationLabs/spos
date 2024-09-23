@@ -1,0 +1,35 @@
+{
+  "name": "clients-menu",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/clients/menu/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/clients/menu",
+        "main": "libs/clients/menu/src/index.ts",
+        "tsConfig": "libs/clients/menu/tsconfig.lib.json",
+        "assets": ["libs/clients/menu/*.md"]
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          {
+            "command": "npx rimraf libs/clients/menu/src",
+            "description": "Clean up generated API client"
+          },
+          {
+            "command": "npx openapi-generator-cli generate -i libs/clients/menu/openapi.yaml -g typescript-axios -o libs/clients/menu/src --ignore-file-override=.openapi-generator-ignore --additional-properties=useSingleRequestParameter=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models",
+            "description": "Generate API client from OpenAPI spec"
+          }
+        ]
+      }
+    }
+  }
+}

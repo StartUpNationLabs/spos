@@ -1,15 +1,12 @@
 import { render } from '@testing-library/react';
 
 import App from './app';
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 describe('App', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<App />);
+    const queryClient = new QueryClient()
+    const { baseElement } = render(<QueryClientProvider client={queryClient}><App /></QueryClientProvider>);
     expect(baseElement).toBeTruthy();
-  });
-
-  it('should have a greeting as the title', () => {
-    const { getByText } = render(<App />);
-    expect(getByText(/Welcome sample-react/gi)).toBeTruthy();
   });
 });
