@@ -15,10 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@spos/clients-bff": ["libs/clients/bff/src/index.ts"],
       "@spos/clients-dining": ["libs/clients/dining/src/index.ts"],
       "@spos/clients-kitchen": ["libs/clients/kitchen/src/index.ts"],
       "@spos/clients-menu": ["libs/clients/menu/src/index.ts"],
-      "@spos/clients-bff": ["libs/clients/bff/src/index.ts"],
       "@spos/services/common": ["libs/services/common/src/index.ts"],
       "@spos/ui/common": ["libs/ui/common/src/index.ts"]
     }
