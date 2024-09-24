@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {MenusApi} from "@spos/clients/menu";
+import {MenusApi} from "@spos/clients-menu";
 
 const menusApi = new MenusApi(
 )

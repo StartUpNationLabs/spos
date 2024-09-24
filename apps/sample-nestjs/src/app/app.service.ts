@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {TablesApi, TableWithOrderDto} from "@spos/clients/dining";
+import {TablesApi, TableWithOrderDto} from "@spos/clients-dining";
 import axios from "axios";
 
 @Injectable()
