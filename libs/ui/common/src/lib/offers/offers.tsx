@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useOffers } from './stores/offers';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { GroupCreateDto, GroupService } from '@spos/services/common';
+import { container, GroupCreateDto, GroupService } from "@spos/services/common";
 import { useCurrentSelectedGroup } from '../tables/stores/currentSelectedGroup';
 import { Container } from "@freshgum/typedi";
 
@@ -13,7 +13,7 @@ export function Offers() {
   const resetCurrentSelectedGroup = useCurrentSelectedGroup(state => state.resetTables);
   const mutation = useMutation({
     mutationFn: (newGroup: GroupCreateDto) => {
-      return Container.get(GroupService).addGroup(newGroup);
+      return container.get(GroupService).addGroup(newGroup);
     },
     onSuccess: (data) => {
       navigate('/');

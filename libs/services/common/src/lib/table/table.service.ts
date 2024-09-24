@@ -1,10 +1,20 @@
-import { Service } from '@freshgum/typedi';
 import { DiningApiService } from '../apis/diningApiService';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../types';
 
-@Service([DiningApiService])
+@injectable()
 export class TableService {
-  constructor(private diningApiService: DiningApiService) {}
+  constructor(
+    @inject(TYPES.DiningApiService) private diningApiService: DiningApiService
+  ) {}
+
   async getFreeTables() {
+    console.log(
+      'Getting free tables',
+      this.diningApiService.getTablesApi(),
+      this.diningApiService.getTableOrdersApi(),
+      this.diningApiService.getTablesApi().tablesControllerListAllTables()
+    );
     const tables = (
       await this.diningApiService.getTablesApi().tablesControllerListAllTables()
     ).data;

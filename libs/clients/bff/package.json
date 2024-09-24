@@ -1,11 +1,9 @@
 {
-  "name": "@spos/services/common",
+  "name": "@spos/clients-bff",
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0",
-    "uuid": "^10.0.0",
-    "inversify": "^6.0.2",
-    "@spos/clients-dining": "^0.0.1"
+    "axios": "^1.7.7"
   },
   "type": "commonjs",
   "main": "./src/index.js",

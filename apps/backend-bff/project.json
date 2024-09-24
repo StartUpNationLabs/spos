@@ -11,7 +11,8 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "backend-bff:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "runtimeArgs": ["--experimental-require-module"]
       },
       "configurations": {
         "development": {

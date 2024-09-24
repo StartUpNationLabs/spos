@@ -3,10 +3,12 @@ import {Box, Button, Typography} from "@mui/material";
 import * as React from 'react';
 import {TableGrid} from "./tableGrid";
 import {useCurrentSelectedGroup} from "./stores/currentSelectedGroup";
-import { TableService } from "@spos/services/common";
-import { Container } from "@freshgum/typedi";
+import {  TableService } from "@spos/services/common";
+import { useContext } from "react";
+import { ContainerContext } from "../containerHook/containerContext";
 
 export function LandingPage() {
+  const container = useContext(ContainerContext)
   const navigate = useNavigate();
   const navigateTables = () => {
     navigate("/offers")
@@ -30,7 +32,7 @@ export function LandingPage() {
         </Button>
         <Button
           onClick={async () => {
-            await Container.get(TableService).closeAllTables();
+            await container.get(TableService).closeAllTables();
             window.location.reload();
           }}
 

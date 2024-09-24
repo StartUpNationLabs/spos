@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { Container } from '@freshgum/typedi';
-import { GroupService } from "@spos/services/common";
+import {  GroupService } from "@spos/services/common";
 import { Grid2 as Grid, Typography } from "@mui/material";
 import { GroupSquare } from "./groupSquare";
 import * as React from "react";
+import { useContext } from "react";
+import { ContainerContext } from "../containerHook/containerContext";
 
 export function GroupTables() {
+  const container = useContext(ContainerContext);
   const { data: groupsApi, isLoading } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
-      const groupService = Container.get(GroupService);
+      const groupService = container.get(GroupService);
       return groupService.getGroups();
     },
     refetchOnWindowFocus: "always"
