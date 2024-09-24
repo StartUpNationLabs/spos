@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { TableOrdersApi, TablesApi } from '@spos/clients/dining';
+import { TableOrdersApi, TablesApi } from '@spos/clients-dining';
 
 @Service()
 export class TableService {

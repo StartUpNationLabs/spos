@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { v4 as uuidv4 } from 'uuid';
-import { TableOrdersApi } from '@spos/clients/dining';
+import { TableOrdersApi } from '@spos/clients-dining';
 
 export interface Group {
   id: string;
