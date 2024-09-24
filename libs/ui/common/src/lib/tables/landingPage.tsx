@@ -3,8 +3,8 @@ import {Box, Button, Typography} from "@mui/material";
 import * as React from 'react';
 import {TableGrid} from "./tableGrid";
 import {useCurrentSelectedGroup} from "./stores/currentSelectedGroup";
-import { Container } from "typedi";
 import { TableService } from "@spos/services/common";
+import { Container } from "@freshgum/typedi";
 
 export function LandingPage() {
   const navigate = useNavigate();

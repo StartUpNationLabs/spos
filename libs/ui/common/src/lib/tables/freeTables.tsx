@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { Container } from "typedi";
 import { TableService } from "@spos/services/common";
 import { Grid2 as Grid, Typography } from "@mui/material";
 import TableSquare from "./tableSquare";
 import * as React from "react";
+import { Container } from '@freshgum/typedi';
 
 export function FreeTables() {
-  const { data: tables, isLoading, isError } = useQuery({
+  const { data: tables, isLoading, isError, error } = useQuery({
     queryKey: ["tables"],
     queryFn: async () => {
       const tableService = Container.get(TableService);
@@ -17,7 +17,8 @@ export function FreeTables() {
   if (isLoading) {
     return <Typography variant="h6" component="h2" fontWeight="bold">Loading...</Typography>;
   }
-  if (isError) {
+  if (!tables || isError) {
+    console.error(error);
     return <Typography variant="h6" component="h2" fontWeight="bold">Error</Typography>;
   }
   console.log(tables);

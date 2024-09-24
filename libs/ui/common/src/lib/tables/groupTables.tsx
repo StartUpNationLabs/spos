@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Container } from "typedi";
+import { Container } from '@freshgum/typedi';
 import { GroupService } from "@spos/services/common";
 import { Grid2 as Grid, Typography } from "@mui/material";
 import { GroupSquare } from "./groupSquare";

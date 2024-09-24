@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { useQuery } from "@tanstack/react-query";
-import { Container } from "typedi";
 import { GroupService } from "@spos/services/common";
+import { Container } from "@freshgum/typedi";
 
 interface NavBarProps {
   groupId: string;

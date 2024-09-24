@@ -4,8 +4,8 @@ import { useOffers } from './stores/offers';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { GroupCreateDto, GroupService } from '@spos/services/common';
-import { Container } from 'typedi';
 import { useCurrentSelectedGroup } from '../tables/stores/currentSelectedGroup';
+import { Container } from "@freshgum/typedi";
 
 export function Offers() {
   const offers = useOffers((state) => state.offers);

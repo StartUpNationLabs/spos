@@ -1,6 +1,6 @@
-import { Service } from 'typedi';
 import { v4 as uuidv4 } from 'uuid';
 import { TableOrdersApi } from '@spos/clients-dining';
+import { Service } from "@freshgum/typedi";
 
 export interface Group {
   id: string;
@@ -25,7 +25,7 @@ export interface GroupCreateDto {
 }
 
 
-@Service()
+@Service([])
 export class GroupService{
   private group: {
     [key: string]: Group;
