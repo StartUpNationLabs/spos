@@ -1,3 +1,20 @@
+## 0.5.0 (2024-09-24)
+
+
+### 🚀 Features
+
+- add table service and group service ([d7fa833](https://github.com/StartUpNationLabs/spos/commit/d7fa833))
+
+
+### 🩹 Fixes
+
+- lint and tests ([90bfc6e](https://github.com/StartUpNationLabs/spos/commit/90bfc6e))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.4.0 (2024-09-23)
 
 
