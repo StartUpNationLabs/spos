@@ -1,22 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 import { TableOrdersApi } from '@spos/clients-dining';
-import { injectable } from "inversify";
+import { injectable } from 'inversify';
+import { GroupCreateDto } from './groupCreate.dto';
 
 export interface Group {
   id: string;
   tables: {
     [tableNumber: string]: {
       id: string;
-      number: number;
-      customerCount: number;
-    };
-  };
-  offer: string;
-}
-
-export interface GroupCreateDto {
-  tables: {
-    [tableNumber: string]: {
       number: number;
       customerCount: number;
     };
