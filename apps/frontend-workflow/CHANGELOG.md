@@ -1,3 +1,15 @@
+## 0.6.0 (2024-09-24)
+
+
+### 🚀 Features
+
+- add services ([7f3de94](https://github.com/StartUpNationLabs/spos/commit/7f3de94))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.5.0 (2024-09-24)
 
 
