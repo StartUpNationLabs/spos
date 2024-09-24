@@ -3,15 +3,17 @@ import 'reflect-metadata';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './app';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 describe('App', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
       <BrowserRouter>
-        <App />
+        <QueryClientProvider client={new QueryClient()}>
+          <App />
+        </QueryClientProvider>
       </BrowserRouter>
     );
     expect(baseElement).toBeTruthy();
   });
-
 });
