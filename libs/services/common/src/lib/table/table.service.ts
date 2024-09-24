@@ -6,7 +6,6 @@ export class TableService {
   private tablesApi = new TablesApi();
   private tableOrdersApi = new TableOrdersApi();
 
-  constructor() {}
 
   async getFreeTables() {
     const tables = (await this.tablesApi.tablesControllerListAllTables()).data;

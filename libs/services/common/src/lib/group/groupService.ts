@@ -32,7 +32,6 @@ export class GroupService{
   } = {};
   private tableOrdersApi = new TableOrdersApi();
 
-  constructor() {}
 
   async addGroup({ tables, offer }: GroupCreateDto) {
     const id = uuidv4();

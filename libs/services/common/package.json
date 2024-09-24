@@ -2,7 +2,10 @@
   "name": "@spos/services/common",
   "version": "0.0.1",
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "uuid": "^10.0.0",
+    "typedi": "^0.10.0",
+    "@spos/clients/dining": "^0.0.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
