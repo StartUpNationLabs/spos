@@ -1,3 +1,15 @@
+## 0.8.0 (2024-09-24)
+
+
+### 🚀 Features
+
+- add remote group controller ([f864b91](https://github.com/StartUpNationLabs/spos/commit/f864b91))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.7.0 (2024-09-24)
 
 
