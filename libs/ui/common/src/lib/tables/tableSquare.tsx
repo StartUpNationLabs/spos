@@ -7,7 +7,7 @@ import {useCurrentSelectedGroup} from "./stores/currentSelectedGroup";
 
 export function TableSquare({tableNumber}) {
   const [showPeopleSelector, setShowPeopleSelector] = useState(false)
-  const currentTablePeople = useCurrentSelectedGroup(state => state.tables[tableNumber]);
+  const currentTablePeople = useCurrentSelectedGroup(state => state.tables[tableNumber]?.customerCount || 0);
   const setTable = useCurrentSelectedGroup(state => state.setTable);
   const removeTable = useCurrentSelectedGroup(state => state.removeTable);
   const showHidePeopleSelector = () => {

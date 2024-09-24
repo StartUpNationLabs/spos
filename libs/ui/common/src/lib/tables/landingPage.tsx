@@ -3,6 +3,8 @@ import {Box, Button, Typography} from "@mui/material";
 import * as React from 'react';
 import {TableGrid} from "./tableGrid";
 import {useCurrentSelectedGroup} from "./stores/currentSelectedGroup";
+import { Container } from "typedi";
+import { TableService } from "@spos/services/common";
 
 export function LandingPage() {
   const navigate = useNavigate();
@@ -25,6 +27,15 @@ export function LandingPage() {
           disabled={tableEmpty}
         >
           <Typography variant={"h4"}>Create</Typography>
+        </Button>
+        <Button
+          onClick={async () => {
+            await Container.get(TableService).closeAllTables();
+            window.location.reload();
+          }}
+
+        >
+          <Typography variant={"h4"}>Clear</Typography>
         </Button>
       </Box>
     </Box>

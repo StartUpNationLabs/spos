@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import { useGroupById } from '../tables/stores/useGroupById';
+import { useQuery } from "@tanstack/react-query";
+import { Container } from "typedi";
+import { GroupService } from "@spos/services/common";
 
 interface NavBarProps {
   groupId: string;
@@ -11,14 +13,22 @@ interface NavBarProps {
 
 export function NavBar({ groupId, setSelectedTable, setSelectedTableParentFunction }: Readonly<NavBarProps>) {
 
-  const [tables,] = [(useGroupById(groupId)?.tables ?? [1,2,3,4,5])];
+  const { data: group, isLoading } = useQuery({
+    queryKey: ["group", groupId],
+    queryFn: async () => {
+      const groupService = Container.get(GroupService);
+      return groupService.getGroup(groupId);
+    },
+    refetchOnWindowFocus: "always",
+  });
+
+  const tables = isLoading ? [] : Object.keys(group.tables).map(element => parseInt(element));
   const [tableSelected, setTableSelected] = useState(tables[0]);
   const handleTableSelection = (tableId: number) => {
       setTableSelected(tableId);
       setSelectedTable(tables, tableId, setSelectedTableParentFunction);
   };
 
-  console.log(useGroupById(groupId)?.tables);
 
   return (
       <Box sx={{
