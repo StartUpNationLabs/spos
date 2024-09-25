@@ -1,3 +1,18 @@
+## 0.11.0 (2024-09-25)
+
+
+### 🚀 Features
+
+- add types to remote service ([72f6b76](https://github.com/StartUpNationLabs/spos/commit/72f6b76))
+
+- **libs/services:** Addition of services for offers and catalog ([3f9a873](https://github.com/StartUpNationLabs/spos/commit/3f9a873))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.10.0 (2024-09-24)
 
 
