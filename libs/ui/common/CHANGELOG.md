@@ -1,3 +1,22 @@
+## 0.9.0 (2024-09-25)
+
+
+### 🚀 Features
+
+- add types to remote service ([72f6b76](https://github.com/StartUpNationLabs/spos/commit/72f6b76))
+
+- **libs/services:** Addition of services for offers and catalog ([3f9a873](https://github.com/StartUpNationLabs/spos/commit/3f9a873))
+
+- **ui-common:** Addition of store for cart state ([add5e7c](https://github.com/StartUpNationLabs/spos/commit/add5e7c))
+
+- **ui-common:** Simplify cart store ([4096964](https://github.com/StartUpNationLabs/spos/commit/4096964))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.8.0 (2024-09-24)
 
 
