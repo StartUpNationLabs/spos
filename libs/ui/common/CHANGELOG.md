@@ -1,3 +1,15 @@
+## 0.11.0 (2024-09-25)
+
+
+### 🚀 Features
+
+- **ui-common:** Rework from almost scratch make ordering dynamic with services and stores ([0dd4f51](https://github.com/StartUpNationLabs/spos/commit/0dd4f51))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.10.0 (2024-09-25)
 
 
