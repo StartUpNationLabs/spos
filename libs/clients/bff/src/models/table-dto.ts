@@ -22,6 +22,12 @@
 export interface TableDto {
     /**
      * 
+     * @type {string}
+     * @memberof TableDto
+     */
+    'id': string;
+    /**
+     * 
      * @type {number}
      * @memberof TableDto
      */

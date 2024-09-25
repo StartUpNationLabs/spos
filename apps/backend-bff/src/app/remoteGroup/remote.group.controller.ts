@@ -1,14 +1,18 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 
 import {
   container,
   Group,
   GroupCreateDto,
-  GroupService,
+  GroupServiceWorkflow,
+  Table,
+  TableCreateDto,
 } from '@spos/services/common';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
-export class TableDto {
+export class TableDto implements Table {
+  @ApiProperty()
+  id: string;
   @ApiProperty()
   number: number;
 
@@ -16,47 +20,43 @@ export class TableDto {
   customerCount: number;
 }
 
-export class AnnotatedGroupCreateDto implements GroupCreateDto {
-  @ApiProperty({ type: () => [TableDto] })
-  tables: {
-    [tableNumber: string]: TableDto;
-  };
-
-  @ApiProperty()
-  offer: string;
-}
-
-export class GroupTableDto extends TableDto {
-  @ApiProperty()
-  id: string;
-}
-
 export class AnnotatedGroup implements Group {
   @ApiProperty()
   id: string;
-
-  @ApiProperty({ type: () => [GroupTableDto] })
-  tables: {
-    [tableNumber: string]: GroupTableDto;
-  };
-
+  @ApiProperty({ type: () => [TableDto] })
+  tables: TableDto[];
   @ApiProperty()
   offer: string;
 }
 
+export class AnnotatedCreateTableDto implements TableCreateDto {
+  @ApiProperty()
+  number: number;
+  @ApiProperty()
+  customerCount: number;
+}
+
+export class AnnotatedGroupCreateDto implements GroupCreateDto {
+  @ApiProperty()
+  offer: string;
+  @ApiProperty({ type: () => [AnnotatedCreateTableDto] })
+  tables: AnnotatedCreateTableDto[];
+}
+
 @Controller('remoteGroup')
+@ApiTags('remoteGroup')
 export class RemoteGroupController {
   @Get()
-  getGroups(): AnnotatedGroup[] {
-    return container.get(GroupService).getGroups();
+  async getGroups(): Promise<AnnotatedGroup[]> {
+    return container.get(GroupServiceWorkflow).getGroups();
   }
 
   @Get(':id')
-  getGroup(
+  async getGroup(
     @Param('id')
     id: string
-  ): AnnotatedGroup {
-    return container.get(GroupService).getGroup(id);
+  ): Promise<AnnotatedGroup> {
+    return container.get(GroupServiceWorkflow).getGroup(id);
   }
 
   @Post()
@@ -64,6 +64,6 @@ export class RemoteGroupController {
   async addGroup(
     @Body() body: AnnotatedGroupCreateDto
   ): Promise<AnnotatedGroup> {
-    return container.get(GroupService).addGroup(body);
+    return container.get(GroupServiceWorkflow).addGroup(body);
   }
 }

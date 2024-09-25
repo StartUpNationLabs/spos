@@ -20,8 +20,18 @@
         },
         "production": {
           "buildTarget": "backend-bff:build:production"
+        },
+        "openapi": {
+          "buildTarget": "backend-bff:build:openapi",
+          "watch": false
         }
       }
+    },
+    "build": {
+        "openapi": {
+          "main": "apps/backend-bff/src/openapi.ts"
+        }
+
     }
   }
 }

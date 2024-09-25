@@ -1,58 +1,21 @@
-import { v4 as uuidv4 } from 'uuid';
-import { TableOrdersApi } from '@spos/clients-dining';
-import { injectable } from 'inversify';
 import { GroupCreateDto } from './groupCreate.dto';
+
+export interface Table {
+  id: string;
+  number: number;
+  customerCount: number;
+}
 
 export interface Group {
   id: string;
-  tables: {
-    [tableNumber: string]: {
-      id: string;
-      number: number;
-      customerCount: number;
-    };
-  };
+  tables: Table[];
   offer: string;
 }
 
+export interface GroupService {
+  addGroup(groupCreateDto: GroupCreateDto): Promise<Group>;
 
-@injectable()
-export class GroupService{
-  private group: {
-    [key: string]: Group;
-  } = {};
-  private tableOrdersApi = new TableOrdersApi();
+  getGroup(id: string): Promise<Group>;
 
-
-  async addGroup({ tables, offer }: GroupCreateDto) {
-    const id = uuidv4();
-    this.group[id] = {
-      id,
-      tables: {},
-      offer,
-    }
-    console.debug('add group Service', tables, offer, id)
-    for (const table of Object.values(tables)) {
-      const orderId = await this.tableOrdersApi.tableOrdersControllerOpenTable({
-        startOrderingDto: {
-          customersCount: table.customerCount,
-          tableNumber: table.number
-        },
-      });
-      this.group[id].tables[table.number] = {
-        id: orderId.data._id,
-        number : table.number,
-        customerCount: table.customerCount,
-      };
-    }
-    return this.group[id];
-  }
-
-  getGroup(id: string) {
-    return this.group[id];
-  }
-
-  getGroups() {
-    return Object.values(this.group);
-  }
+  getGroups(): Promise<Group[]>;
 }

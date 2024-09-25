@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { GroupTableDto } from './group-table-dto';
+import type { TableDto } from './table-dto';
 
 /**
  * 
@@ -31,10 +31,10 @@ export interface AnnotatedGroup {
     'id': string;
     /**
      * 
-     * @type {Array<GroupTableDto>}
+     * @type {Array<TableDto>}
      * @memberof AnnotatedGroup
      */
-    'tables': Array<GroupTableDto>;
+    'tables': Array<TableDto>;
     /**
      * 
      * @type {string}

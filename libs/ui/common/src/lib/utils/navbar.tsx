@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Box, Button, Typography } from '@mui/material';
 import { useQuery } from "@tanstack/react-query";
-import {  GroupService } from "@spos/services/common";
+import {  GroupServiceWorkflow } from "@spos/services/common";
 import { ContainerContext } from "../containerHook/containerContext";
 
 interface NavBarProps {
@@ -16,13 +16,13 @@ export function NavBar({ groupId, setSelectedTable, setSelectedTableParentFuncti
   const { data: group, isLoading } = useQuery({
     queryKey: ["group", groupId],
     queryFn: async () => {
-      const groupService = container.get(GroupService);
+      const groupService = container.get(GroupServiceWorkflow);
       return groupService.getGroup(groupId);
     },
     refetchOnWindowFocus: "always",
   });
 
-  const tables = isLoading ? [] : Object.keys(group.tables).map(element => parseInt(element));
+  const tables = isLoading ? [] : group.tables.map((table) => table.number);
   const [tableSelected, setTableSelected] = useState(tables[0]);
   const handleTableSelection = (tableId: number) => {
       setTableSelected(tableId);

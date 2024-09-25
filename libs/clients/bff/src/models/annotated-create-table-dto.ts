@@ -17,26 +17,20 @@
 /**
  * 
  * @export
- * @interface GroupTableDto
+ * @interface AnnotatedCreateTableDto
  */
-export interface GroupTableDto {
+export interface AnnotatedCreateTableDto {
     /**
      * 
      * @type {number}
-     * @memberof GroupTableDto
+     * @memberof AnnotatedCreateTableDto
      */
     'number': number;
     /**
      * 
      * @type {number}
-     * @memberof GroupTableDto
+     * @memberof AnnotatedCreateTableDto
      */
     'customerCount': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof GroupTableDto
-     */
-    'id': string;
 }
 

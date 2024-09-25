@@ -6,5 +6,6 @@ export const TYPES = {
   DiningApiService: Symbol.for('DiningApiService'),
   MenuApiService: Symbol.for('MenuApiService'),
   OfferService: Symbol.for('OfferService'),
+  BackendBffApiService: Symbol.for('BackendBffApiService'),
 };
 

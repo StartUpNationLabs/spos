@@ -9,7 +9,11 @@ import {
   useNavigationType,
 } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-
+import App from "./app/app";
+import { CssBaseline } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { container } from "@spos/services/common";
+import { ContainerContext } from "@spos/ui/common";
 
 Sentry.init({
   dsn: "https://a1ed2429a37d7de745e333e4f27bb472@sentry.ozeliurs.com/2",
@@ -36,11 +40,7 @@ Sentry.init({
   replaysSessionSampleRate: 1,
   replaysOnErrorSampleRate: 1.0,
 });
-import App from "./app/app";
-import { CssBaseline } from "@mui/material";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { container } from "@spos/services/common";
-import { ContainerContext } from "@spos/ui/common";
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

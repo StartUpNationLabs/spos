@@ -3,16 +3,22 @@ import * as React from 'react';
 import { useOffers } from './stores/offers';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { container, GroupCreateDto, GroupService } from "@spos/services/common";
+import {
+  container,
+  GroupCreateDto,
+  GroupServiceWorkflow,
+} from '@spos/services/common';
 import { useCurrentSelectedGroup } from '../tables/stores/currentSelectedGroup';
 
 export function Offers() {
   const offers = useOffers((state) => state.offers);
   const selectedTables = useCurrentSelectedGroup((state) => state.tables);
-  const resetCurrentSelectedGroup = useCurrentSelectedGroup(state => state.resetTables);
+  const resetCurrentSelectedGroup = useCurrentSelectedGroup(
+    (state) => state.resetTables
+  );
   const mutation = useMutation({
     mutationFn: (newGroup: GroupCreateDto) => {
-      return container.get(GroupService).addGroup(newGroup);
+      return container.get(GroupServiceWorkflow).addGroup(newGroup);
     },
     onSuccess: (data) => {
       navigate('/');
@@ -23,11 +29,15 @@ export function Offers() {
   function onClick(offer) {
     return () => {
       mutation.mutate({
-        tables: selectedTables,
+        tables: Object.keys(selectedTables).map((table) => {
+          return {
+            number: selectedTables[table].number,
+            customerCount: selectedTables[table].customerCount,
+          };
+        }),
         offer: offer,
       });
       resetCurrentSelectedGroup();
-
     };
   }
 

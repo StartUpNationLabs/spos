@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { TableDto } from './table-dto';
+import type { AnnotatedCreateTableDto } from './annotated-create-table-dto';
 
 /**
  * 
@@ -25,15 +25,15 @@ import type { TableDto } from './table-dto';
 export interface AnnotatedGroupCreateDto {
     /**
      * 
-     * @type {Array<TableDto>}
-     * @memberof AnnotatedGroupCreateDto
-     */
-    'tables': Array<TableDto>;
-    /**
-     * 
      * @type {string}
      * @memberof AnnotatedGroupCreateDto
      */
     'offer': string;
+    /**
+     * 
+     * @type {Array<AnnotatedCreateTableDto>}
+     * @memberof AnnotatedGroupCreateDto
+     */
+    'tables': Array<AnnotatedCreateTableDto>;
 }
 

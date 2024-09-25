@@ -23,9 +23,11 @@ async function bootstrap() {
   app.enableCors();
 
   SwaggerModule.setup('swagger', app, document);
-  if (process.env.NODE_ENV === 'development') {
+  // if args contain openapi, save openapi.json to disk
+  if (process.env.NODE_ENV === 'openapi') {
     // save openapi.json to disk
     fs.writeFileSync('libs/clients/bff/openapi.json', JSON.stringify(document));
+    process.exit(0)
   }
   const port = process.env.PORT || 3000;
   await app.listen(port);

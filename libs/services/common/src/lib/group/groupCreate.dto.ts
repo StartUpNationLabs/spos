@@ -1,9 +1,9 @@
+export interface TableCreateDto {
+  number: number;
+  customerCount: number;
+}
+
 export interface GroupCreateDto {
-  tables: {
-    [tableNumber: string]: {
-      number: number;
-      customerCount: number;
-    };
-  };
+  tables: TableCreateDto[];
   offer: string;
 }

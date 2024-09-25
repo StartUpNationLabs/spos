@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {  GroupService } from "@spos/services/common";
+import {  GroupServiceWorkflow } from "@spos/services/common";
 import { Grid2 as Grid, Typography } from "@mui/material";
 import { GroupSquare } from "./groupSquare";
 import * as React from "react";
@@ -11,7 +11,7 @@ export function GroupTables() {
   const { data: groupsApi, isLoading } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
-      const groupService = container.get(GroupService);
+      const groupService = container.get(GroupServiceWorkflow);
       return groupService.getGroups();
     },
     refetchOnWindowFocus: "always"
@@ -36,7 +36,7 @@ export function GroupTables() {
       {groupsApi.map((value, index) => (
         <Grid key={index}>
           <GroupSquare
-            tableNumbers={Object.keys(value.tables)}
+            tableNumbers={value.tables.map((table) => table.number.toString())}
             groupId={value.id}
           ></GroupSquare>
         </Grid>
