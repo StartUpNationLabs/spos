@@ -4,12 +4,13 @@ import { useOffers } from './stores/offers';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import {
-  container,
   GroupCreateDto,
   GroupService,
   TYPES,
 } from '@spos/services/common';
 import { useCurrentSelectedGroup } from '../tables/stores/currentSelectedGroup';
+import { ContainerContext } from "../containerHook/containerContext";
+import { useContext } from "react";
 
 export function Offers() {
   const offers = useOffers((state) => state.offers);
@@ -17,6 +18,7 @@ export function Offers() {
   const resetCurrentSelectedGroup = useCurrentSelectedGroup(
     (state) => state.resetTables
   );
+  const container = useContext(ContainerContext);
   const mutation = useMutation({
     mutationFn: (newGroup: GroupCreateDto) => {
       return container.get<GroupService>(TYPES.GroupService).addGroup(newGroup);

@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./app/app";
 import { CssBaseline } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { container } from "@spos/services/common";
+import { bffContainer, container } from "@spos/services/common";
 import { ContainerContext } from "@spos/ui/common";
 
 const root = ReactDOM.createRoot(
@@ -17,7 +17,7 @@ root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <ContainerContext.Provider value={container}>
+        <ContainerContext.Provider value={bffContainer}>
           <CssBaseline />
           <App />
         </ContainerContext.Provider>

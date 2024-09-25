@@ -6,3 +6,4 @@ export * from './lib/container';
 export * from './lib/types';
 export * from './lib/group/groupCreate.dto';
 export * from './lib/group/groupServiceWorkflow';
+export * from './lib/bff.container';

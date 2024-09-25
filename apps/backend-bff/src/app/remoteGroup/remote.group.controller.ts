@@ -3,11 +3,11 @@ import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import {
   container,
   Group,
-  GroupCreateDto,
+  GroupCreateDto, GroupService,
   GroupServiceWorkflow,
   Table,
-  TableCreateDto,
-} from '@spos/services/common';
+  TableCreateDto, TYPES
+} from "@spos/services/common";
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
 export class TableDto implements Table {
@@ -48,7 +48,7 @@ export class AnnotatedGroupCreateDto implements GroupCreateDto {
 export class RemoteGroupController {
   @Get()
   async getGroups(): Promise<AnnotatedGroup[]> {
-    return container.get(GroupServiceWorkflow).getGroups();
+    return container.get<GroupService>(TYPES.GroupService).getGroups();
   }
 
   @Get(':id')
@@ -56,7 +56,7 @@ export class RemoteGroupController {
     @Param('id')
     id: string
   ): Promise<AnnotatedGroup> {
-    return container.get(GroupServiceWorkflow).getGroup(id);
+    return container.get<GroupService>(TYPES.GroupService).getGroup(id);
   }
 
   @Post()
@@ -64,6 +64,6 @@ export class RemoteGroupController {
   async addGroup(
     @Body() body: AnnotatedGroupCreateDto
   ): Promise<AnnotatedGroup> {
-    return container.get(GroupServiceWorkflow).addGroup(body);
+    return container.get<GroupService>(TYPES.GroupService).addGroup(body);
   }
 }
