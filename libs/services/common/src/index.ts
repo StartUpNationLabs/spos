@@ -1,5 +1,7 @@
 export * from './lib/services-common';
 export * from './lib/group/groupService';
+export * from './lib/offer/catalogue.service';
+export * from './lib/offer/offer.service';
 export * from './lib/table/table.service';
 export * from './lib/apis/diningApiService';
 export * from './lib/container';

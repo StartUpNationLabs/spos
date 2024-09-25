@@ -13,7 +13,7 @@ interface NavBarProps {
 
 export function NavBar({ groupId, setSelectedTable, setSelectedTableParentFunction }: Readonly<NavBarProps>) {
   const container = useContext(ContainerContext);
-  const { data: group, isLoading } = useQuery({
+  const { data: group, isLoading, isError, error } = useQuery({
     queryKey: ["group", groupId],
     queryFn: async () => {
       const groupService = container.get<GroupService>(TYPES.GroupService);
@@ -22,8 +22,26 @@ export function NavBar({ groupId, setSelectedTable, setSelectedTableParentFuncti
     refetchOnWindowFocus: "always",
   });
 
-  const tables = isLoading ? [] : group.tables.map((table) => table.number);
+  const tables = isLoading ? [] : (group ?? {tables:[]}).tables.map((table) => table.number);
   const [tableSelected, setTableSelected] = useState(tables[0]);
+
+  if(isError) {
+    console.log(error);
+    return (
+      <Typography variant="h6" component="h2" fontWeight="bold">
+        Help
+      </Typography>
+    );
+  }
+
+  if(!group) {
+    return (
+      <Typography variant="h6" component="h2" fontWeight="bold">
+        Loading
+      </Typography>
+    );
+  }
+
   const handleTableSelection = (tableId: number) => {
       setTableSelected(tableId);
       setSelectedTable(tables, tableId, setSelectedTableParentFunction);

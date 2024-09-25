@@ -18,7 +18,7 @@ export class CatalogService {
 
     async getFilteredCatalog(offerName: string) {
       const offer = await this.offerService.getOffers().then(response =>
-        response.find(element => element.name.toLowerCase() === offerName.toLowerCase())
+        response.find(element => element.name?.toLowerCase() === offerName?.toLowerCase())
       );
 
       if (!offer) return {};
@@ -27,17 +27,22 @@ export class CatalogService {
         item => offer.availableItems.includes(item._id)
       );
 
-      const categorizedCatalog : CategorizedCatalog = {};
+      const categorizedCatalog: CategorizedCatalog = {};
 
       availableCatalog.forEach(element => {
-        if (element.category in categorizedCatalog) {
-          categorizedCatalog[element.category] = [element];
+        if (!categorizedCatalog[element.category]) {
+          categorizedCatalog[element.category] = [];
         }
-        else {
-          categorizedCatalog[element.category].push(element);
-        }
+        categorizedCatalog[element.category].push(element);
       });
 
       return categorizedCatalog;
+    }
+
+
+    async getFullItemFromItemIdsArray(idList: string[]) {
+      return (await this.menuApiService.getMenuApi().menusControllerGetFullMenu()).data.filter(
+        item => idList.includes(item._id)
+      );
     }
 }

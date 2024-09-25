@@ -16,16 +16,16 @@ export const useCarts = create<CartsState>((set) => ({
     return {
       carts: {
         ...state.carts,
-        tableNumber:
+        [tableNumber]:  // Use square brackets to use the variable `tableNumber` as a key
         (itemIndex === -1) ? [...currentCart, {itemId, quantity}].filter(element => element.quantity > 0)
         : currentCart.map(element => {
           if (element.itemId === itemId) {
-            element.quantity = quantity
+            element.quantity = quantity;
           }
-          return element
+          return element;
         }).filter(element => element.quantity > 0)
       }
-    }
+    };
   }),
   resetCart: (tableNumber) =>
     set((state) => ({

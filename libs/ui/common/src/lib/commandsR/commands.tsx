@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, SpeedDial } from '@mui/material';
 import NavBar from '../utils/navbar';
 import Orders from '../orders/orders';
 import BackButton from '../utils/backButton';
-import OrderingChoices from './orederingChoices';
+import OrderingChoices from './orderingChoices';
 import { setSelectedTableById, tablesMenu } from '../utils/tableUtils';
 //SpeedDial imports
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
@@ -13,14 +13,16 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from '@mui/icons-material/Close';
 import DollarIcon from '@mui/icons-material/AttachMoney';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useTableSummary } from './stores/tableSummary';
 import Summary from '../summary/summary';
+import { useCarts } from './stores/cart';
 
 export function Commands() {
     const navigate = useNavigate();
     const {groupId} = useParams();
     const [selectedTable, setSelectedTable] = useState(tablesMenu[0]);
-    const haveCurrentCommand = useTableSummary(state=>state.tables).length > 0;
+    const haveCurrentCommand = (useCarts(state => state.carts)[selectedTable.id] ?? []).length > 0;
+
+    const offerType = "Classic";
 
     const speedDialActions = [
       { icon: <TableRestaurantIcon />, name: 'Table Payment', operation: onClickTableBilling },
@@ -78,9 +80,9 @@ export function Commands() {
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                     <BackButton onClick={onClickBackButton} color={'black'} top={20} left={150}></BackButton>
-                    {selectedTable && <OrderingChoices selectedTable={selectedTable} />}
-                    {haveCurrentCommand && <Summary></Summary>}
-                    {!haveCurrentCommand && <Orders></Orders>}
+                    {selectedTable && <OrderingChoices tableNumber={selectedTable.id} offerType={offerType} />}
+                    {haveCurrentCommand && <Summary tableNumber={selectedTable.id} offerType='Classic'></Summary>}
+                    {!haveCurrentCommand && <Orders groupId={groupId ?? ''}></Orders>}
                 </Box>
             </Box>
         </div>
