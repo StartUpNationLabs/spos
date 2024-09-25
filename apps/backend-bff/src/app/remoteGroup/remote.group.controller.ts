@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post } from "@nestjs/common";
 
 import {
   container,
@@ -52,7 +52,10 @@ export class RemoteGroupController {
   }
 
   @Get(':id')
-  getGroup(id: string): AnnotatedGroup {
+  getGroup(
+    @Param('id')
+    id: string
+  ): AnnotatedGroup {
     return container.get(GroupService).getGroup(id);
   }
 

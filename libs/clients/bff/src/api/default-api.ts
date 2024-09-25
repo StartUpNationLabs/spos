@@ -21,6 +21,10 @@ import globalAxios from 'axios';
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
+// @ts-ignore
+import type { AnnotatedGroup } from '../models';
+// @ts-ignore
+import type { AnnotatedGroupCreateDto } from '../models';
 /**
  * DefaultApi - axios parameter creator
  * @export
@@ -34,6 +38,103 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         appControllerGetData: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/test`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {AnnotatedGroupCreateDto} annotatedGroupCreateDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteGroupControllerAddGroup: async (annotatedGroupCreateDto: AnnotatedGroupCreateDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'annotatedGroupCreateDto' is not null or undefined
+            assertParamExists('remoteGroupControllerAddGroup', 'annotatedGroupCreateDto', annotatedGroupCreateDto)
+            const localVarPath = `/api/remoteGroup`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(annotatedGroupCreateDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteGroupControllerGetGroup: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('remoteGroupControllerGetGroup', 'id', id)
+            const localVarPath = `/api/remoteGroup/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteGroupControllerGetGroups: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/remoteGroup`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -77,6 +178,41 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.appControllerGetData']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {AnnotatedGroupCreateDto} annotatedGroupCreateDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async remoteGroupControllerAddGroup(annotatedGroupCreateDto: AnnotatedGroupCreateDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnotatedGroup>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteGroupControllerAddGroup(annotatedGroupCreateDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.remoteGroupControllerAddGroup']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async remoteGroupControllerGetGroup(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnotatedGroup>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteGroupControllerGetGroup(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.remoteGroupControllerGetGroup']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async remoteGroupControllerGetGroups(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AnnotatedGroup>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteGroupControllerGetGroups(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.remoteGroupControllerGetGroups']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -95,8 +231,62 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         appControllerGetData(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appControllerGetData(options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {DefaultApiRemoteGroupControllerAddGroupRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteGroupControllerAddGroup(requestParameters: DefaultApiRemoteGroupControllerAddGroupRequest, options?: RawAxiosRequestConfig): AxiosPromise<AnnotatedGroup> {
+            return localVarFp.remoteGroupControllerAddGroup(requestParameters.annotatedGroupCreateDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DefaultApiRemoteGroupControllerGetGroupRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteGroupControllerGetGroup(requestParameters: DefaultApiRemoteGroupControllerGetGroupRequest, options?: RawAxiosRequestConfig): AxiosPromise<AnnotatedGroup> {
+            return localVarFp.remoteGroupControllerGetGroup(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteGroupControllerGetGroups(options?: RawAxiosRequestConfig): AxiosPromise<Array<AnnotatedGroup>> {
+            return localVarFp.remoteGroupControllerGetGroups(options).then((request) => request(axios, basePath));
+        },
     };
 };
+
+/**
+ * Request parameters for remoteGroupControllerAddGroup operation in DefaultApi.
+ * @export
+ * @interface DefaultApiRemoteGroupControllerAddGroupRequest
+ */
+export interface DefaultApiRemoteGroupControllerAddGroupRequest {
+    /**
+     * 
+     * @type {AnnotatedGroupCreateDto}
+     * @memberof DefaultApiRemoteGroupControllerAddGroup
+     */
+    readonly annotatedGroupCreateDto: AnnotatedGroupCreateDto
+}
+
+/**
+ * Request parameters for remoteGroupControllerGetGroup operation in DefaultApi.
+ * @export
+ * @interface DefaultApiRemoteGroupControllerGetGroupRequest
+ */
+export interface DefaultApiRemoteGroupControllerGetGroupRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DefaultApiRemoteGroupControllerGetGroup
+     */
+    readonly id: string
+}
 
 /**
  * DefaultApi - object-oriented interface
@@ -113,6 +303,38 @@ export class DefaultApi extends BaseAPI {
      */
     public appControllerGetData(options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).appControllerGetData(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DefaultApiRemoteGroupControllerAddGroupRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public remoteGroupControllerAddGroup(requestParameters: DefaultApiRemoteGroupControllerAddGroupRequest, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).remoteGroupControllerAddGroup(requestParameters.annotatedGroupCreateDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DefaultApiRemoteGroupControllerGetGroupRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public remoteGroupControllerGetGroup(requestParameters: DefaultApiRemoteGroupControllerGetGroupRequest, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).remoteGroupControllerGetGroup(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public remoteGroupControllerGetGroups(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).remoteGroupControllerGetGroups(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
