@@ -1,3 +1,15 @@
+## 0.12.0 (2024-09-25)
+
+
+### 🚀 Features
+
+- move frontend bff to use RemoteGroupService ([af6ae98](https://github.com/StartUpNationLabs/spos/commit/af6ae98))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.11.0 (2024-09-25)
 
 
