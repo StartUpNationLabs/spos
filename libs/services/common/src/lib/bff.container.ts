@@ -11,7 +11,7 @@ import { GroupRemoteService } from "./group/groupRemoteService";
 const bffContainer = new Container();
 bffContainer.bind<BackendBffApiService>(TYPES.BackendBffApiService).to(BackendBffApiService).inSingletonScope();
 bffContainer.bind<GroupService>(TYPES.GroupService).to(GroupRemoteService).inSingletonScope();
-bffContainer.bind<TableService>(TableService).toSelf().inSingletonScope();
+bffContainer.bind<TableService>(TYPES.TableService).to(TableService).inSingletonScope();
 bffContainer.bind<DiningApiService>(TYPES.DiningApiService).to(DiningApiService).inSingletonScope();
 bffContainer.bind<MenuApiService>(TYPES.MenuApiService).to(MenuApiService).inSingletonScope();
 bffContainer.bind<OfferService>(TYPES.OfferService).to(OfferService).inSingletonScope();

@@ -6,7 +6,8 @@ import { useMutation } from '@tanstack/react-query';
 import {
   container,
   GroupCreateDto,
-  GroupServiceWorkflow,
+  GroupService,
+  TYPES,
 } from '@spos/services/common';
 import { useCurrentSelectedGroup } from '../tables/stores/currentSelectedGroup';
 
@@ -18,7 +19,7 @@ export function Offers() {
   );
   const mutation = useMutation({
     mutationFn: (newGroup: GroupCreateDto) => {
-      return container.get(GroupServiceWorkflow).addGroup(newGroup);
+      return container.get<GroupService>(TYPES.GroupService).addGroup(newGroup);
     },
     onSuccess: (data) => {
       navigate('/');

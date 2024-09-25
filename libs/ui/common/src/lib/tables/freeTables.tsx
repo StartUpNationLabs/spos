@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { TableService } from '@spos/services/common';
+import { TableService, TYPES } from "@spos/services/common";
 import { Grid2 as Grid, Typography } from '@mui/material';
 import TableSquare from './tableSquare';
 import * as React from 'react';
@@ -16,7 +16,7 @@ export function FreeTables() {
   } = useQuery({
     queryKey: ['tables'],
     queryFn: async () => {
-      const tableService = container.get(TableService);
+      const tableService = container.get<TableService>(TYPES.TableService);
       console.log('Getting free tables', tableService);
       return tableService.getFreeTables();
     },

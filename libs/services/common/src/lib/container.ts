@@ -6,10 +6,11 @@ import { TYPES } from "./types";
 import { MenuApiService } from "./apis/menuApiService";
 import { OfferService } from "./offer/offer.service";
 import { GroupServiceWorkflow } from "./group/groupServiceWorkflow";
+import { GroupService } from "./group/groupService";
 
 const container = new Container();
-container.bind<GroupServiceWorkflow>(GroupServiceWorkflow).toSelf().inSingletonScope();
-container.bind<TableService>(TableService).toSelf().inSingletonScope();
+container.bind<GroupService>(TYPES.GroupService).to(GroupServiceWorkflow).inSingletonScope();
+container.bind<TableService>(TYPES.TableService).to(TableService).inSingletonScope();
 container.bind<DiningApiService>(TYPES.DiningApiService).to(DiningApiService).inSingletonScope();
 container.bind<MenuApiService>(TYPES.MenuApiService).to(MenuApiService).inSingletonScope();
 container.bind<OfferService>(TYPES.OfferService).to(OfferService).inSingletonScope();
