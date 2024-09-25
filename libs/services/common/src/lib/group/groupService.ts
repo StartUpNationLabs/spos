@@ -45,6 +45,7 @@ export class GroupService{
         customerCount: table.customerCount,
       };
     }
+    return this.group[id];
   }
 
   getGroup(id: string) {
