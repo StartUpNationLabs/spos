@@ -5,12 +5,17 @@ import { OfferService } from "./offer.service";
 import { MenuItem } from "@spos/clients-menu";
 
 
-type CategorizedCatalog = {
+export type CategorizedCatalog = {
   [category: string]: MenuItem[]
 };
 
+export interface CatalogueService {
+  getFilteredCatalog(offerName: string): Promise<CategorizedCatalog>;
+  getFullItemFromItemIdsArray(idList: string[]): Promise<MenuItem[]>;
+}
+
 @injectable()
-export class CatalogService {
+export class CatalogService  implements CatalogueService{
     constructor(
       @inject(TYPES.MenuApiService) private menuApiService: MenuApiService,
       @inject(TYPES.OfferService) private offerService: OfferService
