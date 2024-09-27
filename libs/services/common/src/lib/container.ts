@@ -17,6 +17,6 @@ container.bind<DiningApiService>(TYPES.DiningApiService).to(DiningApiService).in
 container.bind<MenuApiService>(TYPES.MenuApiService).to(MenuApiService).inSingletonScope();
 container.bind<OfferService>(TYPES.OfferService).to(OfferService).inSingletonScope();
 //container.bind<CatalogService>(TYPES.CatalogService).to(CatalogService).inSingletonScope();
-container.bind<CatalogueService>(TYPES.CatalogService).to(CatalogueServiceWorkflow).inSingletonScope();
+container.bind<CatalogueService>(TYPES.CatalogueService).to(CatalogueServiceWorkflow).inSingletonScope();
 
 export { container };
