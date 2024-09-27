@@ -2,12 +2,33 @@ import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/com
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
 import { container } from '@spos/services/common';
 import { CatalogueServiceWorkflow,CatalogueService, TYPES,CategorizedCatalog } from "@spos/services/common";
-import { MenuItem } from '@spos/clients-menu';
+import { MenuItem, MenuItemCategoryEnum } from '@spos/clients-menu';
+
+export class MenuItemDto implements MenuItem {
+    @ApiProperty()
+    '_id': string;
+  
+    @ApiProperty()
+    'fullName': string;
+  
+    @ApiProperty()
+    'shortName': string;
+  
+    @ApiProperty()
+    'price': number;
+  
+    @ApiProperty({ enum: MenuItemCategoryEnum })
+    'category': MenuItemCategoryEnum;
+  
+    @ApiProperty()
+    'image': string;
+  }
 
 export class CategorizedCatalogDto implements CategorizedCatalog {
     @ApiProperty({ type: () => [MenuItemDto], isArray: true })
     [category: string]: MenuItemDto[];
 }
+
 @Controller('remoteCatalogue')
 @ApiTags('remoteCatalogue')
 export class RemoteGroupController {
