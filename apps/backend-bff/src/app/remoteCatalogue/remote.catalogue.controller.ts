@@ -1,7 +1,7 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
 import { container } from '@spos/services/common';
-import { CatalogueServiceWorkflow,CatalogueService, TYPES,CategorizedCatalog } from "@spos/services/common";
+import { CatalogueService, TYPES, CategorizedCatalog } from "@spos/services/common";
 import { MenuItem, MenuItemCategoryEnum } from '@spos/clients-menu';
 
 export class MenuItemDto implements MenuItem {
@@ -22,20 +22,22 @@ export class MenuItemDto implements MenuItem {
   
     @ApiProperty()
     'image': string;
-  }
+}
 
-export class CategorizedCatalogDto implements CategorizedCatalog {
-    @ApiProperty({ type: () => [MenuItemDto], isArray: true })
-    [category: string]: MenuItemDto[];
+export class CategorizedCatalogDto {
+    @ApiProperty({ type: 'object', additionalProperties: { type: 'array', items: { $ref: '#/components/schemas/MenuItemDto' } } })
+    categories: Record<string, MenuItemDto[]>;
 }
 
 @Controller('remoteCatalogue')
 @ApiTags('remoteCatalogue')
-export class RemoteGroupController {
+export class RemoteCatalogueController {
     @Get('filteredCatalog')
     async getFilteredCatalog(@Query('offerName') offerName: string): Promise<CategorizedCatalogDto> {
-        return container.get<CatalogueService>(TYPES.CatalogueService).getFilteredCatalog(offerName);
+        const catalog = await container.get<CatalogueService>(TYPES.CatalogueService).getFilteredCatalog(offerName);
+        return { categories: catalog };
     }
+
     @Get('items')
     async getFullItemFromItemIdsArray(@Query('ids') ids: string): Promise<MenuItemDto[]> {
         const idList = ids.split(',');
