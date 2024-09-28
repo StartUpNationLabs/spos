@@ -5,6 +5,7 @@ import { KitchenApiService } from '../apis/kitchenApiService';
 import { KitchenService, MonsieurAxelMenvoie } from './kitchenService';
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
+import { logger } from '../logger';
 
 export interface PreparationStatus {
   status: string;
@@ -35,20 +36,23 @@ export class KitchenServiceWorkflow implements KitchenService {
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
     const group = await this.groupService.getGroup(order.groupId);
     const tableOrdersApi = this.diningApiService.getTableOrdersApi();
-    for (const item of order.cart) {
-      await tableOrdersApi.tableOrdersControllerAddMenuItemToTableOrder({
-        tableOrderId: group.tables[order.tableNumber].id,
-        addMenuItemDto: {
-          menuItemId: item.itemId,
-          howMany: item.quantity,
-          menuItemShortName: item.shortName,
-        },
+    const tableOrderId = group.tables.find(table => table.number === order.tableNumber);
+    if(tableOrderId){
+      for (const item of order.cart) {
+        await tableOrdersApi.tableOrdersControllerAddMenuItemToTableOrder({
+          tableOrderId: tableOrderId.id,
+          addMenuItemDto: {
+            menuItemId: item.itemId,
+            howMany: item.quantity,
+            menuItemShortName: item.shortName,
+          },
+        });
+      }
+
+      await tableOrdersApi.tableOrdersControllerPrepareTableOrder({
+        tableOrderId: tableOrderId.id,
       });
     }
-
-    await tableOrdersApi.tableOrdersControllerPrepareTableOrder({
-      tableOrderId: group.tables[order.tableNumber].id,
-    });
   }
 
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {

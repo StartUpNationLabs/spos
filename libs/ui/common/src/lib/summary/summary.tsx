@@ -4,8 +4,8 @@ import * as React from 'react';
 import BackButton from '../utils/backButton';
 import { useCarts } from '../commandsR/stores/cart';
 import { ContainerContext } from '../containerHook/containerContext';
-import { useQuery } from '@tanstack/react-query';
-import { CatalogueService, TYPES } from '@spos/services/common';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { CatalogueService, KitchenService, MonsieurAxelMenvoie, TYPES } from '@spos/services/common';
 import { useNavigate } from 'react-router-dom';
 import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
 
@@ -13,10 +13,26 @@ export function Summary() {
   const { groupId, tableNumber, offerType } = useCommandsParameter();
 
   const cart = useCarts();
+  const resetCart = useCarts(state => state.resetCart);
   const navigate = useNavigate();
   const currentTableCart = cart.carts[tableNumber] || [];
 
   const container = React.useContext(ContainerContext);
+
+  const mutation = useMutation({
+    mutationFn: (order: MonsieurAxelMenvoie) => {
+      console.log(order);
+      return container.get<KitchenService>(TYPES.KitchenService).sendToKitchen(order);
+    },
+    onSuccess: (data) => {
+      navigate('/');
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
+
+
   const {
     data: catalog,
     isLoading,
@@ -57,6 +73,16 @@ export function Summary() {
       })
     })
   });
+
+  function sendToKitchen() {
+    mutation.mutate({
+      groupId: groupId,
+      tableNumber: tableNumber,
+      cart: currentTableCart
+    });
+
+    resetCart(tableNumber);
+  }
 
   return (
     <Box
@@ -112,7 +138,8 @@ export function Summary() {
           position: 'absolute',
           bottom: 50,
           left: "40%"
-        }} variant="contained">
+        }} variant="contained"
+          onClick={() => sendToKitchen()}>
           Kitchen
         </Button>
       </Box>
