@@ -1,3 +1,19 @@
+## 0.15.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- fixes for navbar and commands + layout improvment for ordering choices ([388b5e5](https://github.com/StartUpNationLabs/spos/commit/388b5e5))
+
+- Change item id with shortname due to shitty backend ([49a7f1d](https://github.com/StartUpNationLabs/spos/commit/49a7f1d))
+
+- Replace store by service for offer list ([bdd155f](https://github.com/StartUpNationLabs/spos/commit/bdd155f))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.14.0 (2024-09-28)
 
 

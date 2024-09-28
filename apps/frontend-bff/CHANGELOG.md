@@ -1,3 +1,15 @@
+## 0.16.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- fixes for navbar and commands + layout improvment for ordering choices ([388b5e5](https://github.com/StartUpNationLabs/spos/commit/388b5e5))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.15.0 (2024-09-28)
 
 

@@ -1,3 +1,15 @@
+## 0.4.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- add KitchenServiceWorkflow to summary ([43f7819](https://github.com/StartUpNationLabs/spos/commit/43f7819))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.3.0 (2024-09-28)
 
 
