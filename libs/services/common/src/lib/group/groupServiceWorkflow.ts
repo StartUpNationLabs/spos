@@ -4,6 +4,7 @@ import { GroupCreateDto } from './groupCreate.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { Group, GroupService } from './groupService';
 import { logger } from "../logger";
+import { GroupNotFoundException, NoGroupsFoundException } from '../exceptions/groupException';
 
 @injectable()
 export class GroupServiceWorkflow implements GroupService {
@@ -45,14 +46,13 @@ export class GroupServiceWorkflow implements GroupService {
   }
 
   @logger
-  async removeGroup(id: string) : Promise<boolean>  {
+  async removeGroup(id: string): Promise<boolean> {
     if (this.group[id]) {
-      delete this.group[id]; 
+      delete this.group[id];
       console.debug('Group removed:', id);
-      return true; 
+      return true;
     } else {
-      console.warn('Group not found:', id);
-      return false; 
+      throw new GroupNotFoundException(`Group with id ${id} not found.`);
     }
   }
   @logger
@@ -67,9 +67,7 @@ export class GroupServiceWorkflow implements GroupService {
       return true;
 
     } else {
-      
-      console.warn('No groups found to remove.');
-      return false;
+      throw new NoGroupsFoundException(`No group found.`);
     }
   }
 
