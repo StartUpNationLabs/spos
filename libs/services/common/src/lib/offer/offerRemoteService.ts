@@ -1,9 +1,20 @@
-import { injectable } from "inversify";
-import { container, Offer, OfferService, TYPES } from "@spos/services/common";
+import { inject, injectable } from 'inversify';
+import { Offer, OfferService } from './offer.service';
+import { TYPES } from '../types';
+import { BackendBffApiService } from '../apis/backendBffApiService';
 
 @injectable()
 export class OfferRemoteService implements OfferService {
-  getOffers(): Promise<Offer[]> {
-    return container.get<OfferService>(TYPES.OfferService).getOffers();
+  constructor(
+    @inject(TYPES.BackendBffApiService)
+    private backendBffApiService: BackendBffApiService
+  ) {}
+
+  async getOffers(): Promise<Offer[]> {
+    return (
+      await this.backendBffApiService
+        .getRemoteOfferApi()
+        .remoteOfferControllerGetOffers()
+    ).data;
   }
 }

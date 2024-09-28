@@ -8,6 +8,7 @@ import { CssBaseline } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { bffContainer, container } from "@spos/services/common";
 import { ContainerContext } from "@spos/ui/common";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -19,6 +20,7 @@ root.render(
       <BrowserRouter>
         <ContainerContext.Provider value={bffContainer}>
           <CssBaseline />
+          <ReactQueryDevtools />
           <App />
         </ContainerContext.Provider>
       </BrowserRouter>
