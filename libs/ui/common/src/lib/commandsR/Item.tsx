@@ -1,23 +1,21 @@
-import { Card, CardMedia, CardContent, Typography, CardActions, Button } from "@mui/material";
+import { Card, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
 import { MenuItem } from "@spos/clients-menu"
 import NumberInput from '../tables/nbPeopleSelector';
-import { count } from "console";
 import { useCarts } from "./stores/cart";
 import { Cart } from "./orderingChoices";
-import { useState } from "react";
 
 type ItemProps = {
   item: MenuItem;
   isSelected: boolean;
   tableNumber: number;
-  handleSelectItem: (itemId: string) => void;
+  handleSelectItem: (shortName: string) => void;
 }
 
 export function Item(props: Readonly<ItemProps>) {
   const currentTableCart: Cart = (useCarts(state => state.carts)[props.tableNumber] || []);
   const updateItem = useCarts(state => state.updateItem);
 
-  const count = currentTableCart.find(element => element.itemId === props.item._id)?.quantity ?? 0;
+  const count = currentTableCart.find(element => element.shortName === props.item.shortName)?.quantity ?? 0;
 
 
   return (
@@ -26,7 +24,7 @@ export function Item(props: Readonly<ItemProps>) {
         sx={{ width: "100%", minWidth: 120, height: 100 }}
         image={props.item.image}
         title={props.item.shortName}
-        onClick={() => props.handleSelectItem(props.item._id)}
+        onClick={() => props.handleSelectItem(props.item.shortName)}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -41,7 +39,7 @@ export function Item(props: Readonly<ItemProps>) {
             max={99}
             value={count}
             onChange={(e, value) => {
-              updateItem(props.tableNumber, props.item._id, value as number)
+              updateItem(props.tableNumber, props.item.shortName, value as number)
             }}
           />
         )}

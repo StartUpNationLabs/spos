@@ -6,7 +6,7 @@ import BackButton from '../utils/backButton';
 import { useCarts } from '../commandsR/stores/cart';
 import { ContainerContext } from '../containerHook/containerContext';
 import { useQuery } from '@tanstack/react-query';
-import { CatalogService, TYPES } from '@spos/services/common';
+import { CatalogueService, TYPES } from '@spos/services/common';
 
 interface SummaryProps {
   tableNumber: number,
@@ -32,7 +32,7 @@ export function Summary(props: Readonly<SummaryProps>) {
   } = useQuery({
     queryKey: ['catalog'],
     queryFn: async () => {
-      const catalogService: CatalogService = container.get<CatalogService>(TYPES.CatalogService);
+      const catalogService: CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
       return catalogService.getFilteredCatalog(props.offerType);
     },
     refetchOnWindowFocus: 'always',
@@ -58,7 +58,7 @@ export function Summary(props: Readonly<SummaryProps>) {
   currentTableCart.forEach(element => {
     Object.keys(catalog).forEach(category => {
       catalog[category].forEach(item => {
-        if (item._id === element.itemId) {
+        if (item.shortName === element.shortName) {
           totalPrice += element.quantity * item.price;
         }
       })
@@ -97,16 +97,16 @@ export function Summary(props: Readonly<SummaryProps>) {
 
           <Box width='90%' marginLeft='5%' marginTop="7%" bgcolor='#FFFFFF' height="62vh">
             {Object.keys(catalog).map((category) => (
-              (catalog[category].filter(element => currentTableCart.map(element => element.itemId).includes(element._id)) ?
+              (catalog[category].filter(element => currentTableCart.map(element => element.shortName).includes(element.shortName)) ?
                 <Box key={category}>
                   <Typography fontSize="4.5vw"
                     fontWeight="bold"
                     style={{ color: 'black' }}
                     variant='h3'>{category}</Typography>
                   {catalog[category].map((item) => (
-                    (currentTableCart.map(element => element.itemId).includes(item._id)) ?
+                    (currentTableCart.map(element => element.shortName).includes(item.shortName)) ?
                       <Typography key={item._id} marginLeft={'30px'} style={{ color: 'black' }} fontSize="3vw">
-                        {item.shortName}: {currentTableCart.find(element => element.itemId === item._id)?.quantity ?? 0}
+                        {item.shortName}: {currentTableCart.find(element => element.shortName === item.shortName)?.quantity ?? 0}
                       </Typography> : ""
                   ))}
                 </Box> : '')

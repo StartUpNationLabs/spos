@@ -4,7 +4,6 @@ import NavBar from '../utils/navbar';
 import Orders from '../orders/orders';
 import BackButton from '../utils/backButton';
 import OrderingChoices from './orderingChoices';
-import { setSelectedTableById, tablesMenu } from '../utils/tableUtils';
 //SpeedDial imports
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
