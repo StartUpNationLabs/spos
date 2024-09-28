@@ -5,7 +5,6 @@ import { KitchenApiService } from '../apis/kitchenApiService';
 import { KitchenService, MonsieurAxelMenvoie } from './kitchenService';
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
-import { logger } from '../logger';
 
 export interface PreparationStatus {
   status: string;
@@ -36,10 +35,12 @@ export class KitchenServiceWorkflow implements KitchenService {
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
     const group = await this.groupService.getGroup(order.groupId);
     const tableOrdersApi = this.diningApiService.getTableOrdersApi();
-    const tableOrderId = group.tables.find(table => table.number === order.tableNumber);
-    if(tableOrderId){
-      for (const item of order.cart) {
-        await tableOrdersApi.tableOrdersControllerAddMenuItemToTableOrder({
+    const tableOrderId = group.tables.find(
+      (table) => table.number === order.tableNumber
+    );
+    if (tableOrderId) {
+      const promises = order.cart.map((item) => {
+        return tableOrdersApi.tableOrdersControllerAddMenuItemToTableOrder({
           tableOrderId: tableOrderId.id,
           addMenuItemDto: {
             menuItemId: item.itemId,
@@ -47,7 +48,8 @@ export class KitchenServiceWorkflow implements KitchenService {
             menuItemShortName: item.shortName,
           },
         });
-      }
+      });
+      await Promise.all(promises);
 
       await tableOrdersApi.tableOrdersControllerPrepareTableOrder({
         tableOrderId: tableOrderId.id,
@@ -89,10 +91,8 @@ export class KitchenServiceWorkflow implements KitchenService {
           (menuItem) => menuItem.shortName === firstPreparedItem.shortName
         );
         if (!menuItem) {
-          console.error(
-            `Menu item not in menu ${menuItem}`
-          )
-          continue
+          console.error(`Menu item not in menu ${menuItem}`);
+          continue;
         }
 
         preparationStatuses.push({
@@ -105,7 +105,6 @@ export class KitchenServiceWorkflow implements KitchenService {
       }
       for (const preparationStatus of preparationStatuses) {
         if (!orderSummary.summary[preparationStatus.category]) {
-
           orderSummary.summary[preparationStatus.category] = {};
         }
         if (!orderSummary.summary[preparationStatus.category][table.number]) {
@@ -126,35 +125,40 @@ export class KitchenServiceWorkflow implements KitchenService {
 
       const preparationsNotServed = (
         await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber(
-            {state: 'preparationStarted',
+          {
+            state: 'preparationStarted',
             tableNumber: order.tableNumber,
-        })
+          }
+        )
       ).data;
 
       for (const preparation of preparationsNotServed) {
-        const preparedItems= preparation.preparedItems
-        for (const pi of preparedItems){
-            await this.kitchenApiService.getPreparedItemsApi().preparedItemsControllerStartToPrepareItemOnPost({
-                preparedItemId : pi._id
-            })
-            await this.kitchenApiService.getPreparedItemsApi().preparedItemsControllerFinishToPrepareItemOnPost({
-                preparedItemId : pi._id
-            })
-
+        const preparedItems = preparation.preparedItems;
+        for (const pi of preparedItems) {
+          await this.kitchenApiService
+            .getPreparedItemsApi()
+            .preparedItemsControllerStartToPrepareItemOnPost({
+              preparedItemId: pi._id,
+            });
+          await this.kitchenApiService
+            .getPreparedItemsApi()
+            .preparedItemsControllerFinishToPrepareItemOnPost({
+              preparedItemId: pi._id,
+            });
         }
-
-
       }
 
       const preparations = (
         await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber(
-            {state: 'readyToBeServed',
+          {
+            state: 'readyToBeServed',
             tableNumber: order.tableNumber,
-        })
+          }
+        )
       ).data;
 
-      const preparationsToRemove = preparations.filter(preparation =>
-        order.cart.some(item => item.itemId === preparation._id)
+      const preparationsToRemove = preparations.filter((preparation) =>
+        order.cart.some((item) => item.itemId === preparation._id)
       );
 
       for (const preparation of preparationsToRemove) {
@@ -163,10 +167,12 @@ export class KitchenServiceWorkflow implements KitchenService {
         });
       }
 
-
       return true;
     } catch (error) {
-      console.error("Erreur lors de la suppression des commandes de la cuisine :", error);
+      console.error(
+        'Erreur lors de la suppression des commandes de la cuisine :',
+        error
+      );
       return false;
     }
   }

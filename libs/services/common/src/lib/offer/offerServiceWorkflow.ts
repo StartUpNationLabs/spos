@@ -1,35 +1,87 @@
-import { injectable } from "inversify";
-import { OfferService } from "./offer.service";
+import { inject, injectable } from "inversify";
+import { OfferService } from './offer.service';
+import { TYPES } from "../types";
+import { MenuApiService } from "../apis/menuApiService";
 
 @injectable()
 export class OfferServiceWorkflow implements OfferService {
+  constructor(
+    @inject(TYPES.MenuApiService) private menuApiService: MenuApiService,
+  ) {
+  }
   async getOffers() {
+    const menuItems = (await this.menuApiService.getMenuApi().menusControllerGetFullMenu()).data;
     return [
       {
-        name: "Classic", availableItems: [
-          "66e99aa6051e4afd90ed2093", "66e99aa6051e4afd90ed2096", "66e99aa6051e4afd90ed2099",
-          "66e99aa6051e4afd90ed209c", "66e99aa5051e4afd90ed205d",
-          "66e99aa6051e4afd90ed206f", "66e99aa6051e4afd90ed2072",
-          "66e99aa6051e4afd90ed207e", "66e99aa6051e4afd90ed2081", "66e99aa6051e4afd90ed2084"
-        ]
+        name: 'Classic',
+        availableItems: [
+          'coke',
+          'ice tea',
+          'bottled water',
+          'sparkling water',
+          'foie gras',
+          'pizza',
+          'lasagna',
+          'brownie',
+          'chocolate',
+          'lemon',
+        ].map((item) => {
+          const menuItem = menuItems.find((menuItem) => menuItem.shortName === item);
+          if (!menuItem) {
+            console.error(`Item not found: ${item}`);
+          }
+          return menuItem?._id || '';
+        }),
       },
       {
-        name: "Cousinhood", availableItems: [
-          "66e99aa6051e4afd90ed209f", "66e99aa6051e4afd90ed20a2", "66e99aa6051e4afd90ed20a5", "66e99aa6051e4afd90ed20b1",
-          "66e99aa6051e4afd90ed2063", "66e99aa6051e4afd90ed2066",
-          "66e99aa6051e4afd90ed2075", "66e99aa6051e4afd90ed2078",
-          "66e99aa6051e4afd90ed2087", "66e99aa6051e4afd90ed208a"
-
-        ]
+        name: 'Cousinhood',
+        availableItems: [
+          'spritz',
+          'margarita',
+          'tequila',
+          'apple juice',
+          'goat cheese',
+          'salmon',
+          'beef burger',
+          'beef chuck',
+          'rasp and peaches',
+          'strawberries',
+        ].map((item) => {
+          const menuItem = menuItems.find((menuItem) => menuItem.shortName === item);
+          if (!menuItem) {
+            console.error(`Item not found: ${item}`);
+          }
+          return menuItem?._id || '';
+        }),
       },
       {
-        name: "Company", availableItems: [
-          "66e99aa6051e4afd90ed20a8", "66e99aa6051e4afd90ed20ab", "66e99aa6051e4afd90ed20ae", "66e99aa6051e4afd90ed20b4",
-          "66e99aa6051e4afd90ed2069", "66e99aa6051e4afd90ed206c", "66e99aa6051e4afd90ed2066",
-          "66e99aa6051e4afd90ed2072", "66e99aa6051e4afd90ed2075", "66e99aa6051e4afd90ed2078",
-          "66e99aa6051e4afd90ed207e", "66e99aa6051e4afd90ed2081", "66e99aa6051e4afd90ed2084"
-        ]
-      }
+        name: 'Company',
+        availableItems: [
+          'mojito',
+          'martini',
+          'lemonade',
+          'café',
+          'crab maki',
+          'burrata',
+          'salmon',
+          'lasagna',
+          'beef burger',
+          'beef chuck',
+          'brownie',
+          'chocolate',
+          'lemon',
+        ].map((item) => {
+          const menuItem = menuItems.find((menuItem) => menuItem.shortName === item);
+          if (!menuItem) {
+            console.error(`Item not found: ${item}`);
+          }
+          return menuItem?._id || '';
+        }),
+      },
+      {
+        name: 'All',
+        availableItems: menuItems.map((menuItem) => menuItem._id)
+      },
     ];
   }
 }
