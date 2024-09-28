@@ -1,10 +1,10 @@
 import { Box, Button, Typography } from '@mui/material';
-import { useOffers } from './stores/offers';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   GroupCreateDto,
   GroupService,
+  OfferService,
   TYPES,
 } from '@spos/services/common';
 import { useCurrentSelectedGroup } from '../tables/stores/currentSelectedGroup';
@@ -12,8 +12,8 @@ import { ContainerContext } from "../containerHook/containerContext";
 import { useContext } from "react";
 
 export function Offers() {
-  const offers = useOffers((state) => state.offers);
   const selectedTables = useCurrentSelectedGroup((state) => state.tables);
+  const navigate = useNavigate();
   const resetCurrentSelectedGroup = useCurrentSelectedGroup(
     (state) => state.resetTables
   );
@@ -26,7 +26,36 @@ export function Offers() {
       navigate('/');
     },
   });
-  const navigate = useNavigate();
+
+  const {
+    data: offers,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['offers'],
+    queryFn: async () => {
+      const offerService: OfferService = container.get<OfferService>(TYPES.OfferService);
+      return offerService.getOffers();
+    },
+    refetchOnWindowFocus: 'always',
+  });
+
+  if (isLoading) {
+    return (
+      <Typography variant="h6" component="h2" fontWeight="bold">
+        Loading...
+      </Typography>
+    );
+  }
+  if (!offers || isError) {
+    console.error(error);
+    return (
+      <Typography variant="h6" component="h2" fontWeight="bold">
+        Error
+      </Typography>
+    );
+  }
 
   function onClick(offer) {
     return () => {
