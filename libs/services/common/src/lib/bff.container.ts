@@ -8,8 +8,8 @@ import { GroupService } from "./group/groupService";
 import { BackendBffApiService } from "./apis/backendBffApiService";
 import { GroupRemoteService } from "./group/groupRemoteService";
 import { TableRemoteService } from "./table/tableRemoteService";
+import { OfferRemoteService } from "./offer/offerRemoteService";
 import { CatalogueService } from "./offer/catalogue.service";
-import { CatalogueServiceWorkflow } from "./offer/catalogueServiceWorkflow";
 import { CatalogueRemoteService } from "./offer/catalogueRemoteService";
 
 const bffContainer = new Container();
@@ -18,6 +18,7 @@ bffContainer.bind<GroupService>(TYPES.GroupService).to(GroupRemoteService).inSin
 bffContainer.bind<TableService>(TYPES.TableService).to(TableRemoteService).inSingletonScope();
 bffContainer.bind<DiningApiService>(TYPES.DiningApiService).to(DiningApiService).inSingletonScope();
 bffContainer.bind<MenuApiService>(TYPES.MenuApiService).to(MenuApiService).inSingletonScope();
-bffContainer.bind<OfferService>(TYPES.OfferService).to(OfferService).inSingletonScope();
+bffContainer.bind<OfferService>(TYPES.OfferService).to(OfferRemoteService).inSingletonScope();
 bffContainer.bind<CatalogueService>(TYPES.CatalogueService).to(CatalogueRemoteService).inSingletonScope();
 export { bffContainer };
+

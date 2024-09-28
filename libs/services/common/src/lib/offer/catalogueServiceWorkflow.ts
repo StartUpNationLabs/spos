@@ -9,11 +9,12 @@ import { logger } from '../logger';
 
 @injectable()
 export class CatalogueServiceWorkflow implements CatalogueService {
- 
-  private menuApiService = new MenuApiService();
-  private offerService = new OfferService();
 
-  
+  private menuApiService = new MenuApiService();
+
+  constructor(
+    @inject(TYPES.OfferService) private offerService: OfferService) {
+  }
   @logger
   async getFilteredCatalog(offerName: string): Promise<CategorizedCatalog> {
     const offer = await this.offerService.getOffers().then(response =>
@@ -37,7 +38,7 @@ export class CatalogueServiceWorkflow implements CatalogueService {
 
     return categorizedCatalog;
   }
-  
+
   @logger
   async getFullItemFromItemIdsArray(idList: string[]): Promise<MenuItem[]> {
     return (await this.menuApiService.getMenuApi().menusControllerGetFullMenu()).data.filter(

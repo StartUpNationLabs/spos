@@ -14,9 +14,23 @@
 
 
 
-export * from './api/default-api';
-export * from './api/remote-catalogue-api';
-export * from './api/remote-group-api';
-export * from './api/remote-offer-api';
-export * from './api/remote-table-api';
+/**
+ * 
+ * @export
+ * @interface AnnotatedOffer
+ */
+export interface AnnotatedOffer {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof AnnotatedOffer
+     */
+    'availableItems': Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnnotatedOffer
+     */
+    'name': string;
+}
 
