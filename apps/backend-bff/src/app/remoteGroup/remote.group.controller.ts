@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
 
 import {
   container,
@@ -66,4 +66,21 @@ export class RemoteGroupController {
   ): Promise<AnnotatedGroup> {
     return container.get<GroupService>(TYPES.GroupService).addGroup(body);
   }
+
+  @Delete(':id')
+  async removeGroup(
+    @Param('id') id: string
+  ): Promise<{ success: boolean }> {
+    const success = await container.get<GroupService>(TYPES.GroupService).removeGroup(id);
+    if (success) {
+      return { success: true };
+    } 
+  }
+  @Delete()
+  async removeAllGroups(): Promise<{ success: boolean }> {
+    await container.get<GroupService>(TYPES.GroupService).removeAllGroups();
+    return { success: true }; 
+  }
+
+
 }

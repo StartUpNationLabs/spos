@@ -43,4 +43,30 @@ export class GroupServiceWorkflow implements GroupService {
   async getGroups() {
     return Object.values(this.group);
   }
+
+  @logger
+  async removeGroup(id: string) {
+    if (this.group[id]) {
+      delete this.group[id]; 
+      console.debug('Group removed:', id);
+      return true; 
+    } else {
+      console.warn('Group not found:', id);
+      return false; 
+    }
+  }
+  @logger
+  async removeAllGroups(): Promise<void> {
+    const groupIds = Object.keys(this.group); 
+    if (groupIds.length > 0) {
+      for (const id of groupIds) {
+        delete this.group[id]; 
+        console.debug('Group removed:', id);
+      }
+      console.debug('All groups have been removed.');
+    } else {
+      console.warn('No groups found to remove.');
+    }
+  }
+
 }

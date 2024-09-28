@@ -18,4 +18,8 @@ export interface GroupService {
   getGroup(id: string): Promise<Group>;
 
   getGroups(): Promise<Group[]>;
+
+  removeGroup(id : string) : Promise<boolean>;
+
+  removeAllGroups() : Promise<void>;
 }
