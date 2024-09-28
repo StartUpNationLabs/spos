@@ -84,6 +84,12 @@ export class KitchenServiceWorkflow implements KitchenService {
         const menuItem = menuItems.find(
           (menuItem) => menuItem.shortName === firstPreparedItem.shortName
         );
+        if (!menuItem) {
+          console.error(
+            `Menu item not in menu ${menuItem}`
+          )
+          continue
+        }
 
         preparationStatuses.push({
           status: preparationDetails.completedAt
@@ -116,7 +122,7 @@ export class KitchenServiceWorkflow implements KitchenService {
 
       const preparationsNotServed = (
         await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber(
-            {state: 'preparationStarted', 
+            {state: 'preparationStarted',
             tableNumber: order.tableNumber,
         })
       ).data;
@@ -130,15 +136,15 @@ export class KitchenServiceWorkflow implements KitchenService {
             await this.kitchenApiService.getPreparedItemsApi().preparedItemsControllerFinishToPrepareItemOnPost({
                 preparedItemId : pi._id
             })
-    
+
         }
-        
-        
-      }    
+
+
+      }
 
       const preparations = (
         await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber(
-            {state: 'readyToBeServed', 
+            {state: 'readyToBeServed',
             tableNumber: order.tableNumber,
         })
       ).data;
@@ -152,12 +158,12 @@ export class KitchenServiceWorkflow implements KitchenService {
           preparationId: preparation._id,
         });
       }
-     
-    
-      return true; 
+
+
+      return true;
     } catch (error) {
       console.error("Erreur lors de la suppression des commandes de la cuisine :", error);
-      return false; 
+      return false;
     }
   }
 }
