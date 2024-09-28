@@ -1,38 +1,6 @@
-import { DiningApiService } from '../apis/diningApiService';
-import { inject, injectable } from 'inversify';
-import { TYPES } from '../types';
+import { TableWithOrderDto } from "@spos/clients-dining";
 
-@injectable()
-export class TableService {
-  constructor(
-    @inject(TYPES.DiningApiService) private diningApiService: DiningApiService
-  ) {}
-
-  async getFreeTables() {
-    console.log(
-      'Getting free tables',
-      this.diningApiService.getTablesApi(),
-      this.diningApiService.getTableOrdersApi(),
-      this.diningApiService.getTablesApi().tablesControllerListAllTables()
-    );
-    const tables = (
-      await this.diningApiService.getTablesApi().tablesControllerListAllTables()
-    ).data;
-    return tables.filter((table) => !table.taken);
-  }
-
-  async closeAllTables() {
-    const tables = (
-      await this.diningApiService.getTablesApi().tablesControllerListAllTables()
-    ).data;
-    for (const table of tables) {
-      if (table.taken) {
-        await this.diningApiService
-          .getTableOrdersApi()
-          .tableOrdersControllerBillTableOrder({
-            tableOrderId: table.tableOrderId,
-          });
-      }
-    }
-  }
+export interface TableService {
+  getFreeTables(): Promise<TableWithOrderDto[]>;
+  closeAllTables(): Promise<void>;
 }

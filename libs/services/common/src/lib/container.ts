@@ -8,10 +8,11 @@ import { OfferService } from "./offer/offer.service";
 import { GroupServiceWorkflow } from "./group/groupServiceWorkflow";
 import { CatalogService } from "./offer/catalogue.service";
 import { GroupService } from "./group/groupService";
+import { TableServiceWorkflow } from "./table/tableServiceWorkflow";
 
 const container = new Container();
 container.bind<GroupService>(TYPES.GroupService).to(GroupServiceWorkflow).inSingletonScope();
-container.bind<TableService>(TYPES.TableService).to(TableService).inSingletonScope();
+container.bind<TableService>(TYPES.TableService).to(TableServiceWorkflow).inSingletonScope();
 container.bind<DiningApiService>(TYPES.DiningApiService).to(DiningApiService).inSingletonScope();
 container.bind<MenuApiService>(TYPES.MenuApiService).to(MenuApiService).inSingletonScope();
 container.bind<OfferService>(TYPES.OfferService).to(OfferService).inSingletonScope();
