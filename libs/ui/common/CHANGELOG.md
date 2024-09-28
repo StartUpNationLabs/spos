@@ -1,3 +1,15 @@
+## 0.13.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- add backend-bff building ([7cee166](https://github.com/StartUpNationLabs/spos/commit/7cee166))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.12.0 (2024-09-28)
 
 
