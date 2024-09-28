@@ -11,4 +11,5 @@ export class BackendBffApiService {
   getRemoteGroupApi() {
     return this.remoteGroupApi;
   }
+
 }

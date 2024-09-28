@@ -4,7 +4,7 @@ import './orderingChoices.css';
 import { useCarts } from './stores/cart';
 import { useQuery } from '@tanstack/react-query';
 import { ContainerContext } from '../containerHook/containerContext';
-import { CatalogService, TYPES } from '@spos/services/common';
+import { CatalogueService, TYPES } from '@spos/services/common';
 
 interface OrderingChoicesProps {
   tableNumber: number,
@@ -31,7 +31,7 @@ export function OrderingChoices(props: Readonly<OrderingChoicesProps>) {
     } = useQuery({
       queryKey: ['catalog'],
       queryFn: async () => {
-        const catalogService : CatalogService = container.get<CatalogService>(TYPES.CatalogService);
+        const catalogService : CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
         console.log('', catalogService);
         return catalogService.getFilteredCatalog(props.offerType);
       },
