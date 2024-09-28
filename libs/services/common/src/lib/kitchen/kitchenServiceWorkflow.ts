@@ -1,9 +1,10 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { GroupService } from '../group/groupService';
 import { TYPES } from '../types';
 import { KitchenApiService } from '../apis/kitchenApiService';
 import { KitchenService, MonsieurAxelMenvoie } from './kitchenService';
 import { DiningApiService } from '../apis/diningApiService';
+import { MenuApiService } from '../apis/menuApiService';
 
 export interface PreparationStatus {
   status: string;
@@ -18,6 +19,7 @@ export interface OrderSummary {
   };
 }
 
+@injectable()
 export class KitchenServiceWorkflow implements KitchenService {
   constructor(
     @inject(TYPES.KitchenApiService)
@@ -25,7 +27,9 @@ export class KitchenServiceWorkflow implements KitchenService {
     @inject(TYPES.DiningApiService)
     private diningApiService: DiningApiService,
     @inject(TYPES.GroupService)
-    private groupService: GroupService
+    private groupService: GroupService,
+    @inject(TYPES.MenuApiService)
+    private menuApiService: MenuApiService
   ) {}
 
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
@@ -49,7 +53,12 @@ export class KitchenServiceWorkflow implements KitchenService {
 
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     const group = await this.groupService.getGroup(groupId);
-    const orderSummary: OrderSummary = {} as OrderSummary;
+    const orderSummary: OrderSummary = {
+      summary: {},
+    };
+    const menuItems = (
+      await this.menuApiService.getMenuApi().menusControllerGetFullMenu()
+    ).data;
     for (const table of group.tables) {
       const tableOrder = await this.diningApiService
         .getTableOrdersApi()
@@ -57,7 +66,11 @@ export class KitchenServiceWorkflow implements KitchenService {
           tableOrderId: table.id,
         });
 
-      const preparationStatuses: PreparationStatus[] = [];
+      const preparationStatuses: {
+        status: string;
+        preparationId: string;
+        category: string;
+      }[] = [];
 
       for (const preparationFromTableOrder of tableOrder.data.preparations) {
         const preparationDetails = (
@@ -67,18 +80,32 @@ export class KitchenServiceWorkflow implements KitchenService {
               preparationId: preparationFromTableOrder._id,
             })
         ).data;
+        const firstPreparedItem = preparationDetails.preparedItems[0];
+        const menuItem = menuItems.find(
+          (menuItem) => menuItem.shortName === firstPreparedItem.shortName
+        );
 
         preparationStatuses.push({
           status: preparationDetails.completedAt
             ? 'readyToBeServed'
             : 'preparationStarted',
           preparationId: preparationFromTableOrder._id,
+          category: menuItem.category,
         });
       }
-      orderSummary.summary = {
-        ...orderSummary.summary,
-        [table.number]: [...preparationStatuses],
-      };
+      for (const preparationStatus of preparationStatuses) {
+        if (!orderSummary.summary[preparationStatus.category]) {
+
+          orderSummary.summary[preparationStatus.category] = {};
+        }
+        if (!orderSummary.summary[preparationStatus.category][table.number]) {
+          orderSummary.summary[preparationStatus.category][table.number] = [];
+        }
+        orderSummary.summary[preparationStatus.category][table.number].push({
+          status: preparationStatus.status,
+          preparationId: preparationStatus.preparationId,
+        });
+      }
     }
     return orderSummary;
   }

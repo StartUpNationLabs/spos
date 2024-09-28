@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
+import { ContainerContext } from "@spos/ui/common";
+import { useContext } from "react";
+import { KitchenService, TYPES } from "@spos/services/common";
 
 export function GroupSquare(
   props: Readonly<{
@@ -7,6 +10,10 @@ export function GroupSquare(
     groupId: string;
   }>
 ) {
+  const container = useContext(ContainerContext);
+  container.get<KitchenService>(TYPES.KitchenService).getOrdersByGroupId(props.groupId).then((orders) => {
+    console.log(orders);
+  });
   const navigate = useNavigate();
   return (
     <Box width={"fit-content"}>
