@@ -8,5 +8,6 @@ export const TYPES = {
   CatalogueService: Symbol.for('CatalogueService'),
   BackendBffApiService: Symbol.for('BackendBffApiService'),
   KitchenService: Symbol.for('KitchenService'),
+  BillingService: Symbol.for('BillingService'),
 };
 

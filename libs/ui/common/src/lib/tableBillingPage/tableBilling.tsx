@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import NavBar from "../utils/navbar";
 import { setSelectedTableById, tablesMenu } from '../utils/tableUtils';
 import BackButton from "../utils/backButton";
+import { Item, TableItem } from "@spos/services/common";
 
 
 const theme = {
@@ -14,16 +15,6 @@ const theme = {
   }
 };
 
-export interface Item {
-  id: number;
-  name: string;
-  price: number;
-}
-
-export interface TableItem {
-  item: Item;
-  remaining: number;
-}
 
 interface TableItemForBilling {
   item: Item;
@@ -47,8 +38,8 @@ export function TableBilling() {
 
   const getTableItems = (): TableItem[]  => {
     return [
-      {remaining : 1, item: {id: 1, name: "Coca", price: 1.5}},
-      {remaining : 2, item: {id: 2, name: "Fried chicken", price: 4.35}}
+      {remaining : 1, item: {id: "1", name: "Coca", price: 1.5}},
+      {remaining : 2, item: {id: "2", name: "Fried chicken", price: 4.35}}
     ];
   }
 

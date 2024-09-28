@@ -4,7 +4,7 @@ import { GroupCreateDto } from './groupCreate.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { Group, GroupService } from './groupService';
 import { logger } from "../logger";
-import { GroupNotFoundException, NoGroupsFoundException } from '../exceptions/groupException';
+import { GroupNotFoundException } from '../exceptions/groupException';
 
 @injectable()
 export class GroupServiceWorkflow implements GroupService {

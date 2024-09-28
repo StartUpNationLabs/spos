@@ -14,3 +14,4 @@ export * from "./lib/offer/offerServiceWorkflow";
 export * from './lib/offer/catalogueServiceWorkflow';
 export * from './lib/kitchen/kitchenService';
 export * from './lib/exceptions/groupException';
+export * from './lib/billing/billingService';

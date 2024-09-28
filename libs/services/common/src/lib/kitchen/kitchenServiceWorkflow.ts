@@ -3,7 +3,7 @@ import { GroupService } from '../group/groupService';
 import { TYPES } from '../types';
 import { KitchenApiService } from '../apis/kitchenApiService';
 import { KitchenService, MonsieurAxelMenvoie } from './kitchenService';
-import { DiningApiService } from '@spos/services/common';
+import { DiningApiService } from '../apis/diningApiService';
 
 export interface PreparationStatus {
   status: string;

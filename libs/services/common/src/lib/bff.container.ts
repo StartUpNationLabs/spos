@@ -13,7 +13,8 @@ import { CatalogueService } from "./offer/catalogue.service";
 import { CatalogueRemoteService } from "./offer/catalogueRemoteService";
 import { KitchenService } from "./kitchen/kitchenService";
 import { KitchenServiceWorkflow } from "./kitchen/kitchenServiceWorkflow";
-import { container } from "./container";
+import { BillingService } from "./billing/billingService";
+import { BillingServiceWorkflow } from "./billing/billingServiceWorkflow";
 
 const bffContainer = new Container();
 bffContainer.bind<BackendBffApiService>(TYPES.BackendBffApiService).to(BackendBffApiService).inSingletonScope();
@@ -23,6 +24,7 @@ bffContainer.bind<DiningApiService>(TYPES.DiningApiService).to(DiningApiService)
 bffContainer.bind<MenuApiService>(TYPES.MenuApiService).to(MenuApiService).inSingletonScope();
 bffContainer.bind<OfferService>(TYPES.OfferService).to(OfferRemoteService).inSingletonScope();
 bffContainer.bind<CatalogueService>(TYPES.CatalogueService).to(CatalogueRemoteService).inSingletonScope();
-container.bind<KitchenService>(TYPES.KitchenService).to(KitchenServiceWorkflow).inSingletonScope();
+bffContainer.bind<KitchenService>(TYPES.KitchenService).to(KitchenServiceWorkflow).inSingletonScope();
+bffContainer.bind<BillingService>(TYPES.BillingService).to(BillingServiceWorkflow).inSingletonScope();
 export { bffContainer };
 

@@ -9,7 +9,8 @@
     "@spos/clients-bff": "^0.0.1",
     "@spos/clients-menu": "^0.0.1",
     "kaop-ts": "^4.3.0",
-    "@spos/clients-kitchen": "0.0.1"
+    "@spos/clients-kitchen": "0.0.1",
+    "@nestjs/common": "^10.0.2"
   },
   "type": "commonjs",
   "main": "./src/index.js",
