@@ -1,3 +1,15 @@
+## 0.17.2 (2024-09-28)
+
+
+### 🩹 Fixes
+
+- UI improvement for commands and sub route of commands ([ab62799](https://github.com/StartUpNationLabs/spos/commit/ab62799))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.17.1 (2024-09-28)
 
 
