@@ -39,9 +39,22 @@ export function Orders() {
 
 
   return (
-    <Box margin={10}>
+    <Box
+      className="custom-scrollbar"
+      sx={{
+        padding: '16px',
+        paddingTop: '110px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '14px',
+        height: '100vh',
+        overflowY: 'auto',
+        position: 'relative',
+        left: '0',
+      }}
+    >
       <Box >
-        <BackButton onClick={() => navigate(`/commands/${groupId}/`)} color={'white'} top={20} left={20} />
+        <BackButton onClick={() => navigate(`/commands/${groupId}/`)} color={'black'} top={20} left={20} />
         <Typography align='center'
           variant="h1"
           component="h2"
@@ -80,21 +93,14 @@ export function Orders() {
           </Box>
         </Box>
 
-        <Box className="bottom-button">
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: '#003366',
-              padding: '20px 50px',
-              borderRadius: '50px',
-              fontSize: '4vw',
-            }}
-            onClick={handleServe}
-            disabled={!selectedOrder}
-          >
-            Serve
-          </Button>
-        </Box>
+        <Button sx={{
+          margin: "auto",
+          position: 'absolute',
+          bottom: 50,
+          left: "40%"
+        }} variant="contained">
+          Serve
+        </Button>
       </Box>
     </Box>
   );

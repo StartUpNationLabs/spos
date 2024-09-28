@@ -23,7 +23,6 @@ import useCommandsParameter from './stores/useCommandsParameter';
 export function Commands() {
   const navigate = useNavigate();
   const { groupId } = useParams();
-  const carts = useCarts(state => state.carts);
   const removeCart = useCarts(state => state.resetCart);
   const [selectedTable, setSelectedTable] = useState(-1);
 
@@ -88,16 +87,12 @@ export function Commands() {
     );
   }
 
-  const haveCurrentCommand = (carts[selectedTable] ?? []).length > 0;
+
 
   const speedDialActions = [
     { icon: <TableRestaurantIcon />, name: 'Table Payment', operation: onClickTableBilling },
     { icon: <GroupsIcon />, name: 'Group Payment', operation: onClickGroupBilling }
   ];
-
-  function onClickBackButton() {
-    navigate("/");
-  }
 
   function onClickTableBilling() {
     navigate("/tableBilling/" + groupId);
@@ -142,10 +137,7 @@ export function Commands() {
           </SpeedDial>
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <BackButton onClick={onClickBackButton} color={'black'} top={20} left={150} />
           <Outlet />
-          {haveCurrentCommand && <Button sx={{ margin: "auto" }} variant="contained" onClick={() => navigate("/commands/" + groupId + "/summary")}>Summary</Button>}
-          {!haveCurrentCommand && <Button sx={{ margin: "auto" }} variant="contained" onClick={() => navigate("/commands/" + groupId + "/orders")}>Orders</Button>}
         </Box>
       </Box>
     </div>

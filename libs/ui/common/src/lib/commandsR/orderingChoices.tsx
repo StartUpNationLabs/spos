@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
+import BackButton from '../utils/backButton';
 import './orderingChoices.css';
 import { useCarts } from './stores/cart';
 import { useQuery } from '@tanstack/react-query';
@@ -7,6 +8,7 @@ import { ContainerContext } from '../containerHook/containerContext';
 import { CatalogueService, TYPES } from '@spos/services/common';
 import Item from './Item';
 import useCommandsParameter from './stores/useCommandsParameter';
+import { useNavigate } from 'react-router-dom';
 
 export type Cart = {
   itemId: string;
@@ -15,10 +17,11 @@ export type Cart = {
 }[]
 
 export function OrderingChoices() {
-  const { tableNumber, offerType } = useCommandsParameter();
-  console.log(tableNumber, offerType);
+  const navigate = useNavigate();
+  const { groupId, tableNumber, offerType } = useCommandsParameter();
 
   const currentTableCart: Cart = (useCarts(state => state.carts)[tableNumber] || []);
+  const haveCurrentCommand = currentTableCart.length > 0;
   const container = React.useContext(ContainerContext);
 
   const updateItem = useCarts(state => state.updateItem);
@@ -34,7 +37,7 @@ export function OrderingChoices() {
       const catalogService: CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
       return catalogService.getFilteredCatalog(offerType);
     },
-    enabled: tableNumber !== -1,
+    enabled: tableNumber !== -1 && offerType !== '',
     refetchOnWindowFocus: 'always',
   });
 
@@ -72,43 +75,72 @@ export function OrderingChoices() {
     }
   }
 
+  function onClickBackButton() {
+    navigate("/");
+  }
+
   return (
     <Box
       className="custom-scrollbar"
       sx={{
         padding: '16px',
-        marginTop: '110px',
+        paddingTop: '110px',
         display: 'flex',
         flexDirection: 'column',
         gap: '14px',
-        height: '80vh',
+        height: '100vh',
         overflowY: 'auto',
         width: 'calc(100% - 32px)',
         position: 'relative',
         left: '0',
       }}
     >
-      {Object.keys(catalog).map((category) => (
-        <Box key={category} sx={{ marginBottom: '24px' }}>
-          <Typography variant="h6">{category}</Typography>
-          <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            {catalog[category].length > 0 ? (
-              catalog[category].map((item) => {
-                const isSelected = Boolean(currentTableCart.find(element => element.itemId === item._id));
 
-                return (
-                  <Box key={item._id} sx={{ display: 'inline', flexDirection: 'column', alignItems: 'center' }}>
-                    <Item item={item} tableNumber={tableNumber} isSelected={isSelected}
-                      handleSelectItem={handleSelectItem} />
-                  </Box>
-                );
-              })
-            ) : (
-              <Typography>No Choices</Typography>
-            )}
+      <BackButton onClick={onClickBackButton} color={'black'} top={20} left={10} />
+      <Box>
+        {Object.keys(catalog).map((category) => (
+          <Box key={category} sx={{ marginBottom: '24px' }}>
+            <Typography variant="h6">{category}</Typography>
+            <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {catalog[category].length > 0 ? (
+                catalog[category].map((item) => {
+                  const isSelected = Boolean(currentTableCart.find(element => element.itemId === item._id));
+
+                  return (
+                    <Box key={item._id} sx={{ display: 'inline', flexDirection: 'column', alignItems: 'center' }}>
+                      <Item item={item} tableNumber={tableNumber} isSelected={isSelected}
+                        handleSelectItem={handleSelectItem} />
+                    </Box>
+                  );
+                })
+              ) : (
+                <Typography>No Choices</Typography>
+              )}
+            </Box>
           </Box>
-        </Box>
-      ))}
+        ))}
+      </Box>
+      {haveCurrentCommand &&
+        <Button sx={{
+          margin: "auto",
+          position: 'absolute',
+          bottom: 50,
+          left: "40%"
+        }} variant="contained"
+          onClick={() => navigate("/commands/" + groupId + "/summary")}>
+          Summary
+        </Button>}
+      {!haveCurrentCommand &&
+        <Button sx={{
+          margin: "auto",
+          position: 'absolute',
+          bottom: 50,
+          left: "40%"
+        }} variant="contained"
+          onClick={() => navigate("/commands/" + groupId + "/orders")}>
+          Orders
+        </Button>
+      }
     </Box>
   );
 };
