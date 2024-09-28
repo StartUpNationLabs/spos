@@ -5,9 +5,10 @@ import BackButton from '../utils/backButton';
 import { useCarts } from '../commandsR/stores/cart';
 import { ContainerContext } from '../containerHook/containerContext';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { CatalogueService, KitchenService, MonsieurAxelMenvoie, TYPES } from '@spos/services/common';
+import { CatalogueService, CategorizedCatalog, KitchenService, MonsieurAxelMenvoie, TYPES } from '@spos/services/common';
 import { useNavigate } from 'react-router-dom';
 import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
+import SummaryTable from './summaryTable';
 
 export function Summary() {
   const { groupId, tableNumber, offerType } = useCommandsParameter();
@@ -74,6 +75,30 @@ export function Summary() {
     })
   });
 
+  const cartByCategory = () => {
+    const result: { [category: string]: { itemId: string, shortName: string, quantity: number, price: number }[] } = {};
+
+    for (const item of currentTableCart) {
+      for (const category of Object.keys(catalog ?? {} as CategorizedCatalog)) {
+        for (const element of (catalog ?? {} as CategorizedCatalog)[category]) {
+          if (item.itemId === element._id) {
+            if (!result[category]) {
+              result[category] = [];
+            }
+            result[category].push({
+              itemId: item.itemId,
+              quantity: item.quantity,
+              shortName: item.shortName,
+              price: element.price
+            });
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
   function sendToKitchen() {
     mutation.mutate({
       groupId: groupId,
@@ -86,15 +111,15 @@ export function Summary() {
 
   return (
     <Box
-      className="custom-scrollbar"
       sx={{
         padding: '16px',
         paddingTop: '110px',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         gap: '14px',
         height: '100vh',
-        overflowY: 'auto',
+        width: 'calc(100% - 32px)',
         position: 'relative',
         left: '0',
       }}
@@ -110,38 +135,36 @@ export function Summary() {
           Summary
         </Typography>
 
-        <Box width='90%' marginLeft='5%' marginTop="7%" bgcolor='#FFFFFF' height="62vh">
-          {Object.keys(catalog).map((category) => (
-            (catalog[category].filter(element => currentTableCart.map(element => element.itemId).includes(element._id)) ?
-              <Box key={category}>
-                <Typography fontSize="4.5vw"
-                  fontWeight="bold"
-                  style={{ color: 'black' }}
-                  variant='h3'>{category}</Typography>
-                {catalog[category].map((item) => (
-                  (currentTableCart.map(element => element.itemId).includes(item._id)) ?
-                    <Typography key={item._id} marginLeft={'30px'} style={{ color: 'black' }} fontSize="3vw">
-                      {item.shortName}: {currentTableCart.find(element => element.itemId === item._id)?.quantity ?? 0}
-                    </Typography> : ""
-                ))}
-              </Box> : '')
-          ))}
-          <Box width="90%" position='fixed' display='flex' justifyContent="right" bottom="14vh" right="8vw">
+        <Box width='90%' marginLeft='5%' marginTop="7%" paddingRight="10px" bgcolor='#FFFFFF' sx={{ display: "flex", flexDirection: "column", alignItem: "center", justifyContent: "center" }}>
+          <Box className="custom-scrollbar" height="70vh" overflow="auto">
+            {Object.keys(catalog).map((category) => {
+              return (
+                (cartByCategory()[category] ?? []).length > 0 ?
+                  <Box>
+                    <Typography fontSize="4.5vw"
+                      fontWeight="bold"
+                      style={{ color: 'black' }}
+                      variant='h3'>{category}</Typography>
+
+                    <SummaryTable cart={cartByCategory()[category]} />
+                  </Box> : ''
+              )
+            })}
+          </Box>
+          <Box display='flex' justifyContent="right">
             <Typography variant="h4" component="h4" fontSize="4vw" fontWeight="bold">
               Total : ${totalPrice}
             </Typography>
           </Box>
-        </Box>
 
-        <Button sx={{
-          margin: "auto",
-          position: 'absolute',
-          bottom: 50,
-          left: "40%"
-        }} variant="contained"
-          onClick={() => sendToKitchen()}>
-          Kitchen
-        </Button>
+          <Button sx={{
+            margin: "auto",
+            alignItem: 'center',
+          }} variant="contained"
+            onClick={() => sendToKitchen()}>
+            Kitchen
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

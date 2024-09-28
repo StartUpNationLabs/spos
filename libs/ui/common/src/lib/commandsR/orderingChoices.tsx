@@ -80,15 +80,14 @@ export function OrderingChoices() {
 
   return (
     <Box
-      className="custom-scrollbar"
       sx={{
         padding: '16px',
         paddingTop: '110px',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         gap: '14px',
         height: '100vh',
-        overflowY: 'auto',
         width: 'calc(100% - 32px)',
         position: 'relative',
         left: '0',
@@ -96,7 +95,7 @@ export function OrderingChoices() {
     >
 
       <BackButton onClick={onClickBackButton} color={'black'} top={20} left={10} />
-      <Box>
+      <Box className="custom-scrollbar" sx={{ overflowY: 'auto', height: '85dvh' }}>
         {Object.keys(catalog).map((category) => (
           <Box key={category} sx={{ marginBottom: '24px' }}>
             <Typography variant="h6">{category}</Typography>
@@ -122,9 +121,7 @@ export function OrderingChoices() {
       {haveCurrentCommand &&
         <Button sx={{
           margin: "auto",
-          position: 'absolute',
-          bottom: 50,
-          left: "40%"
+          alignItems: "center"
         }} variant="contained"
           onClick={() => navigate("/commands/" + groupId + "/summary")}>
           Summary
@@ -132,9 +129,7 @@ export function OrderingChoices() {
       {!haveCurrentCommand &&
         <Button sx={{
           margin: "auto",
-          position: 'absolute',
-          bottom: 50,
-          left: "40%"
+          alignItems: "center"
         }} variant="contained"
           onClick={() => navigate("/commands/" + groupId + "/orders")}>
           Orders
