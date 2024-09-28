@@ -15,5 +15,6 @@
 
 
 export * from './api/default-api';
+export * from './api/remote-catalogue-api';
 export * from './api/remote-group-api';
 

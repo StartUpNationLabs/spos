@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { Configuration, RemoteGroupApi } from "@spos/clients-bff";
+import { Configuration, RemoteGroupApi , RemoteCatalogueApi} from "@spos/clients-bff";
 
 @injectable()
 export class BackendBffApiService {
@@ -7,8 +7,12 @@ export class BackendBffApiService {
     basePath: "http://localhost:3000",
   });
   private remoteGroupApi = new RemoteGroupApi(this.configuration);
+  private remoteCatalogueApi = new RemoteCatalogueApi(this.configuration);
 
   getRemoteGroupApi() {
+    return this.remoteGroupApi;
+  }
+  getRemoteCatalogueApi() {
     return this.remoteGroupApi;
   }
 

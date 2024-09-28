@@ -6,22 +6,22 @@ import { MenuItem, MenuItemCategoryEnum } from '@spos/clients-menu';
 
 export class MenuItemDto implements MenuItem {
     @ApiProperty()
-    '_id': string;
+    _id : string;
   
     @ApiProperty()
-    'fullName': string;
+    fullName : string;
   
     @ApiProperty()
-    'shortName': string;
+    shortName : string;
   
     @ApiProperty()
-    'price': number;
+    price : number;
   
     @ApiProperty({ enum: MenuItemCategoryEnum })
-    'category': MenuItemCategoryEnum;
+    category : MenuItemCategoryEnum;
   
     @ApiProperty()
-    'image': string;
+    image : string;
 }
 
 export class CategorizedCatalogDto {
@@ -34,9 +34,12 @@ export class CategorizedCatalogDto {
 export class RemoteCatalogueController {
     @Get('filteredCatalog')
     async getFilteredCatalog(@Query('offerName') offerName: string): Promise<CategorizedCatalogDto> {
+        console.log('offerName:', offerName);
         const catalog = await container.get<CatalogueService>(TYPES.CatalogueService).getFilteredCatalog(offerName);
+        console.log('catalog:', catalog);
         return { categories: catalog };
     }
+
 
     @Get('items')
     async getFullItemFromItemIdsArray(@Query('ids') ids: string): Promise<MenuItemDto[]> {
