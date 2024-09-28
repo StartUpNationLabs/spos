@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
-import { GroupNotFoundException, NoGroupsFoundException } from 'libs/services/common/src/lib/exceptions/groupException';
+import { GroupNotFoundException, NoGroupsFoundException } from '@spos/services/common';
 
 import {
   container,

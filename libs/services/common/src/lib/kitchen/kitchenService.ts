@@ -1,3 +1,5 @@
+import { OrderSummary } from './kitchenServiceWorkflow';
+
 export interface MonsieurAxelMenvoie {
   cart: { shortName: string; quantity: number }[];
   groupId: string;
@@ -6,5 +8,5 @@ export interface MonsieurAxelMenvoie {
 
 export interface KitchenService {
   sendToKitchen(order: MonsieurAxelMenvoie): Promise<void>;
+  getOrdersByGroupId(groupId: string): Promise<OrderSummary>;
 }
-

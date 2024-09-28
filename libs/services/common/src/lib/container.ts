@@ -11,6 +11,8 @@ import { GroupService } from "./group/groupService";
 import { TableServiceWorkflow } from "./table/tableServiceWorkflow";
 import { CatalogueServiceWorkflow } from "./offer/catalogueServiceWorkflow";
 import { OfferServiceWorkflow } from "./offer/offerServiceWorkflow";
+import { KitchenService } from "./kitchen/kitchenService";
+import { KitchenServiceWorkflow } from "./kitchen/kitchenServiceWorkflow";
 
 const container = new Container();
 container.bind<GroupService>(TYPES.GroupService).to(GroupServiceWorkflow).inSingletonScope();
@@ -19,5 +21,6 @@ container.bind<DiningApiService>(TYPES.DiningApiService).to(DiningApiService).in
 container.bind<MenuApiService>(TYPES.MenuApiService).to(MenuApiService).inSingletonScope();
 container.bind<OfferService>(TYPES.OfferService).to(OfferServiceWorkflow).inSingletonScope();
 container.bind<CatalogueService>(TYPES.CatalogueService).to(CatalogueServiceWorkflow).inSingletonScope();
+container.bind<KitchenService>(TYPES.KitchenService).to(KitchenServiceWorkflow).inSingletonScope();
 
 export { container };
