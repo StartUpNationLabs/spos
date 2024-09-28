@@ -2,6 +2,7 @@
 .openapi-generator-ignore
 api.ts
 api/default-api.ts
+api/remote-catalogue-api.ts
 api/remote-group-api.ts
 api/remote-table-api.ts
 base.ts
@@ -12,5 +13,7 @@ models/annotated-create-table-dto.ts
 models/annotated-group-create-dto.ts
 models/annotated-group.ts
 models/annotated-table-with-order-dto.ts
+models/categorized-catalog-dto.ts
 models/index.ts
+models/menu-item-dto.ts
 models/table-dto.ts
