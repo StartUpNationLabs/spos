@@ -1,3 +1,15 @@
+## 0.6.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- UI improvement summary and ordering choice ([c881e1f](https://github.com/StartUpNationLabs/spos/commit/c881e1f))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.5.0 (2024-09-28)
 
 
