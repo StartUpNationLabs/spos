@@ -1,3 +1,17 @@
+## 0.3.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- add offer service ([2e169ac](https://github.com/StartUpNationLabs/spos/commit/2e169ac))
+
+- add debug query ([18c10c8](https://github.com/StartUpNationLabs/spos/commit/18c10c8))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.0 (2024-09-28)
 
 

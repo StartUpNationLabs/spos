@@ -1,3 +1,15 @@
+## 0.14.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- add debug query ([18c10c8](https://github.com/StartUpNationLabs/spos/commit/18c10c8))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.13.0 (2024-09-28)
 
 
