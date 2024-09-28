@@ -16,6 +16,7 @@ export type Cart = {
 
 export function OrderingChoices() {
   const { tableNumber, offerType } = useCommandsParameter();
+  console.log(tableNumber, offerType);
 
   const currentTableCart: Cart = (useCarts(state => state.carts)[tableNumber] || []);
   const container = React.useContext(ContainerContext);
@@ -28,11 +29,12 @@ export function OrderingChoices() {
     isError,
     error,
   } = useQuery({
-    queryKey: ['catalog'],
+    queryKey: ['catalog', offerType],
     queryFn: async () => {
       const catalogService: CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
       return catalogService.getFilteredCatalog(offerType);
     },
+    enabled: tableNumber !== -1,
     refetchOnWindowFocus: 'always',
   });
 
