@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Box, Typography, SpeedDial } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, SpeedDial, Button } from '@mui/material';
 import NavBar from '../utils/navbar';
 import Orders from '../orders/orders';
 import BackButton from '../utils/backButton';
@@ -11,14 +11,13 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from '@mui/icons-material/Close';
 import DollarIcon from '@mui/icons-material/AttachMoney';
-import { useNavigate, useParams } from 'react-router-dom';
-import Summary from '../summary/summary';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useCarts } from './stores/cart';
 // Service import
 import { ContainerContext } from '../containerHook/containerContext';
 import { useQuery } from '@tanstack/react-query';
 import { GroupService, TYPES } from '@spos/services/common';
-import React from 'react';
+import useCommandsParameter from './stores/useCommandsParameter';
 
 
 export function Commands() {
@@ -27,6 +26,10 @@ export function Commands() {
   const carts = useCarts(state => state.carts);
   const removeCart = useCarts(state => state.resetCart);
   const [selectedTable, setSelectedTable] = useState(-1);
+
+  const setGroupId = useCommandsParameter(state => state.setGroupId);
+  const setTableNumber = useCommandsParameter(state => state.setTableNumber);
+  const setOfferType = useCommandsParameter(state => state.setOfferType);
 
   if (!groupId || groupId === "") {
     navigate("/");
@@ -47,6 +50,8 @@ export function Commands() {
     refetchOnWindowFocus: 'always',
   });
 
+  const offerType = group?.offer;
+
   useEffect(() => {
     if (group) setSelectedTable(group.tables[0].number);
   }, [group, setSelectedTable]);
@@ -54,6 +59,18 @@ export function Commands() {
   useEffect(() => {
     removeCart(selectedTable)
   }, [removeCart, selectedTable]);
+
+  useEffect(() => {
+    setGroupId(groupId ?? '');
+  }, [setGroupId, groupId]);
+
+  useEffect(() => {
+    setTableNumber(selectedTable);
+  }, [setTableNumber, selectedTable]);
+
+  useEffect(() => {
+    setOfferType(offerType ?? '');
+  }, [setOfferType, offerType]);
 
   if (isLoading) {
     return (
@@ -70,8 +87,6 @@ export function Commands() {
       </Typography>
     );
   }
-
-  const offerType = group?.offer;
 
   const haveCurrentCommand = (carts[selectedTable] ?? []).length > 0;
 
@@ -127,10 +142,10 @@ export function Commands() {
           </SpeedDial>
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <BackButton onClick={onClickBackButton} color={'black'} top={20} left={150}></BackButton>
-          {selectedTable !== -1 && <OrderingChoices tableNumber={selectedTable} offerType={offerType} />}
-          {haveCurrentCommand && <Summary tableNumber={selectedTable} offerType={offerType}></Summary>}
-          {!haveCurrentCommand && <Orders groupId={groupId ?? ''}></Orders>}
+          <BackButton onClick={onClickBackButton} color={'black'} top={20} left={150} />
+          <Outlet />
+          {haveCurrentCommand && <Button sx={{ margin: "auto" }} variant="contained" onClick={() => navigate("/commands/" + groupId + "/summary")}>Summary</Button>}
+          {!haveCurrentCommand && <Button sx={{ margin: "auto" }} variant="contained" onClick={() => navigate("/commands/" + groupId + "/orders")}>Orders</Button>}
         </Box>
       </Box>
     </div>

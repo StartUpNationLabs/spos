@@ -1,5 +1,5 @@
 import { Link, Route, Routes } from 'react-router-dom';
-import { LandingPage, Offers, GroupBilling, TableBilling , Commands } from '@spos/ui/common';
+import { LandingPage, Offers, GroupBilling, TableBilling, Commands, OrderingChoices, Summary, Orders } from '@spos/ui/common';
 
 export function App() {
   return (
@@ -20,7 +20,11 @@ export function App() {
         <Route path="/tableBilling/" element={<TableBilling />} />
         <Route path="/tableBilling/:groupId" element={<TableBilling />} />
         <Route path="/commands/" element={<Commands />} />
-        <Route path="/commands/:groupId" element={<Commands />} />
+        <Route path="/commands/:groupId/" element={<Commands />}>
+          <Route path='' element={<OrderingChoices />} />
+          <Route path='orders' element={<Orders />} />
+          <Route path='summary' element={<Summary />} />
+        </Route>
 
       </Routes>
       {/* END: routes */}

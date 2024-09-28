@@ -6,11 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ContainerContext } from '../containerHook/containerContext';
 import { CatalogueService, TYPES } from '@spos/services/common';
 import Item from './Item';
-
-interface OrderingChoicesProps {
-  tableNumber: number,
-  offerType: string
-}
+import useCommandsParameter from './stores/useCommandsParameter';
 
 export type Cart = {
   itemId: string;
@@ -18,8 +14,10 @@ export type Cart = {
   quantity: number;
 }[]
 
-export function OrderingChoices(props: Readonly<OrderingChoicesProps>) {
-  const currentTableCart: Cart = (useCarts(state => state.carts)[props.tableNumber] || []);
+export function OrderingChoices() {
+  const { tableNumber, offerType } = useCommandsParameter();
+
+  const currentTableCart: Cart = (useCarts(state => state.carts)[tableNumber] || []);
   const container = React.useContext(ContainerContext);
 
   const updateItem = useCarts(state => state.updateItem);
@@ -33,7 +31,7 @@ export function OrderingChoices(props: Readonly<OrderingChoicesProps>) {
     queryKey: ['catalog'],
     queryFn: async () => {
       const catalogService: CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
-      return catalogService.getFilteredCatalog(props.offerType);
+      return catalogService.getFilteredCatalog(offerType);
     },
     refetchOnWindowFocus: 'always',
   });
@@ -65,10 +63,10 @@ export function OrderingChoices(props: Readonly<OrderingChoicesProps>) {
 
   function handleSelectItem(itemId: string, shortName: string) {
     if (currentTableCart.find(element => element.shortName === shortName) !== undefined) {
-      updateItem(props.tableNumber, itemId, shortName, 0);
+      updateItem(tableNumber, itemId, shortName, 0);
     }
     else {
-      updateItem(props.tableNumber, itemId, shortName, 1);
+      updateItem(tableNumber, itemId, shortName, 1);
     }
   }
 
@@ -98,7 +96,7 @@ export function OrderingChoices(props: Readonly<OrderingChoicesProps>) {
 
                 return (
                   <Box key={item._id} sx={{ display: 'inline', flexDirection: 'column', alignItems: 'center' }}>
-                    <Item item={item} tableNumber={props.tableNumber} isSelected={isSelected}
+                    <Item item={item} tableNumber={tableNumber} isSelected={isSelected}
                       handleSelectItem={handleSelectItem} />
                   </Box>
                 );

@@ -12,28 +12,28 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(139, 196, 227, 0.9); 
+    background-color: rgba(139, 196, 227, 0.9);
     display: flex;
     flex-direction: column;
-    align-items: left;  
+    align-items: left;
     color: white;
-    z-index: 1000; 
+    z-index: 1000;
     animation: fadeIn 0.5s ease-in-out;
     border-top-left-radius: 90px;
     border-top-right-radius: 90px;
-    padding-top: 40px; 
+    padding-top: 40px;
     margin-left: 135px;
 }
 
 .close-button {
     font-size: 24px;
-    position: absolute;    
-    top: 70px;              
-    left: 50%;               
-    transform: translateX(-50%); 
-    margin-top: 0px;        
-    z-index: 1010;          
-    
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0px;
+    z-index: 1010;
+
 }
 .serve-button {
     font-size: 25;
