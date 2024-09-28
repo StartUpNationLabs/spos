@@ -3,7 +3,7 @@ import {Box, Button, Typography} from "@mui/material";
 import * as React from 'react';
 import {TableGrid} from "./tableGrid";
 import {useCurrentSelectedGroup} from "./stores/currentSelectedGroup";
-import { TableService, TYPES } from "@spos/services/common";
+import { TableService, TYPES,GroupService } from "@spos/services/common";
 import { useContext } from "react";
 import { ContainerContext } from "../containerHook/containerContext";
 
@@ -33,6 +33,7 @@ export function LandingPage() {
         <Button
           onClick={async () => {
             await container.get<TableService>(TYPES.TableService).closeAllTables();
+            await container.get<GroupService>(TYPES.GroupService).removeAllGroups();
             window.location.reload();
           }}
 
