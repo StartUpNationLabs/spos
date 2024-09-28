@@ -1,3 +1,15 @@
+## 0.17.1 (2024-09-28)
+
+
+### 🩹 Fixes
+
+- useEffet in commands.tsx ([e423b3e](https://github.com/StartUpNationLabs/spos/commit/e423b3e))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.17.0 (2024-09-28)
 
 
