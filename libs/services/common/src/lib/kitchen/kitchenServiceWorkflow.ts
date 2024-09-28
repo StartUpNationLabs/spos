@@ -3,6 +3,7 @@ import { GroupService } from '../group/groupService';
 import { TYPES } from '../types';
 import { KitchenApiService } from '../apis/kitchenApiService';
 import { KitchenService, MonsieurAxelMenvoie } from './kitchenService';
+import { DiningApiService } from '@spos/services/common';
 
 export interface PreparationStatus {
   status: string;
@@ -21,20 +22,28 @@ export class KitchenServiceWorkflow implements KitchenService {
   constructor(
     @inject(TYPES.KitchenApiService)
     private kitchenApiService: KitchenApiService,
+    @inject(TYPES.DiningApiService)
+    private diningApiService: DiningApiService,
     @inject(TYPES.GroupService)
     private groupService: GroupService
   ) {}
 
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
-    const preparationApi = this.kitchenApiService.getPreparationApi();
-    await preparationApi.preparationsControllerRequestNewPreparation({
-      preparationRequestDto: {
-        itemsToBeCooked: order.cart.map((item) => ({
-          menuItemShortName: item.shortName,
+    const group = await this.groupService.getGroup(order.groupId);
+    const tableOrdersApi = this.diningApiService.getTableOrdersApi();
+    for (const item of order.cart) {
+      await tableOrdersApi.tableOrdersControllerAddMenuItemToTableOrder({
+        tableOrderId: group.tables[order.tableNumber].id,
+        addMenuItemDto: {
+          menuItemId: item.itemId,
           howMany: item.quantity,
-        })),
-        tableNumber: order.tableNumber,
-      },
+          menuItemShortName: item.shortName,
+        },
+      });
+    }
+
+    await tableOrdersApi.tableOrdersControllerPrepareTableOrder({
+      tableOrderId: group.tables[order.tableNumber].id,
     });
   }
 
@@ -42,32 +51,33 @@ export class KitchenServiceWorkflow implements KitchenService {
     const group = await this.groupService.getGroup(groupId);
     const orderSummary: OrderSummary = {} as OrderSummary;
     for (const table of group.tables) {
-      const ready = (
-        await this.kitchenApiService
-          .getPreparationApi()
-          .preparationsControllerGetAllPreparationsByStateAndTableNumber({
-            state: 'readyToBeServed',
-            tableNumber: table.number,
-          })
-      ).data.map((preparation) => ({
-        status: 'readyToBeServed',
-        preparationId: preparation._id,
-      }));
-      const inProgress = (
-        await this.kitchenApiService
-          .getPreparationApi()
-          .preparationsControllerGetAllPreparationsByStateAndTableNumber({
-            state: 'preparationStarted',
-            tableNumber: table.number,
-          })
-      ).data.map((preparation) => ({
-        status: 'preparationStarted',
-        preparationId: preparation._id,
-      }));
+      const tableOrder = await this.diningApiService
+        .getTableOrdersApi()
+        .tableOrdersControllerGetTableOrderById({
+          tableOrderId: table.id,
+        });
 
+      const preparationStatuses: PreparationStatus[] = [];
+
+      for (const preparationFromTableOrder of tableOrder.data.preparations) {
+        const preparationDetails = (
+          await this.kitchenApiService
+            .getPreparationApi()
+            .preparationsControllerRetrievePreparation({
+              preparationId: preparationFromTableOrder._id,
+            })
+        ).data;
+
+        preparationStatuses.push({
+          status: preparationDetails.completedAt
+            ? 'readyToBeServed'
+            : 'preparationStarted',
+          preparationId: preparationFromTableOrder._id,
+        });
+      }
       orderSummary.summary = {
         ...orderSummary.summary,
-        [table.number]: [...ready, ...inProgress],
+        [table.number]: [...preparationStatuses],
       };
     }
     return orderSummary;
