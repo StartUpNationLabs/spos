@@ -11,6 +11,11 @@ interface TableSummary {
 
 export function GroupBilling() {
   const { groupId } = useParams();
+  const navigate = useNavigate();
+
+  if(!groupId || groupId === "") {
+    navigate("/");
+  }
 
   const getGroupItemByTable = () : TableSummary[] => {
     return [
@@ -31,7 +36,6 @@ export function GroupBilling() {
     ];
   }
 
-  const navigate = useNavigate();
   const [billingData,] = useState(() => getGroupItemByTable());
 
   const totalPrice = billingData.reduce((total, { elements }) => {

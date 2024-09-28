@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {NumberInputProps, Unstable_NumberInput as BaseNumberInput,} from '@mui/base/Unstable_NumberInput';
-import {styled} from '@mui/system';
+import { NumberInputProps, Unstable_NumberInput as BaseNumberInput, } from '@mui/base/Unstable_NumberInput';
+import { styled } from '@mui/system';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -18,11 +18,11 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
       } as any}
       slotProps={{
         incrementButton: {
-          children: <AddIcon fontSize="small"/>,
+          children: <AddIcon fontSize="small" />,
           className: 'increment',
         },
         decrementButton: {
-          children: <RemoveIcon fontSize="small"/>,
+          children: <RemoveIcon fontSize="small" />,
         },
       }}
       {...props}
@@ -56,7 +56,7 @@ const grey = {
 };
 
 const StyledInputRoot = styled('div')(
-  ({theme}) => `
+  ({ theme }) => `
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 400;
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
@@ -68,7 +68,7 @@ const StyledInputRoot = styled('div')(
 );
 
 const StyledInput = styled('input')(
-  ({theme}) => `
+  ({ theme }) => `
   font-size: 0.875rem;
   font-family: inherit;
   font-weight: 400;
@@ -76,9 +76,8 @@ const StyledInput = styled('input')(
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 4px ${
-    theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
-  };
+  box-shadow: 0px 2px 4px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
+    };
   border-radius: 8px;
   margin: 0 8px;
   padding: 10px 12px;
@@ -103,7 +102,7 @@ const StyledInput = styled('input')(
 );
 
 const StyledButton = styled('button')(
-  ({theme}) => `
+  ({ theme }) => `
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 0.875rem;
   box-sizing: border-box;

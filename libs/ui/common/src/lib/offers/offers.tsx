@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from '@mui/material';
-import * as React from 'react';
 import { useOffers } from './stores/offers';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -38,7 +37,7 @@ export function Offers() {
             customerCount: selectedTables[table].customerCount,
           };
         }),
-        offer: offer,
+        offer: offer.name,
       });
       resetCurrentSelectedGroup();
     };

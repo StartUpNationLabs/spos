@@ -35,6 +35,10 @@ export function TableBilling() {
   const navigate = useNavigate();
   const { groupId } = useParams();
 
+  if(!groupId || groupId === "") {
+    navigate("/");
+  }
+
   const tableNumber = 1;
 
   const getTotalPrice = (): number => {

@@ -20,7 +20,7 @@ export function Summary(props: Readonly<SummaryProps>) {
   const currentTableCart = cart.carts[props.tableNumber] || [];
 
   function togglePopup(): void {
-      setOpen(true);
+    setOpen(true);
   }
 
   const container = React.useContext(ContainerContext);
@@ -32,7 +32,7 @@ export function Summary(props: Readonly<SummaryProps>) {
   } = useQuery({
     queryKey: ['catalog'],
     queryFn: async () => {
-      const catalogService : CatalogService = container.get<CatalogService>(TYPES.CatalogService);
+      const catalogService: CatalogService = container.get<CatalogService>(TYPES.CatalogService);
       return catalogService.getFilteredCatalog(props.offerType);
     },
     refetchOnWindowFocus: 'always',
@@ -53,89 +53,87 @@ export function Summary(props: Readonly<SummaryProps>) {
       </Typography>
     );
   }
-
-  console.log("---------- fetched catalog -----------")
-  console.table(catalog);
   let totalPrice = 0;
 
   currentTableCart.forEach(element => {
-  Object.keys(catalog).forEach(category => {
-    catalog[category].forEach(item => {
-      if(item._id === element.itemId) {
-        totalPrice += element.quantity * item.price;
-      }
+    Object.keys(catalog).forEach(category => {
+      catalog[category].forEach(item => {
+        if (item._id === element.itemId) {
+          totalPrice += element.quantity * item.price;
+        }
+      })
     })
-  })});
+  });
 
   return (
     <Box margin={10}>
-    <Box className="bottom-button">
+      <Box className="bottom-button">
         <Button
-                onClick={togglePopup}
-                variant="contained"
-                color="primary"
-                style={{
-                    padding: '20px 50px',
-                    borderRadius: '50px',
-                    fontSize: '4vw',
-                    backgroundColor: '#003366'
-                }}
-                >
-                Summary
+          onClick={togglePopup}
+          variant="contained"
+          color="primary"
+          style={{
+            padding: '20px 50px',
+            borderRadius: '50px',
+            fontSize: '4vw',
+            backgroundColor: '#003366'
+          }}
+        >
+          Summary
         </Button>
-    </Box>
+      </Box>
 
-    {open && (
+      {open && (
         < Box className="popup-fullscreen">
-                <BackButton onClick={() => setOpen(false)} color={'white'} top={20} left={20}/>
-                <Typography align='center'
-                            variant="h1"
-                            component="h2"
-                            fontSize="7.5vw"
-                            fontWeight="bold"
-                            style={{ color: 'black' }}>
-                    Summary
-                </Typography>
+          <BackButton onClick={() => setOpen(false)} color={'white'} top={20} left={20} />
+          <Typography align='center'
+            variant="h1"
+            component="h2"
+            fontSize="7.5vw"
+            fontWeight="bold"
+            style={{ color: 'black' }}>
+            Summary
+          </Typography>
 
-                <Box width='90%' marginLeft='5%' marginTop="7%" bgcolor='#FFFFFF' height="62vh">
-                    {Object.keys(catalog).map((category) => (
-                        (catalog[category].filter(element => currentTableCart.map(element => element.itemId).includes(element._id)) ?
-                        <Box key={category}>
-                        <Typography fontSize="4.5vw"
-                            fontWeight="bold"
-                            style={{ color: 'black' }}
-                            variant='h3'>{category}</Typography>
-                            {catalog[category].map((item) => (
-                                (currentTableCart.map(element => element.itemId).includes(item._id)) ?
-                                <Typography key={item._id} marginLeft={'30px'} style={{ color: 'black' }} fontSize="3vw">
-                                  {item.shortName}: {currentTableCart.find(element => element.itemId === item._id)?.quantity ?? 0}
-                                </Typography> : ""
-                            ))}
-                        </Box> : '')
-                    ))}
-                    <Box width="90%" position='fixed' display='flex' justifyContent="right"   bottom="14vh" right="8vw">
-                        <Typography variant="h4" component="h4" fontSize="4vw" fontWeight="bold">
-                            Total : ${totalPrice}
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Box className="bottom-button">
-                    <Button
-                    variant="contained"
-
-                    style={{
-                        backgroundColor: '#003366',
-                        padding: '20px 50px',
-                        borderRadius: '50px',
-                        fontSize: '4vw',
-                    }}>
-                      Kitchen
-                    </Button>,
-                </Box>
+          <Box width='90%' marginLeft='5%' marginTop="7%" bgcolor='#FFFFFF' height="62vh">
+            {Object.keys(catalog).map((category) => (
+              (catalog[category].filter(element => currentTableCart.map(element => element.itemId).includes(element._id)) ?
+                <Box key={category}>
+                  <Typography fontSize="4.5vw"
+                    fontWeight="bold"
+                    style={{ color: 'black' }}
+                    variant='h3'>{category}</Typography>
+                  {catalog[category].map((item) => (
+                    (currentTableCart.map(element => element.itemId).includes(item._id)) ?
+                      <Typography key={item._id} marginLeft={'30px'} style={{ color: 'black' }} fontSize="3vw">
+                        {item.shortName}: {currentTableCart.find(element => element.itemId === item._id)?.quantity ?? 0}
+                      </Typography> : ""
+                  ))}
+                </Box> : '')
+            ))}
+            <Box width="90%" position='fixed' display='flex' justifyContent="right" bottom="14vh" right="8vw">
+              <Typography variant="h4" component="h4" fontSize="4vw" fontWeight="bold">
+                Total : ${totalPrice}
+              </Typography>
             </Box>
+          </Box>
 
-    )}
+          <Box className="bottom-button">
+            <Button
+              variant="contained"
+
+              style={{
+                backgroundColor: '#003366',
+                padding: '20px 50px',
+                borderRadius: '50px',
+                fontSize: '4vw',
+              }}>
+              Kitchen
+            </Button>,
+          </Box>
+        </Box>
+
+      )}
     </Box>
   );
 }

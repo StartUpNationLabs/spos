@@ -10,7 +10,7 @@ export const useOffers = create<OffersState>((set, get) => ({
       name: 'Classic'
     },
     {
-      name: 'Cousinade'
+      name: 'Cousinhood'
     },
     {
       name: 'Company'
