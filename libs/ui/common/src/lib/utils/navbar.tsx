@@ -1,18 +1,18 @@
 import { Box, Button, Typography } from '@mui/material';
 import { Table } from "@spos/services/common";
+import useCommandsParameter from "../commandsR/stores/useCommandsParameter";
 
 interface NavBarProps {
   tables: Table[];
-  selectedTable: number;
-  setSelectedTable: React.Dispatch<React.SetStateAction<number>>;
 }
 
 
 export function NavBar(props: Readonly<NavBarProps>) {
   const tables = props.tables.map((table) => table.number);
-
+  const setSelectedTable = useCommandsParameter((state) => state.setTableNumber);
+  const selectedTable = useCommandsParameter((state) => state.tableNumber);
   const handleTableSelection = (table: number) => {
-    props.setSelectedTable(table);
+    setSelectedTable(table);
   };
 
 
@@ -30,15 +30,15 @@ export function NavBar(props: Readonly<NavBarProps>) {
             variant="contained"
             onClick={() => handleTableSelection(table)}
             sx={{
-              width: props.selectedTable === table ? '120px' : '100px',
+              width: selectedTable === table ? '120px' : '100px',
               height: '100px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              borderRadius: props.selectedTable === table ? '8px 0 0 8px' : '8px',
-              backgroundColor: props.selectedTable === table ? '#003367' : 'green',
+              borderRadius: selectedTable === table ? '8px 0 0 8px' : '8px',
+              backgroundColor: selectedTable === table ? '#003367' : 'green',
               color: 'white',
-              marginRight: props.selectedTable === table ? '0' : '0px',
+              marginRight: selectedTable === table ? '0' : '0px',
             }}
           >
             <Typography variant="h6">{table}</Typography>

@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, SpeedDial, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, SpeedDial, Typography } from '@mui/material';
 import NavBar from '../utils/navbar';
-import Orders from '../orders/orders';
-import BackButton from '../utils/backButton';
-import OrderingChoices from './orderingChoices';
 //SpeedDial imports
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
@@ -19,19 +16,17 @@ import { useQuery } from '@tanstack/react-query';
 import { GroupService, TYPES } from '@spos/services/common';
 import useCommandsParameter from './stores/useCommandsParameter';
 
-
 export function Commands() {
   const navigate = useNavigate();
   const { groupId } = useParams();
-  const removeCart = useCarts(state => state.resetCart);
-  const [selectedTable, setSelectedTable] = useState(-1);
+  const removeCart = useCarts((state) => state.resetCart);
 
-  const setGroupId = useCommandsParameter(state => state.setGroupId);
-  const setTableNumber = useCommandsParameter(state => state.setTableNumber);
-  const setOfferType = useCommandsParameter(state => state.setOfferType);
+  const setGroupId = useCommandsParameter((state) => state.setGroupId);
+  const setTableNumber = useCommandsParameter((state) => state.setTableNumber);
+  const setOfferType = useCommandsParameter((state) => state.setOfferType);
 
-  if (!groupId || groupId === "") {
-    navigate("/");
+  if (!groupId || groupId === '') {
+    navigate('/');
   }
 
   const container = React.useContext(ContainerContext);
@@ -43,33 +38,25 @@ export function Commands() {
   } = useQuery({
     queryKey: ['group', groupId],
     queryFn: async () => {
-      const groupService: GroupService = container.get<GroupService>(TYPES.GroupService);
-      return groupService.getGroup(groupId ?? '');
+      const groupService: GroupService = container.get<GroupService>(
+        TYPES.GroupService
+      );
+      return groupService.getGroup(groupId);
     },
     refetchOnWindowFocus: 'always',
+    enabled: !!groupId && groupId !== '',
   });
 
-  const offerType = group?.offer;
-
   useEffect(() => {
-    if (group) setSelectedTable(group.tables[0].number);
-  }, [group, setSelectedTable]);
-
-  useEffect(() => {
-    removeCart(selectedTable)
-  }, [removeCart, selectedTable]);
-
+    if (group) {
+      removeCart(group.tables[0].number);
+      setTableNumber(group.tables[0].number);
+      setOfferType(group.offer);
+    }
+  }, [group]);
   useEffect(() => {
     setGroupId(groupId ?? '');
   }, [setGroupId, groupId]);
-
-  useEffect(() => {
-    setTableNumber(selectedTable);
-  }, [setTableNumber, selectedTable]);
-
-  useEffect(() => {
-    setOfferType(offerType ?? '');
-  }, [setOfferType, offerType]);
 
   if (isLoading) {
     return (
@@ -87,43 +74,51 @@ export function Commands() {
     );
   }
 
-
-
   const speedDialActions = [
-    { icon: <TableRestaurantIcon />, name: 'Table Payment', operation: onClickTableBilling },
-    { icon: <GroupsIcon />, name: 'Group Payment', operation: onClickGroupBilling }
+    {
+      icon: <TableRestaurantIcon />,
+      name: 'Table Payment',
+      operation: onClickTableBilling,
+    },
+    {
+      icon: <GroupsIcon />,
+      name: 'Group Payment',
+      operation: onClickGroupBilling,
+    },
   ];
 
   function onClickTableBilling() {
-    navigate("/tableBilling/" + groupId);
+    navigate('/tableBilling/' + groupId);
   }
 
   function onClickGroupBilling() {
-    navigate("/groupBilling/" + groupId);
+    navigate('/groupBilling/' + groupId);
   }
 
   return (
     <div>
-      <Box sx={{
-        minHeight: '100dvh',
-        display: 'flex',
-        flexDirection: 'row',
-        width: '100%'
-      }}>
-        <Box sx={{
-          boxSizing: 'border-box',
-          width: 'fit-content',
-          borderRight: '2px solid #000'
-        }}>
-          <NavBar
-            tables={group.tables}
-            selectedTable={selectedTable}
-            setSelectedTable={setSelectedTable}
-          />
+      <Box
+        sx={{
+          minHeight: '100dvh',
+          display: 'flex',
+          flexDirection: 'row',
+          width: '100%',
+        }}
+      >
+        <Box
+          sx={{
+            boxSizing: 'border-box',
+            width: 'fit-content',
+            borderRight: '2px solid #000',
+          }}
+        >
+          <NavBar tables={group.tables} />
           <SpeedDial
             ariaLabel="SpeedDial basic example"
             sx={{ position: 'absolute', bottom: 16, left: '2.5dvh' }}
-            icon={<SpeedDialIcon openIcon={<CloseIcon />} icon={<DollarIcon />} />}
+            icon={
+              <SpeedDialIcon openIcon={<CloseIcon />} icon={<DollarIcon />} />
+            }
             FabProps={{ size: 'large' }}
           >
             {speedDialActions.map((action) => (

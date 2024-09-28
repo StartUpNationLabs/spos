@@ -25,7 +25,6 @@ export function OrderingChoices() {
   const container = React.useContext(ContainerContext);
 
   const updateItem = useCarts(state => state.updateItem);
-
   const {
     data: catalog,
     isLoading,
