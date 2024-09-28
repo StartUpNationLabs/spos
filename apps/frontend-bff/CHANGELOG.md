@@ -1,3 +1,15 @@
+## 0.17.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- addition of router outlet for commands ([3eb00ab](https://github.com/StartUpNationLabs/spos/commit/3eb00ab))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.16.0 (2024-09-28)
 
 
