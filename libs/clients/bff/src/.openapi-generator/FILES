@@ -18,4 +18,5 @@ models/annotated-table-with-order-dto.ts
 models/categorized-catalog-dto.ts
 models/index.ts
 models/menu-item-dto.ts
+models/status.ts
 models/table-dto.ts

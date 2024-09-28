@@ -25,6 +25,8 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 import type { AnnotatedGroup } from '../models';
 // @ts-ignore
 import type { AnnotatedGroupCreateDto } from '../models';
+// @ts-ignore
+import type { Status } from '../models';
 /**
  * RemoteGroupApi - axios parameter creator
  * @export
@@ -240,7 +242,7 @@ export const RemoteGroupApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async remoteGroupControllerRemoveAllGroups(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async remoteGroupControllerRemoveAllGroups(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Status>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.remoteGroupControllerRemoveAllGroups(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RemoteGroupApi.remoteGroupControllerRemoveAllGroups']?.[localVarOperationServerIndex]?.url;
@@ -252,7 +254,7 @@ export const RemoteGroupApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async remoteGroupControllerRemoveGroup(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async remoteGroupControllerRemoveGroup(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Status>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.remoteGroupControllerRemoveGroup(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RemoteGroupApi.remoteGroupControllerRemoveGroup']?.[localVarOperationServerIndex]?.url;
@@ -299,7 +301,7 @@ export const RemoteGroupApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remoteGroupControllerRemoveAllGroups(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        remoteGroupControllerRemoveAllGroups(options?: RawAxiosRequestConfig): AxiosPromise<Status> {
             return localVarFp.remoteGroupControllerRemoveAllGroups(options).then((request) => request(axios, basePath));
         },
         /**
@@ -308,7 +310,7 @@ export const RemoteGroupApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remoteGroupControllerRemoveGroup(requestParameters: RemoteGroupApiRemoteGroupControllerRemoveGroupRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        remoteGroupControllerRemoveGroup(requestParameters: RemoteGroupApiRemoteGroupControllerRemoveGroupRequest, options?: RawAxiosRequestConfig): AxiosPromise<Status> {
             return localVarFp.remoteGroupControllerRemoveGroup(requestParameters.id, options).then((request) => request(axios, basePath));
         },
     };

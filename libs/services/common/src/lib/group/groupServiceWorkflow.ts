@@ -45,7 +45,7 @@ export class GroupServiceWorkflow implements GroupService {
   }
 
   @logger
-  async removeGroup(id: string) {
+  async removeGroup(id: string) : Promise<boolean>  {
     if (this.group[id]) {
       delete this.group[id]; 
       console.debug('Group removed:', id);
@@ -56,7 +56,7 @@ export class GroupServiceWorkflow implements GroupService {
     }
   }
   @logger
-  async removeAllGroups(): Promise<void> {
+  async removeAllGroups(): Promise<boolean> {
     const groupIds = Object.keys(this.group); 
     if (groupIds.length > 0) {
       for (const id of groupIds) {
@@ -64,8 +64,12 @@ export class GroupServiceWorkflow implements GroupService {
         console.debug('Group removed:', id);
       }
       console.debug('All groups have been removed.');
+      return true;
+
     } else {
+      
       console.warn('No groups found to remove.');
+      return false;
     }
   }
 

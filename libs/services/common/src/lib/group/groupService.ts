@@ -21,5 +21,5 @@ export interface GroupService {
 
   removeGroup(id : string) : Promise<boolean>;
 
-  removeAllGroups() : Promise<void>;
+  removeAllGroups() : Promise<boolean>;
 }

@@ -5,4 +5,5 @@ export * from './annotated-offer';
 export * from './annotated-table-with-order-dto';
 export * from './categorized-catalog-dto';
 export * from './menu-item-dto';
+export * from './status';
 export * from './table-dto';

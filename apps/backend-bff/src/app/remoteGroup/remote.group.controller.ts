@@ -19,6 +19,10 @@ export class TableDto implements Table {
   @ApiProperty()
   customerCount: number;
 }
+export class Status{
+  @ApiProperty()
+  success : boolean;
+}
 
 export class AnnotatedGroup implements Group {
   @ApiProperty()
@@ -70,14 +74,14 @@ export class RemoteGroupController {
   @Delete(':id')
   async removeGroup(
     @Param('id') id: string
-  ): Promise<{ success: boolean }> {
+  ): Promise<Status> {
     const success = await container.get<GroupService>(TYPES.GroupService).removeGroup(id);
     if (success) {
       return { success: true };
     } 
   }
   @Delete()
-  async removeAllGroups(): Promise<{ success: boolean }> {
+  async removeAllGroups(): Promise<Status> {
     await container.get<GroupService>(TYPES.GroupService).removeAllGroups();
     return { success: true }; 
   }
