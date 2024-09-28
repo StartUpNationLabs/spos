@@ -1,3 +1,15 @@
+## 0.15.1 (2024-09-28)
+
+
+### 🩹 Fixes
+
+- Mister apoorva want the itemId in addition of the shortname because of shitty backend ([52b247a](https://github.com/StartUpNationLabs/spos/commit/52b247a))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.15.0 (2024-09-28)
 
 
