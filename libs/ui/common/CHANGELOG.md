@@ -1,3 +1,15 @@
+## 0.17.1 (2024-09-28)
+
+
+### 🩹 Fixes
+
+- ordering chooses ([97ef2d4](https://github.com/StartUpNationLabs/spos/commit/97ef2d4))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.17.0 (2024-09-28)
 
 
