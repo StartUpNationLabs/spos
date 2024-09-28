@@ -9,6 +9,7 @@ export type CategorizedCatalog = {
   [category: string]: MenuItem[]
 };
 
+
 export interface CatalogueService {
   getFilteredCatalog(offerName: string): Promise<CategorizedCatalog>;
   getFullItemFromItemIdsArray(idList: string[]): Promise<MenuItem[]>;

@@ -69,11 +69,11 @@ export const RemoteCatalogueApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {string} ids 
+         * @param {Array<string>} ids 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remoteCatalogueControllerGetFullItemFromItemIdsArray: async (ids: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        remoteCatalogueControllerGetFullItemFromItemIdsArray: async (ids: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ids' is not null or undefined
             assertParamExists('remoteCatalogueControllerGetFullItemFromItemIdsArray', 'ids', ids)
             const localVarPath = `/api/remoteCatalogue/items`;
@@ -88,7 +88,7 @@ export const RemoteCatalogueApiAxiosParamCreator = function (configuration?: Con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (ids !== undefined) {
+            if (ids) {
                 localVarQueryParameter['ids'] = ids;
             }
 
@@ -127,11 +127,11 @@ export const RemoteCatalogueApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} ids 
+         * @param {Array<string>} ids 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async remoteCatalogueControllerGetFullItemFromItemIdsArray(ids: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MenuItemDto>>> {
+        async remoteCatalogueControllerGetFullItemFromItemIdsArray(ids: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MenuItemDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.remoteCatalogueControllerGetFullItemFromItemIdsArray(ids, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RemoteCatalogueApi.remoteCatalogueControllerGetFullItemFromItemIdsArray']?.[localVarOperationServerIndex]?.url;
@@ -190,10 +190,10 @@ export interface RemoteCatalogueApiRemoteCatalogueControllerGetFilteredCatalogRe
 export interface RemoteCatalogueApiRemoteCatalogueControllerGetFullItemFromItemIdsArrayRequest {
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof RemoteCatalogueApiRemoteCatalogueControllerGetFullItemFromItemIdsArray
      */
-    readonly ids: string
+    readonly ids: Array<string>
 }
 
 /**

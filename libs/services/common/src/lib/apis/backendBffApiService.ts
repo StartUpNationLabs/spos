@@ -18,7 +18,7 @@ export class BackendBffApiService {
     return this.remoteTableApi;
   }
   getRemoteCatalogueApi() {
-    return this.remoteGroupApi;
+    return this.remoteCatalogueApi;
   }
 
 }

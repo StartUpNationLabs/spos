@@ -42,8 +42,7 @@ export class RemoteCatalogueController {
 
 
     @Get('items')
-    async getFullItemFromItemIdsArray(@Query('ids') ids: string): Promise<MenuItemDto[]> {
-        const idList = ids.split(',');
-        return container.get<CatalogueService>(TYPES.CatalogueService).getFullItemFromItemIdsArray(idList);
+    async getFullItemFromItemIdsArray(@Query('ids') ids: string[]): Promise<MenuItemDto[]> {
+        return container.get<CatalogueService>(TYPES.CatalogueService).getFullItemFromItemIdsArray(ids);
     }
 }
