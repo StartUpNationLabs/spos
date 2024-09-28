@@ -8,7 +8,7 @@ type ItemProps = {
   item: MenuItem;
   isSelected: boolean;
   tableNumber: number;
-  handleSelectItem: (shortName: string) => void;
+  handleSelectItem: (itemId: string, shortName: string) => void;
 }
 
 export function Item(props: Readonly<ItemProps>) {
@@ -24,7 +24,7 @@ export function Item(props: Readonly<ItemProps>) {
         sx={{ width: "100%", minWidth: 120, height: 100 }}
         image={props.item.image}
         title={props.item.shortName}
-        onClick={() => props.handleSelectItem(props.item.shortName)}
+        onClick={() => props.handleSelectItem(props.item._id, props.item.shortName)}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -39,7 +39,7 @@ export function Item(props: Readonly<ItemProps>) {
             max={99}
             value={count}
             onChange={(e, value) => {
-              updateItem(props.tableNumber, props.item.shortName, value as number)
+              updateItem(props.tableNumber, props.item._id, props.item.shortName, value as number)
             }}
           />
         )}

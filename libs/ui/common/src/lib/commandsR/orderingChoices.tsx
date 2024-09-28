@@ -13,6 +13,7 @@ interface OrderingChoicesProps {
 }
 
 export type Cart = {
+  itemId: string;
   shortName: string;
   quantity: number;
 }[]
@@ -62,12 +63,12 @@ export function OrderingChoices(props: Readonly<OrderingChoicesProps>) {
     );
   }
 
-  function handleSelectItem(shortName: string) {
+  function handleSelectItem(itemId: string, shortName: string) {
     if (currentTableCart.find(element => element.shortName === shortName) !== undefined) {
-      updateItem(props.tableNumber, shortName, 0);
+      updateItem(props.tableNumber, itemId, shortName, 0);
     }
     else {
-      updateItem(props.tableNumber, shortName, 1);
+      updateItem(props.tableNumber, itemId, shortName, 1);
     }
   }
 
@@ -93,7 +94,7 @@ export function OrderingChoices(props: Readonly<OrderingChoicesProps>) {
           <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {catalog[category].length > 0 ? (
               catalog[category].map((item) => {
-                const isSelected = Boolean(currentTableCart.find(element => element.shortName === item.shortName));
+                const isSelected = Boolean(currentTableCart.find(element => element.itemId === item._id));
 
                 return (
                   <Box key={item._id} sx={{ display: 'inline', flexDirection: 'column', alignItems: 'center' }}>
