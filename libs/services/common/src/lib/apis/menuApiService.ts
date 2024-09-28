@@ -8,7 +8,6 @@ export class MenuApiService {
   private menuAPi = new MenusApi(this.configuration);
 
   getMenuApi() {
-    console.log('Getting menu api')
     return this.menuAPi;
   }
 }
