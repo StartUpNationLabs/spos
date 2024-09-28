@@ -33,7 +33,6 @@ export function Summary(props: Readonly<SummaryProps>) {
     queryKey: ['catalog'],
     queryFn: async () => {
       const catalogService : CatalogService = container.get<CatalogService>(TYPES.CatalogService);
-      console.log('', catalogService);
       return catalogService.getFilteredCatalog(props.offerType);
     },
     refetchOnWindowFocus: 'always',

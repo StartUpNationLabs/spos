@@ -8,7 +8,6 @@ export class DiningApiService {
   private tableOrdersApi = new TableOrdersApi(this.configuration);
 
   getTablesApi() {
-    console.log('Getting tables api')
     return this.tablesApi;
   }
 
