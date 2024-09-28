@@ -32,7 +32,6 @@ export function OrderingChoices(props: Readonly<OrderingChoicesProps>) {
       queryKey: ['catalog'],
       queryFn: async () => {
         const catalogService : CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
-        console.log('', catalogService);
         return catalogService.getFilteredCatalog(props.offerType);
       },
       refetchOnWindowFocus: 'always',

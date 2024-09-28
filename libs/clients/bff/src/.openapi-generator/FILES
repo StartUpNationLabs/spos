@@ -4,6 +4,7 @@ api.ts
 api/default-api.ts
 api/remote-catalogue-api.ts
 api/remote-group-api.ts
+api/remote-table-api.ts
 base.ts
 common.ts
 configuration.ts
@@ -11,7 +12,7 @@ index.ts
 models/annotated-create-table-dto.ts
 models/annotated-group-create-dto.ts
 models/annotated-group.ts
-models/categorized-catalog-dto.ts
+models/annotated-table-with-order-dto.ts
 models/index.ts
 models/menu-item-dto.ts
 models/table-dto.ts

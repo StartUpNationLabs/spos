@@ -17,7 +17,6 @@ export function FreeTables() {
     queryKey: ['tables'],
     queryFn: async () => {
       const tableService = container.get<TableService>(TYPES.TableService);
-      console.log('Getting free tables', tableService);
       return tableService.getFreeTables();
     },
     refetchOnWindowFocus: 'always',
@@ -37,7 +36,6 @@ export function FreeTables() {
       </Typography>
     );
   }
-  console.log(tables);
   return (
     <Grid container spacing={4} justifyContent={'center'} alignItems={'center'}>
       {tables.map((value, index) => (
