@@ -1,3 +1,15 @@
+## 0.16.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- add table billing ([ca6a438](https://github.com/StartUpNationLabs/spos/commit/ca6a438))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.15.1 (2024-09-28)
 
 
