@@ -1,3 +1,15 @@
+## 0.18.0 (2024-09-28)
+
+
+### 🚀 Features
+
+- Addition of workind sending of orders to kitchen ([7442e19](https://github.com/StartUpNationLabs/spos/commit/7442e19))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.17.3 (2024-09-28)
 
 
