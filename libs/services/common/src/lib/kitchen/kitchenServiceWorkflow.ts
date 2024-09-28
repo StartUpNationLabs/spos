@@ -109,4 +109,55 @@ export class KitchenServiceWorkflow implements KitchenService {
     }
     return orderSummary;
   }
+
+  async removeFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean> {
+    try {
+      const preparationApi = this.kitchenApiService.getPreparationApi();
+
+      const preparationsNotServed = (
+        await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber(
+            {state: 'preparationStarted', 
+            tableNumber: order.tableNumber,
+        })
+      ).data;
+
+      for (const preparation of preparationsNotServed) {
+        const preparedItems= preparation.preparedItems
+        for (const pi of preparedItems){
+            await this.kitchenApiService.getPreparedItemsApi().preparedItemsControllerStartToPrepareItemOnPost({
+                preparedItemId : pi._id
+            })
+            await this.kitchenApiService.getPreparedItemsApi().preparedItemsControllerFinishToPrepareItemOnPost({
+                preparedItemId : pi._id
+            })
+    
+        }
+        
+        
+      }    
+
+      const preparations = (
+        await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber(
+            {state: 'readyToBeServed', 
+            tableNumber: order.tableNumber,
+        })
+      ).data;
+
+      const preparationsToRemove = preparations.filter(preparation =>
+        order.cart.some(item => item.itemId === preparation._id)
+      );
+
+      for (const preparation of preparationsToRemove) {
+        await preparationApi.preparationsControllerPreparationIsServed({
+          preparationId: preparation._id,
+        });
+      }
+     
+    
+      return true; 
+    } catch (error) {
+      console.error("Erreur lors de la suppression des commandes de la cuisine :", error);
+      return false; 
+    }
+  }
 }
