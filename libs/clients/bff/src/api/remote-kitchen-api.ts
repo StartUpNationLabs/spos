@@ -24,6 +24,8 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 // @ts-ignore
 import type { AnnotatedMonsieurAxelMenvoie } from '../models';
 // @ts-ignore
+import type { AnnotatedPreparedItemAggregate } from '../models';
+// @ts-ignore
 import type { OrderSummary } from '../models';
 /**
  * RemoteKitchenApi - axios parameter creator
@@ -40,7 +42,7 @@ export const RemoteKitchenApiAxiosParamCreator = function (configuration?: Confi
         remoteKitchenControllerGetOrdersByGroupId: async (groupId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'groupId' is not null or undefined
             assertParamExists('remoteKitchenControllerGetOrdersByGroupId', 'groupId', groupId)
-            const localVarPath = `/api/remoteKitchen`;
+            const localVarPath = `/api/remoteKitchen/getOrdersByGroupId`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -69,14 +71,14 @@ export const RemoteKitchenApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @param {AnnotatedMonsieurAxelMenvoie} annotatedMonsieurAxelMenvoie 
+         * @param {Array<string>} requestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remoteKitchenControllerRemoveFromKitchen: async (annotatedMonsieurAxelMenvoie: AnnotatedMonsieurAxelMenvoie, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'annotatedMonsieurAxelMenvoie' is not null or undefined
-            assertParamExists('remoteKitchenControllerRemoveFromKitchen', 'annotatedMonsieurAxelMenvoie', annotatedMonsieurAxelMenvoie)
-            const localVarPath = `/api/remoteKitchen`;
+        remoteKitchenControllerHandleNotServedPreparations: async (requestBody: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestBody' is not null or undefined
+            assertParamExists('remoteKitchenControllerHandleNotServedPreparations', 'requestBody', requestBody)
+            const localVarPath = `/api/remoteKitchen/handleNotServedPreparations`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -84,7 +86,7 @@ export const RemoteKitchenApiAxiosParamCreator = function (configuration?: Confi
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -95,7 +97,78 @@ export const RemoteKitchenApiAxiosParamCreator = function (configuration?: Confi
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(annotatedMonsieurAxelMenvoie, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} preparationId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteKitchenControllerPreparationDetails: async (preparationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'preparationId' is not null or undefined
+            assertParamExists('remoteKitchenControllerPreparationDetails', 'preparationId', preparationId)
+            const localVarPath = `/api/remoteKitchen/preparationDetails`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (preparationId !== undefined) {
+                localVarQueryParameter['preparationId'] = preparationId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Array<string>} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteKitchenControllerReadyPreparations: async (requestBody: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestBody' is not null or undefined
+            assertParamExists('remoteKitchenControllerReadyPreparations', 'requestBody', requestBody)
+            const localVarPath = `/api/remoteKitchen/readyPreparations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -111,7 +184,7 @@ export const RemoteKitchenApiAxiosParamCreator = function (configuration?: Confi
         remoteKitchenControllerSendToKitchen: async (annotatedMonsieurAxelMenvoie: AnnotatedMonsieurAxelMenvoie, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'annotatedMonsieurAxelMenvoie' is not null or undefined
             assertParamExists('remoteKitchenControllerSendToKitchen', 'annotatedMonsieurAxelMenvoie', annotatedMonsieurAxelMenvoie)
-            const localVarPath = `/api/remoteKitchen`;
+            const localVarPath = `/api/remoteKitchen/sendToKitchen`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -172,6 +245,41 @@ export const RemoteKitchenApiAxiosParamCreator = function (configuration?: Confi
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteKitchenControllerStartAndFinishPreparation: async (body: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('remoteKitchenControllerStartAndFinishPreparation', 'body', body)
+            const localVarPath = `/api/remoteKitchen/startAndFinishPreparation`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -196,14 +304,38 @@ export const RemoteKitchenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {AnnotatedMonsieurAxelMenvoie} annotatedMonsieurAxelMenvoie 
+         * @param {Array<string>} requestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async remoteKitchenControllerRemoveFromKitchen(annotatedMonsieurAxelMenvoie: AnnotatedMonsieurAxelMenvoie, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteKitchenControllerRemoveFromKitchen(annotatedMonsieurAxelMenvoie, options);
+        async remoteKitchenControllerHandleNotServedPreparations(requestBody: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteKitchenControllerHandleNotServedPreparations(requestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RemoteKitchenApi.remoteKitchenControllerRemoveFromKitchen']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RemoteKitchenApi.remoteKitchenControllerHandleNotServedPreparations']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} preparationId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async remoteKitchenControllerPreparationDetails(preparationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AnnotatedPreparedItemAggregate>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteKitchenControllerPreparationDetails(preparationId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RemoteKitchenApi.remoteKitchenControllerPreparationDetails']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {Array<string>} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async remoteKitchenControllerReadyPreparations(requestBody: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteKitchenControllerReadyPreparations(requestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RemoteKitchenApi.remoteKitchenControllerReadyPreparations']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -230,6 +362,18 @@ export const RemoteKitchenApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['RemoteKitchenApi.remoteKitchenControllerServePreparation']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async remoteKitchenControllerStartAndFinishPreparation(body: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteKitchenControllerStartAndFinishPreparation(body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RemoteKitchenApi.remoteKitchenControllerStartAndFinishPreparation']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -251,12 +395,30 @@ export const RemoteKitchenApiFactory = function (configuration?: Configuration, 
         },
         /**
          * 
-         * @param {RemoteKitchenApiRemoteKitchenControllerRemoveFromKitchenRequest} requestParameters Request parameters.
+         * @param {RemoteKitchenApiRemoteKitchenControllerHandleNotServedPreparationsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remoteKitchenControllerRemoveFromKitchen(requestParameters: RemoteKitchenApiRemoteKitchenControllerRemoveFromKitchenRequest, options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
-            return localVarFp.remoteKitchenControllerRemoveFromKitchen(requestParameters.annotatedMonsieurAxelMenvoie, options).then((request) => request(axios, basePath));
+        remoteKitchenControllerHandleNotServedPreparations(requestParameters: RemoteKitchenApiRemoteKitchenControllerHandleNotServedPreparationsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.remoteKitchenControllerHandleNotServedPreparations(requestParameters.requestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RemoteKitchenApiRemoteKitchenControllerPreparationDetailsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteKitchenControllerPreparationDetails(requestParameters: RemoteKitchenApiRemoteKitchenControllerPreparationDetailsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<AnnotatedPreparedItemAggregate>> {
+            return localVarFp.remoteKitchenControllerPreparationDetails(requestParameters.preparationId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RemoteKitchenApiRemoteKitchenControllerReadyPreparationsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteKitchenControllerReadyPreparations(requestParameters: RemoteKitchenApiRemoteKitchenControllerReadyPreparationsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.remoteKitchenControllerReadyPreparations(requestParameters.requestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -276,6 +438,15 @@ export const RemoteKitchenApiFactory = function (configuration?: Configuration, 
         remoteKitchenControllerServePreparation(requestParameters: RemoteKitchenApiRemoteKitchenControllerServePreparationRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.remoteKitchenControllerServePreparation(requestParameters.requestBody, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {RemoteKitchenApiRemoteKitchenControllerStartAndFinishPreparationRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteKitchenControllerStartAndFinishPreparation(requestParameters: RemoteKitchenApiRemoteKitchenControllerStartAndFinishPreparationRequest, options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
+            return localVarFp.remoteKitchenControllerStartAndFinishPreparation(requestParameters.body, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -294,17 +465,45 @@ export interface RemoteKitchenApiRemoteKitchenControllerGetOrdersByGroupIdReques
 }
 
 /**
- * Request parameters for remoteKitchenControllerRemoveFromKitchen operation in RemoteKitchenApi.
+ * Request parameters for remoteKitchenControllerHandleNotServedPreparations operation in RemoteKitchenApi.
  * @export
- * @interface RemoteKitchenApiRemoteKitchenControllerRemoveFromKitchenRequest
+ * @interface RemoteKitchenApiRemoteKitchenControllerHandleNotServedPreparationsRequest
  */
-export interface RemoteKitchenApiRemoteKitchenControllerRemoveFromKitchenRequest {
+export interface RemoteKitchenApiRemoteKitchenControllerHandleNotServedPreparationsRequest {
     /**
      * 
-     * @type {AnnotatedMonsieurAxelMenvoie}
-     * @memberof RemoteKitchenApiRemoteKitchenControllerRemoveFromKitchen
+     * @type {Array<string>}
+     * @memberof RemoteKitchenApiRemoteKitchenControllerHandleNotServedPreparations
      */
-    readonly annotatedMonsieurAxelMenvoie: AnnotatedMonsieurAxelMenvoie
+    readonly requestBody: Array<string>
+}
+
+/**
+ * Request parameters for remoteKitchenControllerPreparationDetails operation in RemoteKitchenApi.
+ * @export
+ * @interface RemoteKitchenApiRemoteKitchenControllerPreparationDetailsRequest
+ */
+export interface RemoteKitchenApiRemoteKitchenControllerPreparationDetailsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RemoteKitchenApiRemoteKitchenControllerPreparationDetails
+     */
+    readonly preparationId: string
+}
+
+/**
+ * Request parameters for remoteKitchenControllerReadyPreparations operation in RemoteKitchenApi.
+ * @export
+ * @interface RemoteKitchenApiRemoteKitchenControllerReadyPreparationsRequest
+ */
+export interface RemoteKitchenApiRemoteKitchenControllerReadyPreparationsRequest {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof RemoteKitchenApiRemoteKitchenControllerReadyPreparations
+     */
+    readonly requestBody: Array<string>
 }
 
 /**
@@ -336,6 +535,20 @@ export interface RemoteKitchenApiRemoteKitchenControllerServePreparationRequest 
 }
 
 /**
+ * Request parameters for remoteKitchenControllerStartAndFinishPreparation operation in RemoteKitchenApi.
+ * @export
+ * @interface RemoteKitchenApiRemoteKitchenControllerStartAndFinishPreparationRequest
+ */
+export interface RemoteKitchenApiRemoteKitchenControllerStartAndFinishPreparationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RemoteKitchenApiRemoteKitchenControllerStartAndFinishPreparation
+     */
+    readonly body: string
+}
+
+/**
  * RemoteKitchenApi - object-oriented interface
  * @export
  * @class RemoteKitchenApi
@@ -355,13 +568,35 @@ export class RemoteKitchenApi extends BaseAPI {
 
     /**
      * 
-     * @param {RemoteKitchenApiRemoteKitchenControllerRemoveFromKitchenRequest} requestParameters Request parameters.
+     * @param {RemoteKitchenApiRemoteKitchenControllerHandleNotServedPreparationsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RemoteKitchenApi
      */
-    public remoteKitchenControllerRemoveFromKitchen(requestParameters: RemoteKitchenApiRemoteKitchenControllerRemoveFromKitchenRequest, options?: RawAxiosRequestConfig) {
-        return RemoteKitchenApiFp(this.configuration).remoteKitchenControllerRemoveFromKitchen(requestParameters.annotatedMonsieurAxelMenvoie, options).then((request) => request(this.axios, this.basePath));
+    public remoteKitchenControllerHandleNotServedPreparations(requestParameters: RemoteKitchenApiRemoteKitchenControllerHandleNotServedPreparationsRequest, options?: RawAxiosRequestConfig) {
+        return RemoteKitchenApiFp(this.configuration).remoteKitchenControllerHandleNotServedPreparations(requestParameters.requestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RemoteKitchenApiRemoteKitchenControllerPreparationDetailsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RemoteKitchenApi
+     */
+    public remoteKitchenControllerPreparationDetails(requestParameters: RemoteKitchenApiRemoteKitchenControllerPreparationDetailsRequest, options?: RawAxiosRequestConfig) {
+        return RemoteKitchenApiFp(this.configuration).remoteKitchenControllerPreparationDetails(requestParameters.preparationId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RemoteKitchenApiRemoteKitchenControllerReadyPreparationsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RemoteKitchenApi
+     */
+    public remoteKitchenControllerReadyPreparations(requestParameters: RemoteKitchenApiRemoteKitchenControllerReadyPreparationsRequest, options?: RawAxiosRequestConfig) {
+        return RemoteKitchenApiFp(this.configuration).remoteKitchenControllerReadyPreparations(requestParameters.requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -384,6 +619,17 @@ export class RemoteKitchenApi extends BaseAPI {
      */
     public remoteKitchenControllerServePreparation(requestParameters: RemoteKitchenApiRemoteKitchenControllerServePreparationRequest, options?: RawAxiosRequestConfig) {
         return RemoteKitchenApiFp(this.configuration).remoteKitchenControllerServePreparation(requestParameters.requestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RemoteKitchenApiRemoteKitchenControllerStartAndFinishPreparationRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RemoteKitchenApi
+     */
+    public remoteKitchenControllerStartAndFinishPreparation(requestParameters: RemoteKitchenApiRemoteKitchenControllerStartAndFinishPreparationRequest, options?: RawAxiosRequestConfig) {
+        return RemoteKitchenApiFp(this.configuration).remoteKitchenControllerStartAndFinishPreparation(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

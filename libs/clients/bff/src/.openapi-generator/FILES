@@ -22,6 +22,7 @@ models/annotated-monsieur-axel-menvoie.ts
 models/annotated-monsieur-axel-menvoie2.ts
 models/annotated-offer.ts
 models/annotated-preparation-status.ts
+models/annotated-prepared-item-aggregate.ts
 models/annotated-table-item.ts
 models/annotated-table-with-order-dto.ts
 models/annotation-table-summary.ts

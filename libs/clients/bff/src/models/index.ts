@@ -8,6 +8,7 @@ export * from './annotated-monsieur-axel-menvoie';
 export * from './annotated-monsieur-axel-menvoie2';
 export * from './annotated-offer';
 export * from './annotated-preparation-status';
+export * from './annotated-prepared-item-aggregate';
 export * from './annotated-table-item';
 export * from './annotated-table-with-order-dto';
 export * from './annotation-table-summary';

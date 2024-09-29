@@ -1,11 +1,11 @@
-import { Body, Controller, Delete, Get, Post, Query } from "@nestjs/common";
-import { ApiExtraModels, ApiProperty, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ApiExtraModels, ApiProperty, ApiTags } from '@nestjs/swagger';
 import {
   CartItem,
   container,
   KitchenService,
   MonsieurAxelMenvoie,
-  PreparationStatus,
+  PreparationStatus, PreparedItemAggregate,
   TYPES
 } from "@spos/services/common";
 
@@ -27,19 +27,26 @@ class AnnotatedMonsieurAxelMenvoie implements MonsieurAxelMenvoie {
   tableNumber: number;
 }
 
-class AnnotatedPreparationStatus  implements PreparationStatus {
-  @ApiProperty(
-    { enum: ["readyToBeServed", "preparationStarted", "preparationServed"] }
-  )
-  status: "readyToBeServed" | "preparationStarted" | "preparationServed";
+class AnnotatedPreparationStatus implements PreparationStatus {
+  @ApiProperty({
+    enum: ['readyToBeServed', 'preparationStarted', 'preparationServed'],
+  })
+  status: 'readyToBeServed' | 'preparationStarted' | 'preparationServed';
   @ApiProperty()
   preparationId: string;
 }
 
 class OrderSummary {
-  @ApiProperty(
-    { type: 'object', additionalProperties: { type: 'object', additionalProperties: { type: 'array', items: { $ref: '#/components/schemas/AnnotatedPreparationStatus' } } } }
-  )
+  @ApiProperty({
+    type: 'object',
+    additionalProperties: {
+      type: 'object',
+      additionalProperties: {
+        type: 'array',
+        items: { $ref: '#/components/schemas/AnnotatedPreparationStatus' },
+      },
+    },
+  })
   summary: {
     [category: string]: {
       [table: number]: AnnotatedPreparationStatus[];
@@ -47,31 +54,40 @@ class OrderSummary {
   };
 }
 
+
+class AnnotatedPreparedItemAggregate implements PreparedItemAggregate {
+  @ApiProperty()
+  quantity: number;
+  @ApiProperty()
+  shortName: string;
+}
+
 @Controller('remoteKitchen')
 @ApiTags('remoteKitchen')
-@ApiExtraModels(AnnotatedCartItem, AnnotatedMonsieurAxelMenvoie, AnnotatedPreparationStatus)
+@ApiExtraModels(
+  AnnotatedCartItem,
+  AnnotatedMonsieurAxelMenvoie,
+  AnnotatedPreparationStatus
+)
 export class RemoteKitchenController {
-  @Get()
+  @Get('getOrdersByGroupId')
   async getOrdersByGroupId(
     @Query('groupId')
     groupId: string
   ): Promise<OrderSummary> {
-    return (await container.get<KitchenService>(TYPES.KitchenService).getOrdersByGroupId(groupId))
+    return await container
+      .get<KitchenService>(TYPES.KitchenService)
+      .getOrdersByGroupId(groupId);
   }
 
-  @Delete()
-  async removeFromKitchen(
-    @Body()
-    order: AnnotatedMonsieurAxelMenvoie
-  ): Promise<boolean> {
-    return (await container.get<KitchenService>(TYPES.KitchenService).removeOrdersOfTableFromKitchen(order))
-  }
-
-  @Post()
+  @Post('sendToKitchen')
   async sendToKitchen(
     @Body()
-    order: AnnotatedMonsieurAxelMenvoie): Promise<void> {
-    return (await container.get<KitchenService>(TYPES.KitchenService).sendToKitchen(order))
+    order: AnnotatedMonsieurAxelMenvoie
+  ): Promise<void> {
+    return await container
+      .get<KitchenService>(TYPES.KitchenService)
+      .sendToKitchen(order);
   }
 
   @Post('serve')
@@ -79,31 +95,41 @@ export class RemoteKitchenController {
     @Body()
     preparationIds: string[]
   ): Promise<void> {
-    return (await container.get<KitchenService>(TYPES.KitchenService).servePreparation(preparationIds))
+    return await container
+      .get<KitchenService>(TYPES.KitchenService)
+      .servePreparation(preparationIds);
   }
-  @Post()
+
+  @Post('startAndFinishPreparation')
   async startAndFinishPreparation(
     @Body()
     preparedItemId: string
   ): Promise<boolean> {
-    return (await container.get<KitchenService>(TYPES.KitchenService).startAndFinishPreparation(preparedItemId))
+    return await container
+      .get<KitchenService>(TYPES.KitchenService)
+      .startAndFinishPreparedItem(preparedItemId);
   }
 
-  @Post()
+  @Post('handleNotServedPreparations')
   async handleNotServedPreparations(
     @Body()
-    preparations: any[]
-  ) : Promise<boolean>{
-    return (await container.get<KitchenService>(TYPES.KitchenApiService).handleNotServedPreparations(preparations))
+    preparationsIds: string[]
+  ): Promise<void> {
+    return await container
+      .get<KitchenService>(TYPES.KitchenApiService)
+      .readyPreparations(preparationsIds);
   }
 
-  @Get()
-  async getPreparationsByStateAndTableNumber(
-    @Body()
-    state: 'readyToBeServed' | 'preparationStarted',
-    tableNumber: number
-  ):Promise<any>{
-    return (await container.get<KitchenService>(TYPES.KitchenApiService).getPreparationsByStateAndTableNumber(state,tableNumber))
+  @Post('readyPreparations')
+  async readyPreparations(@Body() preparationsIds: string[]): Promise<void> {
+    return await container
+      .get<KitchenService>(TYPES.KitchenService)
+      .readyPreparations(preparationsIds);
   }
 
+  @Get('preparationDetails')
+  async preparationDetails(
+    @Query('preparationId') preparationId: string): Promise<AnnotatedPreparedItemAggregate[]> {
+    return container.get<KitchenService>(TYPES.KitchenService).preparationDetails(preparationId);
+  }
 }

@@ -4,6 +4,7 @@ import {
   KitchenService,
   MonsieurAxelMenvoie,
   OrderSummary,
+  PreparedItemAggregate,
 } from './kitchenService';
 import { BackendBffApiService } from '../apis/backendBffApiService';
 
@@ -13,7 +14,6 @@ export class KitchenRemoteService implements KitchenService {
     @inject(TYPES.BackendBffApiService)
     private backendBffApiService: BackendBffApiService
   ) {}
-  
 
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     return (
@@ -21,16 +21,6 @@ export class KitchenRemoteService implements KitchenService {
         .getRemoteKitchenApi()
         .remoteKitchenControllerGetOrdersByGroupId({
           groupId,
-        })
-    ).data;
-  }
-
-  async removeFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean> {
-    return (
-      await this.backendBffApiService
-        .getRemoteKitchenApi()
-        .remoteKitchenControllerRemoveFromKitchen({
-          annotatedMonsieurAxelMenvoie: order,
         })
     ).data;
   }
@@ -55,19 +45,35 @@ export class KitchenRemoteService implements KitchenService {
     ).data;
   }
 
-  removeOrdersOfTableFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  async startAndFinishPreparedItem(preparedItemId: string): Promise<boolean> {
+    return (
+      await this.backendBffApiService
+        .getRemoteKitchenApi()
+        .remoteKitchenControllerStartAndFinishPreparation({
+          body: preparedItemId,
+        })
+    ).data;
   }
-  startAndFinishPreparation(preparedItemId: string): Promise<boolean> {
-    throw new Error('Method not implemented.');
+
+  async readyPreparations(preparationsIds: string[]): Promise<void> {
+    return (
+      await this.backendBffApiService
+        .getRemoteKitchenApi()
+        .remoteKitchenControllerReadyPreparations({
+          requestBody: preparationsIds,
+        })
+    ).data;
   }
-  handleNotServedPreparations(preparations: any[]): Promise<boolean> {
-    throw new Error('Method not implemented.');
-  }
-  getPreparationsByStateAndTableNumber(state: 'readyToBeServed' | 'preparationStarted', tableNumber: number): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-  servePreparations(preparationsToRemove: any[]): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async preparationDetails(
+    preparationId: string
+  ): Promise<PreparedItemAggregate[]> {
+    return (
+      await this.backendBffApiService
+        .getRemoteKitchenApi()
+        .remoteKitchenControllerPreparationDetails({
+          preparationId,
+        })
+    ).data;
   }
 }

@@ -6,8 +6,8 @@ import {
   KitchenService,
   MonsieurAxelMenvoie,
   OrderSummary,
-  PreparationStatus
-} from './kitchenService';
+  PreparationStatus, PreparedItemAggregate
+} from "./kitchenService";
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
 import { KitchenNotFoundException } from '../exceptions/kitchenExceptions';
@@ -75,23 +75,31 @@ export class KitchenServiceWorkflow implements KitchenService {
     }
   }
 
-  // Commence et fini une préparation 
-  async startAndFinishPreparation(preparedItemId: string): Promise<boolean> {
+  // Commence et fini une préparation
+  async startAndFinishPreparedItem(preparedItemId: string): Promise<boolean> {
     try {
       const preparedItemsApi = this.kitchenApiService.getPreparedItemsApi();
-      const startResponse = await preparedItemsApi.preparedItemsControllerStartToPrepareItemOnPost({
-        preparedItemId,
-      });
+      const startResponse =
+        await preparedItemsApi.preparedItemsControllerStartToPrepareItemOnPost({
+          preparedItemId,
+        });
       if (!startResponse || startResponse.status === 404) {
-        throw new KitchenNotFoundException(`Préparation de l'article ${preparedItemId} introuvable.`);
+        throw new KitchenNotFoundException(
+          `Préparation de l'article ${preparedItemId} introuvable.`
+        );
       }
-      const finishResponse = await preparedItemsApi.preparedItemsControllerFinishToPrepareItemOnPost({
-        preparedItemId,
-      });
+      const finishResponse =
+        await preparedItemsApi.preparedItemsControllerFinishToPrepareItemOnPost(
+          {
+            preparedItemId,
+          }
+        );
       if (!finishResponse || finishResponse.status === 404) {
-        throw new KitchenNotFoundException(`Impossible de terminer la préparation de l'article ${preparedItemId}.`);
+        throw new KitchenNotFoundException(
+          `Impossible de terminer la préparation de l'article ${preparedItemId}.`
+        );
       }
-  
+
       return true;
     } catch (error) {
       if (error instanceof KitchenNotFoundException) {
@@ -105,62 +113,27 @@ export class KitchenServiceWorkflow implements KitchenService {
       throw error;
     }
   }
+
   // Commence et fini plusieurs preparations
-  async handleNotServedPreparations(preparations: any[]) : Promise<boolean> {
-    for (const preparation of preparations) {
-      for (const pi of preparation.preparedItems) {
-        await this.startAndFinishPreparation(pi._id);
+  async readyPreparations(preparationsIds: string[]): Promise<void> {
+    for (const preparation of preparationsIds) {
+      const preparedItemsApi = (
+        await this.kitchenApiService
+          .getPreparationApi()
+          .preparationsControllerRetrievePreparation({
+            preparationId: preparation,
+          })
+      ).data;
+      if (!preparedItemsApi) {
+        throw new KitchenNotFoundException(
+          `Préparation de l'article ${preparation} introuvable.`
+        );
+      }
+      for (const preparedItem of preparedItemsApi.preparedItems) {
+        await this.startAndFinishPreparedItem(preparedItem._id);
       }
     }
-    return true;
   }
-
-  // Récupère les préparations selon leur status et le numéro de table
-  async getPreparationsByStateAndTableNumber(
-    state: 'readyToBeServed' | 'preparationStarted',
-    tableNumber: number
-  ) {
-    const preparationApi = this.kitchenApiService.getPreparationApi();
-    return (await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber({ state, tableNumber })).data;
-  }
-
-  
-  // Indique des préparations comme servis
-  async servePreparations(preparationsToRemove: any[]) : Promise<void> {
-    const preparationApi = this.kitchenApiService.getPreparationApi();
-    for (const preparation of preparationsToRemove) {
-      await preparationApi.preparationsControllerPreparationIsServed({
-        preparationId: preparation._id,
-      });
-    }
-  }
-
-  // supprime les preparations correspondante a un numéro de table
-  async removeOrdersOfTableFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean> {
-    try {
-      const preparationsNotServed = await this.getPreparationsByStateAndTableNumber('preparationStarted', order.tableNumber);
-
-      await this.handleNotServedPreparations(preparationsNotServed);
-
-      const preparationsReadyToServe = await this.getPreparationsByStateAndTableNumber('readyToBeServed', order.tableNumber);
-
-      const preparationsToRemove = preparationsReadyToServe.filter(preparation =>
-        order.cart.some(item => item.itemId === preparation._id)
-      );
-
-      await this.servePreparations(preparationsToRemove);
-
-      return true;
-    } catch (error) {
-      if (error instanceof KitchenNotFoundException) {
-        console.warn(error.message);
-      } else {
-        console.error('Erreur lors de la suppression des commandes de la cuisine :', error);
-      }
-      return false;
-    }
-  }
-
 
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     const group = await this.groupService.getGroup(groupId);
@@ -232,8 +205,6 @@ export class KitchenServiceWorkflow implements KitchenService {
     return orderSummary;
   }
 
- 
-
   async servePreparation(preparationIds: string[]): Promise<void> {
     const preparationApi = this.kitchenApiService.getPreparationApi();
     for (const preparationId of preparationIds) {
@@ -241,5 +212,29 @@ export class KitchenServiceWorkflow implements KitchenService {
         preparationId,
       });
     }
+  }
+
+  async preparationDetails(preparationId: string): Promise<PreparedItemAggregate[]> {
+    const preparationApi = this.kitchenApiService.getPreparationApi();
+    const preparation =
+      await preparationApi.preparationsControllerRetrievePreparation({
+        preparationId,
+      });
+    // count prepared items by shortName
+    const preparedItemsByShortName: { [shortName: string]: number } = {};
+    for (const preparedItem of preparation.data.preparedItems) {
+      if (!preparedItemsByShortName[preparedItem.shortName]) {
+        preparedItemsByShortName[preparedItem.shortName] = 0;
+      }
+      preparedItemsByShortName[preparedItem.shortName]++;
+    }
+    return Object.entries(preparedItemsByShortName).map(
+      ([shortName, quantity]) => {
+        return {
+          shortName,
+          quantity,
+        };
+      }
+    );
   }
 }
