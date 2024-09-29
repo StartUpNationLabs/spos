@@ -1,3 +1,25 @@
+## 0.20.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- Fetch of orders from backend ([32c3098](https://github.com/StartUpNationLabs/spos/commit/32c3098))
+
+- Fetch of orders from backend part 2 ([b31fce1](https://github.com/StartUpNationLabs/spos/commit/b31fce1))
+
+- add close table in billing ([bde3c06](https://github.com/StartUpNationLabs/spos/commit/bde3c06))
+
+
+### 🩹 Fixes
+
+- Clean logs from orders ([c04d913](https://github.com/StartUpNationLabs/spos/commit/c04d913))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.19.1 (2024-09-29)
 
 
