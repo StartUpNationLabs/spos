@@ -1,3 +1,17 @@
+## 0.11.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- add remote billing ([a7fc061](https://github.com/StartUpNationLabs/spos/commit/a7fc061))
+
+- add preparationDetails ([0088385](https://github.com/StartUpNationLabs/spos/commit/0088385))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.10.0 (2024-09-29)
 
 

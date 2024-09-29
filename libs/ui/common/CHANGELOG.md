@@ -1,3 +1,25 @@
+## 0.21.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- Connection to backend to serve item to customer (bug fixing needed) ([e66f10e](https://github.com/StartUpNationLabs/spos/commit/e66f10e))
+
+- Implementation of group payment and cache invalidation in frontend ([185a374](https://github.com/StartUpNationLabs/spos/commit/185a374))
+
+- add preparationDetails ([0088385](https://github.com/StartUpNationLabs/spos/commit/0088385))
+
+
+### 🩹 Fixes
+
+- Dependancy error and linting issue TODO ([23a3a0a](https://github.com/StartUpNationLabs/spos/commit/23a3a0a))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.20.0 (2024-09-29)
 
 
