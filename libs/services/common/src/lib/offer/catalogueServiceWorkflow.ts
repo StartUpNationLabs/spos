@@ -10,10 +10,10 @@ import { logger } from '../logger';
 @injectable()
 export class CatalogueServiceWorkflow implements CatalogueService {
 
-  private menuApiService = new MenuApiService();
 
   constructor(
-    @inject(TYPES.OfferService) private offerService: OfferService) {
+    @inject(TYPES.OfferService) private offerService: OfferService,
+    @inject(TYPES.MenuApiService) private menuApiService: MenuApiService) {
   }
   @logger
   async getFilteredCatalog(offerName: string): Promise<CategorizedCatalog> {

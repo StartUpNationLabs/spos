@@ -1,15 +1,29 @@
-import { injectable } from "inversify";
-import { Configuration, RemoteGroupApi, RemoteTableApi, RemoteCatalogueApi, RemoteOfferApi } from "@spos/clients-bff";
+import { inject, injectable } from 'inversify';
+import {
+  Configuration,
+  RemoteCatalogueApi,
+  RemoteGroupApi,
+  RemoteOfferApi,
+  RemoteTableApi,
+} from '@spos/clients-bff';
+import { TYPES } from '../types';
 
 @injectable()
 export class BackendBffApiService {
-  private configuration = new Configuration({
-    basePath: "http://localhost:3000",
-  });
-  private remoteGroupApi = new RemoteGroupApi(this.configuration);
-  private remoteTableApi = new RemoteTableApi(this.configuration);
-  private remoteCatalogueApi = new RemoteCatalogueApi(this.configuration);
-  private remoteOfferApi = new RemoteOfferApi(this.configuration);
+  private readonly remoteGroupApi: RemoteGroupApi;
+  private readonly remoteTableApi: RemoteTableApi;
+  private readonly remoteCatalogueApi: RemoteCatalogueApi;
+  private readonly remoteOfferApi: RemoteOfferApi;
+
+  constructor(
+    @inject(TYPES.BackendBffConfiguration)
+    private configuration: Configuration
+  ) {
+    this.remoteGroupApi = new RemoteGroupApi(this.configuration);
+    this.remoteTableApi = new RemoteTableApi(this.configuration);
+    this.remoteCatalogueApi = new RemoteCatalogueApi(this.configuration);
+    this.remoteOfferApi = new RemoteOfferApi(this.configuration);
+  }
 
   getRemoteGroupApi() {
     return this.remoteGroupApi;
@@ -18,6 +32,7 @@ export class BackendBffApiService {
   getRemoteTableApi() {
     return this.remoteTableApi;
   }
+
   getRemoteCatalogueApi() {
     return this.remoteCatalogueApi;
   }
