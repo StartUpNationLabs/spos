@@ -7,7 +7,9 @@ import {
   Commands,
   OrderingChoices,
   Orders,
-  Summary
+  Summary,
+  OrdersTable,
+  
 } from "@spos/ui/common";
 
 export function App() {
@@ -24,6 +26,8 @@ export function App() {
             </div>
           }
         />
+        <Route path="/preparations/" element={<OrdersTable />} />
+
         <Route path="/groupBilling/" element={<GroupBilling />} />
         <Route path="/groupBilling/:groupId" element={<GroupBilling />} />
         <Route path="/tableBilling/" element={<TableBilling />} />
