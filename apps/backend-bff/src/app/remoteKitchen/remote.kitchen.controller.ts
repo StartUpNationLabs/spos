@@ -81,4 +81,29 @@ export class RemoteKitchenController {
   ): Promise<void> {
     return (await container.get<KitchenService>(TYPES.KitchenService).servePreparation(preparationIds))
   }
+  @Post()
+  async startAndFinishPreparation(
+    @Body()
+    preparedItemId: string
+  ): Promise<boolean> {
+    return (await container.get<KitchenService>(TYPES.KitchenService).startAndFinishPreparation(preparedItemId))
+  }
+
+  @Post()
+  async handleNotServedPreparations(
+    @Body()
+    preparations: any[]
+  ) : Promise<boolean>{
+    return (await container.get<KitchenService>(TYPES.KitchenApiService).handleNotServedPreparations(preparations))
+  }
+
+  @Get()
+  async getPreparationsByStateAndTableNumber(
+    @Body()
+    state: 'readyToBeServed' | 'preparationStarted',
+    tableNumber: number
+  ):Promise<any>{
+    return (await container.get<KitchenService>(TYPES.KitchenApiService).getPreparationsByStateAndTableNumber(state,tableNumber))
+  }
+
 }
