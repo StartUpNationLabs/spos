@@ -2,6 +2,7 @@
 .openapi-generator-ignore
 api.ts
 api/default-api.ts
+api/remote-billing-api.ts
 api/remote-catalogue-api.ts
 api/remote-group-api.ts
 api/remote-kitchen-api.ts
@@ -15,10 +16,15 @@ models/annotated-cart-item.ts
 models/annotated-create-table-dto.ts
 models/annotated-group-create-dto.ts
 models/annotated-group.ts
+models/annotated-item-paid.ts
+models/annotated-item.ts
 models/annotated-monsieur-axel-menvoie.ts
+models/annotated-monsieur-axel-menvoie2.ts
 models/annotated-offer.ts
 models/annotated-preparation-status.ts
+models/annotated-table-item.ts
 models/annotated-table-with-order-dto.ts
+models/annotation-table-summary.ts
 models/categorized-catalog-dto.ts
 models/index.ts
 models/menu-item-dto.ts

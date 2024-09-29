@@ -7,10 +7,11 @@ import { RemoteTableController } from "./remoteTable/remote.table.controller";
 import { RemoteOfferController } from "./remoteOffer/remote.offer.controller";
 import { RemoteCatalogueController } from './remoteCatalogue/remote.catalogue.controller';
 import { RemoteKitchenController } from "./remoteKitchen/remote.kitchen.controller";
+import { RemoteBillingController } from "./remoteBilling/remote.billing.controller";
 
 @Module({
   imports: [],
-  controllers: [AppController, RemoteGroupController, RemoteTableController, RemoteOfferController, RemoteCatalogueController, RemoteKitchenController],
+  controllers: [AppController, RemoteGroupController, RemoteTableController, RemoteOfferController, RemoteCatalogueController, RemoteKitchenController, RemoteBillingController],
   providers: [AppService],
 })
 export class AppModule {}
