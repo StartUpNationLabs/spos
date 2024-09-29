@@ -19,11 +19,13 @@ import useCommandsParameter from './stores/useCommandsParameter';
 export function Commands() {
   const navigate = useNavigate();
   const { groupId } = useParams();
-  const removeCart = useCarts((state) => state.resetCart);
+  const resetCart = useCarts((state) => state.resetCart);
 
   const setGroupId = useCommandsParameter((state) => state.setGroupId);
   const setTableNumber = useCommandsParameter((state) => state.setTableNumber);
   const setOfferType = useCommandsParameter((state) => state.setOfferType);
+
+  const tableNumber = useCommandsParameter().tableNumber;
 
   if (!groupId || groupId === '') {
     navigate('/');
@@ -49,7 +51,7 @@ export function Commands() {
 
   useEffect(() => {
     if (group) {
-      removeCart(group.tables[0].number);
+      resetCart(group.tables[0].number);
       setTableNumber(group.tables[0].number);
       setOfferType(group.offer);
     }
@@ -57,6 +59,10 @@ export function Commands() {
   useEffect(() => {
     setGroupId(groupId ?? '');
   }, [setGroupId, groupId]);
+
+  useEffect(() => {
+    resetCart(tableNumber);
+  }, [tableNumber]);
 
   if (isLoading) {
     return (
