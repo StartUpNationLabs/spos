@@ -1,3 +1,15 @@
+## 0.22.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- Implementation of backend for partial payment in frontend and UI improvement ([612d5a9](https://github.com/StartUpNationLabs/spos/commit/612d5a9))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.21.0 (2024-09-29)
 
 
