@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
-import { KitchenService, TYPES } from '../types';
-import { MonsieurAxelMenvoie } from './kitchenService';
+import { TYPES } from '../types';
+import { KitchenService, MonsieurAxelMenvoie } from "./kitchenService";
 import { BackendBffApiService } from '../apis/backendBffApiService';
 import { OrderSummary } from '@spos/clients-bff';
 
