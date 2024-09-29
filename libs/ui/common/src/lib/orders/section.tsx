@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import CommandNumber from "./commandNumber";
-import { PreparationStatus } from "libs/services/common/src/lib/kitchen/kitchenServiceWorkflow";
+import { PreparationStatus } from '@spos/services/common';
 
 type SectionProps = {
     title: string,
