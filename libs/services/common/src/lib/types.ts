@@ -9,5 +9,10 @@ export const TYPES = {
   BackendBffApiService: Symbol.for('BackendBffApiService'),
   KitchenService: Symbol.for('KitchenService'),
   BillingService: Symbol.for('BillingService'),
+  BackendBffConfiguration: Symbol.for('BackendBffConfiguration'),
+  KitchenApiConfiguration: Symbol.for('KitchenApiConfiguration'),
+  DiningApiConfiguration: Symbol.for('DiningApiConfiguration'),
+  MenuApiConfiguration: Symbol.for('MenuApiConfiguration'),
+
 };
 
