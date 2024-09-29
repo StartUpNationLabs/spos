@@ -56,7 +56,7 @@ export class KitchenServiceWorkflow implements KitchenService {
       }
       cartItemsByCategory[menuItem.category].cart.push(item);
     }
-    Object.values(cartItemsByCategory).map(async (category) => {
+    for (const category of Object.values(cartItemsByCategory)) {
       const promises = category.cart.map((item) => {
         return tableOrdersApi.tableOrdersControllerAddMenuItemToTableOrder({
           tableOrderId: tableOrderId.id,
@@ -68,11 +68,10 @@ export class KitchenServiceWorkflow implements KitchenService {
         });
       });
       await Promise.all(promises);
-
       await tableOrdersApi.tableOrdersControllerPrepareTableOrder({
         tableOrderId: tableOrderId.id,
       });
-    });
+    }
   }
 
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
