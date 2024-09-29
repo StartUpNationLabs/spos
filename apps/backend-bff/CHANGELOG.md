@@ -1,3 +1,15 @@
+## 0.8.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- add remote kitchen ([1308c0a](https://github.com/StartUpNationLabs/spos/commit/1308c0a))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.7.0 (2024-09-29)
 
 
