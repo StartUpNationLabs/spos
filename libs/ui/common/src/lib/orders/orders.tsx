@@ -6,21 +6,34 @@ import BackButton from '../utils/backButton';
 import useStore from './stores/serve';
 import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { KitchenService, TYPES } from '@spos/services/common';
 import { ContainerContext } from '../containerHook/containerContext';
 
 export function Orders() {
   const { groupId } = useCommandsParameter();
   const navigate = useNavigate();
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  useEffect(() => {
-    if (selectedOrder) {
-      console.log("Selected Order changed:", selectedOrder);
-    }
-  }, [selectedOrder]);
+  const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
 
-  const { ordersData, setServed } = useStore();
+  useEffect(() => {
+    if (selectedOrders.length > 0) {
+      console.log("Selected Orders changed:", selectedOrders);
+    }
+  }, [selectedOrders]);
+
+  const mutation = useMutation({
+    mutationFn: (preparationIds: string[]) => {
+      console.log(preparationIds);
+      return container.get<KitchenService>(TYPES.KitchenService).servePreparation(preparationIds);
+    },
+    onSuccess: (data) => {
+      setSelectedOrders([]);
+      navigate(`/commands/${groupId}/orders`);
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
 
   const container = useContext(ContainerContext);
 
@@ -55,20 +68,26 @@ export function Orders() {
     );
   }
 
-  const handleSelectOrder = (category: string, table: number, preparationId: string) => {
+  const handleSelectOrder = (preparationId: string) => {
     console.log("Selecting an order...");
-    setSelectedOrder({ category, table, preparationId });
+    const index = selectedOrders.findIndex((element) => element === preparationId);
+
+    if (index !== -1) {
+      // Remove the order from the list
+      setSelectedOrders((prevOrders) => [...prevOrders.slice(0, index), ...prevOrders.slice(index + 1)]);
+    } else {
+      // Add the new order to the list
+      setSelectedOrders((prevOrders) => [...prevOrders, preparationId]);
+    }
   };
 
   const handleServe = () => {
-    console.log("Serve Button clicked");
-    if (selectedOrder) {
-      console.log("Selected order:", selectedOrder);
-      const { category, table, preparationId } = selectedOrder;
-      setServed(category, table, preparationId, true);
-      console.log("After serving:", ordersData);
-
-      setSelectedOrder(null);
+    if (selectedOrders.length > 0) {
+      console.log("Selected order to serve :", selectedOrders);
+      mutation.mutate(selectedOrders);
+    }
+    else {
+      console.log("Select at least one order to serve before serving.");
     }
   };
 
@@ -127,7 +146,7 @@ export function Orders() {
                   title={category.charAt(0).toUpperCase() + category.slice(1)}
                   orders={summary.summary[category]}
                   onSelectOrder={handleSelectOrder}
-                  selectedOrder={selectedOrder}
+                  selectedOrders={selectedOrders}
                 />
               ))}
             </Box>
@@ -135,7 +154,7 @@ export function Orders() {
           <Button sx={{
             margin: "auto",
             alignItems: "center"
-          }} variant="contained">
+          }} variant="contained" onClick={handleServe}>
             Serve
           </Button>
         </Box>

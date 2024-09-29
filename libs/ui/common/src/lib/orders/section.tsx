@@ -5,11 +5,11 @@ import { PreparationStatus } from '@spos/services/common';
 type SectionProps = {
     title: string,
     orders: { [table: number]: PreparationStatus[] },
-    selectedOrder: any,
+    selectedOrders: string[],
     onSelectOrder: any
 }
 
-const Section = ({ title, orders, selectedOrder, onSelectOrder }: SectionProps) => (
+const Section = ({ title, orders, selectedOrders, onSelectOrder }: SectionProps) => (
     <Box sx={{ marginBottom: 3 }}>
         <Typography variant="h6" gutterBottom sx={{ color: 'black', fontSize: 24 }}>
             {title}
@@ -26,8 +26,8 @@ const Section = ({ title, orders, selectedOrder, onSelectOrder }: SectionProps) 
                             number={index + 1} // TODO: Change By a unique number
                             status={order.status}
                             isServed={false} //TODO: Need input from backend
-                            isSelected={selectedOrder && selectedOrder.preparationId === order.preparationId}  // Comparer pour savoir si c'est sélectionné
-                            onSelect={() => onSelectOrder(title.toLowerCase(), table, order.preparationId)}  // Passer la commande sélectionnée
+                            isSelected={selectedOrders && selectedOrders.findIndex(preparationId => preparationId === order.preparationId) !== -1}  // Comparer pour savoir si c'est sélectionné
+                            onSelect={() => onSelectOrder(order.preparationId)}  // Passer la commande sélectionnée
                         />
                     ))}
                 </Box>

@@ -6,7 +6,7 @@ import {
   KitchenService,
   MonsieurAxelMenvoie,
   OrderSummary,
-  PreparationStatus,
+  PreparationStatus
 } from './kitchenService';
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
