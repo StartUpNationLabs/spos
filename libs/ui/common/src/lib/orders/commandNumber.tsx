@@ -8,10 +8,10 @@ type CommandNumberProps = {
     onSelect: () => void;
 }
 
-const CommandNumber = ({ number, status, isServed, isSelected, onSelect }: CommandNumberProps) => {
-    const backgroundColor = isSelected ? 'blue' : (status === 'completed' ? 'green' : 'orange'); // Mettre en surbrillance si sélectionné
+const CommandNumber = ({ number, status, isServed, onSelect }: CommandNumberProps) => {
+    const backgroundColor =status === 'completed' ? 'green' : 'orange'; // Mettre en surbrillance si sélectionné
 
-    const onClick = (status !== "preparationStarted" && !isServed ) ? onSelect : () => console.log("Order not ready to be served yet.");
+    const onClick = ( true/*status !== "preparationStarted" && !isServed*/ ) ? onSelect : () => console.log("Order not ready to be served yet.");
     //TODO : to replace once we can manually prepare an item
     return (
         <Button
