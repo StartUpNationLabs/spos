@@ -14,7 +14,7 @@ export class GroupRemoteService implements GroupService {
   constructor( @inject(TYPES.BackendBffApiService) private backendBffApiService: BackendBffApiService) {
 
   }
- 
+
   @logger
   async addGroup(groupCreateDto: GroupCreateDto): Promise<Group> {
     return (await this.backendBffApiService.getRemoteGroupApi().remoteGroupControllerAddGroup({
@@ -34,9 +34,6 @@ export class GroupRemoteService implements GroupService {
   }
   async removeGroup(id: string): Promise<boolean> {
     return (await this.backendBffApiService.getRemoteGroupApi().remoteGroupControllerRemoveGroup({id})).data.success;
-
-    throw new Error('Method not implemented.');
-
 
   }
   async removeAllGroups(): Promise<boolean> {
