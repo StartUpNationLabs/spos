@@ -26,5 +26,6 @@ export interface KitchenService {
   sendToKitchen(order: MonsieurAxelMenvoie): Promise<void>;
   getOrdersByGroupId(groupId: string): Promise<OrderSummary>;
   removeFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean>;
+  servePreparation(preparationIds: string[]): Promise<void>;
 
 }

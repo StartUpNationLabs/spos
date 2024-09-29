@@ -1,6 +1,10 @@
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
-import { KitchenService, MonsieurAxelMenvoie, OrderSummary } from "./kitchenService";
+import {
+  KitchenService,
+  MonsieurAxelMenvoie,
+  OrderSummary,
+} from './kitchenService';
 import { BackendBffApiService } from '../apis/backendBffApiService';
 
 @injectable()
@@ -17,7 +21,7 @@ export class KitchenRemoteService implements KitchenService {
         .remoteKitchenControllerGetOrdersByGroupId({
           groupId,
         })
-    ).data ;
+    ).data;
   }
 
   async removeFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean> {
@@ -36,6 +40,16 @@ export class KitchenRemoteService implements KitchenService {
         .getRemoteKitchenApi()
         .remoteKitchenControllerSendToKitchen({
           annotatedMonsieurAxelMenvoie: order,
+        })
+    ).data;
+  }
+
+  async servePreparation(preparationIds: string[]): Promise<void> {
+    return (
+      await this.backendBffApiService
+        .getRemoteKitchenApi()
+        .remoteKitchenControllerServePreparation({
+          requestBody: preparationIds,
         })
     ).data;
   }

@@ -201,4 +201,13 @@ export class KitchenServiceWorkflow implements KitchenService {
       return false;
     }
   }
+
+  async servePreparation(preparationIds: string[]): Promise<void> {
+    const preparationApi = this.kitchenApiService.getPreparationApi();
+    for (const preparationId of preparationIds) {
+      await preparationApi.preparationsControllerPreparationIsServed({
+        preparationId,
+      });
+    }
+  }
 }
