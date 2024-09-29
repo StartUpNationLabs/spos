@@ -4,9 +4,9 @@ import {
   MonsieurAxelMenvoie2,
   TableSummary,
 } from './billingService';
-import { inject } from 'inversify';
+import { inject, injectable } from "inversify";
 import { BackendBffApiService } from '../apis/backendBffApiService';
-
+@injectable()
 export class BillingRemoteService implements BillingService {
   constructor(
     @inject(TYPES.BackendBffApiService)
