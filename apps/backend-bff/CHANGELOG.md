@@ -1,3 +1,15 @@
+## 0.7.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- add env configuration ([d7b0c0c](https://github.com/StartUpNationLabs/spos/commit/d7b0c0c))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.6.0 (2024-09-28)
 
 
