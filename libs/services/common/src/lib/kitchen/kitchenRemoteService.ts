@@ -9,6 +9,7 @@ export class KitchenRemoteService implements KitchenService {
     @inject(TYPES.BackendBffApiService)
     private backendBffApiService: BackendBffApiService
   ) {}
+  
 
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     return (
@@ -38,5 +39,21 @@ export class KitchenRemoteService implements KitchenService {
           annotatedMonsieurAxelMenvoie: order,
         })
     ).data;
+  }
+
+  removeOrdersOfTableFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
+  startAndFinishPreparation(preparedItemId: string): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
+  handleNotServedPreparations(preparations: any[]): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
+  getPreparationsByStateAndTableNumber(state: 'readyToBeServed' | 'preparationStarted', tableNumber: number): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
+  servePreparations(preparationsToRemove: any[]): Promise<void> {
+    throw new Error('Method not implemented.');
   }
 }

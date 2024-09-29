@@ -64,7 +64,7 @@ export class RemoteKitchenController {
     @Body()
     order: AnnotatedMonsieurAxelMenvoie
   ): Promise<boolean> {
-    return (await container.get<KitchenService>(TYPES.KitchenService).removeFromKitchen(order))
+    return (await container.get<KitchenService>(TYPES.KitchenService).removeOrdersOfTableFromKitchen(order))
   }
 
   @Post()

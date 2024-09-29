@@ -10,6 +10,7 @@ import {
 } from './kitchenService';
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
+import { KitchenNotFoundException } from '../exceptions/kitchenExceptions';
 
 @injectable()
 export class KitchenServiceWorkflow implements KitchenService {
@@ -73,6 +74,93 @@ export class KitchenServiceWorkflow implements KitchenService {
       });
     }
   }
+
+  // Commence et fini une préparation 
+  async startAndFinishPreparation(preparedItemId: string): Promise<boolean> {
+    try {
+      const preparedItemsApi = this.kitchenApiService.getPreparedItemsApi();
+      const startResponse = await preparedItemsApi.preparedItemsControllerStartToPrepareItemOnPost({
+        preparedItemId,
+      });
+      if (!startResponse || startResponse.status === 404) {
+        throw new KitchenNotFoundException(`Préparation de l'article ${preparedItemId} introuvable.`);
+      }
+      const finishResponse = await preparedItemsApi.preparedItemsControllerFinishToPrepareItemOnPost({
+        preparedItemId,
+      });
+      if (!finishResponse || finishResponse.status === 404) {
+        throw new KitchenNotFoundException(`Impossible de terminer la préparation de l'article ${preparedItemId}.`);
+      }
+  
+      return true;
+    } catch (error) {
+      if (error instanceof KitchenNotFoundException) {
+        console.error(error.message);
+      } else {
+        console.error(
+          `Erreur lors de la gestion de la préparation de l'article ${preparedItemId} :`,
+          error
+        );
+      }
+      throw error;
+    }
+  }
+  // Commence et fini plusieurs preparations
+  async handleNotServedPreparations(preparations: any[]) : Promise<boolean> {
+    for (const preparation of preparations) {
+      for (const pi of preparation.preparedItems) {
+        await this.startAndFinishPreparation(pi._id);
+      }
+    }
+    return true;
+  }
+
+  // Récupère les préparations selon leur status et le numéro de table
+  async getPreparationsByStateAndTableNumber(
+    state: 'readyToBeServed' | 'preparationStarted',
+    tableNumber: number
+  ) {
+    const preparationApi = this.kitchenApiService.getPreparationApi();
+    return (await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber({ state, tableNumber })).data;
+  }
+
+  
+  // Indique des préparations comme servis
+  async servePreparations(preparationsToRemove: any[]) : Promise<void> {
+    const preparationApi = this.kitchenApiService.getPreparationApi();
+    for (const preparation of preparationsToRemove) {
+      await preparationApi.preparationsControllerPreparationIsServed({
+        preparationId: preparation._id,
+      });
+    }
+  }
+
+  // supprime les preparations correspondante a un numéro de table
+  async removeOrdersOfTableFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean> {
+    try {
+      const preparationsNotServed = await this.getPreparationsByStateAndTableNumber('preparationStarted', order.tableNumber);
+
+      await this.handleNotServedPreparations(preparationsNotServed);
+
+      const preparationsReadyToServe = await this.getPreparationsByStateAndTableNumber('readyToBeServed', order.tableNumber);
+
+      const preparationsToRemove = preparationsReadyToServe.filter(preparation =>
+        order.cart.some(item => item.itemId === preparation._id)
+      );
+
+      await this.servePreparations(preparationsToRemove);
+
+      return true;
+    } catch (error) {
+      if (error instanceof KitchenNotFoundException) {
+        console.warn(error.message);
+      } else {
+        console.error('Erreur lors de la suppression des commandes de la cuisine :', error);
+      }
+      return false;
+    }
+  }
+
 
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     const group = await this.groupService.getGroup(groupId);
@@ -143,62 +231,5 @@ export class KitchenServiceWorkflow implements KitchenService {
     }
     return orderSummary;
   }
-
-  async removeFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean> {
-    try {
-      const preparationApi = this.kitchenApiService.getPreparationApi();
-
-      const preparationsNotServed = (
-        await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber(
-          {
-            state: 'preparationStarted',
-            tableNumber: order.tableNumber,
-          }
-        )
-      ).data;
-
-      for (const preparation of preparationsNotServed) {
-        const preparedItems = preparation.preparedItems;
-        for (const pi of preparedItems) {
-          await this.kitchenApiService
-            .getPreparedItemsApi()
-            .preparedItemsControllerStartToPrepareItemOnPost({
-              preparedItemId: pi._id,
-            });
-          await this.kitchenApiService
-            .getPreparedItemsApi()
-            .preparedItemsControllerFinishToPrepareItemOnPost({
-              preparedItemId: pi._id,
-            });
-        }
-      }
-
-      const preparations = (
-        await preparationApi.preparationsControllerGetAllPreparationsByStateAndTableNumber(
-          {
-            state: 'readyToBeServed',
-            tableNumber: order.tableNumber,
-          }
-        )
-      ).data;
-
-      const preparationsToRemove = preparations.filter((preparation) =>
-        order.cart.some((item) => item.itemId === preparation._id)
-      );
-
-      for (const preparation of preparationsToRemove) {
-        await preparationApi.preparationsControllerPreparationIsServed({
-          preparationId: preparation._id,
-        });
-      }
-
-      return true;
-    } catch (error) {
-      console.error(
-        'Erreur lors de la suppression des commandes de la cuisine :',
-        error
-      );
-      return false;
-    }
-  }
+  
 }
