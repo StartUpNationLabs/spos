@@ -6,7 +6,7 @@ import {
   KitchenService,
   MonsieurAxelMenvoie,
   OrderSummary,
-  PreparationStatus,
+  PreparationStatus
 } from './kitchenService';
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
@@ -231,5 +231,15 @@ export class KitchenServiceWorkflow implements KitchenService {
     }
     return orderSummary;
   }
-  
+
+ 
+
+  async servePreparation(preparationIds: string[]): Promise<void> {
+    const preparationApi = this.kitchenApiService.getPreparationApi();
+    for (const preparationId of preparationIds) {
+      await preparationApi.preparationsControllerPreparationIsServed({
+        preparationId,
+      });
+    }
+  }
 }

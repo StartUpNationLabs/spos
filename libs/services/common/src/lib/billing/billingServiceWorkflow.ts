@@ -1,26 +1,29 @@
-import { Inject } from "@nestjs/common";
+import { Inject } from '@nestjs/common';
 import { DiningApiService } from '../apis/diningApiService';
 import { GroupService } from '../group/groupService';
 import { TYPES } from '../types';
-import { MenuApiService } from "../apis/menuApiService";
-import { BillingService, MonsieurAxelMenvoie2, TableItem, TableSummary } from "./billingService";
+import { MenuApiService } from '../apis/menuApiService';
+import {
+  BillingService,
+  MonsieurAxelMenvoie2,
+  TableItem,
+  TableSummary,
+} from './billingService';
 
 export class BillingServiceWorkflow implements BillingService {
-
   data: {
     [groupId: string]: {
       [tableNumber: number]: {
         [itemId: string]: number;
       };
-    }
+    };
   } = {};
 
   constructor(
     @Inject(TYPES.GroupService) private groupService: GroupService,
     @Inject(TYPES.DiningApiService) private diningApiService: DiningApiService,
     @Inject(TYPES.MenuApiService) private menuApiService: MenuApiService
-  ) {
-  }
+  ) {}
 
   async getBillingSummary(groupId: string): Promise<TableSummary[]> {
     const group = await this.groupService.getGroup(groupId);
@@ -32,7 +35,7 @@ export class BillingServiceWorkflow implements BillingService {
       const tableOrder = await this.diningApiService
         .getTableOrdersApi()
         .tableOrdersControllerGetTableOrderById({
-          tableOrderId: table.id
+          tableOrderId: table.id,
         });
       const tableItems: { [key: string]: TableItem } = {};
 
@@ -51,9 +54,9 @@ export class BillingServiceWorkflow implements BillingService {
             item: {
               name: menuItemDetails.shortName,
               price: menuItemDetails.price,
-              id: menuItemDetails._id
+              id: menuItemDetails._id,
             },
-            remaining: 0
+            remaining: 0,
           };
           if (tableItems[menuItemDetails._id]) {
             tableItems[menuItemDetails._id].remaining++;
@@ -62,7 +65,6 @@ export class BillingServiceWorkflow implements BillingService {
           }
         }
       }
-
 
       if (this.data[groupId] && this.data[groupId][table.number]) {
         for (const [itemId, quantity] of Object.entries(
@@ -76,20 +78,31 @@ export class BillingServiceWorkflow implements BillingService {
 
       tableSummary.push({
         number: table.number,
-        elements: Object.values(tableItems)
+        elements: Object.values(tableItems),
       });
     }
     return tableSummary;
   }
 
-  async partialPayment(
-    payment: MonsieurAxelMenvoie2
-  )
-  {
+  async isComplete(groupId: string): Promise<boolean> {
+    const summary = await this.getBillingSummary(groupId);
+    for (const table of summary) {
+      for (const item of table.elements) {
+        if (item.remaining > 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  async partialPayment(payment: MonsieurAxelMenvoie2) {
     if (!this.data[payment.groupId]) {
       this.data[payment.groupId] = {};
     }
-    for (const [tableNumbera, items] of Object.entries(payment.elementToBePaid)) {
+    for (const [tableNumbera, items] of Object.entries(
+      payment.elementToBePaid
+    )) {
       const tableNumber = parseInt(tableNumbera);
       if (!this.data[payment.groupId][tableNumber]) {
         this.data[payment.groupId][tableNumber] = {};
@@ -98,7 +111,20 @@ export class BillingServiceWorkflow implements BillingService {
         if (!this.data[payment.groupId][tableNumber][item.itemId]) {
           this.data[payment.groupId][tableNumber][item.itemId] = 0;
         }
-        this.data[payment.groupId][tableNumber][item.itemId] += item.quantityPaid;
+        this.data[payment.groupId][tableNumber][item.itemId] +=
+          item.quantityPaid;
+      }
+    }
+
+    if (await this.isComplete(payment.groupId)) {
+      console.log(`Group ${payment.groupId} is complete`);
+      const group = await this.groupService.getGroup(payment.groupId);
+      for (const table of group.tables) {
+        await this.diningApiService
+          .getTableOrdersApi()
+          .tableOrdersControllerBillTableOrder({
+            tableOrderId: table.id,
+          });
       }
     }
   }

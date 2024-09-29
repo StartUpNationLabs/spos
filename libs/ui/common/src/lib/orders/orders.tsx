@@ -1,39 +1,93 @@
 import './orders.css';
 import { Button, Typography, Box } from "@mui/material";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Section from './section';
 import BackButton from '../utils/backButton';
 import useStore from './stores/serve';
 import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
 import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { KitchenService, TYPES } from '@spos/services/common';
+import { ContainerContext } from '../containerHook/containerContext';
 
 export function Orders() {
   const { groupId } = useCommandsParameter();
   const navigate = useNavigate();
-  const [selectedOrder, setSelectedOrder] = useState(null);
-
-  const { ordersData, setServed } = useStore();
+  const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
 
   useEffect(() => {
-    if (selectedOrder) {
-      console.log("Selected Order changed:", selectedOrder);
+    if (selectedOrders.length > 0) {
+      console.log("Selected Orders changed:", selectedOrders);
     }
-  }, [selectedOrder]);
+  }, [selectedOrders]);
 
-  const handleSelectOrder = (section, table, orderId) => {
+  const mutation = useMutation({
+    mutationFn: (preparationIds: string[]) => {
+      console.log(preparationIds);
+      return container.get<KitchenService>(TYPES.KitchenService).servePreparation(preparationIds);
+    },
+    onSuccess: (data) => {
+      setSelectedOrders([]);
+      navigate(`/commands/${groupId}/orders`);
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
+
+  const container = useContext(ContainerContext);
+
+  const {
+    data: summary,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['summary', groupId],
+    queryFn: async () => {
+      const KitchenService: KitchenService = container.get<KitchenService>(TYPES.KitchenService);
+      return KitchenService.getOrdersByGroupId(groupId);
+    },
+    enabled: groupId !== undefined && groupId !== '',
+    refetchOnWindowFocus: 'always',
+  });
+
+  if (isLoading) {
+    return (
+      <Typography variant="h6" component="h2" fontWeight="bold">
+        Loading...
+      </Typography>
+    );
+  }
+  if (!summary || isError) {
+    console.error(error);
+    return (
+      <Typography variant="h6" component="h2" fontWeight="bold">
+        Error
+      </Typography>
+    );
+  }
+
+  const handleSelectOrder = (preparationId: string) => {
     console.log("Selecting an order...");
-    setSelectedOrder({ section, table, orderId });
+    const index = selectedOrders.findIndex((element) => element === preparationId);
+
+    if (index !== -1) {
+      // Remove the order from the list
+      setSelectedOrders((prevOrders) => [...prevOrders.slice(0, index), ...prevOrders.slice(index + 1)]);
+    } else {
+      // Add the new order to the list
+      setSelectedOrders((prevOrders) => [...prevOrders, preparationId]);
+    }
   };
 
   const handleServe = () => {
-    console.log("Serve Button clicked");
-    if (selectedOrder) {
-      console.log("Selected order:", selectedOrder);
-      const { section, table, orderId } = selectedOrder;
-      setServed(section, table, orderId, true);
-      console.log("After serving:", ordersData);
-
-      setSelectedOrder(null);
+    if (selectedOrders.length > 0) {
+      console.log("Selected order to serve :", selectedOrders);
+      mutation.mutate(selectedOrders);
+    }
+    else {
+      console.log("Select at least one order to serve before serving.");
     }
   };
 
@@ -86,13 +140,13 @@ export function Orders() {
             }}>
 
             <Box>
-              {Object.keys(ordersData).map((section) => (
+              {Object.keys(summary.summary).map((category) => (
                 <Section
-                  key={section}
-                  title={section.charAt(0).toUpperCase() + section.slice(1)}
-                  orders={ordersData[section]}
+                  key={category}
+                  title={category.charAt(0).toUpperCase() + category.slice(1)}
+                  orders={summary.summary[category]}
                   onSelectOrder={handleSelectOrder}
-                  selectedOrder={selectedOrder}
+                  selectedOrders={selectedOrders}
                 />
               ))}
             </Box>
@@ -100,7 +154,7 @@ export function Orders() {
           <Button sx={{
             margin: "auto",
             alignItems: "center"
-          }} variant="contained">
+          }} variant="contained" onClick={handleServe}>
             Serve
           </Button>
         </Box>

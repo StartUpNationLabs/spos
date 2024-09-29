@@ -73,4 +73,12 @@ export class RemoteKitchenController {
     order: AnnotatedMonsieurAxelMenvoie): Promise<void> {
     return (await container.get<KitchenService>(TYPES.KitchenService).sendToKitchen(order))
   }
+
+  @Post('serve')
+  async servePreparation(
+    @Body()
+    preparationIds: string[]
+  ): Promise<void> {
+    return (await container.get<KitchenService>(TYPES.KitchenService).servePreparation(preparationIds))
+  }
 }

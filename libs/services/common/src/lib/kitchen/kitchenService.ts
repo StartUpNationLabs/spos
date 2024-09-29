@@ -27,6 +27,7 @@ export interface KitchenService {
   sendToKitchen(order: MonsieurAxelMenvoie): Promise<void>;
   getOrdersByGroupId(groupId: string): Promise<OrderSummary>;
   removeOrdersOfTableFromKitchen(order: MonsieurAxelMenvoie): Promise<boolean>;
+  servePreparation(preparationIds: string[]): Promise<void>;
   startAndFinishPreparation(preparedItemId: string): Promise<boolean>;
   handleNotServedPreparations(preparations: any[]): Promise<boolean>;
   getPreparationsByStateAndTableNumber(state: 'readyToBeServed' | 'preparationStarted',tableNumber: number):Promise<any>
