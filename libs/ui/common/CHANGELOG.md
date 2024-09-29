@@ -1,3 +1,15 @@
+## 0.19.1 (2024-09-29)
+
+
+### 🩹 Fixes
+
+- Approximately fixed layout for summary and orders button (no absolute positionning) ([557ef4a](https://github.com/StartUpNationLabs/spos/commit/557ef4a))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.19.0 (2024-09-28)
 
 
