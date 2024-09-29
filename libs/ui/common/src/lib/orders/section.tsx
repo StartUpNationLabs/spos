@@ -24,12 +24,12 @@ const Section = ({ title, orders, selectedOrder, onSelectOrder }: SectionProps) 
                     <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                         {ordersList.map((order, index) => (
                             <CommandNumber
-                                key={index}
-                                number={1} // TODO: Change By a unique number
+                                key={index + 1}
+                                number={index + 1} // TODO: Change By a unique number
                                 status={order.status}
-                                isServed={order.preparationId !== "preparationStarted"} //TODO: Replace by enum... Apoorva please
+                                isServed={false} //TODO: Need input from backend
                                 isSelected={selectedOrder && selectedOrder.preparationId === order.preparationId}  // Comparer pour savoir si c'est sélectionné
-                                onClick={() => onSelectOrder(title.toLowerCase(), table, order.preparationId)}  // Passer la commande sélectionnée
+                                onSelect={() => onSelectOrder(title.toLowerCase(), table, order.preparationId)}  // Passer la commande sélectionnée
                             />
                         ))}
                     </Box>

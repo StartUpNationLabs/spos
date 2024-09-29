@@ -55,17 +55,17 @@ export function Orders() {
     );
   }
 
-  const handleSelectOrder = (section, table, orderId) => {
+  const handleSelectOrder = (category: string, table: number, preparationId: string) => {
     console.log("Selecting an order...");
-    setSelectedOrder({ section, table, orderId });
+    setSelectedOrder({ category, table, preparationId });
   };
 
   const handleServe = () => {
     console.log("Serve Button clicked");
     if (selectedOrder) {
       console.log("Selected order:", selectedOrder);
-      const { section, table, orderId } = selectedOrder;
-      setServed(section, table, orderId, true);
+      const { category, table, preparationId } = selectedOrder;
+      setServed(category, table, preparationId, true);
       console.log("After serving:", ordersData);
 
       setSelectedOrder(null);

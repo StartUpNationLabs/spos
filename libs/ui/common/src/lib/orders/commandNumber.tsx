@@ -1,10 +1,19 @@
 import { Button } from "@mui/material";
-import { useState } from 'react';
 
-const CommandNumber = ({ number, status, isServed, isSelected, onClick }) => {
+type CommandNumberProps = {
+    number: number,
+    status: string,
+    isServed: boolean,
+    isSelected: boolean,
+    onSelect: () => void;
+}
+
+const CommandNumber = ({ number, status, isServed, isSelected, onSelect }: CommandNumberProps) => {
     const backgroundColor = isSelected ? 'blue' : (status === 'completed' ? 'green' : 'orange'); // Mettre en surbrillance si sélectionné
+
+    const onClick = (status !== "preparationStarted" && !isServed) ? onSelect : () => console.log("Order not ready to be served yet.");
     return (
-        <Button 
+        <Button
             sx={{
                 width: 50,
                 height: 50,
