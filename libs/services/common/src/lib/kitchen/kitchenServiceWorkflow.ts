@@ -2,22 +2,14 @@ import { inject, injectable } from 'inversify';
 import { GroupService } from '../group/groupService';
 import { TYPES } from '../types';
 import { KitchenApiService } from '../apis/kitchenApiService';
-import { KitchenService, MonsieurAxelMenvoie } from './kitchenService';
+import {
+  KitchenService,
+  MonsieurAxelMenvoie,
+  OrderSummary,
+  PreparationStatus,
+} from './kitchenService';
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
-
-export interface PreparationStatus {
-  status: string;
-  preparationId: string;
-}
-
-export interface OrderSummary {
-  summary: {
-    [category: string]: {
-      [table: number]: PreparationStatus[];
-    };
-  };
-}
 
 @injectable()
 export class KitchenServiceWorkflow implements KitchenService {
@@ -38,8 +30,34 @@ export class KitchenServiceWorkflow implements KitchenService {
     const tableOrderId = group.tables.find(
       (table) => table.number === order.tableNumber
     );
-    if (tableOrderId) {
-      const promises = order.cart.map((item) => {
+    if (!tableOrderId) {
+      console.error(`Table not found ${order.tableNumber}`);
+      return;
+    }
+    const menuItems = (
+      await this.menuApiService.getMenuApi().menusControllerGetFullMenu()
+    ).data;
+    // split cart items by category
+    const cartItemsByCategory: { [category: string]: MonsieurAxelMenvoie } = {};
+    for (const item of order.cart) {
+      const menuItem = menuItems.find(
+        (menuItem) => menuItem.shortName === item.shortName
+      );
+      if (!menuItem) {
+        console.error(`Menu item not found ${item.itemId}`);
+        continue;
+      }
+      if (!cartItemsByCategory[menuItem.category]) {
+        cartItemsByCategory[menuItem.category] = {
+          cart: [],
+          groupId: order.groupId,
+          tableNumber: order.tableNumber,
+        };
+      }
+      cartItemsByCategory[menuItem.category].cart.push(item);
+    }
+    Object.values(cartItemsByCategory).map(async (category) => {
+      const promises = category.cart.map((item) => {
         return tableOrdersApi.tableOrdersControllerAddMenuItemToTableOrder({
           tableOrderId: tableOrderId.id,
           addMenuItemDto: {
@@ -54,7 +72,7 @@ export class KitchenServiceWorkflow implements KitchenService {
       await tableOrdersApi.tableOrdersControllerPrepareTableOrder({
         tableOrderId: tableOrderId.id,
       });
-    }
+    });
   }
 
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
@@ -95,10 +113,16 @@ export class KitchenServiceWorkflow implements KitchenService {
           continue;
         }
 
+        let preparationStatus = 'preparationStarted';
+        if (preparationDetails.completedAt) {
+          preparationStatus = 'readyToBeServed';
+        }
+        if (preparationDetails.takenForServiceAt) {
+          preparationStatus = 'preparationServed';
+        }
+
         preparationStatuses.push({
-          status: preparationDetails.completedAt
-            ? 'readyToBeServed'
-            : 'preparationStarted',
+          status: preparationStatus,
           preparationId: preparationFromTableOrder._id,
           category: menuItem.category,
         });
@@ -110,7 +134,9 @@ export class KitchenServiceWorkflow implements KitchenService {
         if (!orderSummary.summary[preparationStatus.category][table.number]) {
           orderSummary.summary[preparationStatus.category][table.number] = [];
         }
-        orderSummary.summary[preparationStatus.category][table.number].push({
+        orderSummary.summary[preparationStatus.category][table.number].push(<
+          PreparationStatus
+        >{
           status: preparationStatus.status,
           preparationId: preparationStatus.preparationId,
         });

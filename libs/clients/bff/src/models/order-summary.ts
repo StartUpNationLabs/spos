@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { PreparationStatus } from './preparation-status';
+import type { AnnotatedPreparationStatus } from './annotated-preparation-status';
 
 /**
  * 
@@ -25,9 +25,9 @@ import type { PreparationStatus } from './preparation-status';
 export interface OrderSummary {
     /**
      * 
-     * @type {{ [key: string]: { [key: string]: Array<PreparationStatus>; }; }}
+     * @type {{ [key: string]: { [key: string]: Array<AnnotatedPreparationStatus>; }; }}
      * @memberof OrderSummary
      */
-    'summary': { [key: string]: { [key: string]: Array<PreparationStatus>; }; };
+    'summary': { [key: string]: { [key: string]: Array<AnnotatedPreparationStatus>; }; };
 }
 

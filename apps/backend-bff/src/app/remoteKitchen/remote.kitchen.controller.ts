@@ -1,6 +1,13 @@
 import { Body, Controller, Delete, Get, Post, Query } from "@nestjs/common";
 import { ApiExtraModels, ApiProperty, ApiTags } from "@nestjs/swagger";
-import { CartItem, container, KitchenService, MonsieurAxelMenvoie, TYPES } from "@spos/services/common";
+import {
+  CartItem,
+  container,
+  KitchenService,
+  MonsieurAxelMenvoie,
+  PreparationStatus,
+  TYPES
+} from "@spos/services/common";
 
 class AnnotatedCartItem implements CartItem {
   @ApiProperty()
@@ -20,27 +27,29 @@ class AnnotatedMonsieurAxelMenvoie implements MonsieurAxelMenvoie {
   tableNumber: number;
 }
 
-class PreparationStatus {
-  @ApiProperty()
-  status: string;
+class AnnotatedPreparationStatus  implements PreparationStatus {
+  @ApiProperty(
+    { enum: ["readyToBeServed", "preparationStarted", "preparationServed"] }
+  )
+  status: "readyToBeServed" | "preparationStarted" | "preparationServed";
   @ApiProperty()
   preparationId: string;
 }
 
 class OrderSummary {
   @ApiProperty(
-    { type: 'object', additionalProperties: { type: 'object', additionalProperties: { type: 'array', items: { $ref: '#/components/schemas/PreparationStatus' } } } }
+    { type: 'object', additionalProperties: { type: 'object', additionalProperties: { type: 'array', items: { $ref: '#/components/schemas/AnnotatedPreparationStatus' } } } }
   )
   summary: {
     [category: string]: {
-      [table: number]: PreparationStatus[];
+      [table: number]: AnnotatedPreparationStatus[];
     };
   };
 }
 
 @Controller('remoteKitchen')
 @ApiTags('remoteKitchen')
-@ApiExtraModels(AnnotatedCartItem, AnnotatedMonsieurAxelMenvoie, PreparationStatus)
+@ApiExtraModels(AnnotatedCartItem, AnnotatedMonsieurAxelMenvoie, AnnotatedPreparationStatus)
 export class RemoteKitchenController {
   @Get()
   async getOrdersByGroupId(

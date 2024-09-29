@@ -1,4 +1,3 @@
-import { OrderSummary } from './kitchenServiceWorkflow';
 
 export interface CartItem {
   itemId: string;
@@ -11,7 +10,18 @@ export interface MonsieurAxelMenvoie {
   groupId: string;
   tableNumber: number;
 }
+export interface PreparationStatus {
+  status:  "readyToBeServed" | "preparationStarted" | "preparationServed";
+  preparationId: string;
+}
 
+export interface OrderSummary {
+  summary: {
+    [category: string]: {
+      [table: number]: PreparationStatus[];
+    };
+  };
+}
 export interface KitchenService {
   sendToKitchen(order: MonsieurAxelMenvoie): Promise<void>;
   getOrdersByGroupId(groupId: string): Promise<OrderSummary>;

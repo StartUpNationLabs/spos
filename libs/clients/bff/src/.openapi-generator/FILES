@@ -17,11 +17,11 @@ models/annotated-group-create-dto.ts
 models/annotated-group.ts
 models/annotated-monsieur-axel-menvoie.ts
 models/annotated-offer.ts
+models/annotated-preparation-status.ts
 models/annotated-table-with-order-dto.ts
 models/categorized-catalog-dto.ts
 models/index.ts
 models/menu-item-dto.ts
 models/order-summary.ts
-models/preparation-status.ts
 models/status.ts
 models/table-dto.ts
