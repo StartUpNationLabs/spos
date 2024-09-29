@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { injectable, inject } from 'inversify';
 import { DiningApiService } from '../apis/diningApiService';
 import { GroupService } from '../group/groupService';
 import { TYPES } from '../types';
@@ -10,6 +10,7 @@ import {
   TableSummary,
 } from './billingService';
 
+@injectable()
 export class BillingServiceWorkflow implements BillingService {
   data: {
     [groupId: string]: {
@@ -20,9 +21,9 @@ export class BillingServiceWorkflow implements BillingService {
   } = {};
 
   constructor(
-    @Inject(TYPES.GroupService) private groupService: GroupService,
-    @Inject(TYPES.DiningApiService) private diningApiService: DiningApiService,
-    @Inject(TYPES.MenuApiService) private menuApiService: MenuApiService
+    @inject(TYPES.GroupService) private groupService: GroupService,
+    @inject(TYPES.DiningApiService) private diningApiService: DiningApiService,
+    @inject(TYPES.MenuApiService) private menuApiService: MenuApiService
   ) {}
 
   async getBillingSummary(groupId: string): Promise<TableSummary[]> {

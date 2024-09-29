@@ -1,11 +1,13 @@
 import { inject, injectable } from 'inversify';
 import {
   Configuration,
+  RemoteBillingApi,
   RemoteCatalogueApi,
-  RemoteGroupApi, RemoteKitchenApi,
+  RemoteGroupApi,
+  RemoteKitchenApi,
   RemoteOfferApi,
-  RemoteTableApi
-} from "@spos/clients-bff";
+  RemoteTableApi,
+} from '@spos/clients-bff';
 import { TYPES } from '../types';
 
 @injectable()
@@ -15,6 +17,7 @@ export class BackendBffApiService {
   private readonly remoteCatalogueApi: RemoteCatalogueApi;
   private readonly remoteOfferApi: RemoteOfferApi;
   private readonly remoteKitchenApi: RemoteKitchenApi;
+  private readonly remoteBillingApi: RemoteBillingApi;
 
   constructor(
     @inject(TYPES.BackendBffConfiguration)
@@ -25,6 +28,7 @@ export class BackendBffApiService {
     this.remoteCatalogueApi = new RemoteCatalogueApi(this.configuration);
     this.remoteOfferApi = new RemoteOfferApi(this.configuration);
     this.remoteKitchenApi = new RemoteKitchenApi(this.configuration);
+    this.remoteBillingApi = new RemoteBillingApi(this.configuration);
   }
 
   getRemoteGroupApi() {
@@ -45,5 +49,8 @@ export class BackendBffApiService {
 
   getRemoteKitchenApi() {
     return this.remoteKitchenApi;
+  }
+  getRemoteBillingApi() {
+    return this.remoteBillingApi;
   }
 }

@@ -19,9 +19,12 @@ export interface BillingService {
   partialPayment(payment: MonsieurAxelMenvoie2): Promise<void>;
 }
 
+export interface ItemPaid {
+  itemId: string; quantityPaid: number
+}
 export interface MonsieurAxelMenvoie2 {
   elementToBePaid: {
-    [tableNumber: number]: { itemId: string; quantityPaid: number }[];
+    [tableNumber: number]: ItemPaid[];
   };
   groupId: string;
 }
