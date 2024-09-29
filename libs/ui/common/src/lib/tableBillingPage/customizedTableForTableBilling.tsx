@@ -32,10 +32,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-interface CustomizedTablesForBillingProps {
+interface CustomizedTablesForTableBillingProps {
     summary: TableSummary,
 }
-export default function CustomizedTableForTableBilling(props: CustomizedTablesForBillingProps) {
+export default function CustomizedTableForTableBilling(props: CustomizedTablesForTableBillingProps) {
     const { elementToBePaid, updateItem } = useTableBillingStore(state => state);
     return (
         <TableContainer component={Paper}>
