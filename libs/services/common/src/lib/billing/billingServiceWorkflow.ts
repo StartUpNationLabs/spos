@@ -43,11 +43,11 @@ export class BillingServiceWorkflow implements BillingService {
       for (const item of tableOrder.data.preparations) {
         for (const menuItem of item.preparedItems) {
           const menuItemDetails = menuItems.find(
-            (menuDetails) => menuDetails._id === menuItem._id
+            (menuDetails) => menuDetails.shortName === menuItem.shortName
           );
           if (!menuItemDetails) {
             console.error(
-              `Menu item with id ${menuItem._id} not found in menu`
+              `Menu item with id ${menuItem.shortName} not found in menu`
             );
             return [];
           }
@@ -57,7 +57,7 @@ export class BillingServiceWorkflow implements BillingService {
               price: menuItemDetails.price,
               id: menuItemDetails._id,
             },
-            remaining: 0,
+            remaining: 1,
           };
           if (tableItems[menuItemDetails._id]) {
             tableItems[menuItemDetails._id].remaining++;
@@ -127,6 +127,7 @@ export class BillingServiceWorkflow implements BillingService {
             tableOrderId: table.id,
           });
       }
+      await this.groupService.removeGroup(payment.groupId);
     }
   }
 }

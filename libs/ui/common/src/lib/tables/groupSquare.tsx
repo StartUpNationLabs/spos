@@ -10,10 +10,6 @@ export function GroupSquare(
     groupId: string;
   }>
 ) {
-  const container = useContext(ContainerContext);
-  container.get<KitchenService>(TYPES.KitchenService).getOrdersByGroupId(props.groupId).then((orders) => {
-    console.log(orders);
-  });
   const navigate = useNavigate();
   return (
     <Box width={"fit-content"}>

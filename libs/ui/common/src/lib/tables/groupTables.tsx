@@ -8,13 +8,14 @@ import { ContainerContext } from "../containerHook/containerContext";
 
 export function GroupTables() {
   const container = useContext(ContainerContext);
-  const { data: groupsApi, isLoading } = useQuery({
+  const { data: groupsApi, isLoading, refetch } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
       const groupService = container.get<GroupService>(TYPES.GroupService);
       return groupService.getGroups();
     },
-    refetchOnWindowFocus: "always"
+    refetchOnWindowFocus: "always",
+    staleTime: 0
   });
   if (isLoading) {
     return (

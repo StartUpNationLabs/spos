@@ -47,6 +47,8 @@ export class GroupServiceWorkflow implements GroupService {
 
   @logger
   async removeGroup(id: string): Promise<boolean> {
+      console.log(this.group);
+      console.log(id);
     if (this.group[id]) {
       delete this.group[id];
       console.debug('Group removed:', id);

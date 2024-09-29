@@ -13,6 +13,7 @@ export function FreeTables() {
     isLoading,
     isError,
     error,
+    refetch
   } = useQuery({
     queryKey: ['tables'],
     queryFn: async () => {
@@ -20,6 +21,7 @@ export function FreeTables() {
       return tableService.getFreeTables();
     },
     refetchOnWindowFocus: 'always',
+    staleTime: 0
   });
   if (isLoading) {
     return (
