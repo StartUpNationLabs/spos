@@ -14,10 +14,23 @@
 
 
 
-export * from './api/default-api';
-export * from './api/remote-catalogue-api';
-export * from './api/remote-group-api';
-export * from './api/remote-kitchen-api';
-export * from './api/remote-offer-api';
-export * from './api/remote-table-api';
+/**
+ * 
+ * @export
+ * @interface PreparationStatus
+ */
+export interface PreparationStatus {
+    /**
+     * 
+     * @type {string}
+     * @memberof PreparationStatus
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PreparationStatus
+     */
+    'preparationId': string;
+}
 

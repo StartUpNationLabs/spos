@@ -1,7 +1,13 @@
 import { OrderSummary } from './kitchenServiceWorkflow';
 
+export interface CartItem {
+  itemId: string;
+  shortName: string;
+  quantity: number;
+}
+
 export interface MonsieurAxelMenvoie {
-  cart: { itemId: string, shortName: string; quantity: number }[];
+  cart: CartItem[];
   groupId: string;
   tableNumber: number;
 }

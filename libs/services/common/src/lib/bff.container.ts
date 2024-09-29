@@ -17,6 +17,7 @@ import { BillingService } from './billing/billingService';
 import { BillingServiceWorkflow } from './billing/billingServiceWorkflow';
 import { KitchenApiService } from './apis/kitchenApiService';
 import { Configuration as BffConfiguration } from '@spos/clients-bff';
+import { KitchenRemoteService } from "./kitchen/kitchenRemoteService";
 
 const bffContainer = new Container();
 bffContainer
@@ -53,7 +54,7 @@ bffContainer
   .inSingletonScope();
 bffContainer
   .bind<KitchenService>(TYPES.KitchenService)
-  .to(KitchenServiceWorkflow)
+  .to(KitchenRemoteService)
   .inSingletonScope();
 bffContainer
   .bind<BillingService>(TYPES.BillingService)
