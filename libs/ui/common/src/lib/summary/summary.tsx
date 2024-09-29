@@ -140,7 +140,7 @@ export function Summary() {
             {Object.keys(catalog).map((category) => {
               return (
                 (cartByCategory()[category] ?? []).length > 0 ?
-                  <Box>
+                  <Box key={category}>
                     <Typography fontSize="4.5vw"
                       fontWeight="bold"
                       style={{ color: 'black' }}

@@ -1,24 +1,59 @@
 import './orders.css';
 import { Button, Typography, Box } from "@mui/material";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Section from './section';
 import BackButton from '../utils/backButton';
 import useStore from './stores/serve';
 import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { KitchenService, TYPES } from '@spos/services/common';
+import { ContainerContext } from '../containerHook/containerContext';
 
 export function Orders() {
   const { groupId } = useCommandsParameter();
   const navigate = useNavigate();
   const [selectedOrder, setSelectedOrder] = useState(null);
-
-  const { ordersData, setServed } = useStore();
-
   useEffect(() => {
     if (selectedOrder) {
       console.log("Selected Order changed:", selectedOrder);
     }
   }, [selectedOrder]);
+
+  const { ordersData, setServed } = useStore();
+
+  const container = useContext(ContainerContext);
+
+  const {
+    data: summary,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['summary', groupId],
+    queryFn: async () => {
+      const KitchenService: KitchenService = container.get<KitchenService>(TYPES.KitchenService);
+      return KitchenService.getOrdersByGroupId(groupId);
+    },
+    enabled: groupId !== undefined && groupId !== '',
+    refetchOnWindowFocus: 'always',
+  });
+
+  if (isLoading) {
+    return (
+      <Typography variant="h6" component="h2" fontWeight="bold">
+        Loading...
+      </Typography>
+    );
+  }
+  if (!summary || isError) {
+    console.error(error);
+    return (
+      <Typography variant="h6" component="h2" fontWeight="bold">
+        Error
+      </Typography>
+    );
+  }
 
   const handleSelectOrder = (section, table, orderId) => {
     console.log("Selecting an order...");
@@ -86,11 +121,11 @@ export function Orders() {
             }}>
 
             <Box>
-              {Object.keys(ordersData).map((section) => (
+              {Object.keys(summary.summary).map((category) => (
                 <Section
-                  key={section}
-                  title={section.charAt(0).toUpperCase() + section.slice(1)}
-                  orders={ordersData[section]}
+                  key={category}
+                  title={category.charAt(0).toUpperCase() + category.slice(1)}
+                  orders={summary.summary[category]}
                   onSelectOrder={handleSelectOrder}
                   selectedOrder={selectedOrder}
                 />

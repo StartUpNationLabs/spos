@@ -21,23 +21,23 @@ interface ServingState {
 
 const useStore = create<ServingState>((set) => ({
   ordersData: {
-    drink: {
-      'Table 1': [
+    "drink": {
+      1: [
         { orderId: 1, order: 33, status: 'completed', isServed: false },
         { orderId: 2, order: 32, status: 'pending', isServed: false }
       ],
-      'Table 2': [{ orderId: 3, order: 41, status: 'completed', isServed: false }]
+      2: [{ orderId: 3, order: 41, status: 'completed', isServed: false }]
     },
-    starter: {
-      'Table 3': [
+    "starter": {
+      3: [
         { orderId: 4, order: 23, status: 'pending', isServed: false },
         { orderId: 5, order: 22, status: 'completed', isServed: false }
       ],
-      'Table 1': [{ orderId: 6, order: 15, status: 'completed', isServed: false }]
+      1: [{ orderId: 6, order: 15, status: 'completed', isServed: false }]
     },
-    maincourse: {
-      'Table 2': [{ orderId: 7, order: 39, status: 'pending', isServed: false }],
-      'Table 3': [{ orderId: 8, order: 24, status: 'completed', isServed: false }]
+    "maincourse": {
+      2: [{ orderId: 7, order: 39, status: 'pending', isServed: false }],
+      3: [{ orderId: 8, order: 24, status: 'completed', isServed: false }]
     }
   },
 
