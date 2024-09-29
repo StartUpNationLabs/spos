@@ -195,7 +195,8 @@ export function TableBilling() {
               Total: ${getTotalPrice()}
             </Typography>
             <Button onClick={validatePayment} variant="contained" color="inherit"
-              sx={{ padding: '20px 50px', borderRadius: '50px', fontSize: '4vw' }}>
+              sx={{ padding: '20px 50px', borderRadius: '50px', fontSize: '4vw' }}
+              disabled={mutation.isPending}>
               Paid
             </Button>
           </Box>

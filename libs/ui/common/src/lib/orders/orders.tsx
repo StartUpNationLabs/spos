@@ -11,6 +11,7 @@ import { KitchenService, TYPES } from '@spos/services/common';
 import { ContainerContext } from '../containerHook/containerContext';
 
 export function Orders() {
+  const container = useContext(ContainerContext);
   const { groupId } = useCommandsParameter();
   const navigate = useNavigate();
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
@@ -35,7 +36,6 @@ export function Orders() {
     }
   });
 
-  const container = useContext(ContainerContext);
 
   const {
     data: summary,
