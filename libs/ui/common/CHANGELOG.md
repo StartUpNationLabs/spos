@@ -1,3 +1,15 @@
+## 0.24.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- use state from backend for orders instead of hardcoded boolean ([59cfc9b](https://github.com/StartUpNationLabs/spos/commit/59cfc9b))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.23.0 (2024-09-29)
 
 
