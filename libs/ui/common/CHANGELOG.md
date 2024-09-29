@@ -1,3 +1,15 @@
+## 0.23.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- UI improvement for group payment ([43fff40](https://github.com/StartUpNationLabs/spos/commit/43fff40))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.22.0 (2024-09-29)
 
 
