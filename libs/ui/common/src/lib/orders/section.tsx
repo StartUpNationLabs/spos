@@ -25,7 +25,6 @@ const Section = ({ title, orders, selectedOrders, onSelectOrder }: SectionProps)
                             key={index + 1}
                             number={index + 1} // TODO: Change By a unique number
                             status={order.status}
-                            isServed={false} //TODO: Need input from backend
                             isSelected={selectedOrders && selectedOrders.findIndex(preparationId => preparationId === order.preparationId) !== -1}  // Comparer pour savoir si c'est sélectionné
                             onSelect={() => onSelectOrder(order.preparationId)}  // Passer la commande sélectionnée
                         />

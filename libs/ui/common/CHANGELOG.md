@@ -1,3 +1,39 @@
+## 0.24.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- use state from backend for orders instead of hardcoded boolean ([59cfc9b](https://github.com/StartUpNationLabs/spos/commit/59cfc9b))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
+## 0.23.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- UI improvement for group payment ([43fff40](https://github.com/StartUpNationLabs/spos/commit/43fff40))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
+## 0.22.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- Implementation of backend for partial payment in frontend and UI improvement ([612d5a9](https://github.com/StartUpNationLabs/spos/commit/612d5a9))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.21.0 (2024-09-29)
 
 

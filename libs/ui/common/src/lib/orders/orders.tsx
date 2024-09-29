@@ -12,6 +12,7 @@ import { ContainerContext } from '../containerHook/containerContext';
 import { OrderDetails } from './orderDetails';
 
 export function Orders() {
+  const container = useContext(ContainerContext);
   const { groupId } = useCommandsParameter();
   const navigate = useNavigate();
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
@@ -37,7 +38,6 @@ export function Orders() {
     }
   });
 
-  const container = useContext(ContainerContext);
 
   const {
     data: summary,

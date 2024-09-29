@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../utils/backButton";
 import { BillingService, container, ItemPaid, MonsieurAxelMenvoie2, TYPES } from "@spos/services/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import CustomizedTableForGroupBilling from "./customizedTableForGroupBilling";
 
 export function GroupBilling() {
   const { groupId } = useParams();
@@ -118,16 +119,9 @@ export function GroupBilling() {
                 {"Table " + table.number}
               </Typography>
               <Box sx={{ padding: '2vh 0' }}>
-                {table.elements.map((element, index) => (
-                  <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', padding: '0 3vw' }}>
-                    <Typography variant="body1" component="span" fontWeight={400} fontSize={'3vw'}>
-                      {element.remaining} x {element.item.name}
-                    </Typography>
-                    <Typography variant="body1" component="span" fontWeight={400} fontSize={'3vw'}>
-                      {element.remaining * element.item.price}$
-                    </Typography>
-                  </Box>
-                ))}
+                {(table.elements !== undefined && table.elements.length > 0) ?
+                  <CustomizedTableForGroupBilling items={table.elements} /> : ''
+                }
               </Box>
             </Box>
           ))}
