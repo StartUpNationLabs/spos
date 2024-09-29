@@ -40,15 +40,14 @@ export function Orders() {
 
   return (
     <Box
-      className="custom-scrollbar"
       sx={{
         padding: '16px',
         paddingTop: '110px',
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
         gap: '14px',
         height: '100vh',
-        overflowY: 'auto',
         position: 'relative',
         left: '0',
       }}
@@ -66,41 +65,45 @@ export function Orders() {
 
         <Box sx={{
           display: 'flex',
+          overflowY: 'auto',
+          justifyContent: "space-between",
           flexDirection: 'column',
           alignItems: 'flex-start',
           mt: 4,
           pl: 0,
         }}>
-          <Box width='90%'
+          <Box
+            className="custom-scrollbar"
+            width='90%'
+            height={"75vh"}
             marginLeft='5%'
             bgcolor='#FFFFFF'
-            height="62vh"
+            display="flex"
+            flexDirection="column"
             sx={{
               overflowY: 'auto',
-              maxHeight: '62vh',
               padding: 2,
             }}>
 
-            {Object.keys(ordersData).map((section) => (
-              <Section
-                key={section}
-                title={section.charAt(0).toUpperCase() + section.slice(1)}
-                orders={ordersData[section]}
-                onSelectOrder={handleSelectOrder}
-                selectedOrder={selectedOrder}
-              />
-            ))}
+            <Box>
+              {Object.keys(ordersData).map((section) => (
+                <Section
+                  key={section}
+                  title={section.charAt(0).toUpperCase() + section.slice(1)}
+                  orders={ordersData[section]}
+                  onSelectOrder={handleSelectOrder}
+                  selectedOrder={selectedOrder}
+                />
+              ))}
+            </Box>
           </Box>
+          <Button sx={{
+            margin: "auto",
+            alignItems: "center"
+          }} variant="contained">
+            Serve
+          </Button>
         </Box>
-
-        <Button sx={{
-          margin: "auto",
-          position: 'absolute',
-          bottom: 50,
-          left: "40%"
-        }} variant="contained">
-          Serve
-        </Button>
       </Box>
     </Box>
   );

@@ -135,8 +135,8 @@ export function Summary() {
           Summary
         </Typography>
 
-        <Box width='90%' marginLeft='5%' marginTop="7%" paddingRight="10px" bgcolor='#FFFFFF' sx={{ display: "flex", flexDirection: "column", alignItem: "center", justifyContent: "center" }}>
-          <Box className="custom-scrollbar" height="70vh" overflow="auto">
+        <Box width='95%' marginLeft='5%' marginTop="7%" paddingRight="10px" bgcolor='#FFFFFF' sx={{ display: "flex", flexDirection: "column", alignItem: "center", justifyContent: "center" }}>
+          <Box className="custom-scrollbar" height="70vh" overflow="auto" paddingRight="30px">
             {Object.keys(catalog).map((category) => {
               return (
                 (cartByCategory()[category] ?? []).length > 0 ?
