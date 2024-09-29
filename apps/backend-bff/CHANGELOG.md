@@ -1,3 +1,15 @@
+## 0.10.0 (2024-09-29)
+
+
+### 🚀 Features
+
+- add serve command ([6d6feee](https://github.com/StartUpNationLabs/spos/commit/6d6feee))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.9.0 (2024-09-29)
 
 
