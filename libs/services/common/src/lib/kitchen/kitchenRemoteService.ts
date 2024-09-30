@@ -7,6 +7,7 @@ import {
   PreparedItemAggregate,
 } from './kitchenService';
 import { BackendBffApiService } from '../apis/backendBffApiService';
+import { logger } from "../logger";
 
 @injectable()
 export class KitchenRemoteService implements KitchenService {
@@ -14,7 +15,7 @@ export class KitchenRemoteService implements KitchenService {
     @inject(TYPES.BackendBffApiService)
     private backendBffApiService: BackendBffApiService
   ) {}
-
+  @logger
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     return (
       await this.backendBffApiService
@@ -24,7 +25,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
-
+  @logger
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
     return (
       await this.backendBffApiService
@@ -34,7 +35,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
-
+  @logger
   async servePreparation(preparationIds: string[]): Promise<void> {
     return (
       await this.backendBffApiService
@@ -44,7 +45,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
-
+  @logger
   async startAndFinishPreparedItem(preparedItemId: string): Promise<boolean> {
     return (
       await this.backendBffApiService
@@ -54,7 +55,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
-
+  @logger
   async readyPreparations(preparationsIds: string[]): Promise<void> {
     return (
       await this.backendBffApiService
@@ -64,7 +65,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
-
+  @logger
   async preparationDetails(
     preparationId: string
   ): Promise<PreparedItemAggregate[]> {

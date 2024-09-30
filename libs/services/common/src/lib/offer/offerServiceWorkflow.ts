@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { OfferService } from './offer.service';
 import { TYPES } from "../types";
 import { MenuApiService } from "../apis/menuApiService";
+import { logger } from "../logger";
 
 @injectable()
 export class OfferServiceWorkflow implements OfferService {
@@ -9,6 +10,7 @@ export class OfferServiceWorkflow implements OfferService {
     @inject(TYPES.MenuApiService) private menuApiService: MenuApiService,
   ) {
   }
+  @logger
   async getOffers() {
     const menuItems = (await this.menuApiService.getMenuApi().menusControllerGetFullMenu()).data;
     return [

@@ -11,6 +11,7 @@ import {
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
 import { KitchenNotFoundException } from '../exceptions/kitchenExceptions';
+import { logger } from "../logger";
 
 @injectable()
 export class KitchenServiceWorkflow implements KitchenService {
@@ -25,6 +26,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     private menuApiService: MenuApiService
   ) {}
 
+  @logger
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
     const group = await this.groupService.getGroup(order.groupId);
     const tableOrdersApi = this.diningApiService.getTableOrdersApi();
@@ -76,6 +78,7 @@ export class KitchenServiceWorkflow implements KitchenService {
   }
 
   // Commence et fini une préparation
+  @logger
   async startAndFinishPreparedItem(preparedItemId: string): Promise<boolean> {
     try {
       const preparedItemsApi = this.kitchenApiService.getPreparedItemsApi();
@@ -115,6 +118,7 @@ export class KitchenServiceWorkflow implements KitchenService {
   }
 
   // Commence et fini plusieurs preparations
+  @logger
   async readyPreparations(preparationsIds: string[]): Promise<void> {
     for (const preparation of preparationsIds) {
       const preparedItemsApi = (
@@ -134,7 +138,7 @@ export class KitchenServiceWorkflow implements KitchenService {
       }
     }
   }
-
+  @logger
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     const group = await this.groupService.getGroup(groupId);
     const orderSummary: OrderSummary = {
@@ -204,7 +208,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     }
     return orderSummary;
   }
-
+  @logger
   async servePreparation(preparationIds: string[]): Promise<void> {
     const preparationApi = this.kitchenApiService.getPreparationApi();
     for (const preparationId of preparationIds) {
@@ -213,7 +217,7 @@ export class KitchenServiceWorkflow implements KitchenService {
       });
     }
   }
-
+  @logger
   async preparationDetails(preparationId: string): Promise<PreparedItemAggregate[]> {
     const preparationApi = this.kitchenApiService.getPreparationApi();
     const preparation =
