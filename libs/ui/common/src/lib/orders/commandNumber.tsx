@@ -14,7 +14,7 @@ const CommandNumber = ({ number, status, isSelected, onSelect, onDetailsExpand }
 
     const backgroundColor = isSelected ? 'blue' : (isReadyToBeServed ? 'green' : (!isServed ? "orange" : 'darkgrey'));
 
-    const onClick = (true) ? onSelect : () => console.log("Order not ready to be served yet.");
+    const onClick = (isReadyToBeServed) ? onSelect : () => console.log("Order not ready to be served yet.");
     //TODO : to replace once we can manually prepare an item
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
