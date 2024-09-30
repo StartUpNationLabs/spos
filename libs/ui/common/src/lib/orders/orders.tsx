@@ -9,12 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { KitchenService, TYPES } from '@spos/services/common';
 import { ContainerContext } from '../containerHook/containerContext';
+import { OrderDetails } from './orderDetails';
 
 export function Orders() {
   const container = useContext(ContainerContext);
   const { groupId } = useCommandsParameter();
   const navigate = useNavigate();
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+  const [orderToDetailed, setOrderToDetailed] = useState("");
 
   useEffect(() => {
     if (selectedOrders.length > 0) {
@@ -71,7 +73,7 @@ export function Orders() {
   const handleSelectOrder = (preparationId: string) => {
     console.log("Selecting an order...");
     const index = selectedOrders.findIndex((element) => element === preparationId);
-
+    console.log(selectedOrders)
     if (index !== -1) {
       // Remove the order from the list
       setSelectedOrders((prevOrders) => [...prevOrders.slice(0, index), ...prevOrders.slice(index + 1)]);
@@ -129,7 +131,7 @@ export function Orders() {
           <Box
             className="custom-scrollbar"
             width='90%'
-            height={"75vh"}
+            height={"68vh"}
             marginLeft='5%'
             bgcolor='#FFFFFF'
             display="flex"
@@ -147,16 +149,20 @@ export function Orders() {
                   orders={summary.summary[category]}
                   onSelectOrder={handleSelectOrder}
                   selectedOrders={selectedOrders}
+                  setOrderToDetailed={setOrderToDetailed}
                 />
               ))}
             </Box>
           </Box>
-          <Button sx={{
-            margin: "auto",
-            alignItems: "center"
-          }} variant="contained" onClick={handleServe}>
+          { selectedOrders.length > 0 &&
+            <Button
+            variant="contained"
+            onClick={handleServe}
+            sx={{ position: "absolute", bottom: "40px", left: "50%", transform: "translateX(-50%)" }} // Move the button up a bit
+            >
             Serve
-          </Button>
+            </Button>}
+          <OrderDetails orderToDetailed={orderToDetailed} setOrderToDetailed={setOrderToDetailed} ></OrderDetails>
         </Box>
       </Box>
     </Box>
