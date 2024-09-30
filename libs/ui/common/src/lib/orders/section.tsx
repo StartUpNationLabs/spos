@@ -9,7 +9,7 @@ type SectionProps = {
     onSelectOrder: any
 }
 
-const Section = ({ title, orders, selectedOrders, onSelectOrder }: SectionProps) => (
+const Section = ({ title, orders, selectedOrders, onSelectOrder, setOrderToDetailed }: SectionProps) => (
     <Box sx={{ marginBottom: 3 }}>
         <Typography variant="h6" gutterBottom sx={{ color: 'black', fontSize: 24 }}>
             {title}
@@ -27,6 +27,7 @@ const Section = ({ title, orders, selectedOrders, onSelectOrder }: SectionProps)
                             status={order.status}
                             isSelected={selectedOrders && selectedOrders.findIndex(preparationId => preparationId === order.preparationId) !== -1}  // Comparer pour savoir si c'est sélectionné
                             onSelect={() => onSelectOrder(order.preparationId)}  // Passer la commande sélectionnée
+                            onDetailsExpand={() =>  setOrderToDetailed(order.preparationId)}
                         />
                     ))}
                 </Box>

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button, Checkbox } from "@mui/material";
 
 type CommandNumberProps = {
     number: number,
@@ -8,7 +8,7 @@ type CommandNumberProps = {
     onSelect: () => void;
 }
 
-const CommandNumber = ({ number, status, isSelected, onSelect }: CommandNumberProps) => {
+const CommandNumber = ({ number, status, isSelected, onSelect, onDetailsExpand }: CommandNumberProps) => {
     const isServed = (status === "preparationServed");
     const isReadyToBeServed = (status === "readyToBeServed");
 
@@ -17,8 +17,9 @@ const CommandNumber = ({ number, status, isSelected, onSelect }: CommandNumberPr
     const onClick = (isReadyToBeServed) ? onSelect : () => console.log("Order not ready to be served yet.");
     //TODO : to replace once we can manually prepare an item
     return (
-        <Button
-            sx={{
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button
+                sx={{
                 width: 50,
                 height: 50,
                 display: 'flex',
@@ -30,11 +31,18 @@ const CommandNumber = ({ number, status, isSelected, onSelect }: CommandNumberPr
                 borderRadius: 2,
                 margin: 1,
                 boxShadow: '0px 4px 8px rgba(0,0,0,0.2)',
-            }}
-            onClick={onClick}
-        >
-            {number}
-        </Button>
+                }}
+                onClick={onDetailsExpand}
+            >
+                {number}
+            </Button>
+            <Checkbox
+                disabled={!isReadyToBeServed}
+                onChange={onClick}
+                inputProps={{ 'aria-label': 'controlled' }}
+                size="large"
+            />
+        </Box>
     );
 };
 
