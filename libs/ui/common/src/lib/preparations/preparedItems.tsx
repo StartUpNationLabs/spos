@@ -19,7 +19,7 @@ import { DiningApiService, GroupService, TYPES } from '@spos/services/common';
 import { useParams } from 'react-router-dom';
 import { PreparedItemDto, TableOrder } from '@spos/clients-dining';
 import { PreparationDto } from '@spos/clients-dining';
-import { KitchenApiService } from 'libs/services/common/src/lib/apis/kitchenApiService';
+import { KitchenApiService } from '@spos/services/common';
 
 
 
