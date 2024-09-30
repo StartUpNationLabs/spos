@@ -23,7 +23,7 @@ export function OrderDetails({orderToDetailed, setOrderToDetailed}) {
         const KitchenService: KitchenService = container.get<KitchenService>(TYPES.KitchenService);
         return KitchenService.preparationDetails(orderToDetailed);
         },
-        enabled: orderToDetailed !== undefined && orderToDetailed !== '',
+        enabled: orderToDetailed !== undefined && orderToDetailed !== "",
         refetchOnWindowFocus: 'always',
     });
     if (isLoading) {
@@ -34,7 +34,7 @@ export function OrderDetails({orderToDetailed, setOrderToDetailed}) {
         );
     }
     if (!preparationDetails || isError) {
-        console.error(error);
+        //console.error(error);
         return "";
     }
 
@@ -47,29 +47,20 @@ export function OrderDetails({orderToDetailed, setOrderToDetailed}) {
         {/* Bottom tab container */}
         <Box
             sx={{
-            position: "fixed",
-            bottom: 0,
-            left: "140px",
-            right: 0,
-            height: orderToDetailed!="" ? "60vh" : "50px", // detailed or collapsed height
-            backgroundColor: "#f5f5f5",
-            borderRadius: "20px 20px 0 0", // Rounded corners at the top
-            transition: "height 0.3s ease", // Smooth expansion/collapse animation
-            boxShadow: "0 -2px 10px rgba(0,0,0,0.3)", // Shadow effect
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+                position: "fixed",
+                bottom: 0,
+                left: "140px",
+                right: 0,
+                height: orderToDetailed!="" ? "auto" : "50px", // detailed or collapsed height
+                backgroundColor: "#f5f5f5",
+                borderRadius: "20px 20px 0 0", // Rounded corners at the top
+                transition: "height 0.3s ease", // Smooth expansion/collapse animation
+                boxShadow: "0 -2px 10px rgba(0,0,0,0.3)", // Shadow effect
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
             }}
         >
-            { orderToDetailed!="" &&
-            <Button
-            variant="contained"
-            onClick={handleExpand}
-            sx={{ position: "absolute", top: -20 }} // Move the button up a bit
-            >
-            Serve
-            </Button>}
-
             {/* Content inside the detailed tab */}
             {orderToDetailed!="" && (
             <Box
