@@ -1,3 +1,15 @@
+## 0.24.2 (2024-09-30)
+
+
+### 🩹 Fixes
+
+- Cache invalidation for orders ([a2c311c](https://github.com/StartUpNationLabs/spos/commit/a2c311c))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.24.1 (2024-09-30)
 
 
