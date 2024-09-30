@@ -6,11 +6,12 @@ import BackButton from '../utils/backButton';
 import useStore from './stores/serve';
 import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
 import { useNavigate } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { KitchenService, TYPES } from '@spos/services/common';
 import { ContainerContext } from '../containerHook/containerContext';
 
 export function Orders() {
+  const queryClient = useQueryClient();
   const container = useContext(ContainerContext);
   const { groupId } = useCommandsParameter();
   const navigate = useNavigate();
@@ -28,6 +29,10 @@ export function Orders() {
       return container.get<KitchenService>(TYPES.KitchenService).servePreparation(preparationIds);
     },
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['summary', groupId],
+        exact: true,
+      });
       setSelectedOrders([]);
       navigate(`/commands/${groupId}/orders`);
     },
