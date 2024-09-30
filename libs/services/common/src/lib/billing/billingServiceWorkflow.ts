@@ -9,6 +9,7 @@ import {
   TableItem,
   TableSummary,
 } from './billingService';
+import { logger } from "../logger";
 
 @injectable()
 export class BillingServiceWorkflow implements BillingService {
@@ -25,7 +26,7 @@ export class BillingServiceWorkflow implements BillingService {
     @inject(TYPES.DiningApiService) private diningApiService: DiningApiService,
     @inject(TYPES.MenuApiService) private menuApiService: MenuApiService
   ) {}
-
+  @logger
   async getBillingSummary(groupId: string): Promise<TableSummary[]> {
     const group = await this.groupService.getGroup(groupId);
     const menuItems = (
@@ -84,7 +85,7 @@ export class BillingServiceWorkflow implements BillingService {
     }
     return tableSummary;
   }
-
+  @logger
   async isComplete(groupId: string): Promise<boolean> {
     const summary = await this.getBillingSummary(groupId);
     for (const table of summary) {
@@ -96,7 +97,7 @@ export class BillingServiceWorkflow implements BillingService {
     }
     return true;
   }
-
+  @logger
   async partialPayment(payment: MonsieurAxelMenvoie2) {
     if (!this.data[payment.groupId]) {
       this.data[payment.groupId] = {};

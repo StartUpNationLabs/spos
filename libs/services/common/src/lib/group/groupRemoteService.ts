@@ -32,10 +32,12 @@ export class GroupRemoteService implements GroupService {
   async getGroups(): Promise<Group[]> {
     return (await this.backendBffApiService.getRemoteGroupApi().remoteGroupControllerGetGroups()).data;
   }
+  @logger
   async removeGroup(id: string): Promise<boolean> {
     return (await this.backendBffApiService.getRemoteGroupApi().remoteGroupControllerRemoveGroup({id})).data.success;
 
   }
+  @logger
   async removeAllGroups(): Promise<boolean> {
 
     return (await this.backendBffApiService.getRemoteGroupApi().remoteGroupControllerRemoveAllGroups()).data.success;
