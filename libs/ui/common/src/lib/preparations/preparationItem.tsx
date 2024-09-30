@@ -21,7 +21,7 @@ import { TableOrder } from '@spos/clients-dining';
 import { PreparationDto } from '@spos/clients-dining';
 import { PreparedTableItem } from './preparedTableItem';
 import { Button } from '@mui/material';
-import { KitchenApiService } from 'libs/services/common/src/lib/apis/kitchenApiService';
+import { KitchenApiService } from '@spos/services/common';
 
 
 
@@ -73,7 +73,7 @@ export function PreparationItem(props : {preparation: PreparationDto}) {
             onClick={async () => {
 
                 await container.get<KitchenService>(TYPES.KitchenService).readyPreparations([props.preparation._id]);
-                for(let preparedItem of props.preparation.preparedItems){
+                for(const preparedItem of props.preparation.preparedItems){
                     queryClient.invalidateQueries({ queryKey: ['preparedItemsDetails',preparedItem._id] })
                 }
                 

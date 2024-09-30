@@ -15,3 +15,4 @@ export * from './lib/offer/catalogueServiceWorkflow';
 export * from './lib/kitchen/kitchenService';
 export * from './lib/exceptions/groupException';
 export * from './lib/billing/billingService';
+export * from './lib/apis/kitchenApiService';
