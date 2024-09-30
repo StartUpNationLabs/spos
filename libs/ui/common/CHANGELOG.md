@@ -1,3 +1,17 @@
+## 0.24.1 (2024-09-30)
+
+
+### 🩹 Fixes
+
+- Filter for preparation dashboard ([feaeb29](https://github.com/StartUpNationLabs/spos/commit/feaeb29))
+
+- lint --fix for build ([6770dcb](https://github.com/StartUpNationLabs/spos/commit/6770dcb))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.24.0 (2024-09-29)
 
 

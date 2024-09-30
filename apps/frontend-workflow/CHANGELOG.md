@@ -1,3 +1,15 @@
+## 0.15.1 (2024-09-30)
+
+
+### 🩹 Fixes
+
+- Filter for preparation dashboard ([feaeb29](https://github.com/StartUpNationLabs/spos/commit/feaeb29))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.15.0 (2024-09-29)
 
 
