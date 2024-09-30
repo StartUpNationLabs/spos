@@ -1,5 +1,5 @@
 import { Link, Route, Routes } from 'react-router-dom';
-import { LandingPage, Offers, GroupBilling, TableBilling, Commands, OrderingChoices, Summary, Orders } from '@spos/ui/common';
+import { LandingPage, Offers, GroupBilling, TableBilling, Commands, OrderingChoices, Summary, Orders, OrdersTable } from '@spos/ui/common';
 
 export function App() {
   return (
@@ -15,6 +15,7 @@ export function App() {
             </div>
           }
         />
+        <Route path="/preparations/" element={<OrdersTable />} />
         <Route path="/groupBilling/" element={<GroupBilling />} />
         <Route path="/groupBilling/:groupId" element={<GroupBilling />} />
         <Route path="/tableBilling/" element={<TableBilling />} />

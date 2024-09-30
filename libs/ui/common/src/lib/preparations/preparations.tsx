@@ -22,7 +22,7 @@ import { OrdersRow } from './preparationRow';
 
 
 export function OrdersTable() {
-    
+
 
     const container = React.useContext(ContainerContext);
 
@@ -40,6 +40,7 @@ export function OrdersTable() {
             return diningApiService.getTableOrdersApi().tableOrdersControllerListAllTableOrders();
         },
         refetchOnWindowFocus: 'always',
+        staleTime: 5000
     });
 
 
@@ -72,15 +73,15 @@ export function OrdersTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {allTableOrders?.data.filter((tableOrder)=> {
-                        if(tableOrder.billed !== null){
+                    {allTableOrders?.data.filter((tableOrder) => {
+                        if (tableOrder.billed === null) {
                             return true;
                         }
                         return false;
 
                     }).map((tableOrder) => (
-                        <OrdersRow key={tableOrder._id} tableOrder={ tableOrder}></OrdersRow>
-                        
+                        <OrdersRow key={tableOrder._id} tableOrder={tableOrder}></OrdersRow>
+
                     ))}
                 </TableBody>
             </Table>
