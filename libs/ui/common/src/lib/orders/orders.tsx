@@ -72,6 +72,7 @@ export function Orders() {
 
   const handleSelectOrder = (preparationId: string) => {
     console.log("Selecting an order...");
+    setOrderToDetailed("")
     const index = selectedOrders.findIndex((element) => element === preparationId);
     console.log(selectedOrders)
     if (index !== -1) {
@@ -154,14 +155,14 @@ export function Orders() {
               ))}
             </Box>
           </Box>
-          { selectedOrders.length > 0 &&
             <Button
-            variant="contained"
-            onClick={handleServe}
-            sx={{ position: "absolute", bottom: "40px", left: "50%", transform: "translateX(-50%)" }} // Move the button up a bit
-            >
-            Serve
-            </Button>}
+              disabled={selectedOrders.length <1}
+              variant="contained"
+              onClick={handleServe}
+              sx={{ position: "absolute", bottom: "40px", left: "50%", transform: "translateX(-50%)" }} // Move the button up a bit
+              >
+              Serve
+            </Button>
           <OrderDetails orderToDetailed={orderToDetailed} setOrderToDetailed={setOrderToDetailed} ></OrderDetails>
         </Box>
       </Box>

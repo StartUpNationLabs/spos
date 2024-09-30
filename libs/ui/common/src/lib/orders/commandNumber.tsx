@@ -38,6 +38,7 @@ const CommandNumber = ({ number, status, isSelected, onSelect, onDetailsExpand }
             </Button>
             <Checkbox
                 onChange={onClick}
+                disabled={ !isReadyToBeServed}
                 inputProps={{ 'aria-label': 'controlled' }}
                 size="large"
             />
