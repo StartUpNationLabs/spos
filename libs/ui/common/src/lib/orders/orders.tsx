@@ -160,14 +160,14 @@ export function Orders() {
               ))}
             </Box>
           </Box>
-          { selectedOrders.length > 0 &&
             <Button
+            disabled={selectedOrders.length < 1}
             variant="contained"
             onClick={handleServe}
             sx={{ position: "absolute", bottom: "40px", left: "50%", transform: "translateX(-50%)" }} // Move the button up a bit
             >
             Serve
-            </Button>}
+            </Button>
           <OrderDetails orderToDetailed={orderToDetailed} setOrderToDetailed={setOrderToDetailed} ></OrderDetails>
         </Box>
       </Box>
