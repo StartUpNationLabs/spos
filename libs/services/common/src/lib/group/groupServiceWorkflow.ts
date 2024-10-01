@@ -3,7 +3,7 @@ import { TableOrdersApi } from '@spos/clients-dining';
 import { GroupCreateDto } from './groupCreate.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { Group, GroupService } from './groupService';
-import { logger } from "../logger";
+import { logger } from '../logger';
 import { GroupNotFoundException } from '../exceptions/groupException';
 
 @injectable()
@@ -12,6 +12,7 @@ export class GroupServiceWorkflow implements GroupService {
     [key: string]: Group;
   } = {};
   private tableOrdersApi = new TableOrdersApi();
+
   @logger
   async addGroup({ tables, offer }: GroupCreateDto) {
     const id = uuidv4();
@@ -20,26 +21,32 @@ export class GroupServiceWorkflow implements GroupService {
       tables: [],
       offer,
     };
-    console.debug('add group Service', tables, offer, id);
-    for (const table of Object.values(tables)) {
-      const orderId = await this.tableOrdersApi.tableOrdersControllerOpenTable({
-        startOrderingDto: {
-          customersCount: table.customerCount,
-          tableNumber: table.number,
-        },
-      });
-      this.group[id].tables.push({
-        id: orderId.data._id,
-        number: table.number,
-        customerCount: table.customerCount,
-      });
-    }
+    await Promise.all(
+      Object.values(tables).map(async (table) => {
+        const orderId =
+          await this.tableOrdersApi.tableOrdersControllerOpenTable({
+            startOrderingDto: {
+              customersCount: table.customerCount,
+              tableNumber: table.number,
+            },
+          });
+        this.group[id].tables.push({
+          id: orderId.data._id,
+          number: table.number,
+          customerCount: table.customerCount,
+        });
+      })
+    );
+    // sort tables by number
+    this.group[id].tables.sort((a, b) => a.number - b.number);
     return this.group[id];
   }
+
   @logger
   async getGroup(id: string) {
     return this.group[id];
   }
+
   @logger
   async getGroups() {
     return Object.values(this.group);
@@ -47,8 +54,8 @@ export class GroupServiceWorkflow implements GroupService {
 
   @logger
   async removeGroup(id: string): Promise<boolean> {
-      console.log(this.group);
-      console.log(id);
+    console.log(this.group);
+    console.log(id);
     if (this.group[id]) {
       delete this.group[id];
       console.debug('Group removed:', id);
@@ -57,6 +64,7 @@ export class GroupServiceWorkflow implements GroupService {
       throw new GroupNotFoundException(`Group with id ${id} not found.`);
     }
   }
+
   @logger
   async removeAllGroups(): Promise<boolean> {
     const groupIds = Object.keys(this.group);
