@@ -1,17 +1,20 @@
 import { inject, injectable } from 'inversify';
-import { GroupService } from '../group/groupService';
+import { GroupService, Table } from '../group/groupService';
 import { TYPES } from '../types';
 import { KitchenApiService } from '../apis/kitchenApiService';
 import {
   KitchenService,
   MonsieurAxelMenvoie,
   OrderSummary,
-  PreparationStatus, PreparedItemAggregate
-} from "./kitchenService";
+  PreparationStatus,
+  PreparedItemAggregate,
+} from './kitchenService';
 import { DiningApiService } from '../apis/diningApiService';
 import { MenuApiService } from '../apis/menuApiService';
 import { KitchenNotFoundException } from '../exceptions/kitchenExceptions';
-import { logger } from "../logger";
+import { logger } from '../logger';
+import { MenuItem } from '@spos/clients-menu';
+import { PreparationDto } from '@spos/clients-dining';
 
 @injectable()
 export class KitchenServiceWorkflow implements KitchenService {
@@ -138,76 +141,118 @@ export class KitchenServiceWorkflow implements KitchenService {
       }
     }
   }
+
   @logger
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     const group = await this.groupService.getGroup(groupId);
     const orderSummary: OrderSummary = {
-      summary: {},
+      summary: {
+        STARTER: [],
+        MAIN: [],
+        DESSERT: [],
+        BEVERAGE: []
+      },
     };
     const menuItems = (
       await this.menuApiService.getMenuApi().menusControllerGetFullMenu()
     ).data;
-    for (const table of group.tables) {
-      const tableOrder = await this.diningApiService
-        .getTableOrdersApi()
-        .tableOrdersControllerGetTableOrderById({
-          tableOrderId: table.id,
-        });
-
-      const preparationStatuses: {
-        status: string;
-        preparationId: string;
-        category: string;
-      }[] = [];
-
-      for (const preparationFromTableOrder of tableOrder.data.preparations) {
-        const preparationDetails = (
-          await this.kitchenApiService
-            .getPreparationApi()
-            .preparationsControllerRetrievePreparation({
-              preparationId: preparationFromTableOrder._id,
-            })
-        ).data;
-        const firstPreparedItem = preparationDetails.preparedItems[0];
-        const menuItem = menuItems.find(
-          (menuItem) => menuItem.shortName === firstPreparedItem.shortName
-        );
-        if (!menuItem) {
-          console.error(`Menu item not in menu ${menuItem}`);
-          continue;
-        }
-
-        let preparationStatus = 'preparationStarted';
-        if (preparationDetails.completedAt) {
-          preparationStatus = 'readyToBeServed';
-        }
-        if (preparationDetails.takenForServiceAt) {
-          preparationStatus = 'preparationServed';
-        }
-
-        preparationStatuses.push({
-          status: preparationStatus,
-          preparationId: preparationFromTableOrder._id,
-          category: menuItem.category,
-        });
-      }
-      for (const preparationStatus of preparationStatuses) {
-        if (!orderSummary.summary[preparationStatus.category]) {
-          orderSummary.summary[preparationStatus.category] = {};
-        }
-        if (!orderSummary.summary[preparationStatus.category][table.number]) {
-          orderSummary.summary[preparationStatus.category][table.number] = [];
-        }
-        orderSummary.summary[preparationStatus.category][table.number].push(<
-          PreparationStatus
-        >{
-          status: preparationStatus.status,
-          preparationId: preparationStatus.preparationId,
-        });
+    await Promise.all(
+      group.tables.map(async (table) => {
+        await this.calculateTable(table, menuItems, orderSummary);
+      })
+    );
+    // delete empty keys
+    for (const category in orderSummary.summary) {
+      if (orderSummary.summary[category].length === 0) {
+        delete orderSummary.summary[category];
       }
     }
     return orderSummary;
   }
+
+  private async calculateTable(
+    table: Table,
+    menuItems: Array<MenuItem>,
+    orderSummary: OrderSummary
+  ) {
+    const tableOrder = await this.diningApiService
+      .getTableOrdersApi()
+      .tableOrdersControllerGetTableOrderById({
+        tableOrderId: table.id,
+      });
+
+    const preparationStatuses: {
+      status: string;
+      preparationId: string;
+      category: string;
+    }[] = [];
+
+    await Promise.all(
+      tableOrder.data.preparations.map(async (preparationFromTableOrder) => {
+        await this.countPreparationStatuses(
+          preparationFromTableOrder,
+          menuItems,
+          preparationStatuses
+        );
+      })
+    );
+
+    for (const preparationStatus of preparationStatuses) {
+      if (!orderSummary.summary[preparationStatus.category]) {
+        orderSummary.summary[preparationStatus.category] = {};
+      }
+      if (!orderSummary.summary[preparationStatus.category][table.number]) {
+        orderSummary.summary[preparationStatus.category][table.number] = [];
+      }
+      orderSummary.summary[preparationStatus.category][table.number].push(<
+        PreparationStatus
+      >{
+        status: preparationStatus.status,
+        preparationId: preparationStatus.preparationId,
+      });
+    }
+  }
+
+  private async countPreparationStatuses(
+    preparationFromTableOrder: PreparationDto,
+    menuItems: Array<MenuItem>,
+    preparationStatuses: {
+      status: string;
+      preparationId: string;
+      category: string;
+    }[]
+  ) {
+    const preparationDetails = (
+      await this.kitchenApiService
+        .getPreparationApi()
+        .preparationsControllerRetrievePreparation({
+          preparationId: preparationFromTableOrder._id,
+        })
+    ).data;
+    const firstPreparedItem = preparationDetails.preparedItems[0];
+    const menuItem = menuItems.find(
+      (menuItem) => menuItem.shortName === firstPreparedItem.shortName
+    );
+    if (!menuItem) {
+      console.error(`Menu item not in menu ${menuItem}`);
+      return;
+    }
+
+    let preparationStatus = 'preparationStarted';
+    if (preparationDetails.completedAt) {
+      preparationStatus = 'readyToBeServed';
+    }
+    if (preparationDetails.takenForServiceAt) {
+      preparationStatus = 'preparationServed';
+    }
+
+    preparationStatuses.push({
+      status: preparationStatus,
+      preparationId: preparationFromTableOrder._id,
+      category: menuItem.category,
+    });
+  }
+
   @logger
   async servePreparation(preparationIds: string[]): Promise<void> {
     const preparationApi = this.kitchenApiService.getPreparationApi();
@@ -217,8 +262,11 @@ export class KitchenServiceWorkflow implements KitchenService {
       });
     }
   }
+
   @logger
-  async preparationDetails(preparationId: string): Promise<PreparedItemAggregate[]> {
+  async preparationDetails(
+    preparationId: string
+  ): Promise<PreparedItemAggregate[]> {
     const preparationApi = this.kitchenApiService.getPreparationApi();
     const preparation =
       await preparationApi.preparationsControllerRetrievePreparation({
