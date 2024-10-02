@@ -1,3 +1,15 @@
+## 0.15.2 (2024-10-02)
+
+
+### 🩹 Fixes
+
+- Error in backend-bff dockerfile ([0b1db1e](https://github.com/StartUpNationLabs/spos/commit/0b1db1e))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.15.1 (2024-09-30)
 
 
