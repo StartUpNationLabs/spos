@@ -11,3 +11,9 @@ services:
       dockerfile: ./apps/frontend-workflow/Dockerfile
     ports:
       - 3001:80
+  backend-bff:
+    build:
+      context: .
+      dockerfile: ./apps/backend-bff/Dockerfile
+    ports:
+      - 3002:3000
