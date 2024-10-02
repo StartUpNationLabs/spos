@@ -1,3 +1,15 @@
+## 0.22.0 (2024-10-02)
+
+
+### 🚀 Features
+
+- use backend-bff dev url ([d92ec3c](https://github.com/StartUpNationLabs/spos/commit/d92ec3c))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.21.0 (2024-10-02)
 
 
