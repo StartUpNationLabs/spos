@@ -26,7 +26,7 @@ export function Summary() {
       return container.get<KitchenService>(TYPES.KitchenService).sendToKitchen(order);
     },
     onSuccess: (data) => {
-      navigate('/');
+      navigate(`/commands/${groupId}/`);
     },
     onError: (error) => {
       console.log(error);

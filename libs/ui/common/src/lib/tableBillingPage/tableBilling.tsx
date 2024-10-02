@@ -47,7 +47,7 @@ export function TableBilling() {
         exact: true,
       });
       resetPaymentStore(groupId ?? '');
-      navigate('/');
+      navigate(`/`);
     },
     onError: (error) => {
       console.log(error);
