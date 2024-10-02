@@ -1,3 +1,15 @@
+## 0.20.0 (2024-10-02)
+
+
+### 🚀 Features
+
+- Addition of backend deployment ([1c00a57](https://github.com/StartUpNationLabs/spos/commit/1c00a57))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.19.1 (2024-10-02)
 
 
