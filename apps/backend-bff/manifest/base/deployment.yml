@@ -18,7 +18,7 @@ spec:
         - image: ghcr.io/startupnationlabs/spos/backend-bff:sha-bcc8181
           name: backend-bff
           ports:
-            - containerPort: 80
+            - containerPort: 3000
               protocol: TCP
           resources:
             requests:
@@ -28,16 +28,4 @@ spec:
               cpu: "500m"
               memory: "512Mi"
           env: []
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 15
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 20
       restartPolicy: Always

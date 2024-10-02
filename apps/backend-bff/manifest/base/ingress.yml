@@ -17,7 +17,7 @@ spec:
               service:
                 name:  backend-bff
                 port:
-                  number: 80
+                  number: 3000
   tls:
     - hosts:
         - backend-bff.spos.polytech.apoorva64.com
