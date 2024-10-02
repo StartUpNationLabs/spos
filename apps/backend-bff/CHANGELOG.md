@@ -1,3 +1,15 @@
+## 0.12.1 (2024-10-02)
+
+
+### 🩹 Fixes
+
+- ports ([11f982d](https://github.com/StartUpNationLabs/spos/commit/11f982d))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.12.0 (2024-10-02)
 
 
