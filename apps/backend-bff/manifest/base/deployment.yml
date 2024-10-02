@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: backend-bff
+  name: backend-bff
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend-bff
+  template:
+    metadata:
+      labels:
+        io.kompose.service: backend-bff
+    spec:
+      containers:
+        - image: ghcr.io/startupnationlabs/spos/backend-bff:sha-bcc8181
+          name: backend-bff
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env: []
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 20
+      restartPolicy: Always

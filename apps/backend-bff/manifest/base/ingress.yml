@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-backend-bff
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+spec:
+  rules:
+    - host: backend-bff.spos.polytech.apoorva64.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  backend-bff
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - backend-bff.spos.polytech.apoorva64.com
+      secretName: backend-bff.spos.polytech.apoorva64-tls
