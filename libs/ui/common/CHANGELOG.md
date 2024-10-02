@@ -1,3 +1,17 @@
+## 0.25.1 (2024-10-02)
+
+
+### 🩹 Fixes
+
+- Redirection when we order something go to /command/groupId instead of /, can't do it for billing though ([cf395ac](https://github.com/StartUpNationLabs/spos/commit/cf395ac))
+
+- Don't display the navbar for /commands/:groupId/orders because it's useless ([dea7efa](https://github.com/StartUpNationLabs/spos/commit/dea7efa))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.25.0 (2024-10-02)
 
 
