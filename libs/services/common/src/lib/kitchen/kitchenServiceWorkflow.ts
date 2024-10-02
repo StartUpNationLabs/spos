@@ -147,10 +147,10 @@ export class KitchenServiceWorkflow implements KitchenService {
     const group = await this.groupService.getGroup(groupId);
     const orderSummary: OrderSummary = {
       summary: {
-        STARTER: [],
-        MAIN: [],
-        DESSERT: [],
-        BEVERAGE: []
+        STARTER: {},
+        MAIN: {},
+        DESSERT: {},
+        BEVERAGE: {}
       },
     };
     const menuItems = (
@@ -163,7 +163,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     );
     // delete empty keys
     for (const category in orderSummary.summary) {
-      if (orderSummary.summary[category].length === 0) {
+      if (Object.keys(orderSummary.summary[category]).length === 0) {
         delete orderSummary.summary[category];
       }
     }
