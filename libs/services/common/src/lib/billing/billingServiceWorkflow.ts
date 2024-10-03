@@ -10,6 +10,7 @@ import {
   TableSummary,
 } from './billingService';
 import { logger } from "../logger";
+import { perf } from '../perf';
 
 @injectable()
 export class BillingServiceWorkflow implements BillingService {
@@ -26,6 +27,7 @@ export class BillingServiceWorkflow implements BillingService {
     @inject(TYPES.DiningApiService) private diningApiService: DiningApiService,
     @inject(TYPES.MenuApiService) private menuApiService: MenuApiService
   ) {}
+  @perf()
   @logger
   async getBillingSummary(groupId: string): Promise<TableSummary[]> {
     const group = await this.groupService.getGroup(groupId);
@@ -85,6 +87,7 @@ export class BillingServiceWorkflow implements BillingService {
     }
     return tableSummary;
   }
+  @perf()
   @logger
   async isComplete(groupId: string): Promise<boolean> {
     const summary = await this.getBillingSummary(groupId);
@@ -97,6 +100,7 @@ export class BillingServiceWorkflow implements BillingService {
     }
     return true;
   }
+  @perf()
   @logger
   async partialPayment(payment: MonsieurAxelMenvoie2) {
     if (!this.data[payment.groupId]) {

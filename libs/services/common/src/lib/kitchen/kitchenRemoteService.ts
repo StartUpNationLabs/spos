@@ -8,6 +8,7 @@ import {
 } from './kitchenService';
 import { BackendBffApiService } from '../apis/backendBffApiService';
 import { logger } from "../logger";
+import { perf } from '../perf';
 
 @injectable()
 export class KitchenRemoteService implements KitchenService {
@@ -15,6 +16,8 @@ export class KitchenRemoteService implements KitchenService {
     @inject(TYPES.BackendBffApiService)
     private backendBffApiService: BackendBffApiService
   ) {}
+
+  @perf()
   @logger
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     return (
@@ -25,6 +28,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
+  @perf()
   @logger
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
     return (
@@ -35,6 +39,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
+  @perf()
   @logger
   async servePreparation(preparationIds: string[]): Promise<void> {
     return (
@@ -45,6 +50,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
+  @perf()
   @logger
   async startAndFinishPreparedItem(preparedItemId: string): Promise<boolean> {
     return (
@@ -55,6 +61,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
+  @perf()
   @logger
   async readyPreparations(preparationsIds: string[]): Promise<void> {
     return (
@@ -65,6 +72,7 @@ export class KitchenRemoteService implements KitchenService {
         })
     ).data;
   }
+  @perf()
   @logger
   async preparationDetails(
     preparationId: string

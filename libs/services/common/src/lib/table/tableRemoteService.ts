@@ -2,6 +2,7 @@ import { TableWithOrderDto } from '@spos/clients-dining';
 import { inject, injectable } from "inversify";
 import { BackendBffApiService } from '../apis/backendBffApiService';
 import { logger } from "../logger";
+import { perf } from '../perf';
 import { TableService } from "./table.service";
 import { TYPES } from "../types";
 
@@ -11,6 +12,7 @@ export class TableRemoteService implements TableService {
     @inject(TYPES.BackendBffApiService)
     private backendBffApiService: BackendBffApiService
   ) {}
+  @perf()
   @logger
   async getFreeTables(): Promise<TableWithOrderDto[]> {
     return (
@@ -19,6 +21,7 @@ export class TableRemoteService implements TableService {
         .remoteTableControllerGetFreeTables()
     ).data;
   }
+  @perf()
   @logger
   async closeAllTables(): Promise<void> {
     return (

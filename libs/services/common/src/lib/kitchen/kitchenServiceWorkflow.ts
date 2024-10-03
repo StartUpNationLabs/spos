@@ -15,6 +15,7 @@ import { KitchenNotFoundException } from '../exceptions/kitchenExceptions';
 import { logger } from '../logger';
 import { MenuItem } from '@spos/clients-menu';
 import { PreparationDto } from '@spos/clients-dining';
+import { perf } from '../perf';
 
 @injectable()
 export class KitchenServiceWorkflow implements KitchenService {
@@ -29,6 +30,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     private menuApiService: MenuApiService
   ) {}
 
+  @perf()
   @logger
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
     const group = await this.groupService.getGroup(order.groupId);
@@ -81,6 +83,7 @@ export class KitchenServiceWorkflow implements KitchenService {
   }
 
   // Commence et fini une préparation
+  @perf()
   @logger
   async startAndFinishPreparedItem(preparedItemId: string): Promise<boolean> {
     try {
@@ -121,6 +124,7 @@ export class KitchenServiceWorkflow implements KitchenService {
   }
 
   // Commence et fini plusieurs preparations
+  @perf()
   @logger
   async readyPreparations(preparationsIds: string[]): Promise<void> {
     for (const preparation of preparationsIds) {
@@ -142,6 +146,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     }
   }
 
+  @perf()
   @logger
   async getOrdersByGroupId(groupId: string): Promise<OrderSummary> {
     const group = await this.groupService.getGroup(groupId);
@@ -170,6 +175,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     return orderSummary;
   }
 
+  @perf()
   private async calculateTable(
     table: Table,
     menuItems: Array<MenuItem>,
@@ -213,6 +219,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     }
   }
 
+  @perf()
   private async countPreparationStatuses(
     preparationFromTableOrder: PreparationDto,
     menuItems: Array<MenuItem>,
@@ -253,6 +260,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     });
   }
 
+  @perf()
   @logger
   async servePreparation(preparationIds: string[]): Promise<void> {
     const preparationApi = this.kitchenApiService.getPreparationApi();
@@ -263,6 +271,7 @@ export class KitchenServiceWorkflow implements KitchenService {
     }
   }
 
+  @perf()
   @logger
   async preparationDetails(
     preparationId: string

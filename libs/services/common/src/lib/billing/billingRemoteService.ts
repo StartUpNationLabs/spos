@@ -7,12 +7,14 @@ import {
 import { inject, injectable } from "inversify";
 import { BackendBffApiService } from '../apis/backendBffApiService';
 import { logger } from "../logger";
+import { perf } from '../perf';
 @injectable()
 export class BillingRemoteService implements BillingService {
   constructor(
     @inject(TYPES.BackendBffApiService)
     private backendBffApiService: BackendBffApiService
   ) {}
+  @perf()
   @logger
   async getBillingSummary(groupId: string): Promise<TableSummary[]> {
     return (
@@ -21,6 +23,7 @@ export class BillingRemoteService implements BillingService {
         .remoteBillingControllerGetBillingSummary({ groupId })
     ).data;
   }
+  @perf()
   @logger
   async partialPayment(payment: MonsieurAxelMenvoie2): Promise<void> {
     return (

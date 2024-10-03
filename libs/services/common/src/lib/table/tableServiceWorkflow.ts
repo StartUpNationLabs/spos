@@ -3,6 +3,7 @@ import { TYPES } from "../types";
 import { DiningApiService } from "../apis/diningApiService";
 import { TableService } from "./table.service";
 import { logger } from "../logger";
+import { perf } from "../perf";
 
 @injectable()
 export class TableServiceWorkflow implements TableService {
@@ -10,6 +11,7 @@ export class TableServiceWorkflow implements TableService {
     @inject(TYPES.DiningApiService) private diningApiService: DiningApiService
   ) {
   }
+  @perf()
   @logger
   async getFreeTables() {
     const tables = (
@@ -17,6 +19,7 @@ export class TableServiceWorkflow implements TableService {
     ).data;
     return tables.filter((table) => !table.taken);
   }
+  @perf()
   @logger
   async closeAllTables() {
     const tables = (

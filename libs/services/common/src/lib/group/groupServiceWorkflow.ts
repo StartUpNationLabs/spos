@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Group, GroupService } from './groupService';
 import { logger } from '../logger';
 import { GroupNotFoundException } from '../exceptions/groupException';
+import { perf } from '../perf';
 
 @injectable()
 export class GroupServiceWorkflow implements GroupService {
@@ -13,6 +14,7 @@ export class GroupServiceWorkflow implements GroupService {
   } = {};
   private tableOrdersApi = new TableOrdersApi();
 
+  @perf()
   @logger
   async addGroup({ tables, offer }: GroupCreateDto) {
     const id = uuidv4();
@@ -41,17 +43,17 @@ export class GroupServiceWorkflow implements GroupService {
     this.group[id].tables.sort((a, b) => a.number - b.number);
     return this.group[id];
   }
-
+  @perf()
   @logger
   async getGroup(id: string) {
     return this.group[id];
   }
-
+  @perf()
   @logger
   async getGroups() {
     return Object.values(this.group);
   }
-
+  @perf()
   @logger
   async removeGroup(id: string): Promise<boolean> {
     console.log(this.group);
@@ -64,7 +66,7 @@ export class GroupServiceWorkflow implements GroupService {
       throw new GroupNotFoundException(`Group with id ${id} not found.`);
     }
   }
-
+  @perf()
   @logger
   async removeAllGroups(): Promise<boolean> {
     const groupIds = Object.keys(this.group);
