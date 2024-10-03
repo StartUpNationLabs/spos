@@ -1,27 +1,23 @@
-import { beforeMethod, afterMethod } from 'kaop-ts';
-
-
 
 export const perf = (): MethodDecorator => {
   return (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) => {
-    const startTimeSymbol = Symbol('startTime');
+    const originalMethod = descriptor.value;
 
-    beforeMethod((meta: any) => {
-      meta[startTimeSymbol] = Date.now();
-      console.log(meta[startTimeSymbol]);
-    })(target, propertyKey as string, descriptor);
+    descriptor.value = async function (...args: any[]) {
+      const startTime = Date.now(); 
 
-    afterMethod((meta: any) => {
-      const endTime = Date.now();
-      console.log(endTime);
+      const result = await originalMethod.apply(this, args);
 
-      const executionTime = endTime - meta[startTimeSymbol];
+      const endTime = Date.now();  
+      const executionTime = endTime - startTime;
 
       console.log(
-        `Performance: ${meta.target.constructor.name}.${meta.method.name}`,
+        `Performance: ${target.constructor.name}.${String(propertyKey)}`,
         `Execution time: ${executionTime}ms`
       );
-    })(target, propertyKey as string, descriptor);
+
+      return result; 
+    };
 
     return descriptor;
   };
