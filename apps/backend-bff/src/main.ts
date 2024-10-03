@@ -40,21 +40,21 @@ async function bootstrap() {
     .bind<DiningConfiguration>(TYPES.DiningApiConfiguration)
     .toConstantValue(
       new DiningConfiguration({
-        basePath: process.env.DINING_BASE_URL,
+        basePath: process.env.DINING_BASE_URL.replace(/\/*$/, ""),
       })
     );
   container
     .bind<KitchenConfiguration>(TYPES.KitchenApiConfiguration)
     .toConstantValue(
       new KitchenConfiguration({
-        basePath: process.env.KITCHEN_BASE_URL,
+        basePath: process.env.KITCHEN_BASE_URL.replace(/\/*$/, ""),
       })
     );
   container
     .bind<MenuConfiguration>(TYPES.MenuApiConfiguration)
     .toConstantValue(
     new MenuConfiguration({
-      basePath: process.env.MENU_BASE_URL,
+      basePath: process.env.MENU_BASE_URL.replace(/\/*$/, ""),
     })
   );
 
