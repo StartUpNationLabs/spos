@@ -31,6 +31,7 @@ export class BillingServiceWorkflow implements BillingService {
   @logger
   async getBillingSummary(groupId: string): Promise<TableSummary[]> {
     const group = await this.groupService.getGroup(groupId);
+    console.log(`Group ${groupId} has ${group.tables.length} tables`);
     const menuItems = (
       await this.menuApiService.getMenuApi().menusControllerGetFullMenu()
     ).data;

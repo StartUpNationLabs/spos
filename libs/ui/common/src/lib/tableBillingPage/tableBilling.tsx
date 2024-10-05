@@ -1,15 +1,16 @@
 import { Button, Typography, Box } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import NavBar from "../utils/navbar";
 import { setSelectedTableById, tablesMenu } from '../utils/tableUtils';
 import BackButton from "../utils/backButton";
-import { BillingService, container, GroupService, Item, MonsieurAxelMenvoie2, TableItem, TableSummary, TYPES } from "@spos/services/common";
+import { BillingService, GroupService, Item, MonsieurAxelMenvoie2, TableItem, TableSummary, TYPES } from "@spos/services/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useCommandsParameter from "../commandsR/stores/useCommandsParameter";
 import useTableBillingStore from "./stores/paymentStore";
 import NumberInput from "../tables/nbPeopleSelector";
 import CustomizedTableForTableBilling from "./customizedTableForTableBilling";
+import { ContainerContext } from "../containerHook/containerContext";
 
 const theme = {
   hr: {
@@ -22,6 +23,7 @@ const theme = {
 export function TableBilling() {
   const navigate = useNavigate();
   const { groupId } = useParams();
+  const container = useContext(ContainerContext);
 
   const { elementToBePaid, updateItem, resetPaymentStore } = useTableBillingStore(state => state);
 
@@ -31,6 +33,7 @@ export function TableBilling() {
   if (!groupId || groupId === "") {
     navigate("/");
   }
+  console.log(groupId);
 
   const mutation = useMutation({
     mutationFn: (payment: MonsieurAxelMenvoie2) => {

@@ -53,7 +53,9 @@ class AnnotationTableSummary implements TableSummary {
 @ApiTags('remoteBilling')
 @ApiExtraModels(AnnotatedItem, AnnotatedItemPaid, AnnotatedMonsieurAxelMenvoie2, AnnotatedTableItem, AnnotationTableSummary)
 export class RemoteBillingController {
-  @Get()
+  @Get(
+    ':groupId'
+  )
   async getBillingSummary(
     @Param('groupId')
     groupId: string

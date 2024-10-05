@@ -46,6 +46,9 @@ export class GroupServiceWorkflow implements GroupService {
   @perf()
   @logger
   async getGroup(id: string) {
+    if (!this.group[id]) {
+      throw new GroupNotFoundException(`Group with id ${id} not found.`);
+    }
     return this.group[id];
   }
   @perf()

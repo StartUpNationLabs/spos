@@ -40,7 +40,7 @@ export const RemoteBillingApiAxiosParamCreator = function (configuration?: Confi
         remoteBillingControllerGetBillingSummary: async (groupId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'groupId' is not null or undefined
             assertParamExists('remoteBillingControllerGetBillingSummary', 'groupId', groupId)
-            const localVarPath = `/api/remoteBilling`
+            const localVarPath = `/api/remoteBilling/{groupId}`
                 .replace(`{${"groupId"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
