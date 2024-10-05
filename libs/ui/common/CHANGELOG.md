@@ -1,3 +1,15 @@
+## 0.25.3 (2024-10-05)
+
+
+### 🩹 Fixes
+
+- missing group id ([170b2fd](https://github.com/StartUpNationLabs/spos/commit/170b2fd))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.25.2 (2024-10-05)
 
 
