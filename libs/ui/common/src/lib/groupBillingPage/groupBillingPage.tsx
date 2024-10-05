@@ -1,14 +1,17 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../utils/backButton";
-import { BillingService, container, ItemPaid, MonsieurAxelMenvoie2, TYPES } from "@spos/services/common";
+import { BillingService, ItemPaid, MonsieurAxelMenvoie2, TYPES } from "@spos/services/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import CustomizedTableForGroupBilling from "./customizedTableForGroupBilling";
+import { useContext } from "react";
+import { ContainerContext } from "../containerHook/containerContext";
 
 export function GroupBilling() {
   const { groupId } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const container = useContext(ContainerContext);
 
   const mutation = useMutation({
     mutationFn: (payment: MonsieurAxelMenvoie2) => {
