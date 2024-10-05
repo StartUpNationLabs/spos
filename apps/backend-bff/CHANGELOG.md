@@ -1,3 +1,15 @@
+## 0.15.0 (2024-10-03)
+
+
+### 🚀 Features
+
+- urls ([e6e9de1](https://github.com/StartUpNationLabs/spos/commit/e6e9de1))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.14.0 (2024-10-02)
 
 
