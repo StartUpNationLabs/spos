@@ -34,6 +34,18 @@ bffContainer
   .to(TableRemoteService)
   .inSingletonScope();
 bffContainer
+  .bind<DiningApiService>(TYPES.DiningApiService)
+  .to(DiningApiService)
+  .inSingletonScope();
+bffContainer
+  .bind<MenuApiService>(TYPES.MenuApiService)
+  .to(MenuApiService)
+  .inSingletonScope();
+bffContainer
+  .bind<KitchenApiService>(TYPES.KitchenApiService)
+  .to(KitchenApiService)
+  .inSingletonScope();
+bffContainer
   .bind<OfferService>(TYPES.OfferService)
   .to(OfferRemoteService)
   .inSingletonScope();
