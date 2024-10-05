@@ -1,3 +1,15 @@
+## 0.25.2 (2024-10-05)
+
+
+### 🩹 Fixes
+
+- billing BFF ([24d273b](https://github.com/StartUpNationLabs/spos/commit/24d273b))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.25.1 (2024-10-02)
 
 
