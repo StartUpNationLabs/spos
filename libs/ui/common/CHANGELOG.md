@@ -1,3 +1,15 @@
+## 0.25.4 (2024-10-06)
+
+
+### 🩹 Fixes
+
+- Maximum is the remaining number of item instead of 99 for table billing ([c5a9fee](https://github.com/StartUpNationLabs/spos/commit/c5a9fee))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.25.3 (2024-10-05)
 
 
