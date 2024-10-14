@@ -50,25 +50,25 @@ const useStore = create<ServingState>((set) => ({
       updatedCategory[table] = updatedOrders;
       return { ordersData: { ...state.ordersData, [category]: updatedCategory } };
     }),
-    
+
     setServed: (section, table, orderId, isServed) => set((state) => {
       const updatedOrders = { ...state.ordersData };
-      
+
       if (!updatedOrders[section] || !updatedOrders[section][table]) {
         console.error(`La table ${table} n'existe pas dans la section ${section}`);
-        return state; 
+        return state;
       }
-    
+
       updatedOrders[section][table] = updatedOrders[section][table].map(order => {
         if (order.orderId === orderId) {
           return { ...order, isServed: isServed };
         }
         return order;
       });
-    
+
       return { ordersData: updatedOrders };
     })
-    
+
 }));
 
 export default useStore;

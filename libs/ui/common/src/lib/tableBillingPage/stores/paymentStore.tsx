@@ -1,5 +1,6 @@
 import { ItemPaid } from "@spos/services/common";
-import { create } from "zustand/index";
+import { create, useStore as zustandUseStore } from "zustand/index";
+import { createContext, useContext, useRef } from "react";
 
 export interface PaymentStoreState {
     groupId: string,
@@ -10,7 +11,7 @@ export interface PaymentStoreState {
     resetPaymentStore: (groupId: string) => void
 }
 
-export const useTableBillingStore = create<PaymentStoreState>((set) => ({
+export const createStore = () => create<PaymentStoreState>((set) => ({
     groupId: '',
     elementToBePaid: {},
     updateItem: (tableNumber: number, itemId: string, quantityPaid: number, price: number) => set((state) => {
@@ -47,5 +48,26 @@ export const useTableBillingStore = create<PaymentStoreState>((set) => ({
     })
 }));
 
-export default useTableBillingStore;
 
+
+const StoreContext = createContext(null)
+
+export const PaymentStoreProvider = ({ children }) => {
+  const storeRef = useRef<any>();
+  if (!storeRef.current) {
+    storeRef.current = createStore();
+  }
+  return (
+    <StoreContext.Provider value={storeRef.current}>
+      {children}
+    </StoreContext.Provider>
+  );
+};
+const useTableBillingStore = (selector) => {
+  const store = useContext(StoreContext)
+  if (!store) {
+    throw new Error('Missing StoreProvider')
+  }
+  return zustandUseStore(store, selector)
+}
+export default useTableBillingStore;

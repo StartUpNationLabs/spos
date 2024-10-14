@@ -1,22 +1,26 @@
-import "reflect-metadata";
-import { StrictMode } from "react";
-import * as ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import 'reflect-metadata';
+import { StrictMode } from 'react';
+import * as ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
-import App from "./app/app";
-import { CssBaseline } from "@mui/material";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { bffContainer, container, TYPES } from "@spos/services/common";
-import { ContainerContext } from "@spos/ui/common";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Configuration as BffConfiguration } from "@spos/clients-bff";
-import { Configuration as DiningConfiguration } from "@spos/clients-dining";
-import process from "process";
-import { Configuration as KitchenConfiguration } from "@spos/clients-kitchen";
-import { Configuration as MenuConfiguration } from "@spos/clients-menu";
+import App from './app/app';
+import { CssBaseline } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { bffContainer, TYPES } from '@spos/services/common';
+import {
+  CartStoreProvider,
+  CommandsParameterStoreProvider,
+  ContainerContext,
+  PaymentStoreProvider
+} from "@spos/ui/common";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Configuration as BffConfiguration } from '@spos/clients-bff';
+import { Configuration as DiningConfiguration } from '@spos/clients-dining';
+import { Configuration as KitchenConfiguration } from '@spos/clients-kitchen';
+import { Configuration as MenuConfiguration } from '@spos/clients-menu';
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 bffContainer
   .bind<BffConfiguration>(TYPES.BackendBffConfiguration)
@@ -26,12 +30,11 @@ bffContainer
     });
   });
 
-
 bffContainer
   .bind<DiningConfiguration>(TYPES.DiningApiConfiguration)
   .toConstantValue(
     new DiningConfiguration({
-      basePath: import.meta.env.VITE_DINING_BASE_URL
+      basePath: import.meta.env.VITE_DINING_BASE_URL,
     })
   );
 bffContainer
@@ -54,9 +57,15 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ContainerContext.Provider value={bffContainer}>
-          <CssBaseline />
-          <ReactQueryDevtools />
-          <App />
+          <CartStoreProvider>
+            <CommandsParameterStoreProvider>
+              <PaymentStoreProvider>
+                <CssBaseline />
+                <App />
+                <ReactQueryDevtools />
+              </PaymentStoreProvider>
+            </CommandsParameterStoreProvider>
+          </CartStoreProvider>
         </ContainerContext.Provider>
       </BrowserRouter>
     </QueryClientProvider>

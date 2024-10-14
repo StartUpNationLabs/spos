@@ -1,4 +1,5 @@
-import {create} from "zustand/index";
+import { create, useStore as zustandUseStore } from "zustand/index";
+import { createContext, useContext, useRef } from "react";
 
 export interface CartsState {
   carts: {[tableNumber: number]: {itemId: string, shortName: string, quantity: number}[]};
@@ -6,7 +7,7 @@ export interface CartsState {
   resetCart: (tableNumber: number) => void;
 }
 
-export const useCarts = create<CartsState>((set) => ({
+export const createStore = () => create<CartsState>((set) => ({
   carts: {},
   updateItem: (tableNumber, itemId, shortName, quantity) => set((state) => {
     const currentCart =  state.carts[tableNumber] || [];
@@ -37,3 +38,28 @@ export const useCarts = create<CartsState>((set) => ({
   ),
   })
 );
+
+
+
+const StoreContext = createContext(null)
+
+export const CartStoreProvider = ({ children }) => {
+  const storeRef = useRef<any>();
+  if (!storeRef.current) {
+    storeRef.current = createStore();
+  }
+  return (
+    <StoreContext.Provider value={storeRef.current}>
+      {children}
+      </StoreContext.Provider>
+  );
+};
+export const useCarts = (selector) => {
+  const store = useContext(StoreContext)
+  if (!store) {
+    throw new Error('Missing StoreProvider')
+  }
+  return zustandUseStore(store, selector)
+}
+
+export default useCarts;
