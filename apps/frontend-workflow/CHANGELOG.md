@@ -1,3 +1,15 @@
+## 0.18.0 (2024-10-14)
+
+
+### 🚀 Features
+
+- isolate stores ([dcd1dfe](https://github.com/StartUpNationLabs/spos/commit/dcd1dfe))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.17.0 (2024-10-02)
 
 
