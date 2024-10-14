@@ -57,7 +57,7 @@ export default function CustomizedTableForTableBilling(props: CustomizedTablesFo
                                 <StyledTableCell component="th" scope="row" width="25%">
                                     <NumberInput
                                         min={0}
-                                        max={99}
+                                        max={element.remaining}
                                         value={count}
                                         onChange={(e, value) => {
                                             updateItem(props.summary.number, element.item.id, value as number, element.item.price)
