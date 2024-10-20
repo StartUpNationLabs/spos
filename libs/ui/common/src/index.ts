@@ -12,3 +12,4 @@ export * from './lib/commandsR/orderingChoices';
 export * from './lib/containerHook/containerContext';
 export {TableGrid} from "./lib/tables/tableGrid";
 export * from "./lib/preparations/preparations";
+export * from "./lib/tableInteractive/orders/commands";

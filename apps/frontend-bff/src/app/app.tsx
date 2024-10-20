@@ -9,6 +9,7 @@ import {
   Orders,
   Summary,
   OrdersTable,
+  OrdersInteractiveTable,
   
 } from "@spos/ui/common";
 
@@ -38,6 +39,8 @@ export function App() {
           <Route path='orders' element={<Orders />} />
           <Route path='summary' element={<Summary />} />
         </Route>
+          
+        <Route path="/tableInteractive" element={<OrdersInteractiveTable />} />
       </Routes>
       {/* END: routes */}
     </div>
