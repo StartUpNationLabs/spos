@@ -1,0 +1,73 @@
+{
+  "name": "payment-sharing",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/payment-sharing/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "payment-sharing:build",
+        "runBuildTargetDependencies": false,
+        "runtimeArgs": ["--experimental-require-module"]
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "payment-sharing:build:development"
+        },
+        "production": {
+          "buildTarget": "payment-sharing:build:production"
+        },
+        "openapi": {
+          "buildTarget": "payment-sharing:build:openapi",
+          "watch": false
+        }
+      }
+    },
+    "build": {
+      "openapi": {
+        "main": "apps/payment-sharing/src/openapi.ts"
+      }
+
+    },
+    "container": {
+      "executor": "@nx-tools/nx-container:build",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "engine": "docker",
+        "push": true,
+        "platforms": [
+          "linux/amd64",
+          "linux/arm64"
+        ],
+        "metadata": {
+          "images": [
+            "ghcr.io/startupnationlabs/spos/payment-sharing"
+          ],
+          "tags": [
+            "type=schedule",
+            "type=ref,event=branch",
+            "type=ref,event=tag",
+            "type=ref,event=pr",
+            "type=sha,prefix=sha-"
+          ]
+        }
+      }
+    },
+    "tag-docker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/payment-sharing",
+        "commands": [
+          "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/payment-sharing:$(npm pkg get version --workspaces=false | jq --raw-output '.') ghcr.io/startupnationlabs/spos/payment-sharing:$(git rev-parse --abbrev-ref HEAD)"
+        ],
+        "parallel": false
+      }
+    }
+  }
+}
