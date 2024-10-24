@@ -83,7 +83,10 @@
       "ui-common",
       "backend-bff",
       "payment-sharing",
-      "ordering"
+      "ordering",
+      "table-events",
+      "frontend-common-space",
+      "frontend-personal-space"
     ],
     "projectsRelationship": "independent",
     "version": {
