@@ -1,3 +1,15 @@
+## 0.28.1 (2024-10-24)
+
+
+### 🩹 Fixes
+
+- add missing refs ([d85835b](https://github.com/StartUpNationLabs/spos/commit/d85835b))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.28.0 (2024-10-24)
 
 
