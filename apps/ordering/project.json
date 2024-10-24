@@ -1,0 +1,26 @@
+{
+  "name": "ordering",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ordering/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "ordering:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ordering:build:development"
+        },
+        "production": {
+          "buildTarget": "ordering:build:production"
+        }
+      }
+    }
+  }
+}

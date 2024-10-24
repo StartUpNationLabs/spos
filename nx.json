@@ -41,7 +41,8 @@
       },
       "exclude": [
         "apps/sample-nestjs-e2e/**/*",
-        "apps/payment-sharing-e2e/**/*"
+        "apps/payment-sharing-e2e/**/*",
+        "apps/ordering-e2e/**/*"
       ]
     },
     {
@@ -80,7 +81,8 @@
       "frontend-bff",
       "ui-common",
       "backend-bff",
-      "payment-sharing"
+      "payment-sharing",
+      "ordering"
     ],
     "projectsRelationship": "independent",
     "version": {
