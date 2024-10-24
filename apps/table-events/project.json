@@ -1,7 +1,7 @@
 {
-  "name": "ordering",
+  "name": "table-events",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/ordering/src",
+  "sourceRoot": "apps/table-events/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -10,26 +10,26 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "ordering:build",
+        "buildTarget": "table-events:build",
         "runBuildTargetDependencies": false,
         "runtimeArgs": ["--experimental-require-module"]
       },
       "configurations": {
         "development": {
-          "buildTarget": "ordering:build:development"
+          "buildTarget": "table-events:build:development"
         },
         "production": {
-          "buildTarget": "ordering:build:production"
+          "buildTarget": "table-events:build:production"
         },
         "openapi": {
-          "buildTarget": "ordering:build:openapi",
+          "buildTarget": "table-events:build:openapi",
           "watch": false
         }
       }
     },
     "build": {
       "openapi": {
-        "main": "apps/ordering/src/openapi.ts"
+        "main": "apps/table-events/src/openapi.ts"
       }
 
     },
@@ -47,7 +47,7 @@
         ],
         "metadata": {
           "images": [
-            "ghcr.io/startupnationlabs/spos/ordering"
+            "ghcr.io/startupnationlabs/spos/table-events"
           ],
           "tags": [
             "type=schedule",
@@ -62,9 +62,9 @@
     "tag-docker": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "apps/ordering",
+        "cwd": "apps/table-events",
         "commands": [
-          "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/ordering:$(npm pkg get version --workspaces=false | jq --raw-output '.') ghcr.io/startupnationlabs/spos/ordering:$(git rev-parse --abbrev-ref HEAD)"
+          "docker buildx imagetools create -t ghcr.io/startupnationlabs/spos/table-events:$(npm pkg get version --workspaces=false | jq --raw-output '.') ghcr.io/startupnationlabs/spos/table-events:$(git rev-parse --abbrev-ref HEAD)"
         ],
         "parallel": false
       }

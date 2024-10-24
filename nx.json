@@ -42,7 +42,8 @@
       "exclude": [
         "apps/sample-nestjs-e2e/**/*",
         "apps/payment-sharing-e2e/**/*",
-        "apps/ordering-e2e/**/*"
+        "apps/ordering-e2e/**/*",
+        "apps/table-events-e2e/**/*"
       ]
     },
     {
