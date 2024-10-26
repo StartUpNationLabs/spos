@@ -4,6 +4,7 @@ export * from './lib/offer/catalogue.service';
 export * from './lib/offer/offer.service';
 export * from './lib/table/table.service';
 export * from './lib/apis/diningApiService';
+export * from './lib/apis/menuApiService';
 export * from './lib/container';
 export * from './lib/types';
 export * from './lib/group/groupCreate.dto';
