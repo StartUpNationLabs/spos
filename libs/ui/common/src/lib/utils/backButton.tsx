@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 
-const BackButton = ({ onClick, color, top, left }) => {
+const BackButton = ({ onClick, color, top, left, rotation = 0, fontSize = '70px', scaleX = 1, scaleY = 1 }) => {
     return (
         <Button
             onClick={onClick} 
@@ -13,7 +13,12 @@ const BackButton = ({ onClick, color, top, left }) => {
                 color: color 
             }}
         >
-            <ArrowBack style={{ fontSize: '70px' }} />
+            <ArrowBack 
+                style={{ 
+                    fontSize: fontSize, 
+                    transform: `rotate(${rotation}deg) scale(${scaleX}, ${scaleY})`
+                }} 
+            />
         </Button>
     );
 };

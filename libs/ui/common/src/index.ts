@@ -12,6 +12,7 @@ export * from './lib/commandsR/orderingChoices';
 export * from './lib/containerHook/containerContext';
 export {TableGrid} from "./lib/tables/tableGrid";
 export * from "./lib/preparations/preparations";
-export * from "./lib/tableBillingPage/stores/paymentStore"
-export * from "./lib/commandsR/stores/useCommandsParameter"
-export * from "./lib/commandsR/stores/cart"
+export * from "./lib/tableBillingPage/stores/paymentStore";
+export * from "./lib/commandsR/stores/useCommandsParameter";
+export * from "./lib/billing/payementAsignee";
+export * from "./lib/commandsR/stores/cart";
