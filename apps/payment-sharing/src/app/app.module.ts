@@ -4,11 +4,10 @@ import { createClient } from 'redis';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PaymentController } from './payment/payment.controller';
 import { PaymentService } from './payment/payment.service';
+import { Configuration, RemoteBillingApi } from '@spos/clients-bff';
 
 @Module({
-  imports: [
-    EventEmitterModule.forRoot(),
-  ],
+  imports: [EventEmitterModule.forRoot()],
   controllers: [PaymentController],
   providers: [
     PaymentService,
@@ -20,6 +19,14 @@ import { PaymentService } from './payment/payment.service';
         });
         await client.connect();
         return client;
+      },
+    },
+    {
+      provide: 'BILLING_API',
+      useFactory: async () => {
+        return new RemoteBillingApi(
+          new Configuration({ basePath: 'http://localhost:3000' })
+        );
       },
     },
   ],

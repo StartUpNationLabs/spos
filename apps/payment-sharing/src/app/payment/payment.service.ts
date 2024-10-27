@@ -13,13 +13,11 @@ import { ItemRequestDto } from './Item.dto';
 @Injectable()
 export class PaymentService {
   private repository: Repository;
-  private billingsApi = new RemoteBillingApi(
-    new Configuration({ basePath: 'http://localhost:3000' })
-  );
 
   constructor(
     @Inject('REDIS_CLIENT') private readonly redisClient: RedisClientType,
-    public readonly eventEmitter: EventEmitter2
+    public readonly eventEmitter: EventEmitter2,
+    @Inject('BILLING_API') private readonly billingsApi: RemoteBillingApi
   ) {
     this.repository = new Repository(PaymentSchema, this.redisClient);
     this.repository.createIndex().then(() => {
