@@ -5,7 +5,6 @@ import { PaymentSchema } from './payment.schema';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   AnnotatedTableItem,
-  Configuration,
   RemoteBillingApi,
 } from '@spos/clients-bff';
 import { ItemRequestDto } from './Item.dto';
@@ -79,7 +78,7 @@ export class PaymentService {
     };
     await this.repository.save(payment);
     // notify payment service
-    // @ts-ignore
+    // @ts-expect-error The redis client is not typed
     await this.redisClient.publish(
       'update-payment',
       JSON.stringify({
@@ -129,7 +128,7 @@ export class PaymentService {
     }
 
     // notify payment service
-    // @ts-ignore
+    // @ts-expect-error The redis client is not typed
     await this.redisClient.publish(
       'update-payment',
       JSON.stringify({
