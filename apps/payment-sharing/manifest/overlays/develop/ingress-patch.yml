@@ -1,0 +1,12 @@
+- op: replace
+  path: /spec/rules/0/host
+  value: payment-sharing.spos.dev.polytech.apoorva64.com
+- op: replace
+  path: /spec/tls/0/hosts/0
+  value: payment-sharing.spos.dev.polytech.apoorva64.com
+- op: replace
+  path: /spec/tls/0/secretName
+  value: payment-sharing.spos.dev.polytech.apoorva64-tls
+- op: replace
+  path: /spec/template/spec/containers/0/env/1/value
+  value: http://backend-bff.spos-dev.svc.cluster.local:3000
