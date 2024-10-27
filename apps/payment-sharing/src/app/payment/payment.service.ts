@@ -1,13 +1,15 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { RedisClientType } from 'redis';
-import { EntityId, Repository } from 'redis-om';
-import { PaymentSchema } from './payment.schema';
+import { Entity, EntityId, Repository } from 'redis-om';
+import { Payment, PaymentSchema } from './payment.schema';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   AnnotatedTableItem,
   RemoteBillingApi,
 } from '@spos/clients-bff';
 import { ItemRequestDto } from './Item.dto';
+import { PaymentResponseItemDTO, PaymentResponseTableDTO } from './payment-response.dto';
+import { SelectedByCustomerDTO } from './selected-by-customer.dto';
 
 @Injectable()
 export class PaymentService {
@@ -140,12 +142,12 @@ export class PaymentService {
     );
   }
 
-  async getCustomerItems(group_id: string, owner_id: string) {
+  async getCustomerItems(group_id: string, owner_id: string): Promise<SelectedByCustomerDTO[]> {
     const billings = (
       await this.billingsApi.remoteBillingControllerGetBillingSummary({
         groupId: group_id,
       })
-    ).data;
+    ).data as SelectedByCustomerDTO[];
     const selected = await this.repository
       .search()
       .where('group_id')
@@ -182,12 +184,12 @@ export class PaymentService {
     });
   }
 
-  async getGroupItems(group_id: string) {
+  async getGroupItems(group_id: string): Promise<PaymentResponseTableDTO[]>  {
     const billings = (
       await this.billingsApi.remoteBillingControllerGetBillingSummary({
         groupId: group_id,
       })
-    ).data;
+    ).data as PaymentResponseTableDTO[];
     for (const billingsTable of billings) {
       const selectedByCustomers = await this.repository
         .search()
@@ -195,10 +197,10 @@ export class PaymentService {
         .equals(group_id)
         .and('table_id')
         .equals(billingsTable.number)
-        .return.all();
+        .return.all() as Payment[];
 
       // add items by short name
-      const items = {} as any;
+      const items = {} as { [key: string]: Payment };
       selectedByCustomers
         .filter((selectedItem) => {
           return selectedItem.table_id == billingsTable.number.toString();
@@ -211,9 +213,7 @@ export class PaymentService {
               <number>selectedItem.amount;
           }
         });
-      for (const item of billingsTable.elements as (AnnotatedTableItem & {
-        onTable: number;
-      })[]) {
+      for (const item of billingsTable.elements as PaymentResponseItemDTO[]) {
         if (items[item.item.name]) {
           item.onTable = item.remaining - items[item.item.name].amount;
         } else {
