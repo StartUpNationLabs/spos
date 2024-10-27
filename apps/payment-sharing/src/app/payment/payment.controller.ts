@@ -9,72 +9,74 @@ export class PaymentController {
 
   @Post('take-item')
   @ApiOperation({ summary: 'Take an item from the center table' })
-  @ApiBody({ schema: { properties: { order_id: { type: 'string' }, owner_id: { type: 'string' }, item_short_name: { type: 'string' }  , amount: { type: 'number' } } } })
+  @ApiBody({ schema: { properties: { group_id: { type: 'string' }, owner_id: { type: 'string' }, item_short_name: { type: 'string' }  , amount: { type: 'number' } , table_id: { type: 'string' } } } })
   @ApiResponse({ status: 200, description: 'Item taken successfully' })
   async takeItemFromCenterTable(
-    @Body('order_id') order_id: string,
+    @Body('group_id') group_id: string,
     @Body('owner_id') owner_id: string,
     @Body('item_short_name') item_short_name: string,
-    @Body('amount') amount: number
+    @Body('amount') amount: number,
+    @Body('table_id') table_id: string
   ) {
-    await this.paymentService.takeItemFromCenterTable(order_id, owner_id, item_short_name, amount);
+    await this.paymentService.takeItemFromCenterTable(group_id, owner_id, item_short_name, amount, table_id);
   }
 
   @Post('return-item')
   @ApiOperation({ summary: 'Return an item to the center table' })
-  @ApiBody({ schema: { properties: { order_id: { type: 'string' }, owner_id: { type: 'string' }, item_short_name: { type: 'string' } , amount: { type: 'number' } } } })
+  @ApiBody({ schema: { properties: { group_id: { type: 'string' }, owner_id: { type: 'string' }, item_short_name: { type: 'string' } , amount: { type: 'number' } , table_id: { type: 'string' } } } })
   @ApiResponse({ status: 200, description: 'Item returned successfully' })
   async returnItemToCenterTable(
-    @Body('order_id') order_id: string,
+    @Body('group_id') group_id: string,
     @Body('owner_id') owner_id: string,
     @Body('item_short_name') item_short_name: string,
-    @Body('amount') amount: number
+    @Body('amount') amount: number,
+    @Body('table_id') table_id: string
   ) {
-    await this.paymentService.returnItemToCenterTable(order_id, owner_id, item_short_name, amount);
+    await this.paymentService.returnItemToCenterTable(group_id, owner_id, item_short_name, amount, table_id);
   }
 
-  @Get('customer-items/:order_id/:owner_id')
+  @Get('customer-items/:group_id/:owner_id')
   @ApiOperation({ summary: 'Get items of a customer' })
   async getCustomerItems(
-    @Param('order_id') order_id: string,
+    @Param('group_id') group_id: string,
     @Param('owner_id') owner_id: string
   ) {
-    return await this.paymentService.getCustomerItems(order_id, owner_id);
+    return await this.paymentService.getCustomerItems(group_id, owner_id);
   }
 
-  @Get('table-items/:order_id')
+  @Get('table-items/:group_id')
   @ApiOperation({ summary: 'Get items of the table' })
-  async getTableItems(@Param('order_id') order_id: string) {
-    return await this.paymentService.getTableItems(order_id);
+  async getTableItems(@Param('group_id') group_id: string) {
+    return await this.paymentService.getGroupItems(group_id);
   }
 
-  @Sse('sse/customer-items/:order_id/:owner_id')
+  @Sse('sse/customer-items/:group_id/:owner_id')
   @ApiOperation({ summary: 'Get items of a customer in real-time' })
   sseCustomerItems(
-    @Param('order_id') order_id: string,
+    @Param('group_id') group_id: string,
     @Param('owner_id') owner_id: string
   ) {
     return fromEvent(this.paymentService.eventEmitter, 'update-payment').pipe(
       filter((data: {
-        order_id: string;
+        group_id: string;
         owner_id: string;
-      }) => data.order_id === order_id && data.owner_id === owner_id),
+      }) => data.group_id === group_id && data.owner_id === owner_id),
       switchMap(async () => {
-        const items = await this.paymentService.getCustomerItems(order_id, owner_id);
+        const items = await this.paymentService.getCustomerItems(group_id, owner_id);
         return { data: items };
       })
     );
   }
 
-  @Sse('sse/table-items/:order_id')
+  @Sse('sse/table-items/:group_id')
   @ApiOperation({ summary: 'Get items of the table in real-time' })
-  sseTableItems(@Param('order_id') order_id: string) {
+  sseTableItems(@Param('group_id') group_id: string): Observable<any> {
     return fromEvent(this.paymentService.eventEmitter, 'update-payment').pipe(
       filter((data: {
-        order_id: string;
-      }) => data.order_id === order_id),
+        group_id: string;
+      }) => data.group_id === group_id),
       switchMap(async () => {
-        const items = await this.paymentService.getTableItems(order_id);
+        const items = await this.paymentService.getGroupItems(group_id);
         return { data: items };
       })
     );

@@ -2,13 +2,19 @@ import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { RedisClientType } from 'redis';
 import { EntityId, Repository } from 'redis-om';
 import { PaymentSchema } from './payment.schema';
-import { TableOrdersApi } from '@spos/clients-dining';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import {
+  AnnotatedTableItem,
+  Configuration,
+  RemoteBillingApi,
+} from '@spos/clients-bff';
 
 @Injectable()
 export class PaymentService {
   private repository: Repository;
-  private tableOrderApi = new TableOrdersApi();
+  private billingsApi = new RemoteBillingApi(
+    new Configuration({ basePath: 'http://localhost:3000' })
+  );
 
   constructor(
     @Inject('REDIS_CLIENT') private readonly redisClient: RedisClientType,
@@ -24,32 +30,39 @@ export class PaymentService {
   }
 
   async takeItemFromCenterTable(
-    order_id: string,
+    group_id: string,
     owner_id: string,
     item_short_name: string,
-    amount: number
+    amount: number,
+    table_id: string
   ) {
     const selected = await this.repository
       .search()
-      .where('order_id')
-      .equals(order_id)
+      .where('group_id')
+      .equals(group_id)
       .and('owner_id')
       .equals(owner_id)
       .and('item_short_name')
       .equals(item_short_name)
+      .and('table_id')
+      .equals(table_id)
       .return.all();
 
-    const tableItems = await this.getTableItems(order_id);
+    const tableItems = (await this.getGroupItems(group_id)).find(
+      (table) => table.number.toString() === table_id
+    )?.elements;
     const tableItem = tableItems.find(
-      (item) => item.item_short_name === item_short_name
-    );
+      (item) => item.item.name === item_short_name
+    )  as (AnnotatedTableItem & {
+      onTable: number;
+    }) ;
     if (!tableItem) {
       throw new HttpException(
         'item short name: ' + item_short_name + ' not found in the table',
         400
       );
     }
-    if (tableItem.amount - amount < 0) {
+    if (tableItem.onTable - amount < 0) {
       throw new HttpException(
         'Every item of short name: ' + item_short_name + ' is already taken',
         400
@@ -63,7 +76,8 @@ export class PaymentService {
       return;
     }
     const payment = {
-      order_id,
+      group_id,
+      table_id,
       owner_id,
       item_short_name,
       amount: amount,
@@ -74,7 +88,7 @@ export class PaymentService {
     await this.redisClient.publish(
       'update-payment',
       JSON.stringify({
-        order_id,
+        group_id,
         owner_id,
         item_short_name,
         action: 'take',
@@ -84,19 +98,22 @@ export class PaymentService {
   }
 
   async returnItemToCenterTable(
-    order_id: string,
+    group_id: string,
     owner_id: string,
     item_short_name: string,
-    amount: number
+    amount: number,
+    table_id: string
   ) {
     const payment = await this.repository
       .search()
-      .where('order_id')
-      .equals(order_id)
+      .where('group_id')
+      .equals(group_id)
       .and('owner_id')
       .equals(owner_id)
       .and('item_short_name')
       .equals(item_short_name)
+      .and('table_id')
+      .equals(table_id)
       .return.first();
 
     if (!payment) {
@@ -125,8 +142,9 @@ export class PaymentService {
     await this.redisClient.publish(
       'update-payment',
       JSON.stringify({
-        order_id,
+        group_id,
         owner_id,
+        table_id,
         item_short_name,
         action: 'return',
         amount,
@@ -134,90 +152,88 @@ export class PaymentService {
     );
   }
 
-  async getCustomerItems(order_id: string, owner_id: string) {
-    const tableOrder = (
-      await this.tableOrderApi.tableOrdersControllerGetTableOrderById({
-        tableOrderId: order_id,
+  async getCustomerItems(group_id: string, owner_id: string) {
+    const billings = (
+      await this.billingsApi.remoteBillingControllerGetBillingSummary({
+        groupId: group_id,
       })
     ).data;
     const selected = await this.repository
       .search()
-      .where('order_id')
-      .equals(order_id)
+      .where('group_id')
+      .equals(group_id)
       .and('owner_id')
       .equals(owner_id)
       .return.all();
+    type annotatedBillings = AnnotatedTableItem & {
+      selectedByCustomer: number;
+    };
 
-    return selected.filter((selectedItem) => {
-      return tableOrder.preparations.some((preparation) => {
-        return preparation.preparedItems.some((item) => {
-          return item.shortName === selectedItem.item_short_name;
-        });
-      });
-    }) as {
-      order_id: string;
-      owner_id: string;
-      item_short_name: string;
-      amount: number;
-    }[];
+    return billings.map((billing) => {
+      return {
+        ...billing,
+        elements: billing.elements
+          .map((item: annotatedBillings) => {
+            const selectedItem = selected.find(
+              (selectedItem) => selectedItem.item_short_name === item.item.name && selectedItem.table_id == billing.number
+            );
+
+            if (selectedItem ) {
+              item.selectedByCustomer = selectedItem.amount as number;
+            } else {
+              item.selectedByCustomer = 0;
+            }
+            return item;
+          })
+          .filter((item) => {
+            return item.selectedByCustomer != 0;
+          }),
+      };
+    });
   }
 
-  async getTableItems(order_id: string) {
-    const tableOrder = (
-      await this.tableOrderApi.tableOrdersControllerGetTableOrderById({
-        tableOrderId: order_id,
+  async getGroupItems(group_id: string) {
+    const billings = (
+      await this.billingsApi.remoteBillingControllerGetBillingSummary({
+        groupId: group_id,
       })
     ).data;
-    const selectedByCustomers = await this.repository
-      .search()
-      .where('order_id')
-      .equals(order_id)
-      .return.all();
+    for (const billingsTable of billings) {
+      const selectedByCustomers = await this.repository
+        .search()
+        .where('group_id')
+        .equals(group_id)
+        .and('table_id')
+        .equals(billingsTable.number)
+        .return.all();
 
-    // add items by short name
-    const items = {} as any;
-    selectedByCustomers.forEach((selectedItem) => {
-      if (!items[selectedItem.item_short_name as string]) {
-        items[selectedItem.item_short_name as string] = selectedItem;
-      } else {
-        (items[selectedItem.item_short_name as string].amount as number) += <
-          number
-        >selectedItem.amount;
+      // add items by short name
+      const items = {} as any;
+      selectedByCustomers.filter(
+        (selectedItem) =>{
+          return selectedItem.table_id == billingsTable.number.toString()
+        }
+      ).forEach((selectedItem) => {
+        if (!items[selectedItem.item_short_name as string]) {
+          items[selectedItem.item_short_name as string] = selectedItem;
+        } else {
+          (items[selectedItem.item_short_name as string].amount as number) += <
+            number
+          >selectedItem.amount;
+        }
+      });
+      for (const item of billingsTable.elements as (AnnotatedTableItem & {
+        onTable: number;
+      })[]) {
+        if (items[item.item.name]) {
+          item.onTable = item.remaining - items[item.item.name].amount;
+        } else {
+          item.onTable = item.remaining
+        }
       }
-    });
+    }
 
-    // get the items from the table order
-    const itemsFromTableOrder = tableOrder.preparations.reduce(
-      (acc, preparation) => {
-        preparation.preparedItems.forEach((item) => {
-          if (!acc[item.shortName]) {
-            acc[item.shortName] = {
-              order_id,
-              owner_id: 'table',
-              item_short_name: item.shortName,
-              amount: 0,
-            };
-          }
-          acc[item.shortName].amount += 1;
-        });
-        return acc;
-      },
-      {} as {
-        order_id: string;
-        owner_id: string;
-        item_short_name: string;
-        amount: number;
-      }[]
-    );
-
-    // subtract the items from the table order with the items from the customers
-    Object.keys(items).forEach((key) => {
-      if (itemsFromTableOrder[key]) {
-        itemsFromTableOrder[key].amount -= items[key].amount;
-      }
-    });
-
-    return Object.values(itemsFromTableOrder).filter((item) => item.amount > 0);
+    return billings
   }
 
   async handleUpdatePayment() {

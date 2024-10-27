@@ -12,7 +12,7 @@
       "options": {
         "buildTarget": "payment-sharing:build",
         "runBuildTargetDependencies": false,
-        "runtimeArgs": ["--experimental-require-module"]
+        "runtimeArgs": ["--no-network-family-autoselection"]
       },
       "configurations": {
         "development": {
