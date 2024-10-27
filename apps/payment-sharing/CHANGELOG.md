@@ -1,3 +1,30 @@
+## 0.3.0 (2024-10-27)
+
+
+### 🚀 Features
+
+- add payment table sharing service ([0c41f73](https://github.com/StartUpNationLabs/spos/commit/0c41f73))
+
+- add payment table sharing ([4047416](https://github.com/StartUpNationLabs/spos/commit/4047416))
+
+- use billing instead of table order and add group func ([7a694a0](https://github.com/StartUpNationLabs/spos/commit/7a694a0))
+
+- extract to dto ([b6e3564](https://github.com/StartUpNationLabs/spos/commit/b6e3564))
+
+- move conf to module ([2fa231c](https://github.com/StartUpNationLabs/spos/commit/2fa231c))
+
+
+### 🩹 Fixes
+
+- lint issues ([b451edc](https://github.com/StartUpNationLabs/spos/commit/b451edc))
+
+- lint issues ([051bc24](https://github.com/StartUpNationLabs/spos/commit/051bc24))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.1 (2024-10-24)
 
 
