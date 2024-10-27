@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { render } from '@testing-library/react';
 
 import { BrowserRouter } from 'react-router-dom';
@@ -14,12 +15,4 @@ describe('App', () => {
     expect(baseElement).toBeTruthy();
   });
 
-  it('should have a greeting as the title', () => {
-    const { getByText } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-    expect(getByText(/Welcome frontend-common-space/gi)).toBeTruthy();
-  });
 });

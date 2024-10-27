@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Link, Route, Routes } from 'react-router-dom';
 import { PayementAsignee} from '@spos/ui/common';
 
@@ -6,7 +7,7 @@ export function App() {
     <div>
       <Routes>
         <Route path="/" element={<PayementAsignee />} />
-        
+
       </Routes>
       {/* END: routes */}
     </div>
