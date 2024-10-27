@@ -1,3 +1,15 @@
+## 0.5.1 (2024-10-27)
+
+
+### 🩹 Fixes
+
+- dockerfiles ([546ce41](https://github.com/StartUpNationLabs/spos/commit/546ce41))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.5.0 (2024-10-27)
 
 
