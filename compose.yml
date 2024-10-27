@@ -18,6 +18,7 @@ services:
     ports:
       - 3002:3000
   redis:
-    image: redis
+    image: redis/redis-stack
     ports:
       - 6379:6379
+      - 8001:8001
