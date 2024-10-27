@@ -1,3 +1,15 @@
+## 0.4.0 (2024-10-27)
+
+
+### 🚀 Features
+
+- add enviropment config ([a534d26](https://github.com/StartUpNationLabs/spos/commit/a534d26))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.3.0 (2024-10-27)
 
 

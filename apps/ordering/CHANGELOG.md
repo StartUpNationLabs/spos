@@ -1,3 +1,15 @@
+## 0.4.0 (2024-10-27)
+
+
+### 🚀 Features
+
+- Addition of dependancy injection and redis event for ordering ([2f084e2](https://github.com/StartUpNationLabs/spos/commit/2f084e2))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.3.0 (2024-10-27)
 
 
