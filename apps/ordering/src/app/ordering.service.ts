@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   DiningApiService,
   GroupService,
@@ -8,13 +8,15 @@ import {
   Table
 } from '@spos/services/common';
 import { MenuItem } from '@spos/clients-menu';
+import { RedisClientType } from 'redis';
 
 @Injectable()
 export class OrderingService {
   constructor(
-    private readonly groupService: GroupService,
-    private readonly diningApiService: DiningApiService,
-    private readonly menuApiService: MenuApiService
+    @Inject('REDIS_CLIENT') private readonly redisClient: RedisClientType,
+    @Inject('GROUP_API') private readonly groupService: GroupService,
+    @Inject('DINING_API') private readonly diningApiService: DiningApiService,
+    @Inject('MENU_API') private readonly menuApiService: MenuApiService
   ) {}
 
   async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
@@ -29,7 +31,13 @@ export class OrderingService {
 
     await this.processCartItems(cartItemsByCategory, tableOrderId);
 
-    // TODO: Implement the server sent event for TableEvent
+    await this.redisClient.publish(
+      'order',
+      JSON.stringify({
+        group_id: order.groupId,
+        action: 'order',
+      })
+    );
   }
 
   private findTableOrderId(group: Group, tableNumber: number): Table | undefined {
