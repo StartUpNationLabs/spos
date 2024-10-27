@@ -14,8 +14,12 @@ import { DiningApiService, MenuApiService } from '@spos/services/common';
     {
       provide: 'REDIS_CLIENT',
       useFactory: async () => {
+        let url = 'http://localhost:3000';
+        if(process.env['REDIS_URL']) {
+          url = process.env['REDIS_URL'];
+        }
         const client = createClient({
-          url: 'redis://localhost:6379',
+          url: url,
         });
         await client.connect();
         return client;
@@ -24,24 +28,36 @@ import { DiningApiService, MenuApiService } from '@spos/services/common';
     {
       provide: 'GROUP_API',
       useFactory: async () => {
+        let basePath = 'http://localhost:3000';
+        if(process.env['GROUP_API_BASE_PATH']) {
+          basePath = process.env['GROUP_API_BASE_PATH'];
+        }
         return new RemoteGroupApi(
-          new Configuration({ basePath: 'http://localhost:3000' })
+          new Configuration({ basePath: basePath })
         );
       },
     },
     {
       provide: 'DINING_API',
       useFactory: async () => {
+        let basePath = 'https://dining-backend.spos.polytech.apoorva64.com';
+        if(process.env['DINING_API_BASE_PATH']) {
+          basePath = process.env['DINING_API_BASE_PATH'];
+        }
         return new DiningApiService(
-          new Configuration({ basePath: 'https://dining-backend.spos.polytech.apoorva64.com' })
+          new Configuration({ basePath: basePath })
         );
       },
     },
     {
       provide: 'MENU_API',
       useFactory: async () => {
+        let basePath = 'https://menu-backend.spos.polytech.apoorva64.com';
+        if(process.env['MENU_API_BASE_PATH']) {
+          basePath = process.env['MENU_API_BASE_PATH'];
+        }
         return new MenuApiService(
-          new Configuration({ basePath: 'https://menu-backend.spos.polytech.apoorva64.com' })
+          new Configuration({ basePath: basePath })
         );
       },
     }],
