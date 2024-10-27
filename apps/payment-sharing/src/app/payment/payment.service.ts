@@ -78,7 +78,6 @@ export class PaymentService {
     };
     await this.repository.save(payment);
     // notify payment service
-    // @ts-expect-error The redis client is not typed
     await this.redisClient.publish(
       'update-payment',
       JSON.stringify({
@@ -128,7 +127,6 @@ export class PaymentService {
     }
 
     // notify payment service
-    // @ts-expect-error The redis client is not typed
     await this.redisClient.publish(
       'update-payment',
       JSON.stringify({
