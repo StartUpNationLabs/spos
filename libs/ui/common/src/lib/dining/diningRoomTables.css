@@ -1,0 +1,13 @@
+.dining-room-tables {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+  
+.dining-room-tables svg {
+    width: 100%; 
+    max-width: 700px; 
+    height: auto; 
+  }
+  

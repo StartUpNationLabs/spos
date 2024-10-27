@@ -1,9 +1,9 @@
 import React from 'react';
+import './DiningRoomTables.css';
 
 export function DiningRoomTables() {
   return (
     <div className="dining-room-tables">
-      <h2>Tables de la salle à manger</h2>
       
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
         width="300.000000pt" height="309.000000pt" viewBox="0 0 300.000000 309.000000"
