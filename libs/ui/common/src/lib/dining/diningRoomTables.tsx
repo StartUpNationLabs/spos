@@ -1,9 +1,18 @@
 import React from 'react';
 import './DiningRoomTables.css';
+import BackButton from '../utils/backButton';
 
 export function DiningRoomTables() {
   return (
-    <div className="dining-room-tables">
+    <div className="dining-room-container">
+      <div className="header-container">
+        <BackButton onClick={() => console.log("back")}/>
+        <h2 className="dining-room-title">Select Tables</h2>
+
+      </div>
+      
+      <div className="dining-room-tables">
+       
       
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
         width="300.000000pt" height="309.000000pt" viewBox="0 0 300.000000 309.000000"
@@ -206,9 +215,10 @@ export function DiningRoomTables() {
         -25 -18 0 -109 83 -130 119 -28 47 -10 37 50 -28z"/>
         </g>
         </svg>
-
+      </div>
     </div>
   );
+  
 };
 
 export default DiningRoomTables;

@@ -1,13 +1,44 @@
+.dining-room-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    justify-content: space-between;
+}
+
 .dining-room-tables {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-grow: 1;
+    width: 100%;
 }
-  
+
 .dining-room-tables svg {
-    width: 100%; 
-    max-width: 700px; 
-    height: auto; 
-  }
-  
+    width: 100%;
+    max-width: 900px; /* Largeur maximale souhaitée */
+    height: 50%; /* Laisse le SVG occuper tout l’espace en hauteur */
+}
+
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+.dining-room-title {
+    font-size: 64px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    text-align: center;
+}
+
+.header-container > :first-child {
+    position: absolute;
+    left: 0;
+}
