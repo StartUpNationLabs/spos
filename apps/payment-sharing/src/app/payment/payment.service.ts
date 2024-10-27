@@ -8,6 +8,7 @@ import {
   Configuration,
   RemoteBillingApi,
 } from '@spos/clients-bff';
+import { ItemRequestDto } from './Item.dto';
 
 @Injectable()
 export class PaymentService {
@@ -29,13 +30,9 @@ export class PaymentService {
     });
   }
 
-  async takeItemFromCenterTable(
-    group_id: string,
-    owner_id: string,
-    item_short_name: string,
-    amount: number,
-    table_id: string
-  ) {
+  async takeItemFromCenterTable(takeItemDto: ItemRequestDto) {
+    const { group_id, owner_id, item_short_name, amount, table_id } =
+      takeItemDto;
     const selected = await this.repository
       .search()
       .where('group_id')
@@ -53,9 +50,9 @@ export class PaymentService {
     )?.elements;
     const tableItem = tableItems.find(
       (item) => item.item.name === item_short_name
-    )  as (AnnotatedTableItem & {
+    ) as AnnotatedTableItem & {
       onTable: number;
-    }) ;
+    };
     if (!tableItem) {
       throw new HttpException(
         'item short name: ' + item_short_name + ' not found in the table',
@@ -97,13 +94,9 @@ export class PaymentService {
     );
   }
 
-  async returnItemToCenterTable(
-    group_id: string,
-    owner_id: string,
-    item_short_name: string,
-    amount: number,
-    table_id: string
-  ) {
+  async returnItemToCenterTable(returnItemDto: ItemRequestDto) {
+    const { group_id, owner_id, item_short_name, amount, table_id } =
+      returnItemDto;
     const payment = await this.repository
       .search()
       .where('group_id')
@@ -175,10 +168,12 @@ export class PaymentService {
         elements: billing.elements
           .map((item: annotatedBillings) => {
             const selectedItem = selected.find(
-              (selectedItem) => selectedItem.item_short_name === item.item.name && selectedItem.table_id == billing.number
+              (selectedItem) =>
+                selectedItem.item_short_name === item.item.name &&
+                selectedItem.table_id == billing.number
             );
 
-            if (selectedItem ) {
+            if (selectedItem) {
               item.selectedByCustomer = selectedItem.amount as number;
             } else {
               item.selectedByCustomer = 0;
@@ -209,31 +204,30 @@ export class PaymentService {
 
       // add items by short name
       const items = {} as any;
-      selectedByCustomers.filter(
-        (selectedItem) =>{
-          return selectedItem.table_id == billingsTable.number.toString()
-        }
-      ).forEach((selectedItem) => {
-        if (!items[selectedItem.item_short_name as string]) {
-          items[selectedItem.item_short_name as string] = selectedItem;
-        } else {
-          (items[selectedItem.item_short_name as string].amount as number) += <
-            number
-          >selectedItem.amount;
-        }
-      });
+      selectedByCustomers
+        .filter((selectedItem) => {
+          return selectedItem.table_id == billingsTable.number.toString();
+        })
+        .forEach((selectedItem) => {
+          if (!items[selectedItem.item_short_name as string]) {
+            items[selectedItem.item_short_name as string] = selectedItem;
+          } else {
+            (items[selectedItem.item_short_name as string].amount as number) +=
+              <number>selectedItem.amount;
+          }
+        });
       for (const item of billingsTable.elements as (AnnotatedTableItem & {
         onTable: number;
       })[]) {
         if (items[item.item.name]) {
           item.onTable = item.remaining - items[item.item.name].amount;
         } else {
-          item.onTable = item.remaining
+          item.onTable = item.remaining;
         }
       }
     }
 
-    return billings
+    return billings;
   }
 
   async handleUpdatePayment() {

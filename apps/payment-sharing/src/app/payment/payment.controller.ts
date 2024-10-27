@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, Param, Sse } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiBody, ApiParam, ApiResponse } from "@nestjs/swagger";
 import { PaymentService } from './payment.service';
 import { filter, fromEvent, Observable, switchMap } from "rxjs";
+import { ItemRequestDto } from "./Item.dto";
 
 @Controller('payments')
 export class PaymentController {
@@ -9,30 +10,18 @@ export class PaymentController {
 
   @Post('take-item')
   @ApiOperation({ summary: 'Take an item from the center table' })
-  @ApiBody({ schema: { properties: { group_id: { type: 'string' }, owner_id: { type: 'string' }, item_short_name: { type: 'string' }  , amount: { type: 'number' } , table_id: { type: 'string' } } } })
   @ApiResponse({ status: 200, description: 'Item taken successfully' })
-  async takeItemFromCenterTable(
-    @Body('group_id') group_id: string,
-    @Body('owner_id') owner_id: string,
-    @Body('item_short_name') item_short_name: string,
-    @Body('amount') amount: number,
-    @Body('table_id') table_id: string
+  async takeItemFromCenterTable( @Body() takeItemDto: ItemRequestDto
   ) {
-    await this.paymentService.takeItemFromCenterTable(group_id, owner_id, item_short_name, amount, table_id);
+    await this.paymentService.takeItemFromCenterTable(takeItemDto);
   }
 
   @Post('return-item')
   @ApiOperation({ summary: 'Return an item to the center table' })
-  @ApiBody({ schema: { properties: { group_id: { type: 'string' }, owner_id: { type: 'string' }, item_short_name: { type: 'string' } , amount: { type: 'number' } , table_id: { type: 'string' } } } })
   @ApiResponse({ status: 200, description: 'Item returned successfully' })
-  async returnItemToCenterTable(
-    @Body('group_id') group_id: string,
-    @Body('owner_id') owner_id: string,
-    @Body('item_short_name') item_short_name: string,
-    @Body('amount') amount: number,
-    @Body('table_id') table_id: string
+  async returnItemToCenterTable( @Body() takeItemDto: ItemRequestDto
   ) {
-    await this.paymentService.returnItemToCenterTable(group_id, owner_id, item_short_name, amount, table_id);
+    await this.paymentService.returnItemToCenterTable(takeItemDto);
   }
 
   @Get('customer-items/:group_id/:owner_id')
