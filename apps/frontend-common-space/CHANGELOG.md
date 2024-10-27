@@ -1,3 +1,15 @@
+## 0.2.1 (2024-10-27)
+
+
+### 🩹 Fixes
+
+- frontend 'reflect-metadata' ([c8ab990](https://github.com/StartUpNationLabs/spos/commit/c8ab990))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.2.0 (2024-10-27)
 
 
