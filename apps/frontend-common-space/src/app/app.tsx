@@ -1,11 +1,13 @@
 import { Link, Route, Routes } from 'react-router-dom';
-import { PayementAsignee} from '@spos/ui/common';
+import { PayementAsignee, DiningRoomTables} from '@spos/ui/common';
 
 export function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<PayementAsignee />} />
+        <Route path="/payementAsignee" element={<PayementAsignee />} />
+        <Route path="/diningRoomTables" element={<DiningRoomTables />} />
+
         
       </Routes>
       {/* END: routes */}
