@@ -2,13 +2,13 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   DiningApiService,
   GroupService,
-  MonsieurAxelMenvoie,
   MenuApiService,
   Group,
   Table
 } from '@spos/services/common';
 import { MenuItem } from '@spos/clients-menu';
 import { RedisClientType } from 'redis';
+import { OrderingRequestDTO } from './ordering.controller';
 
 @Injectable()
 export class OrderingService {
@@ -19,7 +19,7 @@ export class OrderingService {
     @Inject('MENU_API') private readonly menuApiService: MenuApiService
   ) {}
 
-  async sendToKitchen(order: MonsieurAxelMenvoie): Promise<void> {
+  async sendToKitchen(order: OrderingRequestDTO): Promise<void> {
     const group = await this.groupService.getGroup(order.groupId);
     const tableOrderId = this.findTableOrderId(group, order.tableNumber);
     if (!tableOrderId) {
@@ -48,8 +48,8 @@ export class OrderingService {
     return (await this.menuApiService.getMenuApi().menusControllerGetFullMenu()).data;
   }
 
-  private splitCartItemsByCategory(order: MonsieurAxelMenvoie, menuItems: MenuItem[]): { [category: string]: MonsieurAxelMenvoie } {
-    const cartItemsByCategory: { [category: string]: MonsieurAxelMenvoie } = {};
+  private splitCartItemsByCategory(order: OrderingRequestDTO, menuItems: MenuItem[]): { [category: string]: OrderingRequestDTO } {
+    const cartItemsByCategory: { [category: string]: OrderingRequestDTO } = {};
     for (const item of order.cart) {
       const menuItem = menuItems.find((menuItem) => menuItem.shortName === item.shortName);
       if (!menuItem) {
@@ -67,7 +67,7 @@ export class OrderingService {
     return cartItemsByCategory;
   }
 
-  private async processCartItems(cartItemsByCategory: { [category: string]: MonsieurAxelMenvoie }, tableOrderId: Table): Promise<void> {
+  private async processCartItems(cartItemsByCategory: { [category: string]: OrderingRequestDTO }, tableOrderId: Table): Promise<void> {
     const tableOrdersApi = this.diningApiService.getTableOrdersApi();
     for (const category of Object.values(cartItemsByCategory)) {
       const promises = category.cart.map((item) => {
