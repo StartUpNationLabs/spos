@@ -6,7 +6,7 @@ resources:
 images:
   - name: ghcr.io/startupnationlabs/spos/payment-sharing
     newName: ghcr.io/startupnationlabs/spos/payment-sharing
-    newTag: sha-136f400
+    newTag: sha-c8ab990
 
 
 patches:
@@ -14,3 +14,10 @@ patches:
       kind: Ingress
       name: ingress-payment-sharing
     path: ingress-patch.yml
+  - target:
+      kind: Deployment
+      name: payment-sharing
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/1/value
+        value: http://backend-bff.spos-dev.svc.cluster.local:3000

@@ -7,6 +7,4 @@
 - op: replace
   path: /spec/tls/0/secretName
   value: payment-sharing.spos.polytech.apoorva64-tls
-- op: replace
-  path: /spec/template/spec/containers/0/env/1/value
-  value: http://backend-bff.spos-prod.svc.cluster.local:3000
+
