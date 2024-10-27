@@ -1,4 +1,4 @@
-import { Schema } from "redis-om";
+import { Schema, Entity } from 'redis-om';
 
 /* create a Schema for Person */
 export const PaymentSchema = new Schema(
@@ -14,5 +14,13 @@ export const PaymentSchema = new Schema(
     dataStructure: 'HASH',
   }
 );
+
+export interface Payment extends Entity {
+  group_id: string;
+  owner_id: string;
+  table_id: string;
+  item_short_name: string;
+  amount: number;
+}
 
 

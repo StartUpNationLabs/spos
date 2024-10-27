@@ -14,8 +14,13 @@ import { Configuration, RemoteBillingApi } from '@spos/clients-bff';
     {
       provide: 'REDIS_CLIENT',
       useFactory: async () => {
+        // try to read from env
+        let url = process.env['REDIS_URL'];
+        if (!url) {
+          url = 'redis://localhost:6379';
+        }
         const client = createClient({
-          url: 'redis://localhost:6379',
+          url,
         });
         await client.connect();
         return client;
@@ -24,9 +29,12 @@ import { Configuration, RemoteBillingApi } from '@spos/clients-bff';
     {
       provide: 'BILLING_API',
       useFactory: async () => {
-        return new RemoteBillingApi(
-          new Configuration({ basePath: 'http://localhost:3000' })
-        );
+        // try to read from env
+        let url = process.env['BILLING_API_URL'];
+        if (!url) {
+          url = 'http://localhost:3000';
+        }
+        return new RemoteBillingApi(new Configuration({ basePath: url }));
       },
     },
   ],

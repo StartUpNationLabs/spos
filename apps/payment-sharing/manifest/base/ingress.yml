@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-payment-sharing
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+spec:
+  rules:
+    - host: payment-sharing.spos.polytech.apoorva64.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  payment-sharing
+                port:
+                  number: 3002
+  tls:
+    - hosts:
+        - payment-sharing.spos.polytech.apoorva64.com
+      secretName: payment-sharing.spos.polytech.apoorva64-tls

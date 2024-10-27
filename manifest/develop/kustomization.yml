@@ -5,3 +5,6 @@ resources:
   - ../../apps/frontend-bff/manifest/overlays/develop
   - ../../apps/frontend-workflow/manifest/overlays/develop
   - ../../apps/backend-bff/manifest/overlays/develop
+  - ../../apps/payment-sharing/manifest/overlays/develop
+  - ../../apps/frontend-common-space/manifest/overlays/develop
+  - ../../apps/frontend-personal-space/manifest/overlays/develop

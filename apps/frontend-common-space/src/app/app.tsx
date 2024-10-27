@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Link, Route, Routes } from 'react-router-dom';
 import { PayementAsignee, DiningRoomTables} from '@spos/ui/common';
 

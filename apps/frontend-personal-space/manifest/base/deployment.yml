@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: frontend-personal-space
+  name: frontend-personal-space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend-personal-space
+  template:
+    metadata:
+      labels:
+        io.kompose.service: frontend-personal-space
+    spec:
+      containers:
+        - image: ghcr.io/startupnationlabs/spos/frontend-personal-space:sha-69ef30b
+          name: frontend-personal-space
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env: []
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 20
+      restartPolicy: Always
