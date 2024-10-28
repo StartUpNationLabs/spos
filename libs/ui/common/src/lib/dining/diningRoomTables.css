@@ -16,8 +16,8 @@
 
 .dining-room-tables svg {
     width: 100%;
-    max-width: 900px; /* Largeur maximale souhaitée */
-    height: 50%; /* Laisse le SVG occuper tout l’espace en hauteur */
+    max-width: 900px; 
+    height: 50%; 
 }
 
 
