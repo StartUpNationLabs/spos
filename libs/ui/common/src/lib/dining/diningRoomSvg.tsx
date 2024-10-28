@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function DiningRoomSVG() {
+const  DiningRoomSVG = ({ onSelectionChange }) => {
     const [userTable, setUserTable] = useState(0); 
     const [selectedTables, setSelectedTables] = useState(new Set()); 
+    useEffect(() => {
+        const hasSelectedTables = selectedTables.size > 0;
+        onSelectionChange(hasSelectedTables);
+    }, [selectedTables, onSelectionChange]);
     const groups = {
         1: [0, 1, 2],
         2: [3, 4, 5],
         3: [6, 7, 8]
       };
+      
       const getTableGroup = (tableIndex) => {
         return Object.entries(groups).find(([_, tables]) => 
           tables.includes(tableIndex)
@@ -29,6 +34,10 @@ function DiningRoomSVG() {
             } else {
               newSet.add(index);
             }
+            setSelectedTables(newSet);
+
+            //onSelectionChange(newSet.size > 0);
+
             return newSet;
           });
         }
