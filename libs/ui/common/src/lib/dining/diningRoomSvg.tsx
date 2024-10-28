@@ -1,15 +1,45 @@
 import React, { useState } from 'react';
 
 function DiningRoomSVG() {
-    const [tableColors, setTableColors] = useState(Array(9).fill('#000000'));
-
-    const handleTableClick = (index) => {
-        setTableColors((prevColors) =>
-          prevColors.map((color, i) =>
-            i === index ? (color === '#000000' ? '#00FF00' : '#000000') : color
-          )
-        );
-    };
+    const [userTable, setUserTable] = useState(0); 
+    const [selectedTables, setSelectedTables] = useState(new Set()); 
+    const groups = {
+        1: [0, 1, 2],
+        2: [3, 4, 5],
+        3: [6, 7, 8]
+      };
+      const getTableGroup = (tableIndex) => {
+        return Object.entries(groups).find(([_, tables]) => 
+          tables.includes(tableIndex)
+        )?.[0];
+      };
+    
+      const isInUserGroup = (tableIndex) => {
+        const userGroup = getTableGroup(userTable);
+        const tableGroup = getTableGroup(tableIndex);
+        return userGroup === tableGroup;
+      };
+    
+      const handleTableClick = (index) => {
+        if (isInUserGroup(index) && index !== userTable) {
+          setSelectedTables(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(index)) {
+              newSet.delete(index);
+            } else {
+              newSet.add(index);
+            }
+            return newSet;
+          });
+        }
+      };
+    
+      const getTableColor = (index) => {
+        if (index === userTable) return '#00BFFF'; // Bleu 
+        if (selectedTables.has(index)) return '#4CAF50'; // Vert 
+        if (isInUserGroup(index)) return '#000000'; // Noir 
+        return '#CCCCCC'; // Gris 
+      };
 
   return (
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +74,7 @@ function DiningRoomSVG() {
     -123 -90 -4 4 2 12 13 18 11 6 47 39 80 73 67 70 88 70 30 -1z m-542 33 c16
     -25 78 -86 112 -111 11 -8 17 -17 13 -21 -17 -17 -158 117 -158 149 0 14 19 4
     33 -17z"
-    fill={tableColors[0]}
+    fill={getTableColor(0)}
     />
     </g>
     <g onClick={() => handleTableClick(1)} pointerEvents="bounding-box">
@@ -70,7 +100,7 @@ function DiningRoomSVG() {
     -37 35 -41z m30 -6 c0 -24 -127 -153 -151 -153 -19 0 -7 16 35 50 24 19 56 52
     72 73 25 34 44 47 44 30z m-482 -127 c45 -32 25 -42 -21 -10 -38 25 -107 109
     -107 128 0 6 22 -13 48 -42 26 -29 62 -63 80 -76z"
-     fill={tableColors[1]}
+     fill={getTableColor(1)}
     />
     </g>
     <g onClick={() => handleTableClick(2)} pointerEvents="bounding-box">
@@ -95,7 +125,7 @@ function DiningRoomSVG() {
     -84 -124 -44 l-34 33 33 18 c35 17 97 81 97 98 0 16 11 12 46 -19z m30 -86
     c-31 -40 -114 -110 -122 -102 -3 2 28 38 68 78 74 75 102 87 54 24z m-501 -32
     c76 -77 91 -103 36 -64 -54 38 -138 141 -116 141 2 0 38 -34 80 -77z"
-    fill={tableColors[2]}
+    fill={getTableColor(2)}
     />
     </g>
     <g onClick={() => handleTableClick(3)} pointerEvents="bounding-box">
@@ -123,7 +153,7 @@ function DiningRoomSVG() {
     20 -14 38 -32z m43 -66 c-49 -67 -124 -131 -137 -118 -3 3 -4 7 -2 9 41 28
     101 83 119 110 14 20 28 33 32 31 5 -3 -1 -17 -12 -32z m-440 -128 c0 -14 -67
     37 -106 80 -73 80 -49 80 31 0 41 -41 75 -77 75 -80z"
-    fill={tableColors[3]}
+    fill={getTableColor(3)}
     />
     </g>
     <g onClick={() => handleTableClick(4)} pointerEvents="bounding-box">
@@ -148,7 +178,7 @@ function DiningRoomSVG() {
     -94 c-32 -40 -103 -99 -121 -99 -4 0 27 35 70 78 80 81 107 92 51 21z m-540
     16 c13 -20 46 -54 73 -77 58 -48 56 -63 -3 -22 -39 27 -109 107 -109 125 0 18
     16 7 39 -26z"
-    fill={tableColors[4]}
+    fill={getTableColor(4)}
     />
     </g>
     <g onClick={() => handleTableClick(5)} pointerEvents="bounding-box">
@@ -173,7 +203,7 @@ function DiningRoomSVG() {
     12 0 72 66 80 87 11 29 17 29 51 -4z m34 -88 c-30 -38 -114 -110 -121 -103 -3
     3 27 38 67 79 73 75 102 88 54 24z m-541 4 c23 -32 56 -63 114 -106 2 -2 2 -6
     -2 -9 -16 -16 -157 116 -157 147 0 20 19 7 45 -32z"
-    fill={tableColors[5]}
+    fill={getTableColor(5)}
     />
     </g>
     
@@ -199,7 +229,7 @@ function DiningRoomSVG() {
     -65z m92 56 c0 -21 -101 -125 -133 -136 -34 -11 -27 2 17 35 24 18 57 50 72
     72 29 38 44 48 44 29z m-526 -75 c42 -42 68 -75 60 -75 -18 0 -144 122 -144
     139 0 18 7 14 84 -64z"
-    fill={tableColors[6]}
+    fill={getTableColor(6)}
     />
     </g>
 
@@ -225,7 +255,7 @@ function DiningRoomSVG() {
     25 -50z m23 -21 c-22 -38 -110 -119 -129 -119 -13 0 124 147 139 149 5 1 0
     -13 -10 -30z m-548 -18 c17 -21 47 -51 68 -67 38 -28 47 -44 25 -44 -15 0
     -138 125 -138 139 0 20 15 10 45 -28z"
-    fill={tableColors[7]}
+    fill={getTableColor(7)}
     />
     </g>
     <g onClick={() => handleTableClick(8)} pointerEvents="bounding-box">
@@ -250,7 +280,7 @@ function DiningRoomSVG() {
     -47 47 c-26 26 -47 48 -47 50 0 2 9 4 20 4 24 0 110 82 110 106 0 12 8 10 34
     -13 19 -15 35 -34 35 -40z m-512 -72 c29 -33 62 -63 73 -66 22 -7 27 -25 7
     -25 -18 0 -109 83 -130 119 -28 47 -10 37 50 -28z"
-    fill={tableColors[8]}
+    fill={getTableColor(8)}
     />
     </g>
     </g>
