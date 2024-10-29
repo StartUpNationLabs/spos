@@ -7,7 +7,7 @@ export function PayementAsignee() {
   // propriétés communes des BackButton
   const buttonProps = {
     color: 'black',
-    fontSize: '350px',
+    fontSize: '150px',
     //scaleX: 0.5,
     scaleY: 0.5,
   };
@@ -16,26 +16,26 @@ export function PayementAsignee() {
   const buttonPositions = [
     {
       onClick: () => alert('Top Left'),
-      top: '-300px',
-      left: '-300px',
+      top: '-150px',
+      left: '-150px',
       rotation: 45,
     },
     {
       onClick: () => alert('Top Right'),
-      top: '-300px',
+      top: '-155px',
       left: '150px',
       rotation: 135,
     },
     {
       onClick: () => alert('Bottom Left'),
-      top: '110px',
-      left: '-300px',
+      top: '140px',
+      left: '-150px',
       rotation: -45,
     },
     {
       onClick: () => alert('Bottom Right'),
-      top: '110px',
-      left: '150px',
+      top: '140px',
+      left: '180px',
       rotation: -135,
     },
   ];
