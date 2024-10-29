@@ -9,6 +9,7 @@ export function App() {
         <Route path="/payementAsignee" element={<PayementAsignee />} />
         <Route path="/diningRoomTables" element={<DiningRoomTables />} />
 
+
         
       </Routes>
       {/* END: routes */}

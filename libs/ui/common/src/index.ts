@@ -16,4 +16,5 @@ export * from "./lib/tableBillingPage/stores/paymentStore";
 export * from "./lib/commandsR/stores/useCommandsParameter";
 export * from "./lib/billing/payementAsignee";
 export * from "./lib/dining/diningRoomTables";
+export * from "./lib/dining/diningIndividualRoomTables";
 export * from "./lib/commandsR/stores/cart";
