@@ -9,6 +9,7 @@ export * from './lib/tableBillingPage/tableBilling';
 export * from './lib/utils/navbar';
 export * from './lib/commandsR/commands';
 export * from './lib/commandsR/orderingChoices';
+export * from './lib/commandsR/Item';
 export * from './lib/containerHook/containerContext';
 export { TableGrid } from './lib/tables/tableGrid';
 export * from './lib/preparations/preparations';

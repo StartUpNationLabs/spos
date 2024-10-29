@@ -70,5 +70,3 @@ export function Item(props: Readonly<ItemProps>) {
     </Card>
   );
 }
-
-export default Item;

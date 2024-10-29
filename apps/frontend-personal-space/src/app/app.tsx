@@ -5,11 +5,13 @@ import {
   GroupBilling,
   TableBilling,
 } from '@spos/ui/common';
+import PersonalOrdering from './pages/Personal-ordering';
 
 export function App() {
   return (
     <div>
       <Routes>
+        <Route path={"/"} element={<PersonalOrdering/>} />
         <Route path="/groupBilling/" element={<GroupBilling />} />
         <Route path="/groupBilling/:groupId" element={<GroupBilling />} />
         <Route path="/tableBilling/" element={<TableBilling />} />

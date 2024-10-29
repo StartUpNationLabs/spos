@@ -19,7 +19,7 @@ export interface PaymentStoreState {
   resetPaymentStore: (groupId: string) => void;
 }
 
-export const createStore = () =>
+export const createPaymentStore = () =>
   create<PaymentStoreState>((set) => ({
     groupId: '',
     elementToBePaid: {},
@@ -77,7 +77,7 @@ const StoreContext = createContext(null);
 export const PaymentStoreProvider = ({ children }) => {
   const storeRef = useRef<any>();
   if (!storeRef.current) {
-    storeRef.current = createStore();
+    storeRef.current = createPaymentStore();
   }
   return (
     <StoreContext.Provider value={storeRef.current}>

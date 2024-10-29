@@ -6,7 +6,7 @@ import { useCarts } from './stores/cart';
 import { useQuery } from '@tanstack/react-query';
 import { ContainerContext } from '../containerHook/containerContext';
 import { CatalogueService, TYPES } from '@spos/services/common';
-import Item from './Item';
+import { Item } from './Item';
 import useCommandsParameter from './stores/useCommandsParameter';
 import { useNavigate } from 'react-router-dom';
 
