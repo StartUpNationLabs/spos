@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { TableService, TYPES } from "@spos/services/common";
+import { TableService, TYPES } from '@spos/services/common';
 import { Grid2 as Grid, Typography } from '@mui/material';
 import TableSquare from './tableSquare';
 import * as React from 'react';
 import { useContext } from 'react';
-import { ContainerContext } from '../containerHook/containerContext'
+import { ContainerContext } from '../containerHook/containerContext';
 
 export function FreeTables() {
   const container = useContext(ContainerContext);
@@ -13,7 +13,7 @@ export function FreeTables() {
     isLoading,
     isError,
     error,
-    refetch
+    refetch,
   } = useQuery({
     queryKey: ['tables'],
     queryFn: async () => {
@@ -21,7 +21,7 @@ export function FreeTables() {
       return tableService.getFreeTables();
     },
     refetchOnWindowFocus: 'always',
-    staleTime: 0
+    staleTime: 0,
   });
   if (isLoading) {
     return (

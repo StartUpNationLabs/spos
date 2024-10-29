@@ -1,56 +1,78 @@
-import { ItemPaid } from "@spos/services/common";
-import { create, useStore as zustandUseStore } from "zustand/index";
-import { createContext, useContext, useRef } from "react";
+import { create, useStore as zustandUseStore } from 'zustand/index';
+import { createContext, useContext, useRef } from 'react';
 
 export interface PaymentStoreState {
-    groupId: string,
-    elementToBePaid: {
-        [tableNumber: number]: { itemId: string, quantityPaid: number, price: number }[];
-    },
-    updateItem: (tableNumber: number, itemId: string, quantityPaid: number, price: number) => void,
-    resetPaymentStore: (groupId: string) => void
+  groupId: string;
+  elementToBePaid: {
+    [tableNumber: number]: {
+      itemId: string;
+      quantityPaid: number;
+      price: number;
+    }[];
+  };
+  updateItem: (
+    tableNumber: number,
+    itemId: string,
+    quantityPaid: number,
+    price: number
+  ) => void;
+  resetPaymentStore: (groupId: string) => void;
 }
 
-export const createStore = () => create<PaymentStoreState>((set) => ({
+export const createStore = () =>
+  create<PaymentStoreState>((set) => ({
     groupId: '',
     elementToBePaid: {},
-    updateItem: (tableNumber: number, itemId: string, quantityPaid: number, price: number) => set((state) => {
+    updateItem: (
+      tableNumber: number,
+      itemId: string,
+      quantityPaid: number,
+      price: number
+    ) =>
+      set((state) => {
         const currentCart = state.elementToBePaid[tableNumber] || [];
 
-        const index = currentCart.findIndex(element => element.itemId === itemId);
-        const item = { itemId: itemId, quantityPaid: quantityPaid, price: price };
+        const index = currentCart.findIndex(
+          (element) => element.itemId === itemId
+        );
+        const item = {
+          itemId: itemId,
+          quantityPaid: quantityPaid,
+          price: price,
+        };
 
-        const currentTableElement = currentCart.map(element => {
+        const currentTableElement = currentCart
+          .map((element) => {
             if (element.itemId !== itemId) {
-                return element;
+              return element;
             }
 
             return item;
-        }).filter(element => element.quantityPaid > 0);
+          })
+          .filter((element) => element.quantityPaid > 0);
 
         if (index === -1 && quantityPaid > 0) {
-            currentTableElement.push(item);
+          currentTableElement.push(item);
         }
 
         return {
-            groupId: state.groupId,
-            elementToBePaid: {
-                ...state.elementToBePaid,
-                [tableNumber]: currentTableElement
-            }
+          groupId: state.groupId,
+          elementToBePaid: {
+            ...state.elementToBePaid,
+            [tableNumber]: currentTableElement,
+          },
         };
-    }),
-    resetPaymentStore: (groupId: string) => set((state) => {
+      }),
+    resetPaymentStore: (groupId: string) =>
+      set((state) => {
         return {
-            groupId: groupId,
-            elementToBePaid: {}
-        }
-    })
-}));
+          groupId: groupId,
+          elementToBePaid: {},
+        };
+      }),
+  }));
 
-
-
-const StoreContext = createContext(null)
+const StoreContext = createContext(null);
 
 export const PaymentStoreProvider = ({ children }) => {
   const storeRef = useRef<any>();
@@ -64,10 +86,10 @@ export const PaymentStoreProvider = ({ children }) => {
   );
 };
 const useTableBillingStore = (selector) => {
-  const store = useContext(StoreContext)
+  const store = useContext(StoreContext);
   if (!store) {
-    throw new Error('Missing StoreProvider')
+    throw new Error('Missing StoreProvider');
   }
-  return zustandUseStore(store, selector)
-}
+  return zustandUseStore(store, selector);
+};
 export default useTableBillingStore;

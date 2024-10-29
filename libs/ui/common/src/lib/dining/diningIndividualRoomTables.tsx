@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './diningRoomTables.css';
-import BackButton from '../utils/backButton';
 import DiningRoomSVG from './diningRoomSvg';
 import DiningHeader from './diningHeader';
 
@@ -17,22 +16,18 @@ export function DiningIndividualRoomTables() {
 
   return (
     <div className="dining-room-container">
-      
-      <DiningHeader 
+      <DiningHeader
         title="Select Tables"
         hasSelection={hasSelection}
         onBackClick={handleBackClick}
         onContinueClick={handleContinueClick}
-        buttonText={"See global billing"}
-      
+        buttonText={'See global billing'}
       />
       <div className="dining-room-tables">
-          <DiningRoomSVG onSelectionChange={setHasSelection} /> 
+        <DiningRoomSVG onSelectionChange={setHasSelection} />
       </div>
-      
     </div>
   );
-  
-};
+}
 
 export default DiningIndividualRoomTables;

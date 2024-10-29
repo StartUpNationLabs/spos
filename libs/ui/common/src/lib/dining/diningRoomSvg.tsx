@@ -1,68 +1,79 @@
 import React, { useEffect, useState } from 'react';
 
-const  DiningRoomSVG = ({ onSelectionChange }) => {
-    const [userTable, setUserTable] = useState(0); 
-    const [selectedTables, setSelectedTables] = useState(new Set()); 
-    useEffect(() => {
-        const hasSelectedTables = selectedTables.size > 0;
-        onSelectionChange(hasSelectedTables);
-    }, [selectedTables, onSelectionChange]);
-    const groups = {
-        1: [0, 1, 2],
-        2: [3, 4, 5],
-        3: [6, 7, 8]
-      };
-      
-      const getTableGroup = (tableIndex) => {
-        return Object.entries(groups).find(([_, tables]) => 
-          tables.includes(tableIndex)
-        )?.[0];
-      };
-    
-      const isInUserGroup = (tableIndex) => {
-        const userGroup = getTableGroup(userTable);
-        const tableGroup = getTableGroup(tableIndex);
-        return userGroup === tableGroup;
-      };
-    
-      const handleTableClick = (index) => {
-        if (isInUserGroup(index) && index !== userTable) {
-          setSelectedTables(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(index)) {
-              newSet.delete(index);
-            } else {
-              newSet.add(index);
-            }
-            setSelectedTables(newSet);
+interface DiningRoomSVGProps {
+  onSelectionChange: (hasSelection: boolean) => void;
+}
 
-            //onSelectionChange(newSet.size > 0);
+const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
+  const [userTable] = useState(0);
+  const [selectedTables, setSelectedTables] = useState(new Set());
+  useEffect(() => {
+    const hasSelectedTables = selectedTables.size > 0;
+    onSelectionChange(hasSelectedTables);
+  }, [selectedTables, onSelectionChange]);
+  const groups = {
+    1: [0, 1, 2],
+    2: [3, 4, 5],
+    3: [6, 7, 8],
+  };
 
-            return newSet;
-          });
+  const getTableGroup = (tableIndex: number) => {
+    return Object.entries(groups).find(([_, tables]) =>
+      tables.includes(tableIndex)
+    )?.[0];
+  };
+
+  const isInUserGroup = (tableIndex: number) => {
+    const userGroup = getTableGroup(userTable);
+    const tableGroup = getTableGroup(tableIndex);
+    return userGroup === tableGroup;
+  };
+
+  const handleTableClick = (index: number) => {
+    if (isInUserGroup(index) && index !== userTable) {
+      setSelectedTables((prev) => {
+        const newSet = new Set(prev);
+        if (newSet.has(index)) {
+          newSet.delete(index);
+        } else {
+          newSet.add(index);
         }
-      };
-    
-      const getTableColor = (index) => {
-        if (index === userTable) return '#00BFFF'; // Bleu 
-        if (selectedTables.has(index)) return '#4CAF50'; // Vert 
-        if (isInUserGroup(index)) return '#000000'; // Noir 
-        return '#CCCCCC'; // Gris 
-      };
+        setSelectedTables(newSet);
+
+        //onSelectionChange(newSet.size > 0);
+
+        return newSet;
+      });
+    }
+  };
+
+  const getTableColor = (index: number) => {
+    if (index === userTable) return '#00BFFF'; // Bleu
+    if (selectedTables.has(index)) return '#4CAF50'; // Vert
+    if (isInUserGroup(index)) return '#000000'; // Noir
+    return '#CCCCCC'; // Gris
+  };
 
   return (
-    <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-    width="300.000000pt" height="309.000000pt" viewBox="0 0 300.000000 309.000000"
-    preserveAspectRatio="xMidYMid meet"
+    <svg
+      version="1.0"
+      xmlns="http://www.w3.org/2000/svg"
+      width="300.000000pt"
+      height="309.000000pt"
+      viewBox="0 0 300.000000 309.000000"
+      preserveAspectRatio="xMidYMid meet"
     >
-    <metadata>
-    Created by potrace 1.10, written by Peter Selinger 2001-2011
-    </metadata>
-    <g transform="translate(0.000000,309.000000) scale(0.100000,-0.100000)"
-    fill="#000000" stroke="none">
-    <g onClick={() => handleTableClick(0)} pointerEvents="bounding-box">
-
-    <path d="M183 2921 c-45 -32 -113 -111 -113 -131 0 -6 22 -32 49 -56 48 -43
+      <metadata>
+        Created by potrace 1.10, written by Peter Selinger 2001-2011
+      </metadata>
+      <g
+        transform="translate(0.000000,309.000000) scale(0.100000,-0.100000)"
+        fill="#000000"
+        stroke="none"
+      >
+        <g onClick={() => handleTableClick(0)} pointerEvents="bounding-box">
+          <path
+            d="M183 2921 c-45 -32 -113 -111 -113 -131 0 -6 22 -32 49 -56 48 -43
     49 -46 49 -102 0 -53 -3 -60 -41 -99 -23 -24 -47 -43 -54 -43 -39 0 18 -91 92
     -148 42 -32 75 -41 75 -22 0 6 19 31 41 55 40 43 44 45 99 45 57 0 59 -1 105
     -52 l46 -52 36 20 c41 21 136 130 130 148 -2 6 -14 16 -26 22 -12 6 -35 24
@@ -83,12 +94,12 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     -123 -90 -4 4 2 12 13 18 11 6 47 39 80 73 67 70 88 70 30 -1z m-542 33 c16
     -25 78 -86 112 -111 11 -8 17 -17 13 -21 -17 -17 -158 117 -158 149 0 14 19 4
     33 -17z"
-    fill={getTableColor(0)}
-    />
-    </g>
-    <g onClick={() => handleTableClick(1)} pointerEvents="bounding-box">
-
-    <path d="M1265 2911 c-83 -64 -131 -151 -82 -151 7 0 28 -16 47 -35 30 -31 34
+            fill={getTableColor(0)}
+          />
+        </g>
+        <g onClick={() => handleTableClick(1)} pointerEvents="bounding-box">
+          <path
+            d="M1265 2911 c-83 -64 -131 -151 -82 -151 7 0 28 -16 47 -35 30 -31 34
     -41 34 -91 1 -56 1 -57 -58 -111 l-58 -54 26 -39 c29 -43 119 -120 142 -120 8
     0 17 7 21 16 3 9 23 34 43 55 35 37 40 39 96 39 56 0 62 -2 97 -38 20 -21 37
     -43 37 -50 0 -37 93 20 149 92 35 44 40 74 14 83 -10 3 -33 20 -50 36 -30 28
@@ -109,11 +120,12 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     -37 35 -41z m30 -6 c0 -24 -127 -153 -151 -153 -19 0 -7 16 35 50 24 19 56 52
     72 73 25 34 44 47 44 30z m-482 -127 c45 -32 25 -42 -21 -10 -38 25 -107 109
     -107 128 0 6 22 -13 48 -42 26 -29 62 -63 80 -76z"
-     fill={getTableColor(1)}
-    />
-    </g>
-    <g onClick={() => handleTableClick(2)} pointerEvents="bounding-box">
-    <path d="M2367 2915 c-44 -33 -107 -107 -107 -127 0 -5 23 -30 51 -56 49 -45
+            fill={getTableColor(1)}
+          />
+        </g>
+        <g onClick={() => handleTableClick(2)} pointerEvents="bounding-box">
+          <path
+            d="M2367 2915 c-44 -33 -107 -107 -107 -127 0 -5 23 -30 51 -56 49 -45
     51 -50 53 -101 1 -53 0 -54 -57 -107 -57 -53 -58 -54 -43 -82 21 -40 123 -132
     147 -132 11 0 22 8 26 18 3 9 22 34 41 55 33 34 40 37 93 37 56 0 58 -1 102
     -50 25 -27 51 -50 59 -50 20 0 113 84 138 125 18 29 20 38 10 50 -7 8 -16 15
@@ -134,12 +146,12 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     -84 -124 -44 l-34 33 33 18 c35 17 97 81 97 98 0 16 11 12 46 -19z m30 -86
     c-31 -40 -114 -110 -122 -102 -3 2 28 38 68 78 74 75 102 87 54 24z m-501 -32
     c76 -77 91 -103 36 -64 -54 38 -138 141 -116 141 2 0 38 -34 80 -77z"
-    fill={getTableColor(2)}
-    />
-    </g>
-    <g onClick={() => handleTableClick(3)} pointerEvents="bounding-box">
-
-    <path d="M1622 1858 c-7 -7 -12 -15 -12 -19 0 -4 -17 -24 -37 -45 -35 -36 -41
+            fill={getTableColor(2)}
+          />
+        </g>
+        <g onClick={() => handleTableClick(3)} pointerEvents="bounding-box">
+          <path
+            d="M1622 1858 c-7 -7 -12 -15 -12 -19 0 -4 -17 -24 -37 -45 -35 -36 -41
     -39 -96 -39 -60 0 -60 0 -108 54 l-48 53 -45 -33 c-48 -34 -116 -113 -116
     -135 0 -7 9 -18 21 -25 12 -6 35 -24 52 -40 27 -26 31 -36 31 -88 0 -55 -3
     -61 -40 -98 -21 -22 -47 -43 -56 -46 -10 -4 -18 -14 -18 -23 0 -21 133 -154
@@ -162,11 +174,12 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     20 -14 38 -32z m43 -66 c-49 -67 -124 -131 -137 -118 -3 3 -4 7 -2 9 41 28
     101 83 119 110 14 20 28 33 32 31 5 -3 -1 -17 -12 -32z m-440 -128 c0 -14 -67
     37 -106 80 -73 80 -49 80 31 0 41 -41 75 -77 75 -80z"
-    fill={getTableColor(3)}
-    />
-    </g>
-    <g onClick={() => handleTableClick(4)} pointerEvents="bounding-box">
-    <path d="M178 1827 c-80 -61 -137 -157 -94 -157 7 0 29 -17 49 -38 34 -34 37
+            fill={getTableColor(3)}
+          />
+        </g>
+        <g onClick={() => handleTableClick(4)} pointerEvents="bounding-box">
+          <path
+            d="M178 1827 c-80 -61 -137 -157 -94 -157 7 0 29 -17 49 -38 34 -34 37
     -43 37 -92 0 -50 -4 -59 -39 -96 -22 -23 -46 -44 -55 -47 -9 -4 -16 -13 -16
     -21 0 -23 73 -108 120 -141 41 -29 43 -29 54 -11 6 11 28 38 48 61 36 40 38
     41 98 39 55 -1 65 -5 96 -35 18 -18 34 -39 34 -46 0 -49 91 8 155 96 l34 46
@@ -187,11 +200,12 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     -94 c-32 -40 -103 -99 -121 -99 -4 0 27 35 70 78 80 81 107 92 51 21z m-540
     16 c13 -20 46 -54 73 -77 58 -48 56 -63 -3 -22 -39 27 -109 107 -109 125 0 18
     16 7 39 -26z"
-    fill={getTableColor(4)}
-    />
-    </g>
-    <g onClick={() => handleTableClick(5)} pointerEvents="bounding-box">
-    <path d="M2368 1825 c-76 -58 -136 -155 -95 -155 7 0 30 -17 50 -38 34 -35 37
+            fill={getTableColor(4)}
+          />
+        </g>
+        <g onClick={() => handleTableClick(5)} pointerEvents="bounding-box">
+          <path
+            d="M2368 1825 c-76 -58 -136 -155 -95 -155 7 0 30 -17 50 -38 34 -35 37
     -43 37 -94 0 -52 -3 -60 -37 -95 -21 -22 -46 -42 -55 -46 -25 -9 -22 -27 13
     -75 25 -34 116 -112 131 -112 2 0 26 26 52 58 l48 58 60 -2 c52 -1 63 -5 94
     -35 18 -18 34 -39 34 -46 0 -46 86 2 148 82 45 59 48 73 21 84 -13 5 -39 24
@@ -212,12 +226,13 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     12 0 72 66 80 87 11 29 17 29 51 -4z m34 -88 c-30 -38 -114 -110 -121 -103 -3
     3 27 38 67 79 73 75 102 88 54 24z m-541 4 c23 -32 56 -63 114 -106 2 -2 2 -6
     -2 -9 -16 -16 -157 116 -157 147 0 20 19 7 45 -32z"
-    fill={getTableColor(5)}
-    />
-    </g>
-    
-    <g onClick={() => handleTableClick(6)} pointerEvents="bounding-box">
-    <path d="M519 749 c-6 -12 -27 -37 -46 -56 -30 -31 -41 -35 -90 -36 -55 -2
+            fill={getTableColor(5)}
+          />
+        </g>
+
+        <g onClick={() => handleTableClick(6)} pointerEvents="bounding-box">
+          <path
+            d="M519 749 c-6 -12 -27 -37 -46 -56 -30 -31 -41 -35 -90 -36 -55 -2
     -56 -1 -104 51 -26 28 -52 52 -58 52 -15 0 -124 -104 -144 -139 l-18 -30 28
     -18 c63 -40 82 -70 82 -130 0 -52 -3 -60 -38 -93 -21 -20 -45 -39 -54 -43 -9
     -3 -17 -15 -17 -26 0 -24 79 -113 126 -142 l35 -21 50 56 51 56 61 0 c57 0 65
@@ -238,12 +253,13 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     -65z m92 56 c0 -21 -101 -125 -133 -136 -34 -11 -27 2 17 35 24 18 57 50 72
     72 29 38 44 48 44 29z m-526 -75 c42 -42 68 -75 60 -75 -18 0 -144 122 -144
     139 0 18 7 14 84 -64z"
-    fill={getTableColor(6)}
-    />
-    </g>
+            fill={getTableColor(6)}
+          />
+        </g>
 
-    <g onClick={() => handleTableClick(7)} pointerEvents="bounding-box">
-    <path d="M1584 712 l-51 -57 -57 1 c-49 1 -62 6 -88 30 -16 16 -34 39 -39 52
+        <g onClick={() => handleTableClick(7)} pointerEvents="bounding-box">
+          <path
+            d="M1584 712 l-51 -57 -57 1 c-49 1 -62 6 -88 30 -16 16 -34 39 -39 52
     -5 12 -15 22 -22 22 -37 0 -167 -129 -167 -166 0 -7 8 -15 18 -18 10 -4 33
     -22 51 -40 30 -31 34 -41 34 -91 0 -52 -4 -60 -39 -96 -21 -21 -43 -39 -50
     -39 -25 0 -24 -33 2 -69 65 -88 164 -147 164 -97 0 6 17 29 38 49 36 35 41 37
@@ -264,11 +280,12 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     25 -50z m23 -21 c-22 -38 -110 -119 -129 -119 -13 0 124 147 139 149 5 1 0
     -13 -10 -30z m-548 -18 c17 -21 47 -51 68 -67 38 -28 47 -44 25 -44 -15 0
     -138 125 -138 139 0 20 15 10 45 -28z"
-    fill={getTableColor(7)}
-    />
-    </g>
-    <g onClick={() => handleTableClick(8)} pointerEvents="bounding-box">
-    <path d="M2710 748 c-5 -13 -25 -38 -44 -57 -32 -30 -42 -33 -93 -33 -57 0
+            fill={getTableColor(7)}
+          />
+        </g>
+        <g onClick={() => handleTableClick(8)} pointerEvents="bounding-box">
+          <path
+            d="M2710 748 c-5 -13 -25 -38 -44 -57 -32 -30 -42 -33 -93 -33 -57 0
     -58 0 -105 53 -46 51 -49 52 -74 39 -39 -21 -134 -128 -134 -151 0 -11 10 -23
     23 -28 12 -5 35 -23 51 -39 24 -26 29 -39 29 -87 0 -52 -4 -60 -39 -96 -21
     -21 -44 -39 -51 -39 -43 0 -12 -71 56 -133 73 -66 76 -66 133 -3 l50 56 62 0
@@ -289,12 +306,12 @@ const  DiningRoomSVG = ({ onSelectionChange }) => {
     -47 47 c-26 26 -47 48 -47 50 0 2 9 4 20 4 24 0 110 82 110 106 0 12 8 10 34
     -13 19 -15 35 -34 35 -40z m-512 -72 c29 -33 62 -63 73 -66 22 -7 27 -25 7
     -25 -18 0 -109 83 -130 119 -28 47 -10 37 50 -28z"
-    fill={getTableColor(8)}
-    />
-    </g>
-    </g>
+            fill={getTableColor(8)}
+          />
+        </g>
+      </g>
     </svg>
-    );
-}
+  );
+};
 
 export default DiningRoomSVG;

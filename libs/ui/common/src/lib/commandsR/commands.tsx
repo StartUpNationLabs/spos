@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Box, SpeedDial, Typography } from '@mui/material';
 import NavBar from '../utils/navbar';
 //SpeedDial imports
@@ -120,7 +120,9 @@ export function Commands() {
             borderRight: '2px solid #000',
           }}
         >
-          {pathElements[pathElements.length - 1] !== 'orders' && <NavBar tables={group.tables} />}
+          {pathElements[pathElements.length - 1] !== 'orders' && (
+            <NavBar tables={group.tables} />
+          )}
           <SpeedDial
             ariaLabel="SpeedDial basic example"
             sx={{ position: 'absolute', bottom: 16, left: '2.5dvh' }}

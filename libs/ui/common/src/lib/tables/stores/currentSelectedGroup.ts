@@ -30,4 +30,3 @@ export const useCurrentSelectedGroup = create<CurrentSelectedGroupState>(
     resetTables: () => set({ tables: {} }),
   })
 );
-

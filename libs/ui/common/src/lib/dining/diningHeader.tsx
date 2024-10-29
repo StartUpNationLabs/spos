@@ -2,7 +2,21 @@ import React from 'react';
 import './diningRoomTables.css';
 import BackButton from '../utils/backButton';
 
-const DiningHeader = ({ title, hasSelection, onBackClick, onContinueClick, buttonText }) => {
+interface DiningHeaderProps {
+  title: string;
+  hasSelection: boolean;
+  onBackClick: () => void;
+  onContinueClick: () => void;
+  buttonText: string;
+}
+
+const DiningHeader = ({
+  title,
+  hasSelection,
+  onBackClick,
+  onContinueClick,
+  buttonText,
+}: DiningHeaderProps) => {
   return (
     <div className="header-container">
       <div className="header-left">
@@ -13,10 +27,7 @@ const DiningHeader = ({ title, hasSelection, onBackClick, onContinueClick, butto
       </div>
       <div className="header-right">
         {hasSelection && (
-          <button 
-            className="continue-button"
-            onClick={onContinueClick}
-          >
+          <button className="continue-button" onClick={onContinueClick}>
             {buttonText}
           </button>
         )}

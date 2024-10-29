@@ -8,8 +8,8 @@ import {
   TYPES,
 } from '@spos/services/common';
 import { useCurrentSelectedGroup } from '../tables/stores/currentSelectedGroup';
-import { ContainerContext } from "../containerHook/containerContext";
-import { useContext } from "react";
+import { ContainerContext } from '../containerHook/containerContext';
+import { useContext } from 'react';
 
 export function Offers() {
   const selectedTables = useCurrentSelectedGroup((state) => state.tables);
@@ -35,7 +35,9 @@ export function Offers() {
   } = useQuery({
     queryKey: ['offers'],
     queryFn: async () => {
-      const offerService: OfferService = container.get<OfferService>(TYPES.OfferService);
+      const offerService: OfferService = container.get<OfferService>(
+        TYPES.OfferService
+      );
       return offerService.getOffers();
     },
     refetchOnWindowFocus: 'always',

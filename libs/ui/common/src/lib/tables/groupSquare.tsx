@@ -1,8 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { Box, Button, Typography } from "@mui/material";
-import { ContainerContext } from '../containerHook/containerContext';
-import { useContext } from "react";
-import { KitchenService, TYPES } from "@spos/services/common";
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/material';
 
 export function GroupSquare(
   props: Readonly<{
@@ -12,13 +9,13 @@ export function GroupSquare(
 ) {
   const navigate = useNavigate();
   return (
-    <Box width={"fit-content"}>
+    <Box width={'fit-content'}>
       <Button
         variant="contained"
         sx={{
-          aspectRatio: 1
+          aspectRatio: 1,
         }}
-        onClick={() => navigate("/commands/" + props.groupId + '/')}
+        onClick={() => navigate('/commands/' + props.groupId + '/')}
       >
         <Box
           display="flex"
@@ -31,9 +28,9 @@ export function GroupSquare(
             variant="h4"
             component="h2"
             fontWeight="bold"
-            sx={{ wordBreak: "break-word" }}
+            sx={{ wordBreak: 'break-word' }}
           >
-            {props.tableNumbers.join(", ")}
+            {props.tableNumbers.join(', ')}
           </Typography>
         </Box>
       </Button>

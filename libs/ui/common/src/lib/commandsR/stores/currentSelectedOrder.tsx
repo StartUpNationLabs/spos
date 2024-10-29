@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 export interface CurrentSelectedOrderState {
   orders: { [category: string]: { [orderId: number]: number } };
@@ -6,12 +6,14 @@ export interface CurrentSelectedOrderState {
   resetOrders: () => void;
 }
 
-
-export const useCurrentSelectedOrder = create<CurrentSelectedOrderState>((set) => ({
-  orders: {},
-  setOrder: (category, orderId, count) => set((state) => {
-    const categoryOrders = { ...state.orders[category], [orderId]: count };
-    return { orders: { ...state.orders, [category]: categoryOrders } };
-  }),
-  resetOrders: () => set({ orders: {} }),
-}));
+export const useCurrentSelectedOrder = create<CurrentSelectedOrderState>(
+  (set) => ({
+    orders: {},
+    setOrder: (category, orderId, count) =>
+      set((state) => {
+        const categoryOrders = { ...state.orders[category], [orderId]: count };
+        return { orders: { ...state.orders, [category]: categoryOrders } };
+      }),
+    resetOrders: () => set({ orders: {} }),
+  })
+);
