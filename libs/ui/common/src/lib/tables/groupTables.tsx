@@ -1,21 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
-import { GroupService, GroupServiceWorkflow, TYPES } from "@spos/services/common";
-import { Grid2 as Grid, Typography } from "@mui/material";
-import { GroupSquare } from "./groupSquare";
-import * as React from "react";
-import { useContext } from "react";
-import { ContainerContext } from "../containerHook/containerContext";
+import { useQuery } from '@tanstack/react-query';
+import { GroupService, TYPES } from '@spos/services/common';
+import { Grid2 as Grid, Typography } from '@mui/material';
+import { GroupSquare } from './groupSquare';
+import * as React from 'react';
+import { useContext } from 'react';
+import { ContainerContext } from '../containerHook/containerContext';
 
 export function GroupTables() {
   const container = useContext(ContainerContext);
-  const { data: groupsApi, isLoading, refetch } = useQuery({
-    queryKey: ["groups"],
+  const {
+    data: groupsApi,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['groups'],
     queryFn: async () => {
       const groupService = container.get<GroupService>(TYPES.GroupService);
       return groupService.getGroups();
     },
-    refetchOnWindowFocus: "always",
-    staleTime: 0
+    refetchOnWindowFocus: 'always',
+    staleTime: 0,
   });
   if (isLoading) {
     return (
@@ -33,7 +37,7 @@ export function GroupTables() {
   }
 
   return (
-    <Grid container spacing={4} justifyContent={"center"} alignItems={"center"}>
+    <Grid container spacing={4} justifyContent={'center'} alignItems={'center'}>
       {groupsApi.map((value, index) => (
         <Grid key={index}>
           <GroupSquare

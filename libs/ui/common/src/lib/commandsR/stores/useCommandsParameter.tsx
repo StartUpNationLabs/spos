@@ -1,5 +1,5 @@
-import { create, useStore as zustandUseStore } from "zustand/index";
-import { createContext, useContext, useRef } from "react";
+import { create, useStore as zustandUseStore } from 'zustand/index';
+import { createContext, useContext, useRef } from 'react';
 
 interface CommandsState {
   groupId: string;
@@ -10,18 +10,17 @@ interface CommandsState {
   setOfferType: (offerType: string) => void;
 }
 
-const createStore = () => create<CommandsState>(set => ({
-  groupId: '',
-  tableNumber: -1,
-  offerType: '',
-  setGroupId: (groupId: string) => set({ groupId }),
-  setTableNumber: (tableNumber: number) => set({ tableNumber }),
-  setOfferType: (offerType: string) => set({ offerType }),
-}));
+const createStore = () =>
+  create<CommandsState>((set) => ({
+    groupId: '',
+    tableNumber: -1,
+    offerType: '',
+    setGroupId: (groupId: string) => set({ groupId }),
+    setTableNumber: (tableNumber: number) => set({ tableNumber }),
+    setOfferType: (offerType: string) => set({ offerType }),
+  }));
 
-
-
-const StoreContext = createContext(null)
+const StoreContext = createContext(null);
 
 export const CommandsParameterStoreProvider = ({ children }) => {
   const storeRef = useRef<any>();
@@ -31,15 +30,15 @@ export const CommandsParameterStoreProvider = ({ children }) => {
   return (
     <StoreContext.Provider value={storeRef.current}>
       {children}
-      </StoreContext.Provider>
+    </StoreContext.Provider>
   );
 };
 const useCommandsParameter = (selector) => {
-  const store = useContext(StoreContext)
+  const store = useContext(StoreContext);
   if (!store) {
-    throw new Error('Missing StoreProvider')
+    throw new Error('Missing StoreProvider');
   }
-  return zustandUseStore(store, selector)
-}
+  return zustandUseStore(store, selector);
+};
 
 export default useCommandsParameter;

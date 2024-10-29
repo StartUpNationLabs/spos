@@ -1,23 +1,26 @@
-import { Button, Typography, Box } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
-import NavBar from "../utils/navbar";
-import { setSelectedTableById, tablesMenu } from '../utils/tableUtils';
-import BackButton from "../utils/backButton";
-import { BillingService, GroupService, Item, MonsieurAxelMenvoie2, TableItem, TableSummary, TYPES } from "@spos/services/common";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import useCommandsParameter from "../commandsR/stores/useCommandsParameter";
-import useTableBillingStore from "./stores/paymentStore";
-import NumberInput from "../tables/nbPeopleSelector";
-import CustomizedTableForTableBilling from "./customizedTableForTableBilling";
-import { ContainerContext } from "../containerHook/containerContext";
+import { Box, Button, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import NavBar from '../utils/navbar';
+import BackButton from '../utils/backButton';
+import {
+  BillingService,
+  GroupService,
+  MonsieurAxelMenvoie2,
+  TYPES,
+} from '@spos/services/common';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
+import useTableBillingStore from './stores/paymentStore';
+import CustomizedTableForTableBilling from './customizedTableForTableBilling';
+import { ContainerContext } from '../containerHook/containerContext';
 
 const theme = {
   hr: {
     border: 'none',
     borderTop: '1px solid rgba(0, 0, 0, 1)',
-    margin: '20px 0'
-  }
+    margin: '20px 0',
+  },
 };
 
 export function TableBilling() {
@@ -25,20 +28,23 @@ export function TableBilling() {
   const { groupId } = useParams();
   const container = useContext(ContainerContext);
 
-  const { elementToBePaid, updateItem, resetPaymentStore } = useTableBillingStore(state => state);
+  const { elementToBePaid, updateItem, resetPaymentStore } =
+    useTableBillingStore((state) => state);
 
   const queryClient = useQueryClient();
-  const tableNumber = useCommandsParameter(state => state.tableNumber);
+  const tableNumber = useCommandsParameter((state) => state.tableNumber);
 
-  if (!groupId || groupId === "") {
-    navigate("/");
+  if (!groupId || groupId === '') {
+    navigate('/');
   }
   console.log(groupId);
 
   const mutation = useMutation({
     mutationFn: (payment: MonsieurAxelMenvoie2) => {
       console.log(payment);
-      return container.get<BillingService>(TYPES.BillingService).partialPayment(payment);
+      return container
+        .get<BillingService>(TYPES.BillingService)
+        .partialPayment(payment);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({
@@ -54,7 +60,7 @@ export function TableBilling() {
     },
     onError: (error) => {
       console.log(error);
-    }
+    },
   });
 
   const {
@@ -65,10 +71,12 @@ export function TableBilling() {
   } = useQuery({
     queryKey: ['billingSummary', groupId],
     queryFn: async () => {
-      const billingService: BillingService = container.get<BillingService>(TYPES.BillingService);
+      const billingService: BillingService = container.get<BillingService>(
+        TYPES.BillingService
+      );
       return billingService.getBillingSummary(groupId);
     },
-    enabled: groupId !== undefined && groupId !== "",
+    enabled: groupId !== undefined && groupId !== '',
     refetchOnWindowFocus: 'always',
   });
 
@@ -80,16 +88,17 @@ export function TableBilling() {
   } = useQuery({
     queryKey: ['group', groupId],
     queryFn: async () => {
-      const groupService: GroupService = container.get<GroupService>(TYPES.GroupService);
+      const groupService: GroupService = container.get<GroupService>(
+        TYPES.GroupService
+      );
       return groupService.getGroup(groupId);
     },
-    enabled: groupId !== undefined && groupId !== "",
+    enabled: groupId !== undefined && groupId !== '',
     refetchOnWindowFocus: 'always',
   });
 
   useEffect(() => {
-    if (group)
-      resetPaymentStore(group.id)
+    if (group) resetPaymentStore(group.id);
   }, [group, resetPaymentStore]);
 
   if (isLoadingBilling || isLoadingGroup) {
@@ -117,26 +126,43 @@ export function TableBilling() {
     );
   }
 
-  const currentTableSummary = billingSummary.find(element => element.number === tableNumber) || { number: tableNumber, elements: [] };
+  const currentTableSummary = billingSummary.find(
+    (element) => element.number === tableNumber
+  ) || {
+    number: tableNumber,
+    elements: [],
+  };
 
   const getTotalPrice = () => {
     let result = 0;
 
-    Object.keys(elementToBePaid).forEach(table => {
-      result += elementToBePaid[parseInt(table)].reduce((sum, { quantityPaid, price }) => {
-        return sum + quantityPaid * price;
-      }, 0);
-    })
+    Object.keys(elementToBePaid).forEach((table) => {
+      result += elementToBePaid[parseInt(table)].reduce(
+        (sum, { quantityPaid, price }) => {
+          return sum + quantityPaid * price;
+        },
+        0
+      );
+    });
 
     return result;
-  }
+  };
 
   const handleSelectAll = () => {
-    currentTableSummary.elements.forEach(tableItem => updateItem(tableNumber, tableItem.item.id, tableItem.remaining, tableItem.item.price))
+    currentTableSummary.elements.forEach((tableItem) =>
+      updateItem(
+        tableNumber,
+        tableItem.item.id,
+        tableItem.remaining,
+        tableItem.item.price
+      )
+    );
   };
 
   const handleUnselectAll = () => {
-    currentTableSummary.elements.forEach(tableItem => updateItem(tableNumber, tableItem.item.id, 0, tableItem.item.price))
+    currentTableSummary.elements.forEach((tableItem) =>
+      updateItem(tableNumber, tableItem.item.id, 0, tableItem.item.price)
+    );
   };
 
   const validatePayment = () => {
@@ -144,45 +170,85 @@ export function TableBilling() {
 
     mutation.mutate({
       groupId: groupId ?? '',
-      elementToBePaid: elementToBePaid
-    })
-  }
-
+      elementToBePaid: elementToBePaid,
+    });
+  };
 
   function onClickBackButton() {
     console.log('clicked on back button... redirection to be implemented');
-    navigate("/commands/" + groupId);
+    navigate('/commands/' + groupId);
   }
 
   return (
     <Box sx={{ minHeight: '100dvh', display: 'flex', flexDirection: 'row' }}>
-      <Box sx={{ boxSizing: 'border-box', width: 'fit-content', borderRight: '2px solid #000' }}>
+      <Box
+        sx={{
+          boxSizing: 'border-box',
+          width: 'fit-content',
+          borderRight: '2px solid #000',
+        }}
+      >
         <NavBar tables={group.tables} />
       </Box>
-      <Box id="test" sx={{
-        boxSizing: 'border-box', backgroundColor: '#d9d9d9', flexGrow: 1,
-        paddingTop: '5dvh', paddingLeft: '5dvw', paddingRight: '5dvw'
-      }}>
+      <Box
+        id="test"
+        sx={{
+          boxSizing: 'border-box',
+          backgroundColor: '#d9d9d9',
+          flexGrow: 1,
+          paddingTop: '5dvh',
+          paddingLeft: '5dvw',
+          paddingRight: '5dvw',
+        }}
+      >
         <div id="billing-section" style={{ minHeight: '75dvh' }}>
-          <BackButton onClick={onClickBackButton} color={'black'} top={20} left={150}></BackButton>
-          <Typography variant="h2" component="h2" sx={{ fontSize: '8vw', fontWeight: 'bold', textAlign: 'center' }}>
+          <BackButton
+            onClick={onClickBackButton}
+            color={'black'}
+            top={20}
+            left={150}
+          ></BackButton>
+          <Typography
+            variant="h2"
+            component="h2"
+            sx={{ fontSize: '8vw', fontWeight: 'bold', textAlign: 'center' }}
+          >
             Billing
           </Typography>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Typography variant="h3" component="h3"
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Typography
+              variant="h3"
+              component="h3"
               sx={{
-                fontSize: '5vw', fontWeight: 'bold', textDecoration: 'underline',
-                margin: '2vh 0'
-              }}>
-              {"Table " + tableNumber}
+                fontSize: '5vw',
+                fontWeight: 'bold',
+                textDecoration: 'underline',
+                margin: '2vh 0',
+              }}
+            >
+              {'Table ' + tableNumber}
             </Typography>
             <div>
-              <Button onClick={handleSelectAll} variant="contained" color="inherit"
-                sx={{ borderRadius: '50px', fontSize: '3vw' }}>
+              <Button
+                onClick={handleSelectAll}
+                variant="contained"
+                color="inherit"
+                sx={{ borderRadius: '50px', fontSize: '3vw' }}
+              >
                 Select All
               </Button>
-              <Button onClick={handleUnselectAll} variant="contained" color="inherit"
-                sx={{ borderRadius: '50px', fontSize: '3vw' }}>
+              <Button
+                onClick={handleUnselectAll}
+                variant="contained"
+                color="inherit"
+                sx={{ borderRadius: '50px', fontSize: '3vw' }}
+              >
                 Unselect All
               </Button>
             </div>
@@ -193,20 +259,39 @@ export function TableBilling() {
         </div>
         <Box sx={{ padding: '3vh 5vw', backgroundColor: '#d9d9d9' }}>
           <hr style={theme.hr} />
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="body1" component="span" fontWeight={400} fontSize={'3vw'}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Typography
+              variant="body1"
+              component="span"
+              fontWeight={400}
+              fontSize={'3vw'}
+            >
               Total: ${getTotalPrice()}
             </Typography>
-            <Button onClick={validatePayment} variant="contained" color="inherit"
-              sx={{ padding: '20px 50px', borderRadius: '50px', fontSize: '4vw' }}
-              disabled={mutation.isPending}>
+            <Button
+              onClick={validatePayment}
+              variant="contained"
+              color="inherit"
+              sx={{
+                padding: '20px 50px',
+                borderRadius: '50px',
+                fontSize: '4vw',
+              }}
+              disabled={mutation.isPending}
+            >
               Paid
             </Button>
           </Box>
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
 
 export default TableBilling;

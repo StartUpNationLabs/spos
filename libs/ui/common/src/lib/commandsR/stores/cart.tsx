@@ -1,47 +1,64 @@
-import { create, useStore as zustandUseStore } from "zustand/index";
-import { createContext, useContext, useRef } from "react";
+import { create, useStore as zustandUseStore } from 'zustand/index';
+import { createContext, useContext, useRef } from 'react';
 
 export interface CartsState {
-  carts: {[tableNumber: number]: {itemId: string, shortName: string, quantity: number}[]};
-  updateItem: (tableNumber: number ,itemId: string, shortName: string, quantity: number) => void;
+  carts: {
+    [tableNumber: number]: {
+      itemId: string;
+      shortName: string;
+      quantity: number;
+    }[];
+  };
+  updateItem: (
+    tableNumber: number,
+    itemId: string,
+    shortName: string,
+    quantity: number
+  ) => void;
   resetCart: (tableNumber: number) => void;
 }
 
-export const createStore = () => create<CartsState>((set) => ({
-  carts: {},
-  updateItem: (tableNumber, itemId, shortName, quantity) => set((state) => {
-    const currentCart =  state.carts[tableNumber] || [];
+export const createStore = () =>
+  create<CartsState>((set) => ({
+    carts: {},
+    updateItem: (tableNumber, itemId, shortName, quantity) =>
+      set((state) => {
+        const currentCart = state.carts[tableNumber] || [];
 
-    const itemIndex = currentCart.findIndex(element => element.itemId === itemId);
+        const itemIndex = currentCart.findIndex(
+          (element) => element.itemId === itemId
+        );
 
-    return {
-      carts: {
-        ...state.carts,
-        [tableNumber]:  // Use square brackets to use the variable `tableNumber` as a key
-        (itemIndex === -1) ? [...currentCart, {itemId, shortName, quantity}].filter(element => element.quantity > 0)
-        : currentCart.map(element => {
-          if (element.itemId === itemId) {
-            element.quantity = quantity;
-          }
-          return element;
-        }).filter(element => element.quantity > 0)
-      }
-    };
-  }),
-  resetCart: (tableNumber) =>
-    set((state) => ({
-      carts: {
-        ...state.carts,
-        [tableNumber]: [],
-      },
-    })
-  ),
-  })
-);
+        return {
+          carts: {
+            ...state.carts,
+            // Use square brackets to use the variable `tableNumber` as a key
+            [tableNumber]:
+              itemIndex === -1
+                ? [...currentCart, { itemId, shortName, quantity }].filter(
+                    (element) => element.quantity > 0
+                  )
+                : currentCart
+                    .map((element) => {
+                      if (element.itemId === itemId) {
+                        element.quantity = quantity;
+                      }
+                      return element;
+                    })
+                    .filter((element) => element.quantity > 0),
+          },
+        };
+      }),
+    resetCart: (tableNumber) =>
+      set((state) => ({
+        carts: {
+          ...state.carts,
+          [tableNumber]: [],
+        },
+      })),
+  }));
 
-
-
-const StoreContext = createContext(null)
+const StoreContext = createContext(null);
 
 export const CartStoreProvider = ({ children }) => {
   const storeRef = useRef<any>();
@@ -51,15 +68,15 @@ export const CartStoreProvider = ({ children }) => {
   return (
     <StoreContext.Provider value={storeRef.current}>
       {children}
-      </StoreContext.Provider>
+    </StoreContext.Provider>
   );
 };
 export const useCarts = (selector) => {
-  const store = useContext(StoreContext)
+  const store = useContext(StoreContext);
   if (!store) {
-    throw new Error('Missing StoreProvider')
+    throw new Error('Missing StoreProvider');
   }
-  return zustandUseStore(store, selector)
-}
+  return zustandUseStore(store, selector);
+};
 
 export default useCarts;

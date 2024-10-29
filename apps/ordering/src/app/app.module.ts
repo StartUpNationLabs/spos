@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { OrderingController } from './ordering.controller';
 import { OrderingService } from './ordering.service';
 import { createClient } from 'redis';
-import { Configuration, RemoteBillingApi, RemoteGroupApi } from '@spos/clients-bff';
+import { Configuration, RemoteGroupApi } from '@spos/clients-bff';
 import { DiningApiService, MenuApiService } from '@spos/services/common';
 
 @Module({

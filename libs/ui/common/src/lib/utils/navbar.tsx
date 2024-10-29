@@ -1,28 +1,30 @@
 import { Box, Button, Typography } from '@mui/material';
-import { Table } from "@spos/services/common";
-import useCommandsParameter from "../commandsR/stores/useCommandsParameter";
+import { Table } from '@spos/services/common';
+import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
 
 interface NavBarProps {
   tables: Table[];
 }
 
-
 export function NavBar(props: Readonly<NavBarProps>) {
   const tables = props.tables.map((table) => table.number);
-  const setSelectedTable = useCommandsParameter((state) => state.setTableNumber);
+  const setSelectedTable = useCommandsParameter(
+    (state) => state.setTableNumber
+  );
   const selectedTable = useCommandsParameter((state) => state.tableNumber);
   const handleTableSelection = (table: number) => {
     setSelectedTable(table);
   };
 
-
   return (
-    <Box sx={{
-      display: 'flex',
-      height: '100vh',
-      alignItems: 'flex-start',
-      backgroundColor: 'lightgray',
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100vh',
+        alignItems: 'flex-start',
+        backgroundColor: 'lightgray',
+      }}
+    >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {tables.map((table: number) => (
           <Button

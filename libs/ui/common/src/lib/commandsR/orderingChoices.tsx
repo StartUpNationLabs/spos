@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import BackButton from '../utils/backButton';
 import './orderingChoices.css';
 import { useCarts } from './stores/cart';
@@ -14,17 +14,18 @@ export type Cart = {
   itemId: string;
   shortName: string;
   quantity: number;
-}[]
+}[];
 
 export function OrderingChoices() {
   const navigate = useNavigate();
   const { groupId, tableNumber, offerType } = useCommandsParameter();
 
-  const currentTableCart: Cart = (useCarts(state => state.carts)[tableNumber] || []);
+  const currentTableCart: Cart =
+    useCarts((state) => state.carts)[tableNumber] || [];
   const haveCurrentCommand = currentTableCart.length > 0;
   const container = React.useContext(ContainerContext);
 
-  const updateItem = useCarts(state => state.updateItem);
+  const updateItem = useCarts((state) => state.updateItem);
   const {
     data: catalog,
     isLoading,
@@ -33,7 +34,9 @@ export function OrderingChoices() {
   } = useQuery({
     queryKey: ['catalog', offerType],
     queryFn: async () => {
-      const catalogService: CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
+      const catalogService: CatalogueService = container.get<CatalogueService>(
+        TYPES.CatalogueService
+      );
       return catalogService.getFilteredCatalog(offerType);
     },
     enabled: tableNumber !== -1 && offerType !== '',
@@ -66,16 +69,18 @@ export function OrderingChoices() {
   }
 
   function handleSelectItem(itemId: string, shortName: string) {
-    if (currentTableCart.find(element => element.shortName === shortName) !== undefined) {
+    if (
+      currentTableCart.find((element) => element.shortName === shortName) !==
+      undefined
+    ) {
       updateItem(tableNumber, itemId, shortName, 0);
-    }
-    else {
+    } else {
       updateItem(tableNumber, itemId, shortName, 1);
     }
   }
 
   function onClickBackButton() {
-    navigate("/");
+    navigate('/');
   }
 
   return (
@@ -93,21 +98,43 @@ export function OrderingChoices() {
         left: '0',
       }}
     >
-
-      <BackButton onClick={onClickBackButton} color={'black'} top={20} left={10} />
-      <Box className="custom-scrollbar" sx={{ overflowY: 'auto', height: '85dvh' }}>
+      <BackButton
+        onClick={onClickBackButton}
+        color={'black'}
+        top={20}
+        left={10}
+      />
+      <Box
+        className="custom-scrollbar"
+        sx={{ overflowY: 'auto', height: '85dvh' }}
+      >
         {Object.keys(catalog).map((category) => (
           <Box key={category} sx={{ marginBottom: '24px' }}>
             <Typography variant="h6">{category}</Typography>
             <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {catalog[category].length > 0 ? (
                 catalog[category].map((item) => {
-                  const isSelected = Boolean(currentTableCart.find(element => element.itemId === item._id));
+                  const isSelected = Boolean(
+                    currentTableCart.find(
+                      (element) => element.itemId === item._id
+                    )
+                  );
 
                   return (
-                    <Box key={item._id} sx={{ display: 'inline', flexDirection: 'column', alignItems: 'center' }}>
-                      <Item item={item} tableNumber={tableNumber} isSelected={isSelected}
-                        handleSelectItem={handleSelectItem} />
+                    <Box
+                      key={item._id}
+                      sx={{
+                        display: 'inline',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Item
+                        item={item}
+                        tableNumber={tableNumber}
+                        isSelected={isSelected}
+                        handleSelectItem={handleSelectItem}
+                      />
                     </Box>
                   );
                 })
@@ -118,26 +145,32 @@ export function OrderingChoices() {
           </Box>
         ))}
       </Box>
-      {haveCurrentCommand &&
-        <Button sx={{
-          margin: "auto",
-          alignItems: "center"
-        }} variant="contained"
-          onClick={() => navigate("/commands/" + groupId + "/summary")}>
+      {haveCurrentCommand && (
+        <Button
+          sx={{
+            margin: 'auto',
+            alignItems: 'center',
+          }}
+          variant="contained"
+          onClick={() => navigate('/commands/' + groupId + '/summary')}
+        >
           Summary
-        </Button>}
-      {!haveCurrentCommand &&
-        <Button sx={{
-          margin: "auto",
-          alignItems: "center"
-        }} variant="contained"
-          onClick={() => navigate("/commands/" + groupId + "/orders")}>
+        </Button>
+      )}
+      {!haveCurrentCommand && (
+        <Button
+          sx={{
+            margin: 'auto',
+            alignItems: 'center',
+          }}
+          variant="contained"
+          onClick={() => navigate('/commands/' + groupId + '/orders')}
+        >
           Orders
         </Button>
-      }
+      )}
     </Box>
   );
-};
+}
 
 export default OrderingChoices;
-

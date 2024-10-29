@@ -1,32 +1,30 @@
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
 
 import { PreparationDto } from '@spos/clients-dining';
 import { PreparationItem } from './preparationItem';
 
-
-
-export function PreparationTable(props : {preparation: PreparationDto[]}) {
-    return(
+export function PreparationTable(props: { preparation: PreparationDto[] }) {
+  return (
     <Table size="small" aria-label="purchases">
-        <TableHead>
+      <TableHead>
         <TableRow>
-            <TableCell>id</TableCell>
-            <TableCell>shouldBeReadyAt</TableCell>
-            <TableCell>action</TableCell>
-
+          <TableCell>id</TableCell>
+          <TableCell>shouldBeReadyAt</TableCell>
+          <TableCell>action</TableCell>
         </TableRow>
-        </TableHead>
-        <TableBody>
+      </TableHead>
+      <TableBody>
         {props.preparation.map((preparation) => (
-            <PreparationItem key={preparation._id} preparation={preparation}></PreparationItem>
+          <PreparationItem
+            key={preparation._id}
+            preparation={preparation}
+          ></PreparationItem>
         ))}
-        </TableBody>
+      </TableBody>
     </Table>
-    )
+  );
 }

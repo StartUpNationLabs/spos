@@ -8,8 +8,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 type SummararyTableProps = {
-  cart: { itemId: string, shortName: string; quantity: number, price: number }[]
-}
+  cart: {
+    itemId: string;
+    shortName: string;
+    quantity: number;
+    price: number;
+  }[];
+};
 
 export function SummaryTable(props: SummararyTableProps) {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -33,24 +38,31 @@ export function SummaryTable(props: SummararyTableProps) {
     },
   }));
 
-  function createData(
-    name: string,
-    quantity: number,
-    price: number
-  ) {
+  function createData(name: string, quantity: number, price: number) {
     return { name, quantity, price };
   }
 
-  const rows = props.cart.map(element => createData(element.shortName, element.quantity, element.price));
+  const rows = props.cart.map((element) =>
+    createData(element.shortName, element.quantity, element.price)
+  );
 
   return (
-    <TableContainer component={Paper} sx={{ marginTop: "20px", marginBottom: "20px" }}>
+    <TableContainer
+      component={Paper}
+      sx={{ marginTop: '20px', marginBottom: '20px' }}
+    >
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="left" width="30%">Name</StyledTableCell>
-            <StyledTableCell align="right" width="30%">Quantity</StyledTableCell>
-            <StyledTableCell align="right" width="30%">Price &nbsp;($)</StyledTableCell>
+            <StyledTableCell align="left" width="30%">
+              Name
+            </StyledTableCell>
+            <StyledTableCell align="right" width="30%">
+              Quantity
+            </StyledTableCell>
+            <StyledTableCell align="right" width="30%">
+              Price &nbsp;($)
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -59,8 +71,12 @@ export function SummaryTable(props: SummararyTableProps) {
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right" width="30%">{row.quantity}</StyledTableCell>
-              <StyledTableCell align="right" width="30%">{row.quantity * row.price}</StyledTableCell>
+              <StyledTableCell align="right" width="30%">
+                {row.quantity}
+              </StyledTableCell>
+              <StyledTableCell align="right" width="30%">
+                {row.quantity * row.price}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -1,11 +1,17 @@
 import './summary.css';
-import { Button, Typography, Box } from "@mui/material";
+import { Box, Button, Typography } from '@mui/material';
 import * as React from 'react';
 import BackButton from '../utils/backButton';
 import { useCarts } from '../commandsR/stores/cart';
 import { ContainerContext } from '../containerHook/containerContext';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { CatalogueService, CategorizedCatalog, KitchenService, MonsieurAxelMenvoie, TYPES } from '@spos/services/common';
+import {
+  CatalogueService,
+  CategorizedCatalog,
+  KitchenService,
+  MonsieurAxelMenvoie,
+  TYPES,
+} from '@spos/services/common';
 import { useNavigate } from 'react-router-dom';
 import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
 import SummaryTable from './summaryTable';
@@ -14,7 +20,7 @@ export function Summary() {
   const { groupId, tableNumber, offerType } = useCommandsParameter();
 
   const cart = useCarts();
-  const resetCart = useCarts(state => state.resetCart);
+  const resetCart = useCarts((state) => state.resetCart);
   const navigate = useNavigate();
   const currentTableCart = cart.carts[tableNumber] || [];
 
@@ -23,16 +29,17 @@ export function Summary() {
   const mutation = useMutation({
     mutationFn: (order: MonsieurAxelMenvoie) => {
       console.log(order);
-      return container.get<KitchenService>(TYPES.KitchenService).sendToKitchen(order);
+      return container
+        .get<KitchenService>(TYPES.KitchenService)
+        .sendToKitchen(order);
     },
     onSuccess: (data) => {
       navigate(`/commands/${groupId}/`);
     },
     onError: (error) => {
       console.log(error);
-    }
+    },
   });
-
 
   const {
     data: catalog,
@@ -42,7 +49,9 @@ export function Summary() {
   } = useQuery({
     queryKey: ['catalog'],
     queryFn: async () => {
-      const catalogService: CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
+      const catalogService: CatalogueService = container.get<CatalogueService>(
+        TYPES.CatalogueService
+      );
       return catalogService.getFilteredCatalog(offerType);
     },
     refetchOnWindowFocus: 'always',
@@ -65,22 +74,33 @@ export function Summary() {
   }
   let totalPrice = 0;
 
-  currentTableCart.forEach(element => {
-    Object.keys(catalog).forEach(category => {
-      catalog[category].forEach(item => {
+  currentTableCart.forEach((element) => {
+    Object.keys(catalog).forEach((category) => {
+      catalog[category].forEach((item) => {
         if (item._id === element.itemId) {
           totalPrice += element.quantity * item.price;
         }
-      })
-    })
+      });
+    });
   });
 
   const cartByCategory = () => {
-    const result: { [category: string]: { itemId: string, shortName: string, quantity: number, price: number }[] } = {};
+    const result: {
+      [category: string]: {
+        itemId: string;
+        shortName: string;
+        quantity: number;
+        price: number;
+      }[];
+    } = {};
 
     for (const item of currentTableCart) {
-      for (const category of Object.keys(catalog ?? {} as CategorizedCatalog)) {
-        for (const element of (catalog ?? {} as CategorizedCatalog)[category]) {
+      for (const category of Object.keys(
+        catalog ?? ({} as CategorizedCatalog)
+      )) {
+        for (const element of (catalog ?? ({} as CategorizedCatalog))[
+          category
+        ]) {
           if (item.itemId === element._id) {
             if (!result[category]) {
               result[category] = [];
@@ -89,7 +109,7 @@ export function Summary() {
               itemId: item.itemId,
               quantity: item.quantity,
               shortName: item.shortName,
-              price: element.price
+              price: element.price,
             });
           }
         }
@@ -97,13 +117,13 @@ export function Summary() {
     }
 
     return result;
-  }
+  };
 
   function sendToKitchen() {
     mutation.mutate({
       groupId: groupId,
       tableNumber: tableNumber,
-      cart: currentTableCart
+      cart: currentTableCart,
     });
 
     resetCart(tableNumber);
@@ -124,44 +144,81 @@ export function Summary() {
         left: '0',
       }}
     >
-      < Box>
-        <BackButton onClick={() => navigate(`/commands/${groupId}/`)} color={'black'} top={20} left={20} />
-        <Typography align='center'
+      <Box>
+        <BackButton
+          onClick={() => navigate(`/commands/${groupId}/`)}
+          color={'black'}
+          top={20}
+          left={20}
+        />
+        <Typography
+          align="center"
           variant="h1"
           component="h2"
           fontSize="7.5vw"
           fontWeight="bold"
-          style={{ color: 'black' }}>
+          style={{ color: 'black' }}
+        >
           Summary
         </Typography>
 
-        <Box width='95%' marginLeft='5%' marginTop="7%" paddingRight="10px" bgcolor='#FFFFFF' sx={{ display: "flex", flexDirection: "column", alignItem: "center", justifyContent: "center" }}>
-          <Box className="custom-scrollbar" height="70vh" overflow="auto" paddingRight="30px">
+        <Box
+          width="95%"
+          marginLeft="5%"
+          marginTop="7%"
+          paddingRight="10px"
+          bgcolor="#FFFFFF"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItem: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Box
+            className="custom-scrollbar"
+            height="70vh"
+            overflow="auto"
+            paddingRight="30px"
+          >
             {Object.keys(catalog).map((category) => {
-              return (
-                (cartByCategory()[category] ?? []).length > 0 ?
-                  <Box key={category}>
-                    <Typography fontSize="4.5vw"
-                      fontWeight="bold"
-                      style={{ color: 'black' }}
-                      variant='h3'>{category}</Typography>
+              return (cartByCategory()[category] ?? []).length > 0 ? (
+                <Box key={category}>
+                  <Typography
+                    fontSize="4.5vw"
+                    fontWeight="bold"
+                    style={{ color: 'black' }}
+                    variant="h3"
+                  >
+                    {category}
+                  </Typography>
 
-                    <SummaryTable cart={cartByCategory()[category]} />
-                  </Box> : ''
-              )
+                  <SummaryTable cart={cartByCategory()[category]} />
+                </Box>
+              ) : (
+                ''
+              );
             })}
           </Box>
-          <Box display='flex' justifyContent="right">
-            <Typography variant="h4" component="h4" fontSize="4vw" fontWeight="bold">
+          <Box display="flex" justifyContent="right">
+            <Typography
+              variant="h4"
+              component="h4"
+              fontSize="4vw"
+              fontWeight="bold"
+            >
               Total : ${totalPrice}
             </Typography>
           </Box>
 
-          <Button sx={{
-            margin: "auto",
-            alignItem: 'center',
-          }} variant="contained"
-            onClick={() => sendToKitchen()}>
+          <Button
+            sx={{
+              margin: 'auto',
+              alignItem: 'center',
+            }}
+            variant="contained"
+            onClick={() => sendToKitchen()}
+          >
             Kitchen
           </Button>
         </Box>
