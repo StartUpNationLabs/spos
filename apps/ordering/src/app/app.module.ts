@@ -14,7 +14,7 @@ import { DiningApiService, MenuApiService } from '@spos/services/common';
     {
       provide: 'REDIS_CLIENT',
       useFactory: async () => {
-        let url = 'http://localhost:3000';
+        let url = 'redis://localhost:6379';
         if(process.env['REDIS_URL']) {
           url = process.env['REDIS_URL'];
         }
