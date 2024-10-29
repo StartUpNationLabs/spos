@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Link, Route, Routes } from 'react-router-dom';
-import { PayementAsignee, DiningRoomTables} from '@spos/ui/common';
+import { PayementAsignee, DiningRoomTables, MealSelectionForPayment} from '@spos/ui/common';
 
 export function App() {
   return (
@@ -8,6 +8,8 @@ export function App() {
       <Routes>
         <Route path="/payementAsignee" element={<PayementAsignee />} />
         <Route path="/diningRoomTables" element={<DiningRoomTables />} />
+        <Route path="/mealSelectionForPayment" element={<MealSelectionForPayment />} />
+
 
 
         
