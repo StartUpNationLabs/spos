@@ -1,31 +1,31 @@
 import React, { useState } from 'react';
-import './DiningRoomTables.css';
+import './diningRoomTables.css';
 import BackButton from '../utils/backButton';
 import DiningRoomSVG from './diningRoomSvg';
+import DiningHeader from './diningHeader';
 
 export function DiningRoomTables() {
   const [hasSelection, setHasSelection] = useState(false);
 
+  const handleBackClick = () => {
+    console.log('Back button clicked');
+  };
+
+  const handleContinueClick = () => {
+    console.log('Continue button clicked');
+  };
+
   return (
     <div className="dining-room-container">
-      <div className="header-container">
-        <div className="header-left">
-          <BackButton onClick={() => console.log("back")}/>
-        </div>
-        <div className="header-center">
-          <h2 className="dining-room-title">Select Tables</h2>
-        </div>
-        <div className="header-right">
-          {hasSelection && (
-            <button 
-              className="continue-button"
-              onClick={() => console.log("continue")}
-            >
-              Continue
-            </button>
-          )}
-        </div>
-      </div>
+      
+      <DiningHeader 
+        title="Select Tables"
+        hasSelection={hasSelection}
+        onBackClick={handleBackClick}
+        onContinueClick={handleContinueClick}
+        buttonText={"Continue"}
+      
+      />
       <div className="dining-room-tables">
           <DiningRoomSVG onSelectionChange={setHasSelection} /> 
       </div>
