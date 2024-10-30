@@ -1,7 +1,7 @@
 import React from 'react';
-import './payementAsignee.css';
-import BackButton from '../utils/backButton';
-import CloseButton from '../utils/closeButton';
+import IconButton from '@mui/material/IconButton';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export function PayementAsignee() {
   // propriétés communes des BackButton
@@ -41,16 +41,129 @@ export function PayementAsignee() {
   ];
 
   return (
-    <div className="payer-chooser">
-      <div className="button-wrapper">
-        <CloseButton
-          onClick={() => alert('Close')}
-          width="200px"
-          height="200px"
-        />
-        {buttonPositions.map((position, index) => (
-          <BackButton key={index} {...buttonProps} {...position} />
-        ))}
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        aspectRatio: '1/1',
+        gap: '0px',
+      }}
+    >
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <IconButton>
+          <ArrowOutwardIcon
+            style={{
+              fontSize: '150px',
+              transform: `rotate(-90deg)`,
+            }}
+          />
+        </IconButton>
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      />
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <IconButton>
+          <ArrowOutwardIcon
+            style={{
+              fontSize: '150px',
+              transform: `rotate(0deg)`,
+            }}
+          />
+        </IconButton>
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      />
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <IconButton>
+          <CancelIcon
+            style={{
+              fontSize: '150px',
+              transform: `rotate(180deg)`,
+            }}
+          />
+        </IconButton>
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      />
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <IconButton>
+          <ArrowOutwardIcon
+            style={{
+              fontSize: '150px',
+              transform: `rotate(180deg)`,
+            }}
+          />
+        </IconButton>
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      />
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <IconButton>
+          <ArrowOutwardIcon
+            style={{
+              fontSize: '150px',
+              transform: `rotate(90deg)`,
+            }}
+          />
+        </IconButton>
       </div>
     </div>
   );
