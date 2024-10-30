@@ -1,9 +1,10 @@
 import { PaymentResponseItemDetailsDTO } from './payment-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { AnnotatedItem, AnnotatedTableItem } from '@spos/clients-bff';
 
-export class SelectedItemDTO {
+export class SelectedItemDTO implements AnnotatedTableItem {
   @ApiProperty({ type: () => PaymentResponseItemDetailsDTO })
-  item: PaymentResponseItemDetailsDTO;
+  item: AnnotatedItem;
   @ApiProperty()
   selectedByCustomer: number;
   @ApiProperty()

@@ -5,12 +5,14 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PaymentController } from './payment/payment.controller';
 import { PaymentService } from './payment/payment.service';
 import { Configuration, RemoteBillingApi } from '@spos/clients-bff';
+import { BillingCacheService } from './payment/billing-cache.service';
 
 @Module({
   imports: [EventEmitterModule.forRoot()],
   controllers: [PaymentController],
   providers: [
     PaymentService,
+    BillingCacheService,
     {
       provide: 'REDIS_CLIENT',
       useFactory: async () => {

@@ -1,37 +1,40 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable, Logger } from "@nestjs/common";
 import { RedisClientType } from 'redis';
-import { Entity, EntityId, Repository } from 'redis-om';
+import { EntityId, Repository } from 'redis-om';
 import { Payment, PaymentSchema } from './payment.schema';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import {
-  AnnotatedTableItem,
-  RemoteBillingApi,
-} from '@spos/clients-bff';
+import { EventEmitter2, OnEvent } from "@nestjs/event-emitter";
+import { AnnotatedTableItem, RemoteBillingApi } from '@spos/clients-bff';
 import { ItemRequestDto } from './Item.dto';
-import { PaymentResponseItemDTO, PaymentResponseTableDTO } from './payment-response.dto';
+import {
+  PaymentResponseItemDTO,
+  PaymentResponseTableDTO,
+} from './payment-response.dto';
 import { SelectedByCustomerDTO } from './selected-by-customer.dto';
+import { BillingCacheService } from './billing-cache.service';
 
 @Injectable()
 export class PaymentService {
   private repository: Repository;
-
+  private readonly logger = new Logger(PaymentService.name, { timestamp: true });
   constructor(
+    private readonly billingCacheService: BillingCacheService,
     @Inject('REDIS_CLIENT') private readonly redisClient: RedisClientType,
     public readonly eventEmitter: EventEmitter2,
     @Inject('BILLING_API') private readonly billingsApi: RemoteBillingApi
   ) {
     this.repository = new Repository(PaymentSchema, this.redisClient);
     this.repository.createIndex().then(() => {
-      console.log('Index created');
+      this.logger.log('Index created');
     });
     this.handleUpdatePayment().then(() => {
-      console.log('Subscribed to update-payment');
+      this.logger.log('Subscribed to update-payment');
     });
   }
 
   async takeItemFromCenterTable(takeItemDto: ItemRequestDto) {
-    const { group_id, owner_id, item_short_name, amount, table_id } =
-      takeItemDto;
+    const { group_id, owner_id, item_short_name, amount, table_id } = takeItemDto;
+    this.logger.log(`Taking item from center table: ${JSON.stringify(takeItemDto)}`);
+
     const selected = await this.repository
       .search()
       .where('group_id')
@@ -49,26 +52,27 @@ export class PaymentService {
     )?.elements;
     const tableItem = tableItems.find(
       (item) => item.item.name === item_short_name
-    ) as AnnotatedTableItem & {
-      onTable: number;
-    };
+    ) as AnnotatedTableItem & { onTable: number };
+
     if (!tableItem) {
+      this.logger.error(`Item short name: ${item_short_name} not found in the table`);
       throw new HttpException(
         'item short name: ' + item_short_name + ' not found in the table',
         400
       );
     }
     if (tableItem.onTable - amount < 0) {
+      this.logger.error(`Every item of short name: ${item_short_name} is already taken`);
       throw new HttpException(
         'Every item of short name: ' + item_short_name + ' is already taken',
         400
       );
     }
     if (selected.length > 0) {
-      // increment amount
       const payment = selected[0];
       payment.amount = (payment.amount as number) + amount;
       await this.repository.save(payment);
+      this.logger.log(`Incremented amount for item: ${item_short_name}`);
       return;
     }
     const payment = {
@@ -79,7 +83,8 @@ export class PaymentService {
       amount: amount,
     };
     await this.repository.save(payment);
-    // notify payment service
+    this.logger.log(`Saved new payment for item: ${item_short_name}`);
+
     await this.redisClient.publish(
       'update-payment',
       JSON.stringify({
@@ -90,11 +95,13 @@ export class PaymentService {
         amount,
       })
     );
+    this.logger.log(`Published update-payment event for item: ${item_short_name}`);
   }
 
   async returnItemToCenterTable(returnItemDto: ItemRequestDto) {
-    const { group_id, owner_id, item_short_name, amount, table_id } =
-      returnItemDto;
+    const { group_id, owner_id, item_short_name, amount, table_id } = returnItemDto;
+    this.logger.log(`Returning item to center table: ${JSON.stringify(returnItemDto)}`);
+
     const payment = await this.repository
       .search()
       .where('group_id')
@@ -108,27 +115,30 @@ export class PaymentService {
       .return.first();
 
     if (!payment) {
+      this.logger.error(`Item short name: ${item_short_name} not found in the payment`);
       throw new HttpException(
         'item short name: ' + item_short_name + ' not found in the payment',
         400
       );
     }
     if ((payment.amount as number) < amount) {
+      this.logger.error(`Not enough amount of item short name: ${item_short_name} to return`);
       throw new HttpException(
         'Not enough amount of item short name: ' +
-          item_short_name +
-          ' to return',
+        item_short_name +
+        ' to return',
         400
       );
     }
     if ((payment.amount as number) - amount === 0) {
       await this.repository.remove(payment[EntityId]);
+      this.logger.log(`Removed payment for item: ${item_short_name}`);
     } else {
       payment.amount = (payment.amount as number) - amount;
       await this.repository.save(payment);
+      this.logger.log(`Decremented amount for item: ${item_short_name}`);
     }
 
-    // notify payment service
     await this.redisClient.publish(
       'update-payment',
       JSON.stringify({
@@ -140,14 +150,17 @@ export class PaymentService {
         amount,
       })
     );
+    this.logger.log(`Published update-payment event for item: ${item_short_name}`);
   }
 
   async getCustomerItems(group_id: string, owner_id: string): Promise<SelectedByCustomerDTO[]> {
+    this.logger.log(`Getting customer items for group_id: ${group_id}, owner_id: ${owner_id}`);
+
     const billings = (
-      await this.billingsApi.remoteBillingControllerGetBillingSummary({
+      await this.billingCacheService.getBillingSummary({
         groupId: group_id,
       })
-    ).data as SelectedByCustomerDTO[];
+    ) as SelectedByCustomerDTO[];
     const selected = await this.repository
       .search()
       .where('group_id')
@@ -181,25 +194,26 @@ export class PaymentService {
             return item.selectedByCustomer != 0;
           }),
       };
-    });
+    }) as SelectedByCustomerDTO[];
   }
 
-  async getGroupItems(group_id: string): Promise<PaymentResponseTableDTO[]>  {
+  async getGroupItems(group_id: string): Promise<PaymentResponseTableDTO[]> {
+    this.logger.log(`Getting group items for group_id: ${group_id}`);
+
     const billings = (
-      await this.billingsApi.remoteBillingControllerGetBillingSummary({
+      await this.billingCacheService.getBillingSummary({
         groupId: group_id,
       })
-    ).data as PaymentResponseTableDTO[];
+    ) as PaymentResponseTableDTO[];
     for (const billingsTable of billings) {
-      const selectedByCustomers = await this.repository
+      const selectedByCustomers = (await this.repository
         .search()
         .where('group_id')
         .equals(group_id)
         .and('table_id')
         .equals(billingsTable.number)
-        .return.all() as Payment[];
+        .return.all()) as Payment[];
 
-      // add items by short name
       const items = {} as { [key: string]: Payment };
       selectedByCustomers
         .filter((selectedItem) => {
@@ -226,10 +240,13 @@ export class PaymentService {
   }
 
   async handleUpdatePayment() {
+    this.logger.log('Handling update payment');
+
     const subscription = this.redisClient.duplicate();
     await subscription.connect();
     await subscription.subscribe('update-payment', async (message) => {
       const data = JSON.parse(message);
+      this.logger.log(`Received update-payment event: ${message}`);
       this.eventEmitter.emit('update-payment', data);
     });
   }
