@@ -11,6 +11,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import CustomizedTableForGroupBilling from './customizedTableForGroupBilling';
 import { useContext } from 'react';
 import { ContainerContext } from '../containerHook/containerContext';
+import { GroupBillingSectionPage } from './groupBillingSectionPage';
 
 export function GroupBilling() {
   const { groupId } = useParams();
@@ -139,36 +140,14 @@ export function GroupBilling() {
           Billing
         </Typography>
         <Box sx={{ overflow: 'auto', maxHeight: '70dvh' }}>
+          <BackButton
+            onClick={onClickBackButton}
+            color={'black'}
+            top={20}
+            left={20}
+          ></BackButton>
           {billingSummary.map((table, index) => (
-            <Box
-              key={index}
-              sx={{ margin: '2vh 0', backgroundColor: '#d9d9d9' }}
-            >
-              <BackButton
-                onClick={onClickBackButton}
-                color={'black'}
-                top={20}
-                left={20}
-              ></BackButton>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{
-                  fontSize: '5vw',
-                  fontWeight: 'bold',
-                  textDecoration: 'underline',
-                }}
-              >
-                {'Table ' + table.number}
-              </Typography>
-              <Box sx={{ padding: '2vh 0' }}>
-                {table.elements !== undefined && table.elements.length > 0 ? (
-                  <CustomizedTableForGroupBilling items={table.elements} />
-                ) : (
-                  ''
-                )}
-              </Box>
-            </Box>
+           <GroupBillingSectionPage table={table} index={index} />
           ))}
         </Box>
       </Box>

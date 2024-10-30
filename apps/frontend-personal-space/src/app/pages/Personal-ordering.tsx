@@ -6,11 +6,7 @@ import { CatalogueService, GroupService, TYPES } from '@spos/services/common';
 import DollarIcon from '@mui/icons-material/AttachMoney';
 import {
   Box,
-  Fab,
-  IconButton,
-  SpeedDial,
-  SpeedDialIcon,
-  Typography,
+  Fab
 } from '@mui/material';
 
 export default function PersonalOrdering() {
