@@ -30,7 +30,9 @@ const DiningHeader = ({
           <button className="continue-button" onClick={onContinueClick}>
             {buttonText}
           </button>
+          
         )}
+        
       </div>
     </div>
   );
