@@ -6,9 +6,9 @@ import { useCarts } from './stores/cart';
 import { useQuery } from '@tanstack/react-query';
 import { ContainerContext } from '../containerHook/containerContext';
 import { CatalogueService, TYPES } from '@spos/services/common';
-import { Item } from './Item';
 import useCommandsParameter from './stores/useCommandsParameter';
 import { useNavigate } from 'react-router-dom';
+import { CatalogDisplay } from './catalogDisplay';
 
 export type Cart = {
   itemId: string;
@@ -104,47 +104,7 @@ export function OrderingChoices() {
         top={20}
         left={10}
       />
-      <Box
-        className="custom-scrollbar"
-        sx={{ overflowY: 'auto', height: '85dvh' }}
-      >
-        {Object.keys(catalog).map((category) => (
-          <Box key={category} sx={{ marginBottom: '24px' }}>
-            <Typography variant="h6">{category}</Typography>
-            <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {catalog[category].length > 0 ? (
-                catalog[category].map((item) => {
-                  const isSelected = Boolean(
-                    currentTableCart.find(
-                      (element) => element.itemId === item._id
-                    )
-                  );
-
-                  return (
-                    <Box
-                      key={item._id}
-                      sx={{
-                        display: 'inline',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Item
-                        item={item}
-                        tableNumber={tableNumber}
-                        isSelected={isSelected}
-                        handleSelectItem={handleSelectItem}
-                      />
-                    </Box>
-                  );
-                })
-              ) : (
-                <Typography>No Choices</Typography>
-              )}
-            </Box>
-          </Box>
-        ))}
-      </Box>
+      <CatalogDisplay catalog={catalog} currentTableCart={currentTableCart} tableNumber={tableNumber} handleSelectItem={handleSelectItem} />
       {haveCurrentCommand && (
         <Button
           sx={{

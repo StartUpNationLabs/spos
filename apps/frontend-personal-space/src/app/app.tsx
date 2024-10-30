@@ -2,20 +2,16 @@ import 'reflect-metadata';
 import { Route, Routes } from 'react-router-dom';
 import {
   DiningIndividualRoomTables,
-  GroupBilling,
-  TableBilling,
 } from '@spos/ui/common';
 import PersonalOrdering from './pages/Personal-ordering';
+import { PersonalBilling } from './pages/Personal-billing';
 
 export function App() {
   return (
     <div>
       <Routes>
-        <Route path={"/"} element={<PersonalOrdering/>} />
-        <Route path="/groupBilling/" element={<GroupBilling />} />
-        <Route path="/groupBilling/:groupId" element={<GroupBilling />} />
-        <Route path="/tableBilling/" element={<TableBilling />} />
-        <Route path="/tableBilling/:groupId" element={<TableBilling />} />
+        <Route path={"/:groupId/:tableNumber/:ownerId"} element={<PersonalOrdering/>} />
+        <Route path="/personalBilling/:groupId/:tableNumber/:ownerId" element={<PersonalBilling />} />
 
         <Route
           path="/diningIndividualTables"
