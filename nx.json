@@ -84,7 +84,6 @@
       "backend-bff",
       "payment-sharing",
       "ordering",
-      "table-events",
       "frontend-common-space",
       "frontend-personal-space"
     ],
