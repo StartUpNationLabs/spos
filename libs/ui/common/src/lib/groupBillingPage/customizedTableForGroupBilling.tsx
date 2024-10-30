@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableItem } from '@spos/services/common';
+import { Button } from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,6 +32,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 interface CustomizedTablesForGroupBillingProps {
   items: TableItem[];
+  showRemoveButton?: boolean;
+  onRemoveItem?: (itemId: string) => void;
 }
 
 export default function CustomizedTableForGroupBilling(
@@ -50,6 +53,11 @@ export default function CustomizedTableForGroupBilling(
             <StyledTableCell align="center" width="25%">
               Price&nbsp;($)
             </StyledTableCell>
+            {props.showRemoveButton && (
+              <StyledTableCell align="center" width="20%">
+                Actions
+              </StyledTableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -65,6 +73,17 @@ export default function CustomizedTableForGroupBilling(
                 <StyledTableCell align="center" width="25%">
                   {item.item.price * item.remaining}
                 </StyledTableCell>
+                {props.showRemoveButton && (
+                  <StyledTableCell align="center" width="20%">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => props.onRemoveItem?.(item.item.id)}
+                    >
+                      Remove
+                    </Button>
+                  </StyledTableCell>
+                )}
               </StyledTableRow>
             );
           })}
