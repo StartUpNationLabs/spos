@@ -1,0 +1,35 @@
+{
+  "name": "clients-payment-sharing",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/clients/payment-sharing/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/clients/payment-sharing",
+        "main": "libs/clients/payment-sharing/src/index.ts",
+        "tsConfig": "libs/clients/payment-sharing/tsconfig.lib.json",
+        "assets": ["libs/clients/payment-sharing/*.md"]
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          {
+            "command": "npx rimraf libs/clients/payment-sharing/src",
+            "description": "Clean up generated API client"
+          },
+          {
+            "command": "npx openapi-generator-cli generate -i libs/clients/payment-sharing/openapi.json -g typescript-axios -o libs/clients/payment-sharing/src --ignore-file-override=.openapi-generator-ignore --additional-properties=useSingleRequestParameter=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models",
+            "description": "Generate API client from OpenAPI spec"
+          }
+        ]
+      }
+    }
+  }
+}

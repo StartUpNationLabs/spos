@@ -1,0 +1,15 @@
+.npmignore
+.openapi-generator-ignore
+api.ts
+api/payments-api.ts
+base.ts
+common.ts
+configuration.ts
+index.ts
+models/index.ts
+models/item-request-dto.ts
+models/payment-response-item-details-dto.ts
+models/payment-response-item-dto.ts
+models/payment-response-table-dto.ts
+models/selected-by-customer-dto.ts
+models/selected-item-dto.ts
