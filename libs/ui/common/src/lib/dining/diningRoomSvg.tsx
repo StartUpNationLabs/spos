@@ -8,7 +8,7 @@ interface DiningRoomSVGProps {
 const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   
   
-  const [userTable] = useState(0);
+  const [userTable] = useState(5);
   const [selectedTables, setSelectedTables] = useState(new Set<number>());
 
   useEffect(() => {
