@@ -7,24 +7,7 @@ interface DiningRoomSVGProps {
 
 const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   
-  /*const tableRefs = useRef<Array<SVGGraphicsElement | null>>([]);
-  const [textPositions, setTextPositions] = useState<{ x: number; y: number }[]>([]);
-
-  useEffect(() => {
-    // Calcule les positions du texte pour chaque table
-    const newTextPositions = tableRefs.current.map((ref) => {
-      if (ref) {
-        const bbox = ref.getBBox();
-        return {
-          x: bbox.x + bbox.width / 2,
-          y: bbox.y + bbox.height / 2,
-        };
-      }
-      return { x: 0, y: 0 };
-    });
-    setTextPositions(newTextPositions);
-  }, []);*/
-
+  
   const [userTable] = useState(0);
   const [selectedTables, setSelectedTables] = useState(new Set<number>());
 

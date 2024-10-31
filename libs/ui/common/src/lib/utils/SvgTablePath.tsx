@@ -9,7 +9,6 @@ interface TablePath {
 interface TablePathsProps {
     handleTableClick: (index: number) => void;
     getTableColor: (index: number) => string;
-    textPositions: { x: number; y: number }[];
 }
   
 
@@ -238,12 +237,23 @@ const tablePaths: TablePath[] = [
   },
 ];
 
-export const TablePaths: React.FC<TablePathsProps> = ({ handleTableClick, getTableColor, textPositions }) => {
+export const TablePaths: React.FC<TablePathsProps> = ({ handleTableClick, getTableColor }) => {
   return (
     <>
       {tablePaths.map(({ index, path, text }) => (
         <g key={index} onClick={() => handleTableClick(index)} pointerEvents="bounding-box">
           <path d={path} fill={getTableColor(index)} aria-label={`Table ${index}`} />
+          <text
+            x={500}
+            y={2480}
+            fontSize="200"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill="blue"
+            rotate={180}
+          >
+            {text}
+          </text>
           
         </g>
       ))}
