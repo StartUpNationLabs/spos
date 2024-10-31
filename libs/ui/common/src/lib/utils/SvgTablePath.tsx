@@ -187,7 +187,7 @@ const tablePaths: TablePath[] = [
     139 0 18 7 14 84 -64z`, 
     text: 'YOU',
   }, {
-    index: 8,
+    index: 7,
     path: `M1584 712 l-51 -57 -57 1 c-49 1 -62 6 -88 30 -16 16 -34 39 -39 52
     -5 12 -15 22 -22 22 -37 0 -167 -129 -167 -166 0 -7 8 -15 18 -18 10 -4 33
     -22 51 -40 30 -31 34 -41 34 -91 0 -52 -4 -60 -39 -96 -21 -21 -43 -39 -50
@@ -212,7 +212,7 @@ const tablePaths: TablePath[] = [
     text: 'YOU',
   },
   {
-    index: 7,
+    index: 8,
     path: `M2710 748 c-5 -13 -25 -38 -44 -57 -32 -30 -42 -33 -93 -33 -57 0
     -58 0 -105 53 -46 51 -49 52 -74 39 -39 -21 -134 -128 -134 -151 0 -11 10 -23
     23 -28 12 -5 35 -23 51 -39 24 -26 29 -39 29 -87 0 -52 -4 -60 -39 -96 -21
@@ -244,16 +244,7 @@ export const TablePaths: React.FC<TablePathsProps> = ({ handleTableClick, getTab
       {tablePaths.map(({ index, path, text }) => (
         <g key={index} onClick={() => handleTableClick(index)} pointerEvents="bounding-box">
           <path d={path} fill={getTableColor(index)} aria-label={`Table ${index}`} />
-          <text
-            x={textPositions[index]?.x}
-            y={textPositions[index]?.y}
-            fontSize="300"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fill="black"
-          >
-            {text}
-          </text>
+          
         </g>
       ))}
     </>

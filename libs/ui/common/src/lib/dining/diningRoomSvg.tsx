@@ -7,7 +7,7 @@ interface DiningRoomSVGProps {
 
 const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   
-  const tableRefs = useRef<Array<SVGGraphicsElement | null>>([]);
+  /*const tableRefs = useRef<Array<SVGGraphicsElement | null>>([]);
   const [textPositions, setTextPositions] = useState<{ x: number; y: number }[]>([]);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
       return { x: 0, y: 0 };
     });
     setTextPositions(newTextPositions);
-  }, []);
+  }, []);*/
 
   const [userTable] = useState(0);
   const [selectedTables, setSelectedTables] = useState(new Set<number>());
@@ -34,12 +34,14 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
 
   
   const groups = {
-    0: [0, 1, 2,3,4],
-    1: [ 5],
-    2: [6, 7, 8],
+    1: [0,1,2,3,4,5,6,7,8],
+    2: [],
+    3: [],
   };
 
   const getTableGroup = (tableIndex: number) => {
+    //console.log("____________")
+    //console.log(tableIndex)
     return Object.entries(groups).find(([_, tables]) =>
       tables.includes(tableIndex)
     )?.[0];
@@ -52,7 +54,13 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   };
 
   const handleTableClick = (index: number) => {
+    console.log(index)
     if (isInUserGroup(index) && index !== userTable) {
+      console.log("user table : ")
+      console.log(userTable)
+      console.log("-------------")
+      console.log(index)
+
       setSelectedTables((prev) => {
         const newSet = new Set(prev);
         if (newSet.has(index)) {
@@ -60,6 +68,8 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
         } else {
           newSet.add(index);
         }
+        console.log(`Selected tables: ${Array.from(newSet)}`); // Log des tables sélectionnées
+
         setSelectedTables(newSet);
         
 
@@ -97,7 +107,7 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
         <TablePaths
           handleTableClick={handleTableClick}
           getTableColor={getTableColor}
-          textPositions={textPositions}>        
+          >        
           </TablePaths>
        
       </g>
