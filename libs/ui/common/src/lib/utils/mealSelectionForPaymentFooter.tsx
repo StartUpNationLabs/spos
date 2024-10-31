@@ -1,23 +1,29 @@
 import React from 'react';
 import { Button, IconButton } from '@mui/material';
-import GroupIcon from '@mui/icons-material/Group';
-import CloseButton from './CloseButton';
+import GroupsIcon from '@mui/icons-material/Group';
+import CloseButton from './closeButton';
 
-const Footer = ({ onClose, onSelectWhoPays, onGroupClick }) => {
-    const handleButtonTouchStart = (e) => {
+interface FooterProps {
+    onClose: () => void;
+    onSelectWhoPays: () => void;
+    onGroupClick: () => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onClose, onSelectWhoPays, onGroupClick }) => {
+    const handleButtonTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
         e.currentTarget.style.backgroundColor = '#150a3e';  
     };
 
-    const handleButtonTouchEnd = (e) => {
+    const handleButtonTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
         e.currentTarget.style.backgroundColor = '#1f0154'; 
     };
 
-    const handleIconTouchStart = (e) => {
+    const handleIconTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
         e.currentTarget.style.color = '#1f0154'; 
         e.currentTarget.style.transform = 'scale(2.8)'; 
     };
 
-    const handleIconTouchEnd = (e) => {
+    const handleIconTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
         e.currentTarget.style.color = '#0A1E3F'; 
         e.currentTarget.style.transform = 'scale(2.5)'; 
     };
@@ -65,7 +71,7 @@ const Footer = ({ onClose, onSelectWhoPays, onGroupClick }) => {
                 onMouseDown={handleIconTouchStart} 
                 onMouseUp={handleIconTouchEnd} 
             >
-                <GroupIcon fontSize="large" />
+                <GroupsIcon fontSize="large" />
             </IconButton>
 
             <CloseButton onClick={onClose} width="80px" height="80px" iconSize="50px" />
