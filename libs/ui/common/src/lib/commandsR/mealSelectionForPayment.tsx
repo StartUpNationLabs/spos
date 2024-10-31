@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from '../utils/Footer';
+import Footer from '../utils/footer';
 
 export function MealSelectionForPayment() {
   function handleClose() {
