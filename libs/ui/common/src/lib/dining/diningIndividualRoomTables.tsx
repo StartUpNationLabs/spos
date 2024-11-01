@@ -11,7 +11,7 @@ export function DiningIndividualRoomTables() {
   };
 
   const handleContinueClick = () => {
-    console.log('Continue button clicked');
+    console.log('See global billing button clicked');
   };
 
   return (
@@ -21,7 +21,7 @@ export function DiningIndividualRoomTables() {
         hasSelection={hasSelection}
         onBackClick={handleBackClick}
         onContinueClick={handleContinueClick}
-        buttonText={'See global billing'}
+        buttonText={'Global billing'}
       />
       <div className="dining-room-tables">
         <DiningRoomSVG onSelectionChange={setHasSelection} />
