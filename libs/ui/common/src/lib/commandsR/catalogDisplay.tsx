@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { CategorizedCatalog } from '@spos/services/common';
-import { Cart, Item } from '@spos/ui/common';
+import { Cart } from './orderingChoices';
+import { Item } from './Item';
 import React from 'react';
 
 interface CatalogDisplayProps {
