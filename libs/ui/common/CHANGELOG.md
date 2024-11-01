@@ -1,3 +1,31 @@
+## 0.31.0 (2024-11-01)
+
+
+### 🚀 Features
+
+- addition of dependancy injection to personal space and beginning of personal ordering space implementation ([8905be2](https://github.com/StartUpNationLabs/spos/commit/8905be2))
+
+- add billing and cache ([f065db8](https://github.com/StartUpNationLabs/spos/commit/f065db8))
+
+- add clients for payment and ordering ([0b6ce8c](https://github.com/StartUpNationLabs/spos/commit/0b6ce8c))
+
+- add tracing ([adfa8f9](https://github.com/StartUpNationLabs/spos/commit/adfa8f9))
+
+
+### 🩹 Fixes
+
+- Linting issues and typing ([840bd82](https://github.com/StartUpNationLabs/spos/commit/840bd82))
+
+- paymentAsignee page ([c841b92](https://github.com/StartUpNationLabs/spos/commit/c841b92))
+
+- errors ([5d26c64](https://github.com/StartUpNationLabs/spos/commit/5d26c64))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.30.0 (2024-10-27)
 
 ### 🚀 Features

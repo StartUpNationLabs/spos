@@ -1,3 +1,27 @@
+## 0.6.0 (2024-11-01)
+
+
+### 🚀 Features
+
+- add billing and cache ([f065db8](https://github.com/StartUpNationLabs/spos/commit/f065db8))
+
+- add clients for payment and ordering ([0b6ce8c](https://github.com/StartUpNationLabs/spos/commit/0b6ce8c))
+
+- add tracing ([adfa8f9](https://github.com/StartUpNationLabs/spos/commit/adfa8f9))
+
+
+### 🩹 Fixes
+
+- Error in configuration of ordering for redis and port ([4559c02](https://github.com/StartUpNationLabs/spos/commit/4559c02))
+
+- Linting issues and typing ([840bd82](https://github.com/StartUpNationLabs/spos/commit/840bd82))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.5.0 (2024-10-27)
 
 

@@ -1,3 +1,19 @@
+## 0.28.0 (2024-11-01)
+
+
+### 🚀 Features
+
+- add billing and cache ([f065db8](https://github.com/StartUpNationLabs/spos/commit/f065db8))
+
+- add clients for payment and ordering ([0b6ce8c](https://github.com/StartUpNationLabs/spos/commit/0b6ce8c))
+
+- add tracing ([adfa8f9](https://github.com/StartUpNationLabs/spos/commit/adfa8f9))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.27.0 (2024-10-27)
 
 
