@@ -1,3 +1,15 @@
+## 0.6.2 (2024-11-01)
+
+
+### 🩹 Fixes
+
+- jaeger url ([34a694a](https://github.com/StartUpNationLabs/spos/commit/34a694a))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.6.1 (2024-11-01)
 
 
