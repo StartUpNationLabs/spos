@@ -1,3 +1,15 @@
+## 0.8.0 (2024-11-01)
+
+
+### 🚀 Features
+
+- add pay endpoint to table event ([e4ad17a](https://github.com/StartUpNationLabs/spos/commit/e4ad17a))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.7.2 (2024-11-01)
 
 
