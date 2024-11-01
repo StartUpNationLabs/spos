@@ -1,3 +1,15 @@
+## 0.29.0 (2024-11-01)
+
+
+### 🚀 Features
+
+- add sse example ([76825a9](https://github.com/StartUpNationLabs/spos/commit/76825a9))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.28.0 (2024-11-01)
 
 
