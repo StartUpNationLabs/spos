@@ -1,7 +1,14 @@
 import { Body, Controller, Get, Param, Post, Sse } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PaymentService } from './payment.service';
-import { filter, fromEvent, Observable, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  fromEvent,
+  merge,
+  Observable,
+  switchMap,
+} from 'rxjs';
 import { ItemRequestDto } from './Item.dto';
 import { PaymentResponseTableDTO } from './payment-response.dto';
 import { SelectedByCustomerDTO } from './selected-by-customer.dto';
@@ -63,11 +70,14 @@ export class PaymentController {
     type: SelectedByCustomerDTO,
     isArray: true,
   })
-  sseCustomerItems(
+  async sseCustomerItems(
     @Param('group_id') group_id: string,
     @Param('owner_id') owner_id: string
   ) {
-    return fromEvent(this.paymentService.eventEmitter, 'update-payment').pipe(
+    const obs = fromEvent(
+      this.paymentService.eventEmitter,
+      'update-payment'
+    ).pipe(
       filter(
         (data: { group_id: string; owner_id: string; traceContext: any }) =>
           data.group_id === group_id && data.owner_id === owner_id
@@ -84,15 +94,28 @@ export class PaymentController {
               span.addEvent('sseCustomerItems');
               span.setAttribute('group_id', group_id);
               span.setAttribute('owner_id', owner_id);
-              return await this.paymentService.getCustomerItems(
-                group_id,
-                owner_id
-              );
+              return {
+                data: await this.paymentService.getCustomerItems(
+                  group_id,
+                  owner_id
+                ),
+              };
             }
           );
         });
       })
     );
+    // make a separate observable to send the initial data
+    const initialData = await this.paymentService.getCustomerItems(
+      group_id,
+      owner_id
+    );
+    const sub = new BehaviorSubject<{
+      data: SelectedByCustomerDTO[];
+    }>({
+      data: initialData,
+    });
+    return merge(obs, sub).pipe();
   }
 
   @Sse('sse/table-items/:group_id')
@@ -103,10 +126,13 @@ export class PaymentController {
     type: PaymentResponseTableDTO,
     isArray: true,
   })
-  sseTableItems(
+  async sseTableItems(
     @Param('group_id') group_id: string
-  ): Observable<{ data: PaymentResponseTableDTO[] }> {
-    return fromEvent(this.paymentService.eventEmitter, 'update-payment').pipe(
+  ): Promise<Observable<{ data: PaymentResponseTableDTO[] }>> {
+    const observalbe = fromEvent(
+      this.paymentService.eventEmitter,
+      'update-payment'
+    ).pipe(
       filter(
         (data: { group_id: string; traceContext: any }) =>
           data.group_id === group_id
@@ -129,6 +155,14 @@ export class PaymentController {
         });
       })
     );
+    // make a separate observable to send the initial data
+    const initialData = await this.paymentService.getGroupItems(group_id);
+    const sub = new BehaviorSubject<{
+      data: PaymentResponseTableDTO[];
+    }>({
+      data: initialData,
+    });
+    return merge(observalbe, sub).pipe();
   }
 
   @Post('pay/:groupId/:ownerId')

@@ -1,3 +1,5 @@
+import CustomizedTableForTableBilling from "./lib/tableBillingPage/customizedTableForTableBilling";
+export default CustomizedTableForTableBilling;
 export * from './lib/ui-common';
 export * from './lib/tables/landingPage';
 export * from './lib/tables/tableSquare';
@@ -6,6 +8,7 @@ export * from './lib/orders/orders';
 export * from './lib/summary/summary';
 export * from './lib/groupBillingPage/groupBillingPage';
 export * from './lib/tableBillingPage/tableBilling';
+export * from './lib/tableBillingPage/customizedTableForTableBilling';
 export * from './lib/utils/navbar';
 export * from './lib/commandsR/commands';
 export * from './lib/commandsR/orderingChoices';
