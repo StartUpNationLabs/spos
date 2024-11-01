@@ -5,7 +5,7 @@ import { TableSummary } from '@spos/services/common';
 import CustomizedTableForTableBilling from '@spos/ui/common';
 
 const Tables = () => {
-  const state = useSSE('message', {} as TableSummary);
+  const state = useSSE('message', {} as [string, TableSummary]);
   console.log(state);
   if (Object.keys(state).length === 0) {
     return null;
