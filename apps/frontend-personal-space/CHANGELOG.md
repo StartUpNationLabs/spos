@@ -1,3 +1,15 @@
+## 0.6.0 (2024-11-01)
+
+
+### 🚀 Features
+
+- add sse example ([a50d66b](https://github.com/StartUpNationLabs/spos/commit/a50d66b))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.5.0 (2024-11-01)
 
 
