@@ -6,7 +6,7 @@ resources:
 images:
   - name: ghcr.io/startupnationlabs/spos/frontend-personal-space
     newName: ghcr.io/startupnationlabs/spos/frontend-personal-space
-    newTag: sha-f981166
+    newTag: sha-5d26c64
 
 patches:
   - target:
