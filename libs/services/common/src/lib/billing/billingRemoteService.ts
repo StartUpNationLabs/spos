@@ -25,7 +25,7 @@ export class BillingRemoteService implements BillingService {
   }
   @perf()
   @logger
-  async partialPayment(payment: MonsieurAxelMenvoie2): Promise<void> {
+  async partialPayment(payment: MonsieurAxelMenvoie2){
     return (
       await this.backendBffApiService
         .getRemoteBillingApi()

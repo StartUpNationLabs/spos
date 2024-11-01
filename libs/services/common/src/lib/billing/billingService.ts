@@ -16,7 +16,7 @@ export interface TableItem {
 
 export interface BillingService {
   getBillingSummary(groupId: string): Promise<TableSummary[]>;
-  partialPayment(payment: MonsieurAxelMenvoie2): Promise<void>;
+  partialPayment(payment: MonsieurAxelMenvoie2): Promise<boolean>;
 }
 
 export interface ItemPaid {

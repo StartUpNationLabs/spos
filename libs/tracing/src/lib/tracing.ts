@@ -6,7 +6,9 @@ import { Resource } from '@opentelemetry/resources';
 // Don't forget to import the dotenv package!
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { RedisInstrumentation } from '@opentelemetry/instrumentation-redis-4';
+import { trace } from "@opentelemetry/api";
 
+let otelSDKInstance: NodeSDK;
 export const otelSDK = (serviceName: string, oltpUrl: string) => {
   console.log('Starting tracing for service:', serviceName);
   console.log('OTLP URL:', oltpUrl);
@@ -25,7 +27,9 @@ export const otelSDK = (serviceName: string, oltpUrl: string) => {
       new ExpressInstrumentation(),
       new NestInstrumentation(),
       new RedisInstrumentation({
-
+        dbStatementSerializer: function (cmdName, cmdArgs) {
+          return [cmdName, ...cmdArgs].join(" ");
+        },
       }),
     ],
   });
@@ -42,3 +46,9 @@ export const otelSDK = (serviceName: string, oltpUrl: string) => {
   // });
   return sdk;
 };
+
+export const getOtelSDK = () => {
+  return otelSDKInstance;
+};
+
+export const redisTracer = trace.getTracer('redis');

@@ -25,6 +25,7 @@ import { BillingCacheService } from './payment/billing-cache.service';
           url,
         });
         await client.connect();
+
         return client;
       },
     },

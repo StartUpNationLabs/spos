@@ -107,6 +107,43 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {string} groupId 
+         * @param {string} ownerId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentControllerMakePayment: async (groupId: string, ownerId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('paymentControllerMakePayment', 'groupId', groupId)
+            // verify required parameter 'ownerId' is not null or undefined
+            assertParamExists('paymentControllerMakePayment', 'ownerId', ownerId)
+            const localVarPath = `/api/payments/pay/{groupId}/{ownerId}`
+                .replace(`{${"groupId"}}`, encodeURIComponent(String(groupId)))
+                .replace(`{${"ownerId"}}`, encodeURIComponent(String(ownerId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Return an item to the center table
          * @param {ItemRequestDto} itemRequestDto 
          * @param {*} [options] Override http request option.
@@ -287,6 +324,19 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} groupId 
+         * @param {string} ownerId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async paymentControllerMakePayment(groupId: string, ownerId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentControllerMakePayment(groupId, ownerId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PaymentsApi.paymentControllerMakePayment']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Return an item to the center table
          * @param {ItemRequestDto} itemRequestDto 
          * @param {*} [options] Override http request option.
@@ -369,6 +419,15 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @param {PaymentsApiPaymentControllerMakePaymentRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentControllerMakePayment(requestParameters: PaymentsApiPaymentControllerMakePaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.paymentControllerMakePayment(requestParameters.groupId, requestParameters.ownerId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Return an item to the center table
          * @param {PaymentsApiPaymentControllerReturnItemToCenterTableRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
@@ -442,6 +501,27 @@ export interface PaymentsApiPaymentControllerGetTableItemsRequest {
      * @memberof PaymentsApiPaymentControllerGetTableItems
      */
     readonly groupId: string
+}
+
+/**
+ * Request parameters for paymentControllerMakePayment operation in PaymentsApi.
+ * @export
+ * @interface PaymentsApiPaymentControllerMakePaymentRequest
+ */
+export interface PaymentsApiPaymentControllerMakePaymentRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PaymentsApiPaymentControllerMakePayment
+     */
+    readonly groupId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PaymentsApiPaymentControllerMakePayment
+     */
+    readonly ownerId: string
 }
 
 /**
@@ -536,6 +616,17 @@ export class PaymentsApi extends BaseAPI {
      */
     public paymentControllerGetTableItems(requestParameters: PaymentsApiPaymentControllerGetTableItemsRequest, options?: RawAxiosRequestConfig) {
         return PaymentsApiFp(this.configuration).paymentControllerGetTableItems(requestParameters.groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PaymentsApiPaymentControllerMakePaymentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PaymentsApi
+     */
+    public paymentControllerMakePayment(requestParameters: PaymentsApiPaymentControllerMakePaymentRequest, options?: RawAxiosRequestConfig) {
+        return PaymentsApiFp(this.configuration).paymentControllerMakePayment(requestParameters.groupId, requestParameters.ownerId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

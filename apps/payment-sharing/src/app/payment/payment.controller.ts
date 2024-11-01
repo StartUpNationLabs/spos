@@ -1,17 +1,17 @@
-import { Controller, Post, Body, Get, Param, Sse } from '@nestjs/common';
-import {
-  ApiOperation,
-  ApiResponse, ApiTags
-} from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, Sse } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PaymentService } from './payment.service';
 import { filter, fromEvent, Observable, switchMap } from 'rxjs';
 import { ItemRequestDto } from './Item.dto';
 import { PaymentResponseTableDTO } from './payment-response.dto';
 import { SelectedByCustomerDTO } from './selected-by-customer.dto';
+import { context, propagation, trace } from '@opentelemetry/api';
 
 @Controller('payments')
 @ApiTags('payments')
 export class PaymentController {
+  private readonly sse = trace.getTracer('SSE');
+
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post('take-item')
@@ -30,7 +30,12 @@ export class PaymentController {
 
   @Get('customer-items/:group_id/:owner_id')
   @ApiOperation({ summary: 'Get items of a customer' })
-  @ApiResponse({ status: 200, description: 'Items of the customer', type: SelectedByCustomerDTO, isArray: true })
+  @ApiResponse({
+    status: 200,
+    description: 'Items of the customer',
+    type: SelectedByCustomerDTO,
+    isArray: true,
+  })
   async getCustomerItems(
     @Param('group_id') group_id: string,
     @Param('owner_id') owner_id: string
@@ -40,45 +45,97 @@ export class PaymentController {
 
   @Get('table-items/:group_id')
   @ApiOperation({ summary: 'Get items of the group' })
-  @ApiResponse({ status: 200, description: 'Items of the group', type: PaymentResponseTableDTO, isArray: true })
+  @ApiResponse({
+    status: 200,
+    description: 'Items of the group',
+    type: PaymentResponseTableDTO,
+    isArray: true,
+  })
   async getTableItems(@Param('group_id') group_id: string) {
     return await this.paymentService.getGroupItems(group_id);
   }
 
   @Sse('sse/customer-items/:group_id/:owner_id')
   @ApiOperation({ summary: 'Get items of a customer in real-time' })
-  @ApiResponse({ status: 200, description: 'Items of the customer', type: SelectedByCustomerDTO, isArray: true })
+  @ApiResponse({
+    status: 200,
+    description: 'Items of the customer',
+    type: SelectedByCustomerDTO,
+    isArray: true,
+  })
   sseCustomerItems(
     @Param('group_id') group_id: string,
     @Param('owner_id') owner_id: string
   ) {
     return fromEvent(this.paymentService.eventEmitter, 'update-payment').pipe(
       filter(
-        (data: { group_id: string; owner_id: string }) =>
+        (data: { group_id: string; owner_id: string; traceContext: any }) =>
           data.group_id === group_id && data.owner_id === owner_id
       ),
-      switchMap(async () => {
-        const items = await this.paymentService.getCustomerItems(
-          group_id,
-          owner_id
-        );
-        return { data: items };
+      switchMap(async (data) => {
+        const extractedContext = propagation.extract(
+          context.active(),
+          data.traceContext
+        ); // Extract the OpenTelemetry context
+        return await context.with(extractedContext, async () => {
+          return await this.sse.startActiveSpan(
+            'sseCustomerItems',
+            async (span) => {
+              span.addEvent('sseCustomerItems');
+              span.setAttribute('group_id', group_id);
+              span.setAttribute('owner_id', owner_id);
+              return await this.paymentService.getCustomerItems(
+                group_id,
+                owner_id
+              );
+            }
+          );
+        });
       })
     );
   }
 
   @Sse('sse/table-items/:group_id')
   @ApiOperation({ summary: 'Get items of the table in real-time' })
-  @ApiResponse({ status: 200, description: 'items of the table in real-time', type: PaymentResponseTableDTO, isArray: true })
+  @ApiResponse({
+    status: 200,
+    description: 'items of the table in real-time',
+    type: PaymentResponseTableDTO,
+    isArray: true,
+  })
   sseTableItems(
     @Param('group_id') group_id: string
   ): Observable<{ data: PaymentResponseTableDTO[] }> {
     return fromEvent(this.paymentService.eventEmitter, 'update-payment').pipe(
-      filter((data: { group_id: string }) => data.group_id === group_id),
-      switchMap(async () => {
-        const items = await this.paymentService.getGroupItems(group_id);
-        return { data: items };
+      filter(
+        (data: { group_id: string; traceContext: any }) =>
+          data.group_id === group_id
+      ),
+      switchMap(async (data) => {
+        const extractedContext = propagation.extract(
+          context.active(),
+          data.traceContext
+        ); // Extract the OpenTelemetry context
+        return await context.with(extractedContext, async () => {
+          return await this.sse.startActiveSpan(
+            'sseTableItems',
+            async (span) => {
+              span.addEvent('sseTableItems');
+              span.setAttribute('group_id', group_id);
+              const items = await this.paymentService.getGroupItems(group_id);
+              return { data: items };
+            }
+          );
+        });
       })
     );
+  }
+
+  @Post('pay/:groupId/:ownerId')
+  async makePayment(
+    @Param('groupId') groupId: string,
+    @Param('ownerId') ownerId: string
+  ): Promise<boolean> {
+    return await this.paymentService.makePayment(groupId, ownerId);
   }
 }

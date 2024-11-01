@@ -67,7 +67,7 @@ export class RemoteBillingController {
 
   @Post()
   partialPayment(@Body() payment: AnnotatedMonsieurAxelMenvoie2
-  ): Promise<void> {
+  ): Promise<boolean> {
     return container
       .get<BillingService>(TYPES.BillingService)
       .partialPayment(payment);

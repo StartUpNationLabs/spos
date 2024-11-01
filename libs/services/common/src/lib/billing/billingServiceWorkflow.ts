@@ -134,6 +134,8 @@ export class BillingServiceWorkflow implements BillingService {
           });
       }
       await this.groupService.removeGroup(payment.groupId);
+      return true;
     }
+    return false;
   }
 }

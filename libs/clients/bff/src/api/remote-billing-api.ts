@@ -127,7 +127,7 @@ export const RemoteBillingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async remoteBillingControllerPartialPayment(annotatedMonsieurAxelMenvoie2: AnnotatedMonsieurAxelMenvoie2, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async remoteBillingControllerPartialPayment(annotatedMonsieurAxelMenvoie2: AnnotatedMonsieurAxelMenvoie2, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.remoteBillingControllerPartialPayment(annotatedMonsieurAxelMenvoie2, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RemoteBillingApi.remoteBillingControllerPartialPayment']?.[localVarOperationServerIndex]?.url;
@@ -158,7 +158,7 @@ export const RemoteBillingApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remoteBillingControllerPartialPayment(requestParameters: RemoteBillingApiRemoteBillingControllerPartialPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        remoteBillingControllerPartialPayment(requestParameters: RemoteBillingApiRemoteBillingControllerPartialPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
             return localVarFp.remoteBillingControllerPartialPayment(requestParameters.annotatedMonsieurAxelMenvoie2, options).then((request) => request(axios, basePath));
         },
     };
