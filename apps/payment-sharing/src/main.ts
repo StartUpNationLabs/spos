@@ -13,7 +13,11 @@ import fs from "fs";
 import { otelSDK } from "@spos/tracing";
 
 async function bootstrap() {
-  otelSDK('payment-sharing', process.env.OTLP_URL || 'http://localhost:4318/v1/traces').start();
+  let oltpUrl = "http://localhost:4318/v1/traces";
+  if (process.env.OTLP_URL) {
+    oltpUrl = process.env.OTLP_URL;
+  }
+  otelSDK('payment-sharing', oltpUrl).start();
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);

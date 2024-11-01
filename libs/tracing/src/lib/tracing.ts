@@ -8,6 +8,8 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { RedisInstrumentation } from '@opentelemetry/instrumentation-redis-4';
 
 export const otelSDK = (serviceName: string, oltpUrl: string) => {
+  console.log('Starting tracing for service:', serviceName);
+  console.log('OTLP URL:', oltpUrl);
   const sdk = new NodeSDK({
     resource: new Resource({
       'service.name': serviceName,

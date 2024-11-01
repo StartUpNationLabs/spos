@@ -13,7 +13,11 @@ import fs from 'fs';
 import { otelSDK } from "@spos/tracing";
 
 async function bootstrap() {
-  otelSDK('ordering', process.env.OTLP_URL || 'http://localhost:4318/v1/traces').start();
+  let oltpUrl = "http://localhost:4318/v1/traces";
+  if (process.env.OTLP_URL) {
+    oltpUrl = process.env.OTLP_URL;
+  }
+  otelSDK('ordering', oltpUrl).start();
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('Ordering API')
