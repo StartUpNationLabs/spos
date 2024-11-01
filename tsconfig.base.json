@@ -24,6 +24,7 @@
         "libs/clients/payment-sharing/src/index.ts"
       ],
       "@spos/services/common": ["libs/services/common/src/index.ts"],
+      "@spos/tracing": ["libs/tracing/src/index.ts"],
       "@spos/ui/common": ["libs/ui/common/src/index.ts"]
     }
   },

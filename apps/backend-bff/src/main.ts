@@ -14,8 +14,10 @@ import { Configuration as DiningConfiguration } from '@spos/clients-dining';
 import { Configuration as KitchenConfiguration } from '@spos/clients-kitchen';
 import { Configuration as MenuConfiguration } from '@spos/clients-menu';
 import * as process from 'process';
+import { otelSDK } from "@spos/tracing";
 
 async function bootstrap() {
+  otelSDK('bff', process.env.OTLP_URL || 'http://localhost:4318/v1/traces').start();
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);

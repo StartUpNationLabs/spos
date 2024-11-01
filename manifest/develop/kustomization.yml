@@ -8,3 +8,4 @@ resources:
   - ../../apps/payment-sharing/manifest/overlays/develop
   - ../../apps/frontend-common-space/manifest/overlays/develop
   - ../../apps/frontend-personal-space/manifest/overlays/develop
+  - ../base

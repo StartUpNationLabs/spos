@@ -10,8 +10,10 @@ import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import process from 'process';
 import fs from 'fs';
+import { otelSDK } from "@spos/tracing";
 
 async function bootstrap() {
+  otelSDK('ordering', process.env.OTLP_URL || 'http://localhost:4318/v1/traces').start();
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('Ordering API')
