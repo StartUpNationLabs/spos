@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from '../utils/mealSelectionForPaymentFooter';
 import BackButton from '../utils/backButton';
 import { useSSE, SSEProvider } from 'react-hooks-sse';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Typography, CircularProgress, Divider, Grid } from '@mui/material';
 import { PaymentResponseTableDTO } from '@spos/clients-payment-sharing';
 import { Item } from './Item';
@@ -31,6 +31,7 @@ interface TableItem {
 }
 
 export function MealSelectionForPayment() {
+  const navigate = useNavigate();
   const { groupId, tableNumber } = useParams<{ 
     groupId: string; 
     tableNumber: string;
@@ -42,10 +43,15 @@ export function MealSelectionForPayment() {
 
   function handleSelectWhoPays() {
     console.log('Select who pays button clicked');
+    //navigate(`/diningRoomTables/${tableNumber}`);
+    navigate(`/payementAsignee/`);
+
   }
 
   function handleGroupClick() {
     console.log('Group button clicked');
+    navigate(`/diningRoomTables/`);
+
   }
 
   function handleBackButtonClick(): void {
