@@ -6,6 +6,7 @@ import { PaymentController } from './payment/payment.controller';
 import { PaymentService } from './payment/payment.service';
 import { Configuration, RemoteBillingApi } from '@spos/clients-bff';
 import { BillingCacheService } from './payment/billing-cache.service';
+import { SseService } from "./payment/sse.service";
 
 @Module({
   imports: [EventEmitterModule.forRoot()],
@@ -13,6 +14,7 @@ import { BillingCacheService } from './payment/billing-cache.service';
   providers: [
     PaymentService,
     BillingCacheService,
+    SseService,
     {
       provide: 'REDIS_CLIENT',
       useFactory: async () => {

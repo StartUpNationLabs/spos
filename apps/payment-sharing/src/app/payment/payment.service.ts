@@ -376,6 +376,9 @@ export class PaymentService {
           group_id,
           owner_id,
           action: 'pay',
+          actionData: {
+            isFinished,
+          }
         });
         return isFinished;
       } finally {
