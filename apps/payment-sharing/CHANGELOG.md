@@ -1,3 +1,22 @@
+## 0.10.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- add event ([83b4fa5](https://github.com/StartUpNationLabs/spos/commit/83b4fa5))
+
+- add payFinished data ([01158a1](https://github.com/StartUpNationLabs/spos/commit/01158a1))
+
+
+### 🩹 Fixes
+
+- build error ([affa40e](https://github.com/StartUpNationLabs/spos/commit/affa40e))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.9.1 (2024-11-02)
 
 

@@ -1,3 +1,15 @@
+## 0.8.1 (2024-11-02)
+
+
+### 🩹 Fixes
+
+- payment sharing url for frontend personnal ([12c10d2](https://github.com/StartUpNationLabs/spos/commit/12c10d2))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.8.0 (2024-11-02)
 
 
