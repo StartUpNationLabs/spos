@@ -362,6 +362,16 @@ export class PaymentService {
             },
           })).data;
 
+        // remove all selected items
+        const selectedItems = await this.repository
+          .search()
+          .where('group_id')
+          .equals(group_id)
+          .and('owner_id')
+          .equals(owner_id)
+          .return.all();
+        await this.repository.remove(selectedItems.map((item) => item[EntityId]));
+
         await this.publishWithContext('update-payment', {
           group_id,
           owner_id,
