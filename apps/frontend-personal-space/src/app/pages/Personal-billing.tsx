@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 import { SSEProvider, useSSE } from 'react-hooks-sse';
-import { TableBillingShell } from '@spos/ui/common';
+import { TableBillingShell, GroupClosedListener } from '@spos/ui/common';
 import { useMutation } from '@tanstack/react-query';
 import {
   Configuration,
@@ -233,6 +233,7 @@ export function PersonalBilling() {
           ownerId
         }
       >
+        <GroupClosedListener />
         <Box
           sx={{
             height: '85dvh',

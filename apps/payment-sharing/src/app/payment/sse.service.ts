@@ -72,7 +72,7 @@ export class SseService {
     ).pipe(
       filter(
         (data: EventEmitterData) =>
-          data.group_id === group_id && data.owner_id === owner_id
+          data.group_id === group_id
       ),
       switchMap(async (data:EventEmitterData) => {
         const extractedContext = propagation.extract(
@@ -86,6 +86,7 @@ export class SseService {
               span.addEvent('sseCustomerItems');
               span.setAttribute('group_id', group_id);
               span.setAttribute('owner_id', owner_id);
+              console.log("data.action", data.action, data.actionData);
               if (data.action === 'pay' && data.actionData.isFinished) {
                 span.addEvent('payFinished');
                 return { data: {isFinished: true}, type: 'payFinished' };
