@@ -15,7 +15,7 @@ spec:
         io.kompose.service: backend-bff
     spec:
       containers:
-        - image: ghcr.io/startupnationlabs/spos/backend-bff:sha-bcc8181
+        - image: ghcr.io/startupnationlabs/spos/backend-bff:sha-e6b0fb9
           name: backend-bff
           ports:
             - containerPort: 3000
