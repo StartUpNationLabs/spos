@@ -37,7 +37,7 @@ export function App() {
         />
         <Route path="/diningRoomTables" element={<DiningRoomTables />} />
         <Route
-          path="/mealSelectionForPayment"
+          path={"/mealSelectionForPayment/:groupId/:tableNumber"}
           element={<MealSelectionForPayment />}
         />
       </Routes>
