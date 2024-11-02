@@ -1,3 +1,15 @@
+## 0.11.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Redirection for all the users of the table to /thanks ([1aed4e6](https://github.com/StartUpNationLabs/spos/commit/1aed4e6))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.10.0 (2024-11-02)
 
 
