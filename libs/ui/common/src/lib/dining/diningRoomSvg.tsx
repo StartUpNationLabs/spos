@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TablePaths } from '../utils/SvgTablePath';
+//import { TablePaths } from '../utils/SvgTablePath';
+
+import { TablesSvgGrid } from '../utils/SvgTablePath';
 
 interface DiningRoomSVGProps {
   onSelectionChange: (hasSelection: boolean) => void;
@@ -17,7 +19,7 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
 
   
   const groups = {
-    1: [0,1,2,3,4,5,6,7,8],
+    1: [1,2,3,4,5,6,7,8,9],
     2: [],
     3: [],
   };
@@ -71,31 +73,14 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   };
 
   return (
-    <svg
-      version="1.0"
-      xmlns="http://www.w3.org/2000/svg"
-      width="300.000000pt"
-      height="309.000000pt"
-      viewBox="0 0 300.000000 309.000000"
-      preserveAspectRatio="xMidYMid meet"
-    >
-      <metadata>
-        Created by potrace 1.10, written by Peter Selinger 2001-2011
-      </metadata>
-      <g
-        transform="translate(0.000000,309.000000) scale(0.100000,-0.100000)"
-        fill="#000000"
-        stroke="none"
-      >
-        <TablePaths
+
+        <TablesSvgGrid
           handleTableClick={handleTableClick}
           getTableColor={getTableColor}
           >        
-          </TablePaths>
+        </TablesSvgGrid>
        
-      </g>
-     
-    </svg>
+    
   );
 };
 

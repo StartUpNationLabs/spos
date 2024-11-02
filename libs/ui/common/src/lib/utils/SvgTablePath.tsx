@@ -236,7 +236,7 @@ const tablePaths: TablePath[] = [
     text: 'YOU',
   },
 ];
-
+/*
 export const TablePaths: React.FC<TablePathsProps> = ({ handleTableClick, getTableColor }) => {
   return (
     <>
@@ -249,4 +249,172 @@ export const TablePaths: React.FC<TablePathsProps> = ({ handleTableClick, getTab
       ))}
     </>
   );
-};
+};*/
+
+import TableSvg from './uniqueSvgTable';
+
+export const TablesSvgGrid: React.FC<TablePathsProps> = ({ handleTableClick, getTableColor }) =>{
+  
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        aspectRatio: '1/1',
+        gap: '0.2rem',
+      }}
+    >
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'scale(1.2)',
+        }}
+      >
+        <TableSvg 
+          index={1}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor} 
+          isCurrentTable={true}
+        />
+        
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          transform: 'scale(1.2)',
+        }}
+        >
+        <TableSvg 
+          index={2}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor}
+          isCurrentTable={false}
+        />
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'scale(1.2)',
+        }}
+      >
+        <TableSvg 
+          index={3}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor}
+          isCurrentTable={false}
+        />
+        
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'scale(1.2)',
+        }}>
+        <TableSvg 
+          index={4}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor}
+          isCurrentTable={false}
+        />
+      </div>
+    
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'scale(1.2)',
+        }}
+      >
+        <TableSvg 
+          index={5}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor}
+          isCurrentTable={false}
+        />
+        
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'scale(1.2)',
+        }}
+        >
+        <TableSvg 
+          index={6}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor}
+          isCurrentTable={false}
+        />
+          
+        </div>
+      
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'scale(1.2)',
+        }}
+      >
+        <TableSvg 
+          index={7}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor}
+          isCurrentTable={false}
+        />
+        
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'scale(1.2)',
+        }}
+      >
+        <TableSvg 
+          index={8}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor} 
+          isCurrentTable={false}
+        />
+      </div>
+      <div
+        style={{
+          aspectRatio: '1/1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'scale(1.2)',
+        }}
+      >
+        <TableSvg 
+          index={9}
+          handleTableClick={handleTableClick} 
+          getTableColor={getTableColor} 
+          isCurrentTable={false}
+        />
+        
+      </div>
+    </div>
+  );
+}
+
