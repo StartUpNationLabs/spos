@@ -16,6 +16,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Configuration as DiningConfiguration } from "@spos/clients-dining";
 import { Configuration as KitchenConfiguration } from "@spos/clients-kitchen";
 import { Configuration as MenuConfiguration } from "@spos/clients-menu";
+import { Configuration as OrderingConfiguration } from "@spos/clients-ordering";
 
 // Sentry.init({
 //   dsn: 'https://a1ed2429a37d7de745e333e4f27bb472@sentry.ozeliurs.com/2',
@@ -58,6 +59,13 @@ container
 container.bind<MenuConfiguration>(TYPES.MenuApiConfiguration).toConstantValue(
   new MenuConfiguration({
     basePath: import.meta.env.VITE_MENU_BASE_URL,
+  })
+);
+
+
+container.bind<OrderingConfiguration>(TYPES.OrderingApiConfiguration).toConstantValue(
+  new OrderingConfiguration({
+    basePath: import.meta.env.VITE_ORDERING_BASE_URL,
   })
 );
 const root = ReactDOM.createRoot(
