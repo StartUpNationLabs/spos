@@ -166,6 +166,11 @@ export class PaymentController {
   }
 
   @Post('pay/:groupId/:ownerId')
+  @ApiResponse({
+    status: 201,
+    description: 'Payment made successfully',
+    type: Boolean
+  })
   async makePayment(
     @Param('groupId') groupId: string,
     @Param('ownerId') ownerId: string

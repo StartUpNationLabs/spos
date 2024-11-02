@@ -1,64 +1,69 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import React from 'react';
-import { Cart, ContainerContext, useCarts, Item, CatalogDisplay } from '@spos/ui/common';
+import { CatalogDisplay, ContainerContext, useCarts } from '@spos/ui/common';
 import { useQuery } from '@tanstack/react-query';
-import { CatalogueService, GroupService, TYPES } from '@spos/services/common';
-import DollarIcon from '@mui/icons-material/AttachMoney';
 import {
-  Box,
-  Fab
-} from '@mui/material';
+  CatalogueService,
+  CategorizedCatalog,
+  GroupService,
+  TYPES,
+} from '@spos/services/common';
+import DollarIcon from '@mui/icons-material/AttachMoney';
+import { Box, Fab } from '@mui/material';
 
 export default function PersonalOrdering() {
   const navigate = useNavigate();
-  const { groupId, tableNumber, ownerId } = useParams<{ groupId: string, tableNumber: string, ownerId: string }>();
+  const { groupId, tableNumber, ownerId } = useParams<{
+    groupId: string;
+    tableNumber: string;
+    ownerId: string;
+  }>();
 
-  const currentTableCart: Cart =
-    useCarts((state) => state.carts)[tableNumber] || [];
+  const currentTableCart =
+    useCarts((state) => state.carts)[Number(tableNumber)] || [];
 
   const updateItem = useCarts((state) => state.updateItem);
 
   const container = React.useContext(ContainerContext);
 
-  const {
-    data: group,
-    isLoading: isLoadingGroup
-  } = useQuery({
+  const { data: group, isLoading: isLoadingGroup } = useQuery({
     queryKey: ['group', groupId],
     queryFn: async () => {
       const groupService: GroupService = container.get<GroupService>(
         TYPES.GroupService
       );
-      return groupService.getGroup(groupId);
+      return groupService.getGroup(groupId ?? '');
     },
     refetchOnWindowFocus: 'always',
     enabled: !!groupId && groupId !== '',
   });
 
-  const {
-    data: catalog,
-    isLoading: isLoadingCatalog
-  } = useQuery({
+  const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
     queryKey: ['catalog', group?.offer],
     queryFn: async () => {
       const catalogService: CatalogueService = container.get<CatalogueService>(
         TYPES.CatalogueService
       );
-      return catalogService.getFilteredCatalog(group?.offer ?? "");
+      return catalogService.getFilteredCatalog(group?.offer ?? '');
     },
     enabled: group?.offer !== undefined && group?.offer !== '',
     refetchOnWindowFocus: 'always',
   });
 
   if (isLoadingGroup || isLoadingCatalog) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (group === undefined) {
     return <div>Error, the selected groupId doesn't exist</div>;
   }
 
-  if (!group.tables.map((table) => table.number).map(String).includes(tableNumber ?? "")) {
+  if (
+    !group.tables
+      .map((table) => table.number)
+      .map(String)
+      .includes(tableNumber ?? '')
+  ) {
     return <div>Error, the selected table doesn't belong to the group</div>;
   }
 
@@ -67,9 +72,9 @@ export default function PersonalOrdering() {
       currentTableCart.find((element) => element.shortName === shortName) !==
       undefined
     ) {
-      updateItem(tableNumber, itemId, shortName, 0);
+      updateItem(Number(tableNumber), itemId, shortName, 0);
     } else {
-      updateItem(tableNumber, itemId, shortName, 1);
+      updateItem(Number(tableNumber), itemId, shortName, 1);
     }
   }
 
@@ -88,16 +93,23 @@ export default function PersonalOrdering() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '70vh'
+          height: '70vh',
         }}
       >
-        <CatalogDisplay catalog={catalog} currentTableCart={currentTableCart} tableNumber={tableNumber} handleSelectItem={handleSelectItem} />
+        <CatalogDisplay
+          catalog={catalog as CategorizedCatalog}
+          currentTableCart={currentTableCart}
+          tableNumber={Number(tableNumber)}
+          handleSelectItem={handleSelectItem}
+        />
 
         <Fab
           color="primary"
           aria-label="Dollar"
           sx={{ position: 'absolute', bottom: '2.5dvh', left: '2.5dvh' }}
-          onClick={() => navigate(`/personalBilling/${groupId}/${tableNumber}/${ownerId}`)}
+          onClick={() =>
+            navigate(`/personalBilling/${groupId}/${tableNumber}/${ownerId}`)
+          }
         >
           <DollarIcon />
         </Fab>

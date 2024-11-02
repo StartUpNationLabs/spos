@@ -4,6 +4,7 @@ interface ImportMetaEnv {
   VITE_MENU_BASE_URL: string
   VITE_DINING_BASE_URL: string
   VITE_BFF_BASE_URL: string
+  VITE_PAYMENT_SHARING_BASE_URL: string
 }
 
 interface ImportMeta {

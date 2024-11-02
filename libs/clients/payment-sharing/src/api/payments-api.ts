@@ -329,7 +329,7 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async paymentControllerMakePayment(groupId: string, ownerId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async paymentControllerMakePayment(groupId: string, ownerId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.paymentControllerMakePayment(groupId, ownerId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PaymentsApi.paymentControllerMakePayment']?.[localVarOperationServerIndex]?.url;
@@ -423,7 +423,7 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentControllerMakePayment(requestParameters: PaymentsApiPaymentControllerMakePaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        paymentControllerMakePayment(requestParameters: PaymentsApiPaymentControllerMakePaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
             return localVarFp.paymentControllerMakePayment(requestParameters.groupId, requestParameters.ownerId, options).then((request) => request(axios, basePath));
         },
         /**
