@@ -1,14 +1,26 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
-import { GroupNotFoundException, NoGroupsFoundException } from '@spos/services/common';
-
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   container,
   Group,
-  GroupCreateDto, GroupService,
+  GroupCreateDto,
+  GroupNotFoundException,
+  GroupService,
   GroupServiceWorkflow,
+  NoGroupsFoundException,
   Table,
-  TableCreateDto, TYPES
-} from "@spos/services/common";
+  TableCreateDto,
+  TYPES,
+} from '@spos/services/common';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
 export class TableDto implements Table {
@@ -20,9 +32,10 @@ export class TableDto implements Table {
   @ApiProperty()
   customerCount: number;
 }
-export class Status{
+
+export class Status {
   @ApiProperty()
-  success : boolean;
+  success: boolean;
 }
 
 export class AnnotatedGroup implements Group {
@@ -73,10 +86,8 @@ export class RemoteGroupController {
   }
 
   @Delete(':id')
-  async removeGroup(
-    @Param('id') id: string
-  ) : Promise<Status> {
-    try{
+  async removeGroup(@Param('id') id: string): Promise<Status> {
+    try {
       await container.get<GroupService>(TYPES.GroupService).removeGroup(id);
       return { success: true };
     } catch (error) {
@@ -86,30 +97,50 @@ export class RemoteGroupController {
             status: HttpStatus.NOT_FOUND,
             error: `Group with id ${id} doesn't exist!`,
           },
-          HttpStatus.NOT_FOUND,
+          HttpStatus.NOT_FOUND
         );
       }
     }
-    
   }
+
   @Delete()
   async removeAllGroups(): Promise<Status> {
-    try{
+    try {
       await container.get<GroupService>(TYPES.GroupService).removeAllGroups();
       return { success: true };
-    }catch (error) {
+    } catch (error) {
       if (error instanceof NoGroupsFoundException) {
         throw new HttpException(
           {
             status: HttpStatus.NOT_FOUND,
             error: `Groups doesn't exist!`,
           },
-          HttpStatus.NOT_FOUND,
+          HttpStatus.NOT_FOUND
         );
       }
     }
-
   }
 
-
+  @Get('groupFromTableNumber/:tableNumber')
+  async getGroupFromTableNumber(
+    @Param('tableNumber') tableNumber: string
+  ): Promise<AnnotatedGroup> {
+    let data = null;
+    try {
+       data = await container
+        .get<GroupServiceWorkflow>(TYPES.GroupService)
+        .getGroupFromTableNumber(tableNumber);
+    } catch (e) {
+      if (e instanceof GroupNotFoundException) {
+        throw new HttpException(
+          {
+            status: HttpStatus.NOT_FOUND,
+            error: `Group with table number ${tableNumber} doesn't exist!`,
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+    }
+    return data;
+  }
 }

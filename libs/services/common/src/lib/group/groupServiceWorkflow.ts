@@ -43,6 +43,7 @@ export class GroupServiceWorkflow implements GroupService {
     this.group[id].tables.sort((a, b) => a.number - b.number);
     return this.group[id];
   }
+
   @perf()
   @logger
   async getGroup(id: string) {
@@ -51,11 +52,13 @@ export class GroupServiceWorkflow implements GroupService {
     }
     return this.group[id];
   }
+
   @perf()
   @logger
   async getGroups() {
     return Object.values(this.group);
   }
+
   @perf()
   @logger
   async removeGroup(id: string): Promise<boolean> {
@@ -69,6 +72,7 @@ export class GroupServiceWorkflow implements GroupService {
       throw new GroupNotFoundException(`Group with id ${id} not found.`);
     }
   }
+
   @perf()
   @logger
   async removeAllGroups(): Promise<boolean> {
@@ -81,5 +85,19 @@ export class GroupServiceWorkflow implements GroupService {
       console.debug('All groups have been removed.');
     }
     return true;
+  }
+
+  @logger
+  async getGroupFromTableNumber(tableNumber: string) {
+    for (const group of Object.values(this.group)) {
+      for (const table of group.tables) {
+        if (table.number.toString() === tableNumber) {
+          return group;
+        }
+      }
+    }
+    throw new GroupNotFoundException(
+      `Group with table number ${tableNumber} not found.`
+    );
   }
 }

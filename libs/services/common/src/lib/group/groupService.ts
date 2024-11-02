@@ -19,7 +19,9 @@ export interface GroupService {
 
   getGroups(): Promise<Group[]>;
 
-  removeGroup(id : string) : Promise<boolean>;
+  removeGroup(id: string): Promise<boolean>;
 
-  removeAllGroups() : Promise<boolean>;
+  removeAllGroups(): Promise<boolean>;
+
+  getGroupFromTableNumber(tableNumber: string) : Promise<Group>;
 }
