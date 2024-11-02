@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NumberInput from '../tables/nbPeopleSelector';
 import { TableItem } from '@spos/services/common';
 import { Button } from '@mui/material';
@@ -18,14 +18,19 @@ interface BaseTableBillingRowProps {
 
 export function BaseTableBillingRow({element, count, max, onIncrement, onDecrement, showRemoveButton, onRemove}: BaseTableBillingRowProps) {
   const [currentCount, setCurrentCount] = useState(count);
-  const handleChange = (newValue: number) => {
-    setCurrentCount(newValue); // Update the local count state
 
+  useEffect(() => {
+    setCurrentCount(count);
+  }, [count]);
+
+  const handleChange = (newValue: number) => {
     if (newValue > currentCount) {
       onIncrement?.(element.item.id);
     } else if (newValue < currentCount) {
       onDecrement?.(element.item.id);
     }
+
+    setCurrentCount(newValue);
   };
 
   return (
@@ -34,7 +39,7 @@ export function BaseTableBillingRow({element, count, max, onIncrement, onDecreme
         <NumberInput
           min={0}
           max={max}
-          value={currentCount}
+          value={count}
           onChange={(e, value) => handleChange(value as number)} // Capture changes
         />
       </StyledTableCell>
