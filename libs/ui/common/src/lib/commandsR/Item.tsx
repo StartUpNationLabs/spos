@@ -15,6 +15,7 @@ type ItemProps = {
   isSelected: boolean;
   tableNumber: number;
   handleSelectItem: (itemId: string, shortName: string) => void;
+  remaining?: number;
 };
 
 export function Item(props: Readonly<ItemProps>) {
@@ -41,6 +42,9 @@ export function Item(props: Readonly<ItemProps>) {
         <Typography gutterBottom variant="h5" component="div">
           {props.item.shortName}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {props.remaining ? `Remaining: ${props.remaining}` : ''}
+        </Typography>
       </CardContent>
 
       <CardActions
@@ -64,6 +68,7 @@ export function Item(props: Readonly<ItemProps>) {
                 value as number
               );
             }}
+
           />
         )}
       </CardActions>
