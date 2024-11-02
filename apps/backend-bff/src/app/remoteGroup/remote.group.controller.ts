@@ -125,8 +125,9 @@ export class RemoteGroupController {
   async getGroupFromTableNumber(
     @Param('tableNumber') tableNumber: string
   ): Promise<AnnotatedGroup> {
+    let data = null;
     try {
-      return container
+       data = await container
         .get<GroupServiceWorkflow>(TYPES.GroupService)
         .getGroupFromTableNumber(tableNumber);
     } catch (e) {
@@ -140,5 +141,6 @@ export class RemoteGroupController {
         );
       }
     }
+    return data;
   }
 }
