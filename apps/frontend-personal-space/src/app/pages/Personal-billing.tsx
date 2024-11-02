@@ -1,21 +1,39 @@
 import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { SSEProvider, useSSE } from 'react-hooks-sse';
-import { KitchenService, MonsieurAxelMenvoie, TableSummary, TYPES } from '@spos/services/common';
-import CustomizedTableForTableBilling, { GroupBillingSectionPage } from '@spos/ui/common';
+import { TableBillingShell } from '@spos/ui/common';
 import { useMutation } from '@tanstack/react-query';
-import { ItemRequestDto, PaymentsApi } from '@spos/clients-payment-sharing';
+import {
+  ItemRequestDto,
+  PaymentsApi,
+  SelectedByCustomerDTO,
+} from '@spos/clients-payment-sharing';
+import { TableItem } from '@spos/services/common';
 
-const Tables = () => {
-  const state = useSSE('message', {} as [string, TableSummary]);
+interface TablesProps {
+  groupId: string;
+  ownerId: string;
+}
 
-  const mutation = useMutation({
+const Tables = ({groupId, ownerId}: TablesProps) => {
+  const state = useSSE('message', {} as [SelectedByCustomerDTO]);
+
+  const returnToCenterTableMutation = useMutation({
     mutationFn: (itemRequestDto: ItemRequestDto) => {
       console.log(itemRequestDto);
       return new PaymentsApi().paymentControllerReturnItemToCenterTable({
         itemRequestDto,
       });
-    }
+    },
+  });
+
+  const takeItemFromCenterTableMutation = useMutation({
+    mutationFn: (itemRequestDto: ItemRequestDto) => {
+      console.log(itemRequestDto);
+      return new PaymentsApi().paymentControllerTakeItemFromCenterTable({
+        itemRequestDto,
+      });
+    },
   });
 
   console.log(state);
@@ -23,11 +41,20 @@ const Tables = () => {
     return null;
   }
 
+  const countFunction = (tableItem: TableItem, tableNumber: number) => {
+    const table = state[tableNumber];
+    if (!table) {
+      return 0;
+    }
+    const element = table.elements.find((element) => element.item.name === tableItem.item.name);
+    return element ? element.selectedByCustomer : 0;
+  }
+
   return (
     Object.keys(state).length > 0 &&
     Object.keys(state).map((key) => {
       return (
-        <Box key={key} sx={{marginTop: "1dvh"}}>
+        <Box key={key} sx={{ marginTop: '1dvh' }}>
           <Typography
             variant="h3"
             component="h3"
@@ -40,14 +67,36 @@ const Tables = () => {
           >
             {'Table ' + key}
           </Typography>
-          <CustomizedTableForTableBilling
+          <TableBillingShell
             key={key}
-            summary={state[key]}
+            elements={state[key].elements}
             showRemoveButton={true}
-            onRemoveItem={(itemId: string) => {
-              mutation.mutate({
-                tableNumber: key,
-                itemId: itemId,
+            countFunction={(tableItem: TableItem) => countFunction(tableItem, parseInt(key))}
+            onIncrement={(itemId: string) => {
+              takeItemFromCenterTableMutation.mutate({
+                group_id: groupId,
+                owner_id: ownerId,
+                item_short_name: itemId,
+                amount: countFunction(itemId, parseInt(key)),
+                table_id: key,
+              });
+            }}
+            onDecrement={(itemId: string) => {
+              returnToCenterTableMutation.mutate({
+                group_id: groupId,
+                owner_id: ownerId,
+                item_short_name: itemId,
+                amount: 1,
+                table_id: key,
+              });
+            }}
+            onRemove={(tableItem: TableItem) => {
+              returnToCenterTableMutation.mutate({
+                group_id: groupId,
+                owner_id: ownerId,
+                table_id: key,
+                amount: countFunction(tableItem, parseInt(key)),
+                item_short_name: tableItem.item.name,
               });
             }}
           />
@@ -65,7 +114,14 @@ export function PersonalBilling() {
   }>();
 
   return (
-    <Box sx={{backgroundColor: '#d9d9d9', margin: "0", padding: "5dvw", minHeight: "100dvh"}}>
+    <Box
+      sx={{
+        backgroundColor: '#d9d9d9',
+        margin: '0',
+        padding: '5dvw',
+        minHeight: '100dvh',
+      }}
+    >
       <Typography
         variant="h2"
         component="h2"

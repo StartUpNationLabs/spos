@@ -36,7 +36,7 @@ interface TableBillingShellProps {
   onIncrement: (itemId: string) => void;
   onDecrement: (itemId: string) => void;
   showRemoveButton?: boolean;
-  onRemove?: (itemId: string) => void;
+  onRemove?: (tableItem: TableItem) => void;
 }
 
 export function TableBillingShell({

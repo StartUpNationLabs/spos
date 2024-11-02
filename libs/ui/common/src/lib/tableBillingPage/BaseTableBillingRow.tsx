@@ -13,7 +13,7 @@ interface BaseTableBillingRowProps {
   onIncrement: (itemId: string) => void
   onDecrement: (itemId: string) => void
   showRemoveButton?: boolean;
-  onRemove?: (itemId: string) => void
+  onRemove?: (tableItem: TableItem) => void
 }
 
 export function BaseTableBillingRow({element, count, max, onIncrement, onDecrement, showRemoveButton, onRemove}: BaseTableBillingRowProps) {
@@ -52,7 +52,7 @@ export function BaseTableBillingRow({element, count, max, onIncrement, onDecreme
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => onRemove?.(element.item.id)}
+            onClick={() => onRemove?.(element)}
           >
             Remove
           </Button>

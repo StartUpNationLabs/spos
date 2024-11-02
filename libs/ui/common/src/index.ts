@@ -10,6 +10,7 @@ export * from './lib/groupBillingPage/groupBillingPage';
 export * from './lib/groupBillingPage/groupBillingSectionPage';
 export * from './lib/tableBillingPage/tableBilling';
 export * from './lib/tableBillingPage/customizedTableForTableBilling';
+export * from './lib/tableBillingPage/TableBillingShell';
 export * from './lib/utils/navbar';
 export * from './lib/commandsR/commands';
 export * from './lib/commandsR/orderingChoices';
