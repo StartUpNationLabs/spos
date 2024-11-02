@@ -84,7 +84,7 @@ export class PaymentController {
   })
   async sseTableItems(
     @Param('group_id') group_id: string
-  ): Promise<Observable<{ data: PaymentResponseTableDTO[] }>> {
+  ) {
     return this.sseService.getTableItemsSee(group_id);
   }
 
