@@ -33,7 +33,7 @@ export const CommandsParameterStoreProvider = ({ children }) => {
     </StoreContext.Provider>
   );
 };
-const useCommandsParameter = (selector) => {
+const useCommandsParameter = <T,>(selector: (state: CommandsState) => T): T => {
   const store = useContext(StoreContext);
   if (!store) {
     throw new Error('Missing StoreProvider');

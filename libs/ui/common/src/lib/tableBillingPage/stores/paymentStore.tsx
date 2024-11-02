@@ -85,11 +85,12 @@ export const PaymentStoreProvider = ({ children }) => {
     </StoreContext.Provider>
   );
 };
-const useTableBillingStore = (selector) => {
+const useTableBillingStore = <T,>(selector: (state: PaymentStoreState) => T): T => {
   const store = useContext(StoreContext);
   if (!store) {
     throw new Error('Missing StoreProvider');
   }
   return zustandUseStore(store, selector);
 };
+
 export default useTableBillingStore;

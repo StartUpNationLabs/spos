@@ -13,7 +13,7 @@ export function GroupBillingSectionPage(props: GroupBillingSectionPageProps) {
   return (
     <Box
       key={props.index}
-      sx={{ margin: '2vh 0', backgroundColor: '#d9d9d9' }}
+      sx={{ margin: '0', backgroundColor: '#d9d9d9' }}
     >
 
       <Typography

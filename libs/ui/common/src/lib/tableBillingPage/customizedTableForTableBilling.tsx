@@ -1,102 +1,39 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { TableSummary } from '@spos/services/common';
-import NumberInput from '../tables/nbPeopleSelector';
+import { TableItem, TableSummary } from '@spos/services/common';
 import useTableBillingStore from './stores/paymentStore';
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
+import { TableBillingShell } from './TableBillingShell';
 
 interface CustomizedTablesForTableBillingProps {
   summary: TableSummary;
 }
 
-export default function CustomizedTableForTableBilling(
-  props: CustomizedTablesForTableBillingProps
-) {
+export default function CustomizedTableForTableBilling({
+  summary,
+}: CustomizedTablesForTableBillingProps) {
   const { elementToBePaid, updateItem } = useTableBillingStore(
     (state) => state
   );
+
+  const countFunction = (tableItem: TableItem): number => {
+    const tableItems = elementToBePaid[summary.number] || [];
+    const item = tableItems.find((item) => item.itemId === tableItem.item.id);
+    return item ? item.quantityPaid : 0;
+  };
+
+  const updateItemCount = (itemId: string, increment: boolean) => {
+    const tableItem = summary.elements.find((element) => element.item.id === itemId);
+    if (!tableItem) return;
+
+    const newCount = countFunction(tableItem) + (increment ? 1 : -1);
+    updateItem(summary.number, tableItem.item.id, newCount, tableItem.item.price);
+  };
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center" width="25%">
-              Quantity Selected
-            </StyledTableCell>
-            <StyledTableCell align="center" width="25%">
-              Quantity Remaining
-            </StyledTableCell>
-            <StyledTableCell align="center" width="25%">
-              name
-            </StyledTableCell>
-            <StyledTableCell align="center" width="25%">
-              Price&nbsp;($)
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.summary.elements.map((element) => {
-            const count: number =
-              (elementToBePaid[props.summary.number] ?? []).find(
-                (tableItem) => tableItem.itemId === element.item.id
-              )?.quantityPaid ?? 0;
-            return (
-              <StyledTableRow key={element.item.id}>
-                <StyledTableCell component="th" scope="row" width="25%">
-                  <NumberInput
-                    min={0}
-                    max={element.remaining}
-                    value={count}
-                    onChange={(e, value) => {
-                      updateItem(
-                        props.summary.number,
-                        element.item.id,
-                        value as number,
-                        element.item.price
-                      );
-                    }}
-                  />
-                </StyledTableCell>
-                <StyledTableCell align="center" width="25%">
-                  {element.remaining}
-                </StyledTableCell>
-                <StyledTableCell align="center" width="25%">
-                  {element.item.name}
-                </StyledTableCell>
-                <StyledTableCell align="center" width="25%">
-                  {element.item.price * count}
-                </StyledTableCell>
-              </StyledTableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <TableBillingShell
+      elements={summary.elements}
+      countFunction={countFunction}
+      onIncrement={(itemId) => updateItemCount(itemId, true)}
+      onDecrement={(itemId) => updateItemCount(itemId, false)}
+    />
   );
 }

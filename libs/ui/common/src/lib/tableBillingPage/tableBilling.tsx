@@ -7,6 +7,7 @@ import {
   BillingService,
   GroupService,
   MonsieurAxelMenvoie2,
+  TableSummary,
   TYPES,
 } from '@spos/services/common';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -32,7 +33,7 @@ export function TableBilling() {
     useTableBillingStore((state) => state);
 
   const queryClient = useQueryClient();
-  const tableNumber = useCommandsParameter((state) => state.tableNumber);
+  const { tableNumber } = useCommandsParameter((state) => state);
 
   if (!groupId || groupId === '') {
     navigate('/');
@@ -126,7 +127,7 @@ export function TableBilling() {
     );
   }
 
-  const currentTableSummary = billingSummary.find(
+  const currentTableSummary: TableSummary = billingSummary.find(
     (element) => element.number === tableNumber
   ) || {
     number: tableNumber,
