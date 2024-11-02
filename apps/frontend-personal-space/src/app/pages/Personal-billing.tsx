@@ -14,9 +14,10 @@ import { TableItem } from '@spos/services/common';
 interface TablesProps {
   groupId: string;
   ownerId: string;
+  tableNumber: string;
 }
 
-const Tables = ({ groupId, ownerId }: TablesProps) => {
+const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
   const state = useSSE('message', {} as [SelectedByCustomerDTO]);
 
   const returnToCenterTableMutation = useMutation({
@@ -38,7 +39,14 @@ const Tables = ({ groupId, ownerId }: TablesProps) => {
   const takeItemFromCenterTableMutation = useMutation({
     mutationFn: (itemRequestDto: ItemRequestDto) => {
       console.log(itemRequestDto);
-      return new PaymentsApi().paymentControllerTakeItemFromCenterTable({
+      return new PaymentsApi(
+        new Configuration({
+          basePath: import.meta.env.VITE_PAYMENT_SHARING_BASE_URL.replace(
+            /\/*$/,
+            ''
+          ),
+        })
+      ).paymentControllerTakeItemFromCenterTable({
         itemRequestDto,
       });
     },
@@ -49,16 +57,27 @@ const Tables = ({ groupId, ownerId }: TablesProps) => {
     return null;
   }
 
-  const countFunction = (tableItem: TableItem, tableNumber: number) => {
+  const countFunction = (itemShortName: string, tableNumber: number) => {
     const table = state[tableNumber];
     if (!table) {
       return 0;
     }
     const element = table.elements.find(
-      (element) => element.item.name === tableItem.item.name
+      (element) => element.item.name === itemShortName
     );
     return element ? element.selectedByCustomer : 0;
   };
+
+  const itemIdToItemName = (itemId: string, tableNumber: number) => {
+    const table = state[tableNumber];
+    if (!table) {
+      return "";
+    }
+    const element = table.elements.find(
+      (element) => element.item.id === itemId
+    );
+    return element ? element.item.name : "";
+  }
 
   return (
     Object.keys(state).length > 0 &&
@@ -79,35 +98,35 @@ const Tables = ({ groupId, ownerId }: TablesProps) => {
           </Typography>
           <TableBillingShell
             key={key}
-            elements={state[key].elements}
+            elements={state[parseInt(key)].elements}
             showRemoveButton={true}
             countFunction={(tableItem: TableItem) =>
-              countFunction(tableItem, parseInt(key))
+              countFunction(tableItem.item.name, parseInt(key))
             }
             onIncrement={(itemId: string) => {
               takeItemFromCenterTableMutation.mutate({
                 group_id: groupId,
                 owner_id: ownerId,
-                item_short_name: itemId,
-                amount: countFunction(itemId, parseInt(key)),
-                table_id: key,
+                item_short_name: itemIdToItemName(itemId, parseInt(key)),
+                amount: countFunction(itemIdToItemName(itemId, parseInt(key)), parseInt(key)),
+                table_id: tableNumber
               });
             }}
             onDecrement={(itemId: string) => {
               returnToCenterTableMutation.mutate({
                 group_id: groupId,
                 owner_id: ownerId,
-                item_short_name: itemId,
-                amount: 1,
-                table_id: key,
+                item_short_name: itemIdToItemName(itemId, parseInt(key)),
+                amount: countFunction(itemIdToItemName(itemId, parseInt(key)), parseInt(key)),
+                table_id: tableNumber
               });
             }}
             onRemove={(tableItem: TableItem) => {
               returnToCenterTableMutation.mutate({
                 group_id: groupId,
                 owner_id: ownerId,
-                table_id: key,
-                amount: countFunction(tableItem, parseInt(key)),
+                table_id: tableNumber,
+                amount: countFunction(tableItem.item.name, parseInt(key)),
                 item_short_name: tableItem.item.name,
               });
             }}
@@ -150,7 +169,7 @@ export function PersonalBilling() {
           ownerId
         }
       >
-        <Tables groupId={groupId ?? ''} ownerId={ownerId ?? ''} />
+        <Tables groupId={groupId ?? ''} ownerId={ownerId ?? ''} tableNumber={tableNumber ?? ""} />
       </SSEProvider>
     </Box>
   );
