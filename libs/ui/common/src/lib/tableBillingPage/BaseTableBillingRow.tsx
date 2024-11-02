@@ -30,7 +30,7 @@ export function BaseTableBillingRow({element, count, max, onIncrement, onDecreme
 
   return (
     <StyledTableRow>
-      <StyledTableCell align="center" width="25%">
+      <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
         <NumberInput
           min={0}
           max={max}
@@ -38,13 +38,13 @@ export function BaseTableBillingRow({element, count, max, onIncrement, onDecreme
           onChange={(e, value) => handleChange(value as number)} // Capture changes
         />
       </StyledTableCell>
-      <StyledTableCell align="center" width="25%">
+      <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
         {element.remaining}
       </StyledTableCell>
-      <StyledTableCell align="center" width="25%">
+      <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
         {element.item.name}
       </StyledTableCell>
-      <StyledTableCell align="center" width="25%">
+      <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
         {element.item.price * count}
       </StyledTableCell>
       {showRemoveButton && (
