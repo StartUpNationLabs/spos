@@ -1,11 +1,9 @@
 import React from 'react';
 import Footer from '../utils/mealSelectionForPaymentFooter';
 import BackButton from '../utils/backButton';
-import { CatalogDisplay } from './catalogDisplay';
 import { useSSE, SSEProvider } from 'react-hooks-sse';
 import { useParams } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
-import { parse } from 'path';
+import { Box, Typography, CircularProgress, Divider, Grid } from '@mui/material';
 import { PaymentResponseTableDTO } from '@spos/clients-payment-sharing';
 import { Item } from './Item';
 import { useContext } from 'react';
@@ -33,11 +31,11 @@ interface TableItem {
 }
 
 export function MealSelectionForPayment() {
-  const { groupId, tableNumber } = useParams<{
-    groupId: string;
+  const { groupId, tableNumber } = useParams<{ 
+    groupId: string; 
     tableNumber: string;
   }>();
-
+  
   function handleClose() {
     console.log('Close button clicked');
   }
@@ -75,7 +73,6 @@ function MealSelectionContent({
   tableNumber,
 }: MealSelectionContentProps) {
   const tableItems = useSSE<PaymentResponseTableDTO[]>('message', []);
-
   const container = React.useContext(ContainerContext);
 
   const currentTable = tableItems.find((table) => table.number === tableNumber);
@@ -84,9 +81,7 @@ function MealSelectionContent({
   const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
     queryKey: ['catalogMealSelectionForPayments', itemIds],
     queryFn: async () => {
-      const catalogService: CatalogueService = container.get<CatalogueService>(
-        TYPES.CatalogueService
-      );
+      const catalogService: CatalogueService = container.get<CatalogueService>(TYPES.CatalogueService);
       return catalogService.getFullItemFromItemIdsArray(itemIds);
     },
     enabled: itemIds.length > 0,
@@ -94,54 +89,72 @@ function MealSelectionContent({
   });
 
   if (!tableItems || tableItems.length === 0) {
-    return <p>Loading for elements in this table...</p>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (!currentTable) {
-    return <p>No element available for this table.</p>;
+    return <Typography variant="h6" sx={{ textAlign: 'center', mt: 4 }}>No items available for this table.</Typography>;
   }
 
   return (
-    <div style={{ paddingBottom: '80px' }}>
+    <Box sx={{ pb: 10 }}>
       <BackButton onClick={onBackButtonClick} />
-      <Box sx={{ marginTop: '120px', padding: '10px', borderBottom: '1px solid #ccc' }}>
-        <Typography variant="h6">My Table (Number {currentTable.number})</Typography>
+      <Box sx={{ mt: 15, px: 3 }}>
+        <Typography variant="h5" color="primary" sx={{ mb: 2 }}>
+          My table (Nb {currentTable.number})
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+        
         {isLoadingCatalog ? (
-          <p>Chargement du catalogue...</p>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <CircularProgress />
+          </Box>
         ) : (
-          currentTable.elements.map((element, elementIndex) => {
-            const catalogItem = catalog?.find((item) => item._id === element.item.id);
-            const isSelected = itemIds.includes(element.item.id);
+          <Box
+            sx={{
+              backgroundColor: 'rgba(25, 118, 210, 0.1)',
+              borderRadius: 2,
+              p: 3,
+              boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+              mb: 3,
+            }}
+          >
+            <Grid container spacing={2}>
+              {currentTable.elements.map((element, index) => {
+                const catalogItem = catalog?.find((item) => item._id === element.item.id);
+                const isSelected = itemIds.includes(element.item.id);
 
-            return (
-              <Box key={elementIndex} sx={{ marginTop: '20px', marginLeft: '15px', padding: '5px' }}>
-                <Typography variant="body1">Nom: {element.item.name}</Typography>
-                <Typography variant="body1">Prix: {element.item.price} €</Typography>
-                <Typography variant="body1">Quantité restante: {element.remaining}</Typography>
-                <Typography variant="body1">Sur la table: {element.onTable}</Typography>
-                <Item
-                  item={{
-                    _id: element.item.id,
-                    fullName: element.item.name,
-                    shortName: element.item.name,
-                    category: catalogItem?.category || 'default',
-                    image: catalogItem?.image || '',
-                    price: element.item.price,
-                  }}
-                  tableNumber={tableNumber}
-                  handleSelectItem={() => console.log('Item selected')}
-                  remaining={element.remaining}
-                  isSelected={isSelected}
-                />
-              </Box>
-            );
-          })
+                return (
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                  
+                      <Item
+                        item={{
+                          _id: element.item.id,
+                          fullName: element.item.name,
+                          shortName: element.item.name,
+                          category: catalogItem?.category || 'default',
+                          image: catalogItem?.image || '',
+                          price: element.item.price,
+                        }}
+                        tableNumber={tableNumber}
+                        handleSelectItem={() => console.log('Item selected')}
+                        remaining={element.remaining}
+                        isSelected={isSelected}
+                      />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Box>
         )}
       </Box>
       <Footer onClose={onClose} onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />
-    </div>
+    </Box>
   );
 }
-
 
 export default MealSelectionForPayment;
