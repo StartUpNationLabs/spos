@@ -227,7 +227,8 @@ export function PersonalBilling() {
 
       <SSEProvider
         endpoint={
-          'http://localhost:3002/api/payments/sse/customer-items/' +
+          `${
+      import.meta.env.VITE_PAYMENT_SHARING_BASE_URL}/api/payments/sse/customer-items/` +
           groupId +
           '/' +
           ownerId

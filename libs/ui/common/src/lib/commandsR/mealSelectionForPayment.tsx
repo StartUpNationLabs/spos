@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Typography, CircularProgress, Divider, Grid } from '@mui/material';
 import { PaymentResponseTableDTO } from '@spos/clients-payment-sharing';
 import { Item } from './Item';
-import { useContext } from 'react';
 import { ContainerContext } from '../containerHook/containerContext';
 import { useQuery } from '@tanstack/react-query';
 import { CatalogueService, TYPES } from '@spos/services/common';
@@ -59,7 +58,7 @@ export function MealSelectionForPayment() {
   }
 
   return (
-    <SSEProvider endpoint={`https://payment-sharing.spos.polytech.apoorva64.com/api/payments/sse/table-items/${groupId}`}>
+    <SSEProvider endpoint={`${import.meta.env.VITE_PAYMENT_SHARING_BASE_URL}/api/payments/sse/table-items/${groupId}`}>
       <MealSelectionContent
         onClose={handleClose}
         onSelectWhoPays={handleSelectWhoPays}
