@@ -33,7 +33,7 @@ import { BillingCacheService } from './payment/billing-cache.service';
       provide: 'BILLING_API',
       useFactory: async () => {
         // try to read from env
-        let url = process.env['BILLING_API_URL'];
+        let url = process.env['BACKEND_BFF_URL'];
         if (!url) {
           url = 'http://localhost:3000';
         }
