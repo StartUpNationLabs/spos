@@ -103,6 +103,39 @@ export const RemoteGroupApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * 
+         * @param {string} tableNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteGroupControllerGetGroupFromTableNumber: async (tableNumber: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tableNumber' is not null or undefined
+            assertParamExists('remoteGroupControllerGetGroupFromTableNumber', 'tableNumber', tableNumber)
+            const localVarPath = `/api/remoteGroup/groupFromTableNumber/{tableNumber}`
+                .replace(`{${"tableNumber"}}`, encodeURIComponent(String(tableNumber)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -228,6 +261,18 @@ export const RemoteGroupApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} tableNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async remoteGroupControllerGetGroupFromTableNumber(tableNumber: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnotatedGroup>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remoteGroupControllerGetGroupFromTableNumber(tableNumber, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RemoteGroupApi.remoteGroupControllerGetGroupFromTableNumber']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -290,6 +335,15 @@ export const RemoteGroupApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * 
+         * @param {RemoteGroupApiRemoteGroupControllerGetGroupFromTableNumberRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remoteGroupControllerGetGroupFromTableNumber(requestParameters: RemoteGroupApiRemoteGroupControllerGetGroupFromTableNumberRequest, options?: RawAxiosRequestConfig): AxiosPromise<AnnotatedGroup> {
+            return localVarFp.remoteGroupControllerGetGroupFromTableNumber(requestParameters.tableNumber, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -345,6 +399,20 @@ export interface RemoteGroupApiRemoteGroupControllerGetGroupRequest {
 }
 
 /**
+ * Request parameters for remoteGroupControllerGetGroupFromTableNumber operation in RemoteGroupApi.
+ * @export
+ * @interface RemoteGroupApiRemoteGroupControllerGetGroupFromTableNumberRequest
+ */
+export interface RemoteGroupApiRemoteGroupControllerGetGroupFromTableNumberRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RemoteGroupApiRemoteGroupControllerGetGroupFromTableNumber
+     */
+    readonly tableNumber: string
+}
+
+/**
  * Request parameters for remoteGroupControllerRemoveGroup operation in RemoteGroupApi.
  * @export
  * @interface RemoteGroupApiRemoteGroupControllerRemoveGroupRequest
@@ -385,6 +453,17 @@ export class RemoteGroupApi extends BaseAPI {
      */
     public remoteGroupControllerGetGroup(requestParameters: RemoteGroupApiRemoteGroupControllerGetGroupRequest, options?: RawAxiosRequestConfig) {
         return RemoteGroupApiFp(this.configuration).remoteGroupControllerGetGroup(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RemoteGroupApiRemoteGroupControllerGetGroupFromTableNumberRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RemoteGroupApi
+     */
+    public remoteGroupControllerGetGroupFromTableNumber(requestParameters: RemoteGroupApiRemoteGroupControllerGetGroupFromTableNumberRequest, options?: RawAxiosRequestConfig) {
+        return RemoteGroupApiFp(this.configuration).remoteGroupControllerGetGroupFromTableNumber(requestParameters.tableNumber, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -32,6 +32,7 @@ import { DiningApiService, MenuApiService } from '@spos/services/common';
         if(process.env['GROUP_API_BASE_PATH']) {
           basePath = process.env['GROUP_API_BASE_PATH'];
         }
+        console.log('Group API base path:', basePath);
         return new RemoteGroupApi(
           new Configuration({ basePath: basePath })
         );

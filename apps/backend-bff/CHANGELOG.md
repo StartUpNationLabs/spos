@@ -1,3 +1,17 @@
+## 0.23.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- add get group from table number ([6df7de9](https://github.com/StartUpNationLabs/spos/commit/6df7de9))
+
+- add eer handling ([ea42b15](https://github.com/StartUpNationLabs/spos/commit/ea42b15))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.22.0 (2024-11-01)
 
 

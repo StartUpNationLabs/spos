@@ -15,14 +15,16 @@ import { KitchenServiceWorkflow } from './kitchen/kitchenServiceWorkflow';
 import { BillingService } from './billing/billingService';
 import { BillingServiceWorkflow } from './billing/billingServiceWorkflow';
 import { KitchenApiService } from './apis/kitchenApiService';
-import { Configuration as DiningConfiguration } from "@spos/clients-dining";
-import { Configuration as KitchenConfiguration } from "@spos/clients-kitchen";
-import { Configuration as MenuConfiguration } from "@spos/clients-menu";
+import { OrderingApiService } from "./apis/orderingApiService";
 
 const container = new Container();
 container
   .bind<GroupService>(TYPES.GroupService)
   .to(GroupServiceWorkflow)
+  .inSingletonScope();
+container
+  .bind<OrderingApiService>(TYPES.OrderingApiService)
+  .to(OrderingApiService)
   .inSingletonScope();
 container
   .bind<TableService>(TYPES.TableService)

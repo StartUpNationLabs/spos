@@ -47,5 +47,10 @@ export class GroupRemoteService implements GroupService {
 
     return (await this.backendBffApiService.getRemoteGroupApi().remoteGroupControllerRemoveAllGroups()).data.success;
   }
+  @perf()
+  @logger
+  async getGroupFromTableNumber(tableNumber: string) {
+    return (await this.backendBffApiService.getRemoteGroupApi().remoteGroupControllerGetGroupFromTableNumber({tableNumber})).data;
+  }
 
 }
