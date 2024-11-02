@@ -203,7 +203,7 @@ export function PersonalBilling() {
     },
     onSuccess: (data) => {
       if (data.data) {
-        navigate('/'+groupId+'/'+tableNumber+"/"+ownerId);
+        navigate('/thanks');
       }
     }
   });
