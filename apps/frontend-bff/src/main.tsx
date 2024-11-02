@@ -11,8 +11,8 @@ import {
   CartStoreProvider,
   CommandsParameterStoreProvider,
   ContainerContext,
-  PaymentStoreProvider
-} from "@spos/ui/common";
+  PaymentStoreProvider,
+} from '@spos/ui/common';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Configuration as BffConfiguration } from '@spos/clients-bff';
 import { Configuration as DiningConfiguration } from '@spos/clients-dining';
@@ -51,6 +51,7 @@ bffContainer
       basePath: import.meta.env.VITE_MENU_BASE_URL,
     })
   );
+
 const queryClient = new QueryClient();
 root.render(
   <StrictMode>

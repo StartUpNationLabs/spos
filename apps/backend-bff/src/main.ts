@@ -9,12 +9,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as fs from 'fs';
-import { container, TYPES } from '@spos/services/common';
+import { bffContainer, container, TYPES } from "@spos/services/common";
 import { Configuration as DiningConfiguration } from '@spos/clients-dining';
 import { Configuration as KitchenConfiguration } from '@spos/clients-kitchen';
 import { Configuration as MenuConfiguration } from '@spos/clients-menu';
 import * as process from 'process';
 import { otelSDK } from "@spos/tracing";
+import { Configuration as OrderingConfiguration } from "@spos/clients-ordering";
 
 async function bootstrap() {
   let oltpUrl = "http://localhost:4318/v1/traces";
@@ -63,6 +64,13 @@ async function bootstrap() {
       basePath: process.env.MENU_BASE_URL.replace(/\/*$/, ""),
     })
   );
+  container
+    .bind<MenuConfiguration>(TYPES.OrderingApiConfiguration)
+    .toConstantValue(
+      new OrderingConfiguration({
+        basePath: process.env.ORDERING_BASE_URL.replace(/\/*$/, ""),
+      })
+    );
 
   const port = process.env.PORT || 3000;
 
