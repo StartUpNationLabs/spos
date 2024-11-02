@@ -46,7 +46,7 @@ export class SseService {
               span.setAttribute('group_id', group_id);
               if (data.action === 'pay' && data.actionData.isFinished) {
                 span.addEvent('payFinished');
-                return { data: [], type: 'payFinished' };
+                return { data: { isFinished: true }, type: 'payFinished' };
               }
               const items = await this.paymentService.getGroupItems(group_id);
               return { data: items };
@@ -88,7 +88,7 @@ export class SseService {
               span.setAttribute('owner_id', owner_id);
               if (data.action === 'pay' && data.actionData.isFinished) {
                 span.addEvent('payFinished');
-                return { data: [], type: 'payFinished' };
+                return { data: {isFinished: true}, type: 'payFinished' };
               }
               return {
                 data: await this.paymentService.getCustomerItems(
