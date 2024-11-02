@@ -15,7 +15,7 @@ spec:
         io.kompose.service: frontend-workflow
     spec:
       containers:
-        - image: ghcr.io/startupnationlabs/spos/frontend-workflow:sha-69ef30b
+        - image: ghcr.io/startupnationlabs/spos/frontend-workflow:sha-e6b0fb9
           name: frontend-workflow
           ports:
             - containerPort: 80
