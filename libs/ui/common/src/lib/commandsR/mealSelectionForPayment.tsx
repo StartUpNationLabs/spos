@@ -35,7 +35,7 @@ export function MealSelectionForPayment() {
     groupId: string; 
     tableNumber: string;
   }>();
-  
+
   function handleClose() {
     console.log('Close button clicked');
   }
@@ -103,8 +103,10 @@ function MealSelectionContent({
   return (
     <Box sx={{ pb: 10 }}>
       <BackButton onClick={onBackButtonClick} />
-      <Box sx={{ mt: 15, px: 3 }}>
-        <Typography variant="h5" color="primary" sx={{ mb: 2 }}>
+      <Box sx={{ mt: 15, px: 3, 
+                  maxHeight: '600px', 
+                  overflowY: 'auto', }}>
+        <Typography variant="h3" color="primary" sx={{ mb: 2, textAlign: 'center' }}>
           My table (Nb {currentTable.number})
         </Typography>
         <Divider sx={{ mb: 2 }} />
