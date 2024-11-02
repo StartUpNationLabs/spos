@@ -59,7 +59,7 @@ export function MealSelectionForPayment() {
   }
 
   return (
-    <SSEProvider endpoint={`http://localhost:3002/api/payments/sse/table-items/${groupId}`}>
+    <SSEProvider endpoint={`https://payment-sharing.spos.polytech.apoorva64.com/api/payments/sse/table-items/${groupId}`}>
       <MealSelectionContent
         onClose={handleClose}
         onSelectWhoPays={handleSelectWhoPays}
