@@ -51,16 +51,16 @@ export function SummaryTable(props: SummararyTableProps) {
       component={Paper}
       sx={{ marginTop: '20px', marginBottom: '20px' }}
     >
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="left" width="30%">
+            <StyledTableCell align="center" width="30%">
               Name
             </StyledTableCell>
-            <StyledTableCell align="right" width="30%">
+            <StyledTableCell align="center" width="30%">
               Quantity
             </StyledTableCell>
-            <StyledTableCell align="right" width="30%">
+            <StyledTableCell align="center" width="30%">
               Price &nbsp;($)
             </StyledTableCell>
           </TableRow>
@@ -68,13 +68,13 @@ export function SummaryTable(props: SummararyTableProps) {
         <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell component="th" align="center" scope="row"  width="30%">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right" width="30%">
+              <StyledTableCell align="center"  width="30%">
                 {row.quantity}
               </StyledTableCell>
-              <StyledTableCell align="right" width="30%">
+              <StyledTableCell align="center" width="30%">
                 {row.quantity * row.price}
               </StyledTableCell>
             </StyledTableRow>

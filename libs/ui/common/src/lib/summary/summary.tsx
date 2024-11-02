@@ -17,9 +17,9 @@ import useCommandsParameter from '../commandsR/stores/useCommandsParameter';
 import SummaryTable from './summaryTable';
 
 export function Summary() {
-  const { groupId, tableNumber, offerType } = useCommandsParameter();
+  const { groupId, tableNumber, offerType } = useCommandsParameter((state) => state);
 
-  const cart = useCarts();
+  const cart = useCarts((state) => state);
   const resetCart = useCarts((state) => state.resetCart);
   const navigate = useNavigate();
   const currentTableCart = cart.carts[tableNumber] || [];

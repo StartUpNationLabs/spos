@@ -108,7 +108,7 @@ const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
                 group_id: groupId,
                 owner_id: ownerId,
                 item_short_name: itemIdToItemName(itemId, parseInt(key)),
-                amount: countFunction(itemIdToItemName(itemId, parseInt(key)), parseInt(key)),
+                amount: 1,
                 table_id: tableNumber
               });
             }}
@@ -117,7 +117,7 @@ const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
                 group_id: groupId,
                 owner_id: ownerId,
                 item_short_name: itemIdToItemName(itemId, parseInt(key)),
-                amount: countFunction(itemIdToItemName(itemId, parseInt(key)), parseInt(key)),
+                amount: 1,
                 table_id: tableNumber
               });
             }}
