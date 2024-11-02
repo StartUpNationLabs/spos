@@ -4,7 +4,6 @@ import {
   DiningRoomTables,
   MealSelectionForPayment,
   PayementAsignee,
-  TableSvg
 } from '@spos/ui/common';
 import { Box } from '@mui/material';
 
@@ -36,7 +35,7 @@ export function App() {
             </Box>
           }
         />
-        <Route path="/diningRoomTables" element={<DiningRoomTables />} />
+        <Route path="/diningRoomTables/:groupId/:tableNumber" element={<DiningRoomTables />} />
         <Route
           path={"/mealSelectionForPayment/:groupId/:tableNumber"}
           element={<MealSelectionForPayment />}

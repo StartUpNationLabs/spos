@@ -43,14 +43,14 @@ export function MealSelectionForPayment() {
 
   function handleSelectWhoPays() {
     console.log('Select who pays button clicked');
-    //navigate(`/diningRoomTables/${tableNumber}`);
     navigate(`/payementAsignee/`);
 
   }
 
   function handleGroupClick() {
     console.log('Group button clicked');
-    navigate(`/diningRoomTables/`);
+    navigate(`/diningRoomTables/${groupId}/${tableNumber}`);
+    //navigate(`/diningRoomTables/`);
 
   }
 

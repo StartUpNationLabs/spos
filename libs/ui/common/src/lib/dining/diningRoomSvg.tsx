@@ -2,27 +2,32 @@ import React, { useEffect, useRef, useState } from 'react';
 //import { TablePaths } from '../utils/SvgTablePath';
 
 import { TablesSvgGrid } from '../utils/SvgTablePath';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface DiningRoomSVGProps {
   onSelectionChange: (hasSelection: boolean) => void;
 }
 
 const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
+  const navigate = useNavigate();
+  const { groupId, tableNumber } = useParams<{ 
+    groupId: string; 
+    tableNumber: string;
+  }>();
   
-  
-  const [userTable] = useState(5);
+  const [userTable] = useState<number | undefined>(tableNumber ? parseInt(tableNumber, 10) : undefined);
   const [selectedTables, setSelectedTables] = useState(new Set<number>());
+  const groups = {
+    1: [1,2,3,4,5,6,7,8,9],
+    2: [],
+    3: [],
+  };
 
   useEffect(() => {
     onSelectionChange(selectedTables.size > 0);
   }, [selectedTables, onSelectionChange]);
 
   
-  const groups = {
-    1: [1,2,3,4,5,6,7,8,9],
-    2: [],
-    3: [],
-  };
 
   const getTableGroup = (tableIndex: number) => {
     //console.log("____________")
@@ -57,9 +62,6 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
 
         setSelectedTables(newSet);
         
-
-        //onSelectionChange(newSet.size > 0);
-
         return newSet;
       });
     }
