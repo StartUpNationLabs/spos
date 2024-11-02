@@ -1,3 +1,23 @@
+## 0.7.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Begin implementation of partial payment for table ([0f23d8f](https://github.com/StartUpNationLabs/spos/commit/0f23d8f))
+
+- Finishing implementation of transaction with center table ([0434b2f](https://github.com/StartUpNationLabs/spos/commit/0434b2f))
+
+
+### 🩹 Fixes
+
+- missing env url ([9f6f9b9](https://github.com/StartUpNationLabs/spos/commit/9f6f9b9))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.6.0 (2024-11-01)
 
 

@@ -1,3 +1,20 @@
+## 0.33.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Begin implementation of partial payment for table ([0f23d8f](https://github.com/StartUpNationLabs/spos/commit/0f23d8f))
+
+
+### 🩹 Fixes
+
+- layout of TableBillingShell ([4daf506](https://github.com/StartUpNationLabs/spos/commit/4daf506))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.32.0 (2024-11-01)
 
 
