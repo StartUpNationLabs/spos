@@ -4,6 +4,7 @@ import { SSEProvider, useSSE } from 'react-hooks-sse';
 import { TableBillingShell } from '@spos/ui/common';
 import { useMutation } from '@tanstack/react-query';
 import {
+  Configuration,
   ItemRequestDto,
   PaymentsApi,
   SelectedByCustomerDTO,
@@ -15,13 +16,20 @@ interface TablesProps {
   ownerId: string;
 }
 
-const Tables = ({groupId, ownerId}: TablesProps) => {
+const Tables = ({ groupId, ownerId }: TablesProps) => {
   const state = useSSE('message', {} as [SelectedByCustomerDTO]);
 
   const returnToCenterTableMutation = useMutation({
     mutationFn: (itemRequestDto: ItemRequestDto) => {
       console.log(itemRequestDto);
-      return new PaymentsApi().paymentControllerReturnItemToCenterTable({
+      return new PaymentsApi(
+        new Configuration({
+          basePath: import.meta.env.VITE_PAYMENT_SHARING_BASE_URL.replace(
+            /\/*$/,
+            ''
+          ),
+        })
+      ).paymentControllerReturnItemToCenterTable({
         itemRequestDto,
       });
     },
@@ -46,9 +54,11 @@ const Tables = ({groupId, ownerId}: TablesProps) => {
     if (!table) {
       return 0;
     }
-    const element = table.elements.find((element) => element.item.name === tableItem.item.name);
+    const element = table.elements.find(
+      (element) => element.item.name === tableItem.item.name
+    );
     return element ? element.selectedByCustomer : 0;
-  }
+  };
 
   return (
     Object.keys(state).length > 0 &&
@@ -71,7 +81,9 @@ const Tables = ({groupId, ownerId}: TablesProps) => {
             key={key}
             elements={state[key].elements}
             showRemoveButton={true}
-            countFunction={(tableItem: TableItem) => countFunction(tableItem, parseInt(key))}
+            countFunction={(tableItem: TableItem) =>
+              countFunction(tableItem, parseInt(key))
+            }
             onIncrement={(itemId: string) => {
               takeItemFromCenterTableMutation.mutate({
                 group_id: groupId,
@@ -138,7 +150,7 @@ export function PersonalBilling() {
           ownerId
         }
       >
-        <Tables />
+        <Tables groupId={groupId ?? ''} ownerId={ownerId ?? ''} />
       </SSEProvider>
     </Box>
   );
