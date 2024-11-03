@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Box, Typography, Divider } from '@mui/material';
 import { Item } from './Item';
+import CloseButton from '../utils/closeButton';
 
 interface OtherTableProps {
   table: {
@@ -15,11 +16,23 @@ interface OtherTableProps {
 }
 
 const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectItem }) => {
+  const handleCloseButton = () => {
+    console.log('Close button clicked');
+  };
   return (
     <>
-      <Typography variant="h3" sx={{ color: 'green', mb: 2, textAlign: 'center' }}>
-        Table Nb {table.number}
-      </Typography>
+      <Box sx={{ position: 'relative' }}>
+        <Typography variant="h3" sx={{ color: 'green', mb: 2, textAlign: 'center' }}>
+          Table Nb {table.number}
+        </Typography>
+        <CloseButton
+          onClick={handleCloseButton}
+          width="60px"
+          height="60px"
+          iconSize="40px"
+        
+        />
+      </Box>
       <Box
         sx={{
           backgroundColor: 'rgba(76, 175, 80, 0.1)', 

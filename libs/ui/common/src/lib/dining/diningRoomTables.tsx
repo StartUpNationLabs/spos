@@ -15,13 +15,13 @@ export function DiningRoomTables() {
 
   const handleBackClick = () => {
     console.log('Back button clicked');
-    navigate(`/mealSelectionForPayment/${groupId}/${tableNumber}`);
+    navigate(`/mealSelectionForPayment/${tableNumber}`);
 
   };
 
   const handleContinueClick = () => {
     console.log('Continue button clicked');
-    navigate(`/mealSelectionForPayment/${groupId}/${tableNumber}`);
+    navigate(`/mealSelectionForPayment/${tableNumber}`);
   };
 
   return (
