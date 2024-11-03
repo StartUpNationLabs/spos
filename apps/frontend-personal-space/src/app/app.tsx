@@ -9,7 +9,7 @@ export function App() {
     <div>
       <Routes>
         <Route path={"/:groupId/:tableNumber/:ownerId"} element={<PersonalOrdering/>} />
-        <Route path="/personalBilling/:groupId/:tableNumber/:ownerId" element={<PersonalBilling />} />
+        <Route path="/personalBilling/:tableNumber/:ownerId" element={<PersonalBilling />} />
         <Route path="/thanks" element={<Thanks />} />
       </Routes>
       {/* END: routes */}

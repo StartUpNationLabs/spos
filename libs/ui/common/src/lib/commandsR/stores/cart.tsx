@@ -16,6 +16,7 @@ export interface CartsState {
     quantity: number
   ) => void;
   resetCart: (tableNumber: number) => void;
+  resetAllCarts: () => void;
 }
 
 export const createStore = () =>
@@ -23,6 +24,8 @@ export const createStore = () =>
     carts: {},
     updateItem: (tableNumber, itemId, shortName, quantity) =>
       set((state) => {
+        console.log(`Updating item: ${shortName} (ID: ${itemId}) in table ${tableNumber} with quantity: ${quantity}`);
+
         const currentCart = state.carts[tableNumber] || [];
 
         const itemIndex = currentCart.findIndex(
@@ -56,6 +59,10 @@ export const createStore = () =>
           [tableNumber]: [],
         },
       })),
+    resetAllCarts: () =>
+      set({
+        carts: {},
+      }),
   }));
 
 const StoreContext = createContext(null);

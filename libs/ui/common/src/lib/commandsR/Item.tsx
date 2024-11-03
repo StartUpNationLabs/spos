@@ -16,6 +16,7 @@ type ItemProps = {
   tableNumber: number;
   handleSelectItem: (itemId: string, shortName: string) => void;
   remaining?: number;
+  onTable?: number;
 };
 
 export function Item(props: Readonly<ItemProps>) {
@@ -29,7 +30,7 @@ export function Item(props: Readonly<ItemProps>) {
     )?.quantity ?? 0;
     
   return (
-    <Card sx={{ maxWidth: 250, minWidth: 150, maxHeight: 250 }}>
+    <Card sx={{ maxWidth: 250, minWidth: 150, maxHeight: 600 }}>
       <CardMedia
         sx={{ width: '100%', minWidth: 120, height: 100 }}
         image={props.item.image}
@@ -42,9 +43,14 @@ export function Item(props: Readonly<ItemProps>) {
         <Typography gutterBottom variant="h5" component="div">
           {props.item.shortName}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '1.4rem' }}>
-          {props.remaining ? `Remaining: ${props.remaining}` : ''}
-        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '1.3rem' }}>
+          {props.remaining ? `Unpaid: ${props.remaining}` : ''}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ fontSize: '1.2rem' }}>
+
+          {props.onTable ? `Selected: ${(props.remaining ?? 0) - props.onTable}` : ''}
+          </Typography>
+
       </CardContent>
 
       <CardActions

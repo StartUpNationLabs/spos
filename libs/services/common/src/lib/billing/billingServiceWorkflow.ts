@@ -80,10 +80,12 @@ export class BillingServiceWorkflow implements BillingService {
           }
         }
       }
-
+      const itemList = Object.values(tableItems).filter(
+        (item) => item.remaining > 0
+      )
       tableSummary.push({
         number: table.number,
-        elements: Object.values(tableItems),
+        elements: itemList,
       });
     }
     return tableSummary;

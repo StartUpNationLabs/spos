@@ -26,6 +26,7 @@ const Footer: React.FC<FooterProps> = ({ onClose, onSelectWhoPays, onGroupClick 
     const handleIconTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
         e.currentTarget.style.color = '#0A1E3F'; 
         e.currentTarget.style.transform = 'scale(2.5)'; 
+        //Navigate group id et table id
     };
 
     return (
