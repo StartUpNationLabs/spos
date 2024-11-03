@@ -37,5 +37,5 @@ spec:
             - name: OTLP_URL
               value: "http://jaeger-collector.spos-prod.svc.cluster.local:4318/v1/traces"
             - name: ORDERING_BASE_URL
-              value: "http://ordering.spos-dev.svc.cluster.local:3000"
+              value: "http://ordering:3003"
       restartPolicy: Always
