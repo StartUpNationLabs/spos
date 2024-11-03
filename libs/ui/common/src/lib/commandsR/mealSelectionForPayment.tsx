@@ -10,7 +10,6 @@ import { ContainerContext } from '../containerHook/containerContext';
 import { useQuery } from '@tanstack/react-query';
 import { CatalogueService, TYPES } from '@spos/services/common';
 import { useCarts } from './stores/cart';
-import { Cart } from './orderingChoices';
 
 interface MealSelectionContentProps {
   onClose: () => void;
