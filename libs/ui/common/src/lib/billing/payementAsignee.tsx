@@ -136,7 +136,7 @@ export function PayementAsignee() {
       >
         <IconButton
           onClick={() => {
-            navigate(`/mealSelectionForPayment/${groupId}/${tableId}`);
+            navigate(`/mealSelectionForPayment/${tableId}`);
           }}
         >
           <CancelIcon
