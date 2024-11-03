@@ -38,4 +38,6 @@ spec:
               value: "http://jaeger-collector.spos-prod.svc.cluster.local:4318/v1/traces"
             - name: ORDERING_BASE_URL
               value: "http://ordering:3003"
+            - name: REDIS_URL
+              value: "redis://redis:6379"
       restartPolicy: Always
