@@ -1,3 +1,15 @@
+## 0.12.0 (2024-11-03)
+
+
+### 🚀 Features
+
+- add missing order subscription ([7990944](https://github.com/StartUpNationLabs/spos/commit/7990944))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.11.0 (2024-11-02)
 
 
