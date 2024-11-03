@@ -9,6 +9,7 @@ interface OtherTableProps {
     elements: {
       item: { id: string; name: string; price: number };
       remaining: number;
+      onTable: number;
     }[];
   };
   catalog: any[];
@@ -30,12 +31,12 @@ const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectIte
           width="60px"
           height="60px"
           iconSize="40px"
-        
+
         />
       </Box>
       <Box
         sx={{
-          backgroundColor: 'rgba(76, 175, 80, 0.1)', 
+          backgroundColor: 'rgba(76, 175, 80, 0.1)',
           borderRadius: 2,
           p: 3,
           boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
@@ -47,14 +48,14 @@ const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectIte
           {table.elements.map((element, index) => {
             const catalogItem = catalog?.find((item) => item._id === element.item.id);
             /*catalog?.forEach((cartItem) => {
-              console.log('Cart Item:', cartItem); 
+              console.log('Cart Item:', cartItem);
             });*/
             const isSelected = Boolean(
               catalog?.find((cartItem) => {
-                return cartItem._id === element.item.id; 
+                return cartItem._id === element.item.id;
               })
             );
-            
+
             console.log(isSelected)
             console.log(catalog)
             console.log(catalogItem);
@@ -73,6 +74,7 @@ const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectIte
                     tableNumber={table.number}
                     remaining={element.remaining}
                     isSelected={isSelected}
+                    onTable={element.onTable}
                     handleSelectItem={() => handleSelectItem(element.item.id, element.item.name)}
                   />
                 )}
