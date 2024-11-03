@@ -23,12 +23,12 @@ export function Item(props: Readonly<ItemProps>) {
   const currentTableCart: Cart =
     useCarts((state) => state.carts)[props.tableNumber] || [];
   const updateItem = useCarts((state) => state.updateItem);
-  
+
   const count =
     currentTableCart.find(
       (element) => element.shortName === props.item.shortName
     )?.quantity ?? 0;
-    
+
   return (
     <Card sx={{ maxWidth: 250, minWidth: 150, maxHeight: 600 }}>
       <CardMedia
@@ -48,7 +48,7 @@ export function Item(props: Readonly<ItemProps>) {
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: '1.2rem' }}>
 
-          {props.onTable ? `Selected: ${(props.remaining ?? 0) - props.onTable}` : ''}
+          {props.onTable !== undefined ? `Selected: ${(props.remaining ?? 0) - props.onTable}` : ''}
           </Typography>
 
       </CardContent>
@@ -74,7 +74,6 @@ export function Item(props: Readonly<ItemProps>) {
                 value as number
               );
             }}
-
           />
         )}
       </CardActions>
