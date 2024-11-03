@@ -33,6 +33,16 @@ const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectIte
         <Grid container spacing={2}>
           {table.elements.map((element, index) => {
             const catalogItem = catalog?.find((item) => item._id === element.item.id);
+            /*catalog?.forEach((cartItem) => {
+              console.log('Cart Item:', cartItem); 
+            });*/
+            const isSelected = Boolean(
+              catalog?.find((cartItem) => {
+                return cartItem._id === element.item.id; 
+              })
+            );
+            
+            console.log(isSelected)
             console.log(catalog)
             console.log(catalogItem);
             return (
@@ -49,7 +59,7 @@ const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectIte
                     }}
                     tableNumber={table.number}
                     remaining={element.remaining}
-                    isSelected={false}
+                    isSelected={isSelected}
                     handleSelectItem={() => handleSelectItem(element.item.id, element.item.name)}
                   />
                 )}
