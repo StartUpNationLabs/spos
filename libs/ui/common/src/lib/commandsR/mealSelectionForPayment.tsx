@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Footer from '../utils/mealSelectionForPaymentFooter';
 import BackButton from '../utils/backButton';
 import { useSSE, SSEProvider } from 'react-hooks-sse';
@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { CatalogueService, TYPES } from '@spos/services/common';
 import { useTableStore } from '../dining/stores/tableSelectionStore';
 import OtherTable from './otherTables';
+import useCarts from './stores/cart';
 
 interface MealSelectionContentProps {
   onClose: () => void;
@@ -82,6 +83,8 @@ function MealSelectionContent({
   const tableItems = useSSE<PaymentResponseTableDTO[]>('message', []);
   const container = React.useContext(ContainerContext);
   const selectedTables = useTableStore((state) => state.selectedTables);
+  const currentTableCart = useCarts((state) => state.carts)[tableNumber] || [];
+  const updateItem = useCarts((state) => state.updateItem);
 
   React.useEffect(() => {
     console.log("Selected Tables:", selectedTables ? Array.from(selectedTables) : []);
@@ -97,6 +100,7 @@ function MealSelectionContent({
     const otherTableItems = otherTables.flatMap((table) => table.elements.map((element) => element.item.id));
     return Array.from(new Set([...currentTableItems, ...otherTableItems])); 
   }, [currentTable, otherTables]);
+  
 
   const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
     queryKey: ['catalogMealSelectionForPayments', itemIds],
@@ -107,11 +111,7 @@ function MealSelectionContent({
     enabled: itemIds.length > 0,
     refetchOnWindowFocus: 'always',
   });
-  /*React.useEffect(() => {
-    if (itemIds.length > 0) {
-      console.log('Item ids changed:', itemIds);
-    }
-  }, [tableItems]);*/
+
 
   if (!tableItems || tableItems.length === 0) {
     return (
@@ -123,6 +123,13 @@ function MealSelectionContent({
 
   if (!currentTable) {
     return <Typography variant="h6" sx={{ textAlign: 'center', mt: 4 }}>No items available for this table.</Typography>;
+  }
+  function handleSelectItem(itemId: string, shortName: string) {
+    if (currentTableCart.find((element) => element.shortName === shortName) !== undefined) {
+      updateItem(tableNumber, itemId, shortName, 0); // Remove item
+    } else {
+      updateItem(tableNumber, itemId, shortName, 1); // Add item
+    }
   }
 
   return (
@@ -168,7 +175,7 @@ function MealSelectionContent({
                           price: element.item.price,
                         }}
                         tableNumber={tableNumber}
-                        handleSelectItem={() => console.log('Item selected')}
+                        handleSelectItem={() =>handleSelectItem(element.item.id, element.item.name)}
                         remaining={element.remaining}
                         isSelected={isSelected}
                       />
