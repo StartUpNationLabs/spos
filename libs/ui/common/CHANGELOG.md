@@ -1,3 +1,15 @@
+## 0.36.0 (2024-11-03)
+
+
+### 🚀 Features
+
+- add assign payment skeleton ([0cc42be](https://github.com/StartUpNationLabs/spos/commit/0cc42be))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.35.0 (2024-11-02)
 
 
