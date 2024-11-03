@@ -330,7 +330,7 @@ export class PaymentService {
   }
 
   async makePayment(group_id: string, owner_id: string): Promise<boolean> {
-    return  await this.tracer.startActiveSpan('makePayment', async (span) => {
+    return await this.tracer.startActiveSpan('makePayment', async (span) => {
       try {
         this.logger.log(
           `Making payment for group_id: ${group_id}, owner_id: ${owner_id}`
@@ -354,13 +354,14 @@ export class PaymentService {
           });
         });
 
-        const isFinished =(
+        const isFinished = (
           await this.billingsApi.remoteBillingControllerPartialPayment({
             annotatedMonsieurAxelMenvoie2: {
               groupId: group_id,
               elementToBePaid: tableItems,
             },
-          })).data;
+          })
+        ).data;
 
         // remove all selected items
         const selectedItems = await this.repository
@@ -370,7 +371,9 @@ export class PaymentService {
           .and('owner_id')
           .equals(owner_id)
           .return.all();
-        await this.repository.remove(selectedItems.map((item) => item[EntityId]));
+        await this.repository.remove(
+          selectedItems.map((item) => item[EntityId])
+        );
 
         await this.publishWithContext('update-payment', {
           group_id,
@@ -378,7 +381,7 @@ export class PaymentService {
           action: 'pay',
           actionData: {
             isFinished,
-          }
+          },
         });
         return isFinished;
       } finally {
@@ -393,11 +396,14 @@ export class PaymentService {
         this.logger.log('Handling update payment');
         const subscription = this.redisClient.duplicate();
         await subscription.connect();
-        await subscription.subscribe('update-payment', async (message) => {
-          const data = JSON.parse(message);
-          this.logger.log(`Received update-payment event: ${message}`);
-          this.eventEmitter.emit('update-payment', data);
-        });
+        await subscription.subscribe(
+          ['update-payment', 'order'],
+          async (message) => {
+            const data = JSON.parse(message);
+            this.logger.log(`Received update-payment event: ${message}`);
+            this.eventEmitter.emit('update-payment', data);
+          }
+        );
       } finally {
         span.end();
       }

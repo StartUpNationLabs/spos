@@ -1,66 +1,84 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TablePaths } from '../utils/SvgTablePath';
+//import { TablePaths } from '../utils/SvgTablePath';
+import { useTableStore } from './stores/tableSelectionStore';
+import { TablesSvgGrid } from '../utils/SvgTablePath';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ContainerContext } from '../containerHook/containerContext';
+import { useQuery } from '@tanstack/react-query';
+import { GroupService, Table, TYPES } from '@spos/services/common';
+import { Typography } from '@mui/material';
 
 interface DiningRoomSVGProps {
   onSelectionChange: (hasSelection: boolean) => void;
 }
 
 const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
+  const navigate = useNavigate();
+  const { groupId, tableNumber } = useParams<{ 
+    groupId: string; 
+    tableNumber: string;
+  }>();
+  const stringTableNumber = tableNumber;
+  const userTable = tableNumber ? parseInt(tableNumber, 10) : undefined;
+  const [tablesInGroup, setTablesInGroup] = useState<number[]>([]); 
+  const addTable = useTableStore((state) => state.addTable);
+  const removeTable = useTableStore((state) => state.removeTable);
+  const selectedTables = useTableStore((state) => state.selectedTables);
+
+
   
-  
-  const [userTable] = useState(5);
-  const [selectedTables, setSelectedTables] = useState(new Set<number>());
+  const container = React.useContext(ContainerContext);
+  const isValidTableNumber = (tableNumber: string | undefined): boolean => {
+    const isString = typeof tableNumber === 'string';
+    console.log('Type de stringTableNumber:', typeof tableNumber); 
+    return isString && tableNumber.trim() !== '';
+  };
+  const {
+    data: group,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['groupWithTable', groupId],
+    queryFn: async () => {
+      const groupService: GroupService = container.get<GroupService>(TYPES.GroupService);
+      if (isValidTableNumber(groupId)) {
+        return groupService.getGroup(groupId);
+      }
+      throw new Error('groupId is undefined');
+    },
+    refetchOnWindowFocus: 'always',
+    enabled: !!groupId && groupId !== '',
+  });
+  useEffect(() => {
+    if (group) {
+      setTablesInGroup(group.tables.map((table) => table.number)); 
+    }
+  }, [group]);
 
   useEffect(() => {
     onSelectionChange(selectedTables.size > 0);
   }, [selectedTables, onSelectionChange]);
 
-  
-  const groups = {
-    1: [0,1,2,3,4,5,6,7,8],
-    2: [],
-    3: [],
-  };
+  if (isLoading) {
+    return <Typography variant="h6" component="h2" fontWeight="bold">Loading...</Typography>;
+  }
 
-  const getTableGroup = (tableIndex: number) => {
-    //console.log("____________")
-    //console.log(tableIndex)
-    return Object.entries(groups).find(([_, tables]) =>
-      tables.includes(tableIndex)
-    )?.[0];
-  };
+  if (!group || isError) {
+    console.error(error);
+    return <Typography variant="h6" component="h2" fontWeight="bold">Error</Typography>;
+  }
+
 
   const isInUserGroup = (tableIndex: number) => {
-    const userGroup = getTableGroup(userTable);
-    const tableGroup = getTableGroup(tableIndex);
-    return userGroup === tableGroup;
+    return tablesInGroup.includes(tableIndex)
   };
 
   const handleTableClick = (index: number) => {
-    console.log(index)
     if (isInUserGroup(index) && index !== userTable) {
-      console.log("user table : ")
-      console.log(userTable)
-      console.log("-------------")
-      console.log(index)
-
-      setSelectedTables((prev) => {
-        const newSet = new Set(prev);
-        if (newSet.has(index)) {
-          newSet.delete(index);
-        } else {
-          newSet.add(index);
-        }
-        console.log(`Selected tables: ${Array.from(newSet)}`); // Log des tables sélectionnées
-
-        setSelectedTables(newSet);
-        
-
-        //onSelectionChange(newSet.size > 0);
-
-        return newSet;
-      });
+      selectedTables.has(index) ? removeTable(index) : addTable(index);
     }
+
   };
 
   const getTableColor = (index: number) => {
@@ -71,32 +89,12 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   };
 
   return (
-    <svg
-      version="1.0"
-      xmlns="http://www.w3.org/2000/svg"
-      width="300.000000pt"
-      height="309.000000pt"
-      viewBox="0 0 300.000000 309.000000"
-      preserveAspectRatio="xMidYMid meet"
-    >
-      <metadata>
-        Created by potrace 1.10, written by Peter Selinger 2001-2011
-      </metadata>
-      <g
-        transform="translate(0.000000,309.000000) scale(0.100000,-0.100000)"
-        fill="#000000"
-        stroke="none"
-      >
-        <TablePaths
-          handleTableClick={handleTableClick}
-          getTableColor={getTableColor}
-          >        
-          </TablePaths>
-       
-      </g>
-     
-    </svg>
+    <TablesSvgGrid
+      handleTableClick={handleTableClick}
+      getTableColor={getTableColor}
+      userTableIndex={userTable ?? -1}
+    />
   );
 };
-
 export default DiningRoomSVG;
+

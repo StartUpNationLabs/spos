@@ -1,16 +1,21 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { SSEProvider, useSSE } from 'react-hooks-sse';
-import { TableBillingShell, GroupClosedListener } from '@spos/ui/common';
-import { useMutation } from '@tanstack/react-query';
+import { GroupClosedListener, TableBillingShell } from '@spos/ui/common';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   Configuration,
   ItemRequestDto,
-  PaymentsApi, PaymentsApiPaymentControllerMakePaymentRequest,
-  SelectedByCustomerDTO
+  PaymentsApi,
+  PaymentsApiPaymentControllerMakePaymentRequest,
+  SelectedByCustomerDTO,
 } from '@spos/clients-payment-sharing';
 import { TableItem } from '@spos/services/common';
 import React from 'react';
+import {
+  Configuration as ConfigurationGroup,
+  RemoteGroupApi,
+} from '@spos/clients-bff';
 
 interface TablesProps {
   groupId: string;
@@ -100,7 +105,7 @@ const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
                   }}
                   gutterBottom
                 >
-                  {'Table ' + key}
+                  {'Table ' + state[parseInt(key)].number}
                 </Typography>
                 <TableBillingShell
                   key={key}
@@ -115,7 +120,7 @@ const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
                       owner_id: ownerId,
                       item_short_name: itemIdToItemName(itemId, parseInt(key)),
                       amount: 1,
-                      table_id: tableNumber,
+                      table_id: state[parseInt(key)].number.toString(),
                     });
                   }}
                   onDecrement={(itemId: string) => {
@@ -124,14 +129,14 @@ const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
                       owner_id: ownerId,
                       item_short_name: itemIdToItemName(itemId, parseInt(key)),
                       amount: 1,
-                      table_id: tableNumber,
+                      table_id: state[parseInt(key)].number.toString(),
                     });
                   }}
                   onRemove={(tableItem: TableItem) => {
                     returnToCenterTableMutation.mutate({
                       group_id: groupId,
                       owner_id: ownerId,
-                      table_id: tableNumber,
+                      table_id: state[parseInt(key)].number.toString(),
                       amount: countFunction(
                         tableItem.item.name,
                         parseInt(key),
@@ -180,14 +185,29 @@ const PriceDisplay = () => {
 
 export function PersonalBilling() {
   const navigate = useNavigate();
-  const { groupId, tableNumber, ownerId } = useParams<{
-    groupId: string;
+  const { tableNumber, ownerId } = useParams<{
     tableNumber: string;
     ownerId: string;
   }>();
+  const { data: groupId } = useQuery({
+    queryKey: ['group', tableNumber],
+    queryFn: async () => {
+      const api = new RemoteGroupApi(
+        new ConfigurationGroup({ basePath: import.meta.env.VITE_BFF_BASE_URL })
+      );
+
+      return (
+        await api.remoteGroupControllerGetGroupFromTableNumber({
+          tableNumber: tableNumber || '',
+        })
+      ).data.id;
+    },
+  });
 
   const partialPaymentMutation = useMutation({
-    mutationFn: (paymentsApiPaymentControllerMakePaymentRequest: PaymentsApiPaymentControllerMakePaymentRequest) => {
+    mutationFn: (
+      paymentsApiPaymentControllerMakePaymentRequest: PaymentsApiPaymentControllerMakePaymentRequest
+    ) => {
       console.log(paymentsApiPaymentControllerMakePaymentRequest);
       return new PaymentsApi(
         new Configuration({
@@ -198,15 +218,21 @@ export function PersonalBilling() {
         })
       ).paymentControllerMakePayment({
         groupId: paymentsApiPaymentControllerMakePaymentRequest.groupId,
-        ownerId: paymentsApiPaymentControllerMakePaymentRequest.ownerId
+        ownerId: paymentsApiPaymentControllerMakePaymentRequest.ownerId,
       });
     },
     onSuccess: (data) => {
       if (data.data) {
         navigate('/thanks');
       }
-    }
+    },
   });
+  if (!tableNumber) {
+    throw new Error('Table number is required');
+  }
+  if (!groupId) {
+    return <CircularProgress />;
+  }
 
   return (
     <Box
@@ -228,7 +254,8 @@ export function PersonalBilling() {
       <SSEProvider
         endpoint={
           `${
-      import.meta.env.VITE_PAYMENT_SHARING_BASE_URL}/api/payments/sse/customer-items/` +
+            import.meta.env.VITE_PAYMENT_SHARING_BASE_URL
+          }/api/payments/sse/customer-items/` +
           groupId +
           '/' +
           ownerId
@@ -269,10 +296,12 @@ export function PersonalBilling() {
             >
               <PriceDisplay />
               <Button
-                onClick={() => partialPaymentMutation.mutate({
-                  groupId: groupId ?? "",
-                  ownerId: ownerId ?? ""
-                })}
+                onClick={() =>
+                  partialPaymentMutation.mutate({
+                    groupId: groupId ?? '',
+                    ownerId: ownerId ?? '',
+                  })
+                }
                 variant="contained"
                 color="inherit"
                 sx={{
