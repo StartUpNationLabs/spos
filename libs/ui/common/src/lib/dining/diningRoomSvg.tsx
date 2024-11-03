@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 //import { TablePaths } from '../utils/SvgTablePath';
-
+import { useTableStore } from './stores/tableSelectionStore';
 import { TablesSvgGrid } from '../utils/SvgTablePath';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ContainerContext } from '../containerHook/containerContext';
@@ -20,8 +20,11 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   }>();
   const stringTableNumber = tableNumber;
   const userTable = tableNumber ? parseInt(tableNumber, 10) : undefined;
-  const [selectedTables, setSelectedTables] = useState(new Set<number>());
+  //const [selectedTables, setSelectedTables] = useState(new Set<number>());
   const [tablesInGroup, setTablesInGroup] = useState<number[]>([]); 
+  const addTable = useTableStore((state) => state.addTable);
+  const removeTable = useTableStore((state) => state.removeTable);
+  const selectedTables = useTableStore((state) => state.selectedTables);
 
 
   
@@ -74,12 +77,9 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
 
   const handleTableClick = (index: number) => {
     if (isInUserGroup(index) && index !== userTable) {
-      setSelectedTables(prev => {
-        const newSet = new Set(prev);
-        newSet.has(index) ? newSet.delete(index) : newSet.add(index);
-        return newSet;
-      });
+      selectedTables.has(index) ? removeTable(index) : addTable(index);
     }
+
   };
 
   const getTableColor = (index: number) => {
