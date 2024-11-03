@@ -14,6 +14,7 @@ import OtherTable from './otherTables';
 import useCarts from './stores/cart';
 import { RemoteGroupApi } from "@spos/clients-bff";
 import {Configuration as ConfigurationGroup} from '@spos/clients-bff';
+import { GroupClosedListener } from "../utils/GroupClosedListener";
 
 interface MealSelectionContentProps {
   onClose: () => void;
@@ -84,6 +85,7 @@ export function MealSelectionForPayment() {
         onBackButtonClick={handleBackButtonClick}
         tableNumber={parseInt(tableNumber ?? '0', 10)}
       />
+      <GroupClosedListener/>
     </SSEProvider>
   );
 }

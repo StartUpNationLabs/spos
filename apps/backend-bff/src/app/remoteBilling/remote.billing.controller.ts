@@ -1,15 +1,16 @@
 import {
   BillingService,
   container,
-  Item, ItemPaid,
+  Item,
+  ItemPaid,
   MonsieurAxelMenvoie2,
   TableItem,
   TableSummary,
-  TYPES
-} from "@spos/services/common";
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiExtraModels, ApiProperty, ApiTags } from "@nestjs/swagger";
-
+  TYPES,
+} from '@spos/services/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import { ApiExtraModels, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { RedisClientType } from 'redis';
 
 class AnnotatedItemPaid implements ItemPaid {
   @ApiProperty()
@@ -19,7 +20,13 @@ class AnnotatedItemPaid implements ItemPaid {
 }
 
 class AnnotatedMonsieurAxelMenvoie2 implements MonsieurAxelMenvoie2 {
-  @ApiProperty({ "type": "object", "additionalProperties": { "type": "array", "items": { "$ref": "#/components/schemas/AnnotatedItemPaid" } } })
+  @ApiProperty({
+    type: 'object',
+    additionalProperties: {
+      type: 'array',
+      items: { $ref: '#/components/schemas/AnnotatedItemPaid' },
+    },
+  })
   elementToBePaid: { [p: number]: AnnotatedItemPaid[] };
 
   @ApiProperty()
@@ -51,11 +58,19 @@ class AnnotationTableSummary implements TableSummary {
 
 @Controller('remoteBilling')
 @ApiTags('remoteBilling')
-@ApiExtraModels(AnnotatedItem, AnnotatedItemPaid, AnnotatedMonsieurAxelMenvoie2, AnnotatedTableItem, AnnotationTableSummary)
+@ApiExtraModels(
+  AnnotatedItem,
+  AnnotatedItemPaid,
+  AnnotatedMonsieurAxelMenvoie2,
+  AnnotatedTableItem,
+  AnnotationTableSummary
+)
 export class RemoteBillingController {
-  @Get(
-    ':groupId'
-  )
+  constructor(
+    @Inject('REDIS_CLIENT') private readonly redisClient: RedisClientType
+  ) {}
+
+  @Get(':groupId')
   async getBillingSummary(
     @Param('groupId')
     groupId: string
@@ -66,10 +81,24 @@ export class RemoteBillingController {
   }
 
   @Post()
-  partialPayment(@Body() payment: AnnotatedMonsieurAxelMenvoie2
+  async partialPayment(
+    @Body() payment: AnnotatedMonsieurAxelMenvoie2
   ): Promise<boolean> {
-    return container
+    const res = await container
       .get<BillingService>(TYPES.BillingService)
       .partialPayment(payment);
+    if (res) {
+      await this.redisClient.publish(
+        'update-payment' as any,
+        JSON.stringify({
+          group_id: payment.groupId,
+          action: 'pay',
+          actionData: {
+            isFinished: true,
+          },
+        }) as any
+      );
+    }
+    return res;
   }
 }
