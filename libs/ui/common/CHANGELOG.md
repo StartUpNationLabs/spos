@@ -1,3 +1,15 @@
+## 0.38.3 (2024-11-03)
+
+
+### 🩹 Fixes
+
+- continue button ([944eca2](https://github.com/StartUpNationLabs/spos/commit/944eca2))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.38.2 (2024-11-03)
 
 
