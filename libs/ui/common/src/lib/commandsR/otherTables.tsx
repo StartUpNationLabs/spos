@@ -11,9 +11,10 @@ interface OtherTableProps {
     }[];
   };
   catalog: any[];
+  handleSelectItem: (itemId: string, shortName: string) => void;
 }
 
-const OtherTable: React.FC<OtherTableProps> = ({ table, catalog }) => {
+const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectItem }) => {
   return (
     <>
       <Typography variant="h3" sx={{ color: 'green', mb: 2, textAlign: 'center' }}>
@@ -49,9 +50,7 @@ const OtherTable: React.FC<OtherTableProps> = ({ table, catalog }) => {
                     tableNumber={table.number}
                     remaining={element.remaining}
                     isSelected={false}
-                    handleSelectItem={function (itemId: string, shortName: string): void {
-                      console.log("Not implemented");
-                    }}
+                    handleSelectItem={() => handleSelectItem(element.item.id, element.item.name)}
                   />
                 )}
               </Grid>

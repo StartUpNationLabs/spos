@@ -186,7 +186,7 @@ function MealSelectionContent({
           </Box>
         )}
         {otherTables.map((table) => (
-          <OtherTable key={table.number} table={table} catalog={catalog} />
+          <OtherTable key={table.number} table={table} catalog={catalog} handleSelectItem={handleSelectItem}/>
         ))}        
       </Box>
       <Footer onClose={onClose} onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />

@@ -23,6 +23,8 @@ export const createStore = () =>
     carts: {},
     updateItem: (tableNumber, itemId, shortName, quantity) =>
       set((state) => {
+        console.log(`Updating item: ${shortName} (ID: ${itemId}) in table ${tableNumber} with quantity: ${quantity}`);
+
         const currentCart = state.carts[tableNumber] || [];
 
         const itemIndex = currentCart.findIndex(
