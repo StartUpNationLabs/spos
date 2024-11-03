@@ -1,3 +1,17 @@
+## 0.37.0 (2024-11-03)
+
+
+### 🚀 Features
+
+- add group id fetch ([95791a1](https://github.com/StartUpNationLabs/spos/commit/95791a1))
+
+- add reset all carts ([0d1ccf5](https://github.com/StartUpNationLabs/spos/commit/0d1ccf5))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.36.0 (2024-11-03)
 
 

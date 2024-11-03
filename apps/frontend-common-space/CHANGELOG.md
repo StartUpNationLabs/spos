@@ -1,3 +1,15 @@
+## 0.8.0 (2024-11-03)
+
+
+### 🚀 Features
+
+- add group id fetch ([95791a1](https://github.com/StartUpNationLabs/spos/commit/95791a1))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.7.0 (2024-11-03)
 
 

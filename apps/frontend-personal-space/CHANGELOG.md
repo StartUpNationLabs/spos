@@ -1,3 +1,21 @@
+## 0.10.0 (2024-11-03)
+
+
+### 🚀 Features
+
+- use tableNumber in personnal billing ([454c5da](https://github.com/StartUpNationLabs/spos/commit/454c5da))
+
+
+### 🩹 Fixes
+
+- Table number for personal billing ([fea3f18](https://github.com/StartUpNationLabs/spos/commit/fea3f18))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+- Tsukoyachi
+
 ## 0.9.0 (2024-11-02)
 
 
