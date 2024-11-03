@@ -64,7 +64,7 @@ export function Item(props: Readonly<ItemProps>) {
         {props.isSelected && (
           <NumberInput
             min={0}
-            max={99}
+            max={(props.onTable) ? props.onTable :  99}
             value={count}
             onChange={(e, value) => {
               updateItem(
