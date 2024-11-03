@@ -26,13 +26,12 @@ const DiningHeader = ({
         <h2 className="dining-room-title">{title}</h2>
       </div>
       <div className="header-right">
-        {hasSelection && (
+        {
           <button className="continue-button" onClick={onContinueClick}>
             {buttonText}
           </button>
-          
-        )}
-        
+
+        }
       </div>
     </div>
   );
