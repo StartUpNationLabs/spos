@@ -4,7 +4,7 @@ import BackButton from '../utils/backButton';
 import { useSSE, SSEProvider } from 'react-hooks-sse';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Typography, CircularProgress, Divider, Grid } from '@mui/material';
-import { PaymentResponseTableDTO } from '@spos/clients-payment-sharing';
+import { Configuration, PaymentResponseTableDTO } from "@spos/clients-payment-sharing";
 import { Item } from './Item';
 import { ContainerContext } from '../containerHook/containerContext';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +12,8 @@ import { CatalogueService, TYPES } from '@spos/services/common';
 import { useTableStore } from '../dining/stores/tableSelectionStore';
 import OtherTable from './otherTables';
 import useCarts from './stores/cart';
-
+import { RemoteGroupApi } from "@spos/clients-bff";
+import {Configuration as ConfigurationGroup} from '@spos/clients-bff';
 
 interface MealSelectionContentProps {
   onClose: () => void;
@@ -35,15 +36,33 @@ interface TableItem {
 
 export function MealSelectionForPayment() {
   const navigate = useNavigate();
-  const { groupId, tableNumber } = useParams<{ 
-    groupId: string; 
+  const { tableNumber } = useParams<{
     tableNumber: string;
   }>();
+  const { data: groupId } = useQuery({
+    queryKey: ['group', tableNumber],
+    queryFn: async () => {
+      const api = new RemoteGroupApi(
+        new ConfigurationGroup({ basePath: import.meta.env.VITE_BFF_BASE_URL })
+      );
 
+      return (
+        await api.remoteGroupControllerGetGroupFromTableNumber({
+          tableNumber: tableNumber || '',
+        })
+      ).data.id;
+    },
+  });
+  console.log('Group ID:', groupId);
+  if (!tableNumber) {
+    throw new Error('Table number is required');
+  }
+  if (!groupId) {
+    return <CircularProgress />;
+  }
   function handleSelectWhoPays() {
     console.log('Select who pays button clicked');
-    navigate(`/payementAsignee/`);
-
+    navigate(`/payementAsignee/${groupId}/${tableNumber}`);
   }
 
   function handleGroupClick() {
@@ -94,9 +113,9 @@ function MealSelectionContent({
   const itemIds = React.useMemo(() => {
     const currentTableItems = currentTable ? currentTable.elements.map((element) => element.item.id) : [];
     const otherTableItems = otherTables.flatMap((table) => table.elements.map((element) => element.item.id));
-    return Array.from(new Set([...currentTableItems, ...otherTableItems])); 
+    return Array.from(new Set([...currentTableItems, ...otherTableItems]));
   }, [currentTable, otherTables]);
-  
+
 
 
   const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
@@ -134,7 +153,7 @@ function MealSelectionContent({
     for (const key in tableItems) {
       const table = tableItems[key]
       tableNumber = table.number
-      const elements = table.elements 
+      const elements = table.elements
       for (const elemKey in elements){
         const element = elements[elemKey]
         updateItem(tableNumber, element.item.id, element.item.name, 0)
@@ -145,14 +164,14 @@ function MealSelectionContent({
   return (
     <Box sx={{ pb: 10 }}>
       <BackButton onClick={onBackButtonClick} />
-      <Box sx={{ mt: 15, px: 3, 
-                  maxHeight: '1150px', 
+      <Box sx={{ mt: 15, px: 3,
+                  maxHeight: '1150px',
                   overflowY: 'auto', }}>
         <Typography variant="h3" color="primary" sx={{ mb: 2, textAlign: 'center' }}>
           My table (Nb {currentTable.number})
         </Typography>
         <Divider sx={{ mb: 2 }} />
-        
+
         {isLoadingCatalog ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
             <CircularProgress />
@@ -174,7 +193,7 @@ function MealSelectionContent({
 
                 return (
                   <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                  
+
                       <Item
                         item={{
                           _id: element.item.id,
@@ -197,7 +216,7 @@ function MealSelectionContent({
         )}
         {otherTables.map((table) => (
           <OtherTable key={table.number} table={table} catalog={catalog} handleSelectItem={handleSelectItem}/>
-        ))}        
+        ))}
       </Box>
       <Footer onClose={() => handleClose(tableItems, updateItem)}  onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />
     </Box>

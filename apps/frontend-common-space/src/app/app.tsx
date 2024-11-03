@@ -12,7 +12,7 @@ export function App() {
     <div>
       <Routes>
         <Route
-          path="/payementAsignee"
+          path="/payementAsignee/:groupId/:tableNumber"
           element={
             <Box
               sx={{
@@ -38,10 +38,10 @@ export function App() {
         <Route path="/thanks" element={<Thanks />} />
         <Route path="/diningRoomTables/:groupId/:tableNumber" element={<DiningRoomTables />} />
         <Route
-          path={"/mealSelectionForPayment/:groupId/:tableNumber"}
+          path={"/mealSelectionForPayment/:tableNumber"}
           element={<MealSelectionForPayment />}
         />
-        
+
       </Routes>
       {/* END: routes */}
     </div>

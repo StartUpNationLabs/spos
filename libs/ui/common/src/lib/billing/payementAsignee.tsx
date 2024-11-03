@@ -4,39 +4,53 @@ import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Configuration, PaymentsApi } from '@spos/clients-payment-sharing';
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import useCarts, { CartsState } from '../commandsR/stores/cart';
 
 const makePayment = async (data: {
-  userState: any;
-  tableId: string;
+  cart: CartsState['carts'];
   groupId: string;
   userId: string;
 }) => {
   const api = new PaymentsApi(
     new Configuration({
-      basePath: import.meta.env.VITE_PAYMENTS_API_BASE_PATH,
+      basePath: import.meta.env.VITE_PAYMENT_SHARING_BASE_URL,
     })
   );
-
-  // faire cette req pour chaque type d'item (foie gras, pizza, etc) en mettant la quantité
-  return (
-    await api.paymentControllerTakeItemFromCenterTable({
-      itemRequestDto: {} as any,
-    })
-  ).data;
+  const promises = [];
+  for (const [currentTable, items] of Object.entries(data.cart)) {
+    for (const item of items) {
+      promises.push(
+        api.paymentControllerTakeItemFromCenterTable({
+          itemRequestDto: {
+            amount: item.quantity,
+            group_id: data.groupId,
+            item_short_name: item.shortName,
+            owner_id: data.userId,
+            table_id: currentTable,
+          },
+        })
+      );
+    }
+  }
+  await Promise.all(promises);
 };
 
 export function PayementAsignee() {
-  const tableId = '1';
-  const groupId = '1';
-  const state = {};
+  const { tableNumber: tableId, groupId } = useParams<{
+    tableNumber: string;
+    groupId: string;
+  }>();
+  const cart = useCarts((state) => state.carts);
+  const navigate = useNavigate();
 
   // mutation
   const { mutate } = useMutation({
     mutationFn: makePayment,
+    onSuccess: () => {
+      navigate(`/mealSelectionForPayment/${tableId}`);
+    },
   });
-
-  const navigate = useNavigate();
 
   return (
     <div
@@ -58,9 +72,8 @@ export function PayementAsignee() {
         <IconButton
           onClick={() => {
             mutate({
-              userState: state,
-              tableId: tableId,
-              groupId: groupId,
+              cart,
+              groupId: groupId || '',
               userId: tableId + '1',
             });
           }}
@@ -91,9 +104,8 @@ export function PayementAsignee() {
         <IconButton
           onClick={() => {
             mutate({
-              userState: state,
-              tableId: tableId,
-              groupId: groupId,
+              cart,
+              groupId: groupId || '',
               userId: tableId + '2',
             });
           }}
@@ -154,9 +166,8 @@ export function PayementAsignee() {
         <IconButton
           onClick={() => {
             mutate({
-              userState: state,
-              tableId: tableId,
-              groupId: groupId,
+              cart,
+              groupId: groupId || '',
               userId: tableId + '3',
             });
           }}
@@ -188,9 +199,8 @@ export function PayementAsignee() {
         <IconButton
           onClick={() => {
             mutate({
-              userState: state,
-              tableId: tableId,
-              groupId: groupId,
+              cart,
+              groupId: groupId || '',
               userId: tableId + '4',
             });
           }}
