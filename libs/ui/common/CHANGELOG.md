@@ -1,3 +1,15 @@
+## 0.38.1 (2024-11-03)
+
+
+### 🩹 Fixes
+
+- selected missing on other tables ([ad27abb](https://github.com/StartUpNationLabs/spos/commit/ad27abb))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.38.0 (2024-11-03)
 
 
