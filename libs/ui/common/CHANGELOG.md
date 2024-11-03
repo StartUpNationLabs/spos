@@ -1,3 +1,15 @@
+## 0.38.2 (2024-11-03)
+
+
+### 🩹 Fixes
+
+- selected disapears when 0 ([468cb42](https://github.com/StartUpNationLabs/spos/commit/468cb42))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.38.1 (2024-11-03)
 
 
