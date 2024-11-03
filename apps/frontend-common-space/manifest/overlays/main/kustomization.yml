@@ -6,8 +6,7 @@ resources:
 images:
   - name: ghcr.io/startupnationlabs/spos/frontend-common-space
     newName: ghcr.io/startupnationlabs/spos/frontend-common-space
-    newTag: sha-71bd1a4
-
+    newTag: sha-97294ef
 
 patches:
   - target:
