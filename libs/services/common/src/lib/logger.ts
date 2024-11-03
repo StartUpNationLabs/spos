@@ -6,6 +6,5 @@ export const logger = afterMethod((meta) => {
     `Method: ${meta.method.name}',
      'Class: ${meta.target.constructor.name}',
      'Arguments: ${meta.args}`,
-    meta.result
   );
 });

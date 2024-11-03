@@ -43,11 +43,13 @@ export function PayementAsignee() {
   }>();
   const cart = useCarts((state) => state.carts);
   const navigate = useNavigate();
+  const resetCart = useCarts((state) => state.resetAllCarts);
 
   // mutation
   const { mutate } = useMutation({
     mutationFn: makePayment,
     onSuccess: () => {
+      resetCart();
       navigate(`/mealSelectionForPayment/${tableId}`);
     },
   });

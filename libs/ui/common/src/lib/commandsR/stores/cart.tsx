@@ -16,6 +16,7 @@ export interface CartsState {
     quantity: number
   ) => void;
   resetCart: (tableNumber: number) => void;
+  resetAllCarts: () => void;
 }
 
 export const createStore = () =>
@@ -58,6 +59,10 @@ export const createStore = () =>
           [tableNumber]: [],
         },
       })),
+    resetAllCarts: () =>
+      set({
+        carts: {},
+      }),
   }));
 
 const StoreContext = createContext(null);
