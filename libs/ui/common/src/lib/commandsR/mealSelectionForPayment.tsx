@@ -206,6 +206,7 @@ function MealSelectionContent({
                         tableNumber={tableNumber}
                         handleSelectItem={() =>handleSelectItem(element.item.id, element.item.name)}
                         remaining={element.remaining}
+                        onTable={element.onTable}
                         isSelected={isSelected}
                       />
                   </Grid>
