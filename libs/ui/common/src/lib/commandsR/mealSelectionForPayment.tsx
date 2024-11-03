@@ -67,7 +67,6 @@ export function MealSelectionForPayment() {
 }
 
 function MealSelectionContent({
-  onClose,
   onSelectWhoPays,
   onGroupClick,
   onBackButtonClick,

@@ -2,8 +2,10 @@ import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useNavigate } from 'react-router-dom';
 
 export function PayementAsignee() {
+  const navigate = useNavigate();
   // propriétés communes des BackButton
   const buttonProps = {
     color: 'black',
@@ -106,7 +108,10 @@ export function PayementAsignee() {
           justifyContent: 'center',
         }}
       >
-        <IconButton>
+        <IconButton
+          onClick={() => navigate(-1
+          )}
+        >
           <CancelIcon
             style={{
               fontSize: '150px',
