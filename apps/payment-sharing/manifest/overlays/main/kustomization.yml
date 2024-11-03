@@ -6,7 +6,7 @@ resources:
 images:
   - name: ghcr.io/startupnationlabs/spos/payment-sharing
     newName: ghcr.io/startupnationlabs/spos/payment-sharing
-    newTag: sha-29921f0
+    newTag: sha-fea3f18
 
 patches:
   - target:
