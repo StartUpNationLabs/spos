@@ -1,3 +1,17 @@
+## 0.38.4 (2024-11-03)
+
+
+### 🩹 Fixes
+
+- Maximum for item number input for common space ([c1ac7fd](https://github.com/StartUpNationLabs/spos/commit/c1ac7fd))
+
+- Make remove table button work in common space ([b1cabce](https://github.com/StartUpNationLabs/spos/commit/b1cabce))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.38.3 (2024-11-03)
 
 
