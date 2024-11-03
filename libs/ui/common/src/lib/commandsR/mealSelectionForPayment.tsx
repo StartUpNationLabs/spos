@@ -9,6 +9,8 @@ import { Item } from './Item';
 import { ContainerContext } from '../containerHook/containerContext';
 import { useQuery } from '@tanstack/react-query';
 import { CatalogueService, TYPES } from '@spos/services/common';
+import { useCarts } from './stores/cart';
+import { Cart } from './orderingChoices';
 
 interface MealSelectionContentProps {
   onClose: () => void;
@@ -36,10 +38,6 @@ export function MealSelectionForPayment() {
     tableNumber: string;
   }>();
 
-  function handleClose() {
-    console.log('Close button clicked');
-  }
-
   function handleSelectWhoPays() {
     console.log('Select who pays button clicked');
     //navigate(`/diningRoomTables/${tableNumber}`);
@@ -60,7 +58,6 @@ export function MealSelectionForPayment() {
   return (
     <SSEProvider endpoint={`${import.meta.env.VITE_PAYMENT_SHARING_BASE_URL}/api/payments/sse/table-items/${groupId}`}>
       <MealSelectionContent
-        onClose={handleClose}
         onSelectWhoPays={handleSelectWhoPays}
         onGroupClick={handleGroupClick}
         onBackButtonClick={handleBackButtonClick}
@@ -82,6 +79,7 @@ function MealSelectionContent({
 
   const currentTable = tableItems.find((table) => table.number === tableNumber);
   const itemIds = currentTable ? currentTable.elements.map((element) => element.item.id) : [];
+  const updateItem = useCarts((state) => state.updateItem);
 
   const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
     queryKey: ['catalogMealSelectionForPayments', itemIds],
@@ -103,6 +101,19 @@ function MealSelectionContent({
 
   if (!currentTable) {
     return <Typography variant="h6" sx={{ textAlign: 'center', mt: 4 }}>No items available for this table.</Typography>;
+  }
+
+  function handleClose(tableItems: PaymentResponseTableDTO[], updateItem: (tableNumber: number, itemId: string, shortName: string, quantity: number) => void): void {
+    console.log('Close button clicked');
+    for (const key in tableItems) {
+      const table = tableItems[key]
+      tableNumber = table.number
+      const elements = table.elements 
+      for (const elemKey in elements){
+        const element = elements[elemKey]
+        updateItem(tableNumber, element.item.id, element.item.name, 0)
+      }
+    }
   }
 
   return (
@@ -159,7 +170,7 @@ function MealSelectionContent({
           </Box>
         )}
       </Box>
-      <Footer onClose={onClose} onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />
+      <Footer onClose={() => handleClose(tableItems, updateItem)}  onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />
     </Box>
   );
 }

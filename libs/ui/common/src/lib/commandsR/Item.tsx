@@ -22,12 +22,12 @@ export function Item(props: Readonly<ItemProps>) {
   const currentTableCart: Cart =
     useCarts((state) => state.carts)[props.tableNumber] || [];
   const updateItem = useCarts((state) => state.updateItem);
-
+  
   const count =
     currentTableCart.find(
       (element) => element.shortName === props.item.shortName
     )?.quantity ?? 0;
-
+    
   return (
     <Card sx={{ maxWidth: 250, minWidth: 150, maxHeight: 250 }}>
       <CardMedia
