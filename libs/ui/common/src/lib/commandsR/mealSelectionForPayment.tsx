@@ -99,6 +99,7 @@ function MealSelectionContent({
   const tableItems = useSSE<PaymentResponseTableDTO[]>('message', []);
   const container = React.useContext(ContainerContext);
   const selectedTables = useTableStore((state) => state.selectedTables);
+  const removeTable = useTableStore((state) => state.removeTable);
   const currentTableCart = useCarts((state) => state.carts)[tableNumber] || [];
   const updateItem = useCarts((state) => state.updateItem);
 
@@ -217,7 +218,7 @@ function MealSelectionContent({
           </Box>
         )}
         {otherTables.map((table) => (
-          <OtherTable key={table.number} table={table} catalog={catalog} handleSelectItem={handleSelectItem}/>
+          <OtherTable key={table.number} table={table} catalog={catalog ?? []} handleSelectItem={handleSelectItem} handleRemoveTable={removeTable}/>
         ))}
       </Box>
       <Footer onClose={() => handleClose(tableItems, updateItem)}  onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />

@@ -14,11 +14,13 @@ interface OtherTableProps {
   };
   catalog: any[];
   handleSelectItem: (itemId: string, shortName: string) => void;
+  handleRemoveTable: (tableId: number) => void;
 }
 
-const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectItem }) => {
+const OtherTable: React.FC<OtherTableProps> = ({ table, catalog, handleSelectItem, handleRemoveTable }) => {
   const handleCloseButton = () => {
     console.log('Close button clicked');
+    handleRemoveTable(table.number);
   };
   return (
     <>
