@@ -15,15 +15,15 @@ spec:
         io.kompose.service: frontend-personal-space
     spec:
       containers:
-        - image: ghcr.io/startupnationlabs/spos/frontend-personal-space:sha-69ef30b
+        - image: ghcr.io/startupnationlabs/spos/frontend-personal-space:sha-e6b0fb9
           name: frontend-personal-space
           ports:
             - containerPort: 80
               protocol: TCP
           resources:
             requests:
-              cpu: "50m"
-              memory: "128Mi"
+              cpu: "20m"
+              memory: "64Mi"
             limits:
               cpu: "500m"
               memory: "512Mi"

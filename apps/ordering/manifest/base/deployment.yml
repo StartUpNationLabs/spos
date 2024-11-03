@@ -15,7 +15,7 @@ spec:
         io.kompose.service: ordering
     spec:
       containers:
-        - image: ghcr.io/startupnationlabs/spos/ordering:sha-bcc8181
+        - image: ghcr.io/startupnationlabs/spos/ordering:sha-e6b0fb9
           name: ordering
           ports:
             - containerPort: 3003

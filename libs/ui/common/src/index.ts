@@ -26,4 +26,6 @@ export * from './lib/dining/diningRoomTables';
 export * from './lib/dining/diningIndividualRoomTables';
 export * from './lib/commandsR/mealSelectionForPayment';
 export * from './lib/commandsR/stores/cart';
+export * from './lib/thanks/thanks';
+export * from './lib/utils/GroupClosedListener';
 export * from './lib/utils/uniqueSvgTable';

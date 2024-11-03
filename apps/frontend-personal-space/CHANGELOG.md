@@ -1,3 +1,39 @@
+## 0.9.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Redirection for all the users of the table to /thanks ([1aed4e6](https://github.com/StartUpNationLabs/spos/commit/1aed4e6))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
+## 0.8.1 (2024-11-02)
+
+
+### 🩹 Fixes
+
+- payment sharing url for frontend personnal ([12c10d2](https://github.com/StartUpNationLabs/spos/commit/12c10d2))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
+## 0.8.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Addition of redirection page (thanking page) after group closed from payment ([e8207db](https://github.com/StartUpNationLabs/spos/commit/e8207db))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.7.0 (2024-11-02)
 
 

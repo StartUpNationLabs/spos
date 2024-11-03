@@ -6,7 +6,7 @@ resources:
 images:
   - name: ghcr.io/startupnationlabs/spos/ordering
     newName: ghcr.io/startupnationlabs/spos/ordering
-    newTag: sha-0d870a9
+    newTag: sha-29921f0
 
 
 patches:

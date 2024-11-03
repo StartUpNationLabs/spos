@@ -1,3 +1,15 @@
+## 0.23.1 (2024-11-03)
+
+
+### 🩹 Fixes
+
+- missing env var ([ecb7d71](https://github.com/StartUpNationLabs/spos/commit/ecb7d71))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.23.0 (2024-11-02)
 
 

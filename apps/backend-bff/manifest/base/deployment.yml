@@ -15,7 +15,7 @@ spec:
         io.kompose.service: backend-bff
     spec:
       containers:
-        - image: ghcr.io/startupnationlabs/spos/backend-bff:sha-bcc8181
+        - image: ghcr.io/startupnationlabs/spos/backend-bff:sha-e6b0fb9
           name: backend-bff
           ports:
             - containerPort: 3000
@@ -36,4 +36,6 @@ spec:
               value: "http://dining-backend.spos-prod.svc.cluster.local:3000"
             - name: OTLP_URL
               value: "http://jaeger-collector.spos-prod.svc.cluster.local:4318/v1/traces"
+            - name: ORDERING_BASE_URL
+              value: "http://ordering:3003"
       restartPolicy: Always

@@ -6,6 +6,7 @@ resources:
   - ../../apps/frontend-workflow/manifest/overlays/main
   - ../../apps/backend-bff/manifest/overlays/main
   - ../../apps/payment-sharing/manifest/overlays/main
+  - ../../apps/ordering/manifest/overlays/main
   - ../../apps/frontend-common-space/manifest/overlays/main
   - ../../apps/frontend-personal-space/manifest/overlays/main
   - ../base
