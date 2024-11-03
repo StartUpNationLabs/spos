@@ -81,10 +81,15 @@ function MealSelectionContent({
 }: MealSelectionContentProps) {
   const tableItems = useSSE<PaymentResponseTableDTO[]>('message', []);
   const container = React.useContext(ContainerContext);
-  //const selectedTables = useTableStore((state) => state.selectedTables ? Array.from(state.selectedTables) : []);
+  const selectedTables = useTableStore((state) => state.selectedTables);
 
+  React.useEffect(() => {
+    console.log("Selected Tables:", selectedTables ? Array.from(selectedTables) : []);
+  }, [selectedTables]);
   const currentTable = tableItems.find((table) => table.number === tableNumber);
-  //const otherTables = tableItems.filter((table) => selectedTables.includes(table.number) && table.number !== tableNumber);
+  const otherTables = tableItems.filter(
+    (table) => Array.from(selectedTables).includes(table.number) && table.number !== tableNumber
+  );
   //console.log("Selected Tables:", selectedTables);
 
   const itemIds = React.useMemo(() => currentTable ? currentTable.elements.map((element) => element.item.id) : [], [currentTable]);
@@ -170,7 +175,9 @@ function MealSelectionContent({
             </Grid>
           </Box>
         )}
-        
+        {otherTables.map((table) => (
+          <OtherTable key={table.number} table={table} catalog={catalog} />
+        ))}        
       </Box>
       <Footer onClose={onClose} onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />
     </Box>

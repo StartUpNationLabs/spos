@@ -26,8 +26,8 @@ const OtherTable: React.FC<OtherTableProps> = ({ table, catalog }) => {
         mb: 3,
       }}
     >
-      <Typography variant="h5" color="secondary" sx={{ mb: 2, textAlign: 'center' }}>
-        Table Nb {table.number}
+      <Typography variant="h3" sx={{ color: 'green', mb: 2, textAlign: 'center' }}>
+      Table Nb {table.number}
       </Typography>
       <Divider sx={{ mb: 2 }} />
       <Grid container spacing={2}>
