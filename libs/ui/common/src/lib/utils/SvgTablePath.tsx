@@ -1,4 +1,6 @@
 import React from 'react';
+import TableSvg from './uniqueSvgTable';
+import { Typography } from '@mui/material';
 
 interface TablePath {
   index: number;
@@ -252,8 +254,7 @@ export const TablePaths: React.FC<TablePathsProps> = ({ handleTableClick, getTab
   );
 };*/
 
-import TableSvg from './uniqueSvgTable';
-import { Typography } from '@mui/material';
+
 
 export const TablesSvgGrid: React.FC<TablePathsProps> = ({ handleTableClick, getTableColor,userTableIndex }) => {
   
