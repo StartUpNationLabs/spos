@@ -100,7 +100,7 @@ const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
                   }}
                   gutterBottom
                 >
-                  {'Table ' + key}
+                  {'Table ' + state[parseInt(key)].number}
                 </Typography>
                 <TableBillingShell
                   key={key}
@@ -115,7 +115,7 @@ const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
                       owner_id: ownerId,
                       item_short_name: itemIdToItemName(itemId, parseInt(key)),
                       amount: 1,
-                      table_id: tableNumber,
+                      table_id: state[parseInt(key)].number.toString(),
                     });
                   }}
                   onDecrement={(itemId: string) => {
@@ -124,14 +124,14 @@ const Tables = ({ groupId, ownerId, tableNumber }: TablesProps) => {
                       owner_id: ownerId,
                       item_short_name: itemIdToItemName(itemId, parseInt(key)),
                       amount: 1,
-                      table_id: tableNumber,
+                      table_id: state[parseInt(key)].number.toString(),
                     });
                   }}
                   onRemove={(tableItem: TableItem) => {
                     returnToCenterTableMutation.mutate({
                       group_id: groupId,
                       owner_id: ownerId,
-                      table_id: tableNumber,
+                      table_id: state[parseInt(key)].number.toString(),
                       amount: countFunction(
                         tableItem.item.name,
                         parseInt(key),
