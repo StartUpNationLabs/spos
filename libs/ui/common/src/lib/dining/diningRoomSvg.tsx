@@ -3,6 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { TablesSvgGrid } from '../utils/SvgTablePath';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ContainerContext } from '../containerHook/containerContext';
+import { useQuery } from '@tanstack/react-query';
+import { GroupService, Table, TYPES } from '@spos/services/common';
+import { Typography } from '@mui/material';
 
 interface DiningRoomSVGProps {
   onSelectionChange: (hasSelection: boolean) => void;
@@ -14,54 +18,65 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
     groupId: string; 
     tableNumber: string;
   }>();
-  
-  const [userTable] = useState<number | undefined>(tableNumber ? parseInt(tableNumber, 10) : undefined);
+  const stringTableNumber = tableNumber;
+  const userTable = tableNumber ? parseInt(tableNumber, 10) : undefined;
   const [selectedTables, setSelectedTables] = useState(new Set<number>());
-  const groups = {
-    1: [1,2,3,4,5,6,7,8,9],
-    2: [],
-    3: [],
+  const [tablesInGroup, setTablesInGroup] = useState<number[]>([]); 
+
+
+  
+  const container = React.useContext(ContainerContext);
+  const isValidTableNumber = (tableNumber: string | undefined): boolean => {
+    const isString = typeof tableNumber === 'string';
+    console.log('Type de stringTableNumber:', typeof tableNumber); 
+    return isString && tableNumber.trim() !== '';
   };
+  const {
+    data: group,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['groupWithTable', groupId],
+    queryFn: async () => {
+      const groupService: GroupService = container.get<GroupService>(TYPES.GroupService);
+      if (isValidTableNumber(groupId)) {
+        return groupService.getGroup(groupId);
+      }
+      throw new Error('groupId is undefined');
+    },
+    refetchOnWindowFocus: 'always',
+    enabled: !!groupId && groupId !== '',
+  });
+  useEffect(() => {
+    if (group) {
+      setTablesInGroup(group.tables.map((table) => table.number)); 
+    }
+  }, [group]);
 
   useEffect(() => {
     onSelectionChange(selectedTables.size > 0);
   }, [selectedTables, onSelectionChange]);
 
-  
+  if (isLoading) {
+    return <Typography variant="h6" component="h2" fontWeight="bold">Loading...</Typography>;
+  }
 
-  const getTableGroup = (tableIndex: number) => {
-    //console.log("____________")
-    //console.log(tableIndex)
-    return Object.entries(groups).find(([_, tables]) =>
-      tables.includes(tableIndex)
-    )?.[0];
-  };
+  if (!group || isError) {
+    console.error(error);
+    return <Typography variant="h6" component="h2" fontWeight="bold">Error</Typography>;
+  }
+
 
   const isInUserGroup = (tableIndex: number) => {
-    const userGroup = getTableGroup(userTable);
-    const tableGroup = getTableGroup(tableIndex);
-    return userGroup === tableGroup;
+    return tablesInGroup.includes(tableIndex)
   };
 
   const handleTableClick = (index: number) => {
-    console.log(index)
     if (isInUserGroup(index) && index !== userTable) {
-      console.log("user table : ")
-      console.log(userTable)
-      console.log("-------------")
-      console.log(index)
-
-      setSelectedTables((prev) => {
+      setSelectedTables(prev => {
         const newSet = new Set(prev);
-        if (newSet.has(index)) {
-          newSet.delete(index);
-        } else {
-          newSet.add(index);
-        }
-        console.log(`Selected tables: ${Array.from(newSet)}`); // Log des tables sélectionnées
-
-        setSelectedTables(newSet);
-        
+        newSet.has(index) ? newSet.delete(index) : newSet.add(index);
         return newSet;
       });
     }
@@ -75,15 +90,11 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   };
 
   return (
-
-        <TablesSvgGrid
-          handleTableClick={handleTableClick}
-          getTableColor={getTableColor}
-          >        
-        </TablesSvgGrid>
-       
-    
+    <TablesSvgGrid
+      handleTableClick={handleTableClick}
+      getTableColor={getTableColor}
+    />
   );
 };
-
 export default DiningRoomSVG;
+

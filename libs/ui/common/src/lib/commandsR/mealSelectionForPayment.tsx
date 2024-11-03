@@ -84,6 +84,7 @@ function MealSelectionContent({
   const currentTable = tableItems.find((table) => table.number === tableNumber);
   const itemIds = currentTable ? currentTable.elements.map((element) => element.item.id) : [];
 
+  
   const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
     queryKey: ['catalogMealSelectionForPayments', itemIds],
     queryFn: async () => {
@@ -93,6 +94,11 @@ function MealSelectionContent({
     enabled: itemIds.length > 0,
     refetchOnWindowFocus: 'always',
   });
+  React.useEffect(() => {
+    if (itemIds.length > 0) {
+      console.log('Item ids changed:', itemIds);
+    }
+  }, [tableItems]);
 
   if (!tableItems || tableItems.length === 0) {
     return (
@@ -110,7 +116,7 @@ function MealSelectionContent({
     <Box sx={{ pb: 10 }}>
       <BackButton onClick={onBackButtonClick} />
       <Box sx={{ mt: 15, px: 3, 
-                  maxHeight: '600px', 
+                  maxHeight: '1150px', 
                   overflowY: 'auto', }}>
         <Typography variant="h3" color="primary" sx={{ mb: 2, textAlign: 'center' }}>
           My table (Nb {currentTable.number})
