@@ -93,6 +93,7 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
     <TablesSvgGrid
       handleTableClick={handleTableClick}
       getTableColor={getTableColor}
+      userTableIndex={userTable ?? -1}
     />
   );
 };

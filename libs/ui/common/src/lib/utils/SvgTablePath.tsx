@@ -9,6 +9,7 @@ interface TablePath {
 interface TablePathsProps {
     handleTableClick: (index: number) => void;
     getTableColor: (index: number) => string;
+    userTableIndex: number;
 }
   
 
@@ -252,9 +253,12 @@ export const TablePaths: React.FC<TablePathsProps> = ({ handleTableClick, getTab
 };*/
 
 import TableSvg from './uniqueSvgTable';
+import { Typography } from '@mui/material';
 
-export const TablesSvgGrid: React.FC<TablePathsProps> = ({ handleTableClick, getTableColor }) =>{
+export const TablesSvgGrid: React.FC<TablePathsProps> = ({ handleTableClick, getTableColor,userTableIndex }) => {
   
+  const userTableIndex2 = 2; 
+
   return (
     <div
       style={{
@@ -264,156 +268,42 @@ export const TablesSvgGrid: React.FC<TablePathsProps> = ({ handleTableClick, get
         gap: '0.2rem',
       }}
     >
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'scale(1.2)',
-        }}
-      >
-        <TableSvg 
-          index={1}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor} 
-          isCurrentTable={true}
-        />
-        
-      </div>
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          transform: 'scale(1.2)',
-        }}
-        >
-        <TableSvg 
-          index={2}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor}
-          isCurrentTable={false}
-        />
-      </div>
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'scale(1.2)',
-        }}
-      >
-        <TableSvg 
-          index={3}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor}
-          isCurrentTable={false}
-        />
-        
-      </div>
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'scale(1.2)',
-        }}>
-        <TableSvg 
-          index={4}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor}
-          isCurrentTable={false}
-        />
-      </div>
-    
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'scale(1.2)',
-        }}
-      >
-        <TableSvg 
-          index={5}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor}
-          isCurrentTable={false}
-        />
-        
-      </div>
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'scale(1.2)',
-        }}
-        >
-        <TableSvg 
-          index={6}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor}
-          isCurrentTable={false}
-        />
-          
-        </div>
-      
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'scale(1.2)',
-        }}
-      >
-        <TableSvg 
-          index={7}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor}
-          isCurrentTable={false}
-        />
-        
-      </div>
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'scale(1.2)',
-        }}
-      >
-        <TableSvg 
-          index={8}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor} 
-          isCurrentTable={false}
-        />
-      </div>
-      <div
-        style={{
-          aspectRatio: '1/1',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'scale(1.2)',
-        }}
-      >
-        <TableSvg 
-          index={9}
-          handleTableClick={handleTableClick} 
-          getTableColor={getTableColor} 
-          isCurrentTable={false}
-        />
-        
-      </div>
+      {Array.from({ length: 9 }, (_, index) => {
+        const isCurrentTable = index + 1 === userTableIndex; 
+        return (
+          <div
+            key={index}
+            style={{
+              aspectRatio: '1/1',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transform: 'scale(1.2)',
+            }}
+          >
+            {isCurrentTable ? (
+              <>
+                <TableSvg 
+                  index={index + 1}
+                  handleTableClick={handleTableClick} 
+                  getTableColor={getTableColor} 
+                  isCurrentTable={true}
+                />
+                <Typography variant="body1" style={{fontSize: '45px', position: 'absolute', textAlign: 'center', color: '#87CEFA' }}>
+                  YOU
+                </Typography>
+              </>
+            ) : (
+              <TableSvg 
+                index={index + 1}
+                handleTableClick={handleTableClick} 
+                getTableColor={getTableColor} 
+                isCurrentTable={false}
+              />
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
