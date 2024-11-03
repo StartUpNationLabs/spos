@@ -6,7 +6,7 @@ resources:
 images:
   - name: ghcr.io/startupnationlabs/spos/frontend-workflow
     newName: ghcr.io/startupnationlabs/spos/frontend-workflow
-    newTag: sha-97294ef
+    newTag: sha-07895d8
 
 
 patches:
