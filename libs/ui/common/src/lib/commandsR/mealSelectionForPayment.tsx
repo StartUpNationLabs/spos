@@ -90,11 +90,14 @@ function MealSelectionContent({
   const otherTables = tableItems.filter(
     (table) => Array.from(selectedTables).includes(table.number) && table.number !== tableNumber
   );
-  //console.log("Selected Tables:", selectedTables);
 
-  const itemIds = React.useMemo(() => currentTable ? currentTable.elements.map((element) => element.item.id) : [], [currentTable]);
 
-  
+  const itemIds = React.useMemo(() => {
+    const currentTableItems = currentTable ? currentTable.elements.map((element) => element.item.id) : [];
+    const otherTableItems = otherTables.flatMap((table) => table.elements.map((element) => element.item.id));
+    return Array.from(new Set([...currentTableItems, ...otherTableItems])); 
+  }, [currentTable, otherTables]);
+
   const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
     queryKey: ['catalogMealSelectionForPayments', itemIds],
     queryFn: async () => {
