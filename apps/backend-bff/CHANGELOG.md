@@ -1,3 +1,17 @@
+## 0.24.0 (2024-11-03)
+
+
+### 🚀 Features
+
+- add thank you event ([6cf6e91](https://github.com/StartUpNationLabs/spos/commit/6cf6e91))
+
+- add redis url ([027b124](https://github.com/StartUpNationLabs/spos/commit/027b124))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.23.1 (2024-11-03)
 
 

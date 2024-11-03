@@ -1,3 +1,15 @@
+## 0.38.0 (2024-11-03)
+
+
+### 🚀 Features
+
+- add thank you event ([6cf6e91](https://github.com/StartUpNationLabs/spos/commit/6cf6e91))
+
+
+### ❤️  Thank You
+
+- Apoorva Srinivas Appadoo
+
 ## 0.37.0 (2024-11-03)
 
 
