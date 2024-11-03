@@ -47,7 +47,7 @@ export class BillingCacheService {
     group_id: string;
     action: string;
   }) {
-    if (payload.action === 'order') {
+    if (payload.action === 'order' || payload.action === 'pay') {
       this.logger.log('invalidateBillingSummary' + payload.group_id);
       await this.redisClient.del(
         ('GetBillingSummary' + payload.group_id) as any

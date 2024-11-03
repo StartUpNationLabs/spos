@@ -1,10 +1,8 @@
 import 'reflect-metadata';
 import { Route, Routes } from 'react-router-dom';
-import {
-  DiningIndividualRoomTables,
-} from '@spos/ui/common';
 import PersonalOrdering from './pages/Personal-ordering';
 import { PersonalBilling } from './pages/Personal-billing';
+import { Thanks } from '@spos/ui/common';
 
 export function App() {
   return (
@@ -12,11 +10,7 @@ export function App() {
       <Routes>
         <Route path={"/:groupId/:tableNumber/:ownerId"} element={<PersonalOrdering/>} />
         <Route path="/personalBilling/:groupId/:tableNumber/:ownerId" element={<PersonalBilling />} />
-
-        <Route
-          path="/diningIndividualTables"
-          element={<DiningIndividualRoomTables />}
-        />
+        <Route path="/thanks" element={<Thanks />} />
       </Routes>
       {/* END: routes */}
     </div>

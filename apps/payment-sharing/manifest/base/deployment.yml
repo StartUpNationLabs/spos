@@ -15,7 +15,7 @@ spec:
         io.kompose.service: payment-sharing
     spec:
       containers:
-        - image: ghcr.io/startupnationlabs/spos/payment-sharing:sha-bcc8181
+        - image: ghcr.io/startupnationlabs/spos/payment-sharing:sha-e6b0fb9
           name: payment-sharing
           ports:
             - containerPort: 3002

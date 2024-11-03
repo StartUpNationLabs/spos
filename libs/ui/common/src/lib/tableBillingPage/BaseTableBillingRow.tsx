@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NumberInput from '../tables/nbPeopleSelector';
 import { TableItem } from '@spos/services/common';
 import { Button } from '@mui/material';
@@ -13,38 +13,43 @@ interface BaseTableBillingRowProps {
   onIncrement: (itemId: string) => void
   onDecrement: (itemId: string) => void
   showRemoveButton?: boolean;
-  onRemove?: (itemId: string) => void
+  onRemove?: (tableItem: TableItem) => void
 }
 
 export function BaseTableBillingRow({element, count, max, onIncrement, onDecrement, showRemoveButton, onRemove}: BaseTableBillingRowProps) {
   const [currentCount, setCurrentCount] = useState(count);
-  const handleChange = (newValue: number) => {
-    setCurrentCount(newValue); // Update the local count state
 
+  useEffect(() => {
+    setCurrentCount(count);
+  }, [count]);
+
+  const handleChange = (newValue: number) => {
     if (newValue > currentCount) {
       onIncrement?.(element.item.id);
     } else if (newValue < currentCount) {
       onDecrement?.(element.item.id);
     }
+
+    setCurrentCount(newValue);
   };
 
   return (
     <StyledTableRow>
-      <StyledTableCell align="center" width="25%">
+      <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
         <NumberInput
           min={0}
           max={max}
-          value={currentCount}
+          value={count}
           onChange={(e, value) => handleChange(value as number)} // Capture changes
         />
       </StyledTableCell>
-      <StyledTableCell align="center" width="25%">
+      <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
         {element.remaining}
       </StyledTableCell>
-      <StyledTableCell align="center" width="25%">
+      <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
         {element.item.name}
       </StyledTableCell>
-      <StyledTableCell align="center" width="25%">
+      <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
         {element.item.price * count}
       </StyledTableCell>
       {showRemoveButton && (
@@ -52,7 +57,7 @@ export function BaseTableBillingRow({element, count, max, onIncrement, onDecreme
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => onRemove?.(element.item.id)}
+            onClick={() => onRemove?.(element)}
           >
             Remove
           </Button>

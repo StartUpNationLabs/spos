@@ -4,7 +4,7 @@ import {
   CartItem,
   container,
   KitchenService,
-  MonsieurAxelMenvoie,
+  MonsieurAxelMenvoie, OrderingApiService,
   PreparationStatus, PreparedItemAggregate,
   TYPES
 } from "@spos/services/common";
@@ -85,9 +85,11 @@ export class RemoteKitchenController {
     @Body()
     order: AnnotatedMonsieurAxelMenvoie
   ): Promise<void> {
-    return await container
-      .get<KitchenService>(TYPES.KitchenService)
-      .sendToKitchen(order);
+    return (await container
+      .get<OrderingApiService>(TYPES.OrderingApiService)
+      .getOrderingApi().orderingControllerSendToKitchen({
+        orderingRequestDTO: order,
+      })).data;
   }
 
   @Post('serve')

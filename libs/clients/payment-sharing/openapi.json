@@ -1,1 +1,376 @@
-{"openapi":"3.0.0","paths":{"/api/payments/take-item":{"post":{"operationId":"PaymentController_takeItemFromCenterTable","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ItemRequestDto"}}}},"responses":{"200":{"description":"Item taken successfully"}},"tags":["payments"]}},"/api/payments/return-item":{"post":{"operationId":"PaymentController_returnItemToCenterTable","summary":"Return an item to the center table","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ItemRequestDto"}}}},"responses":{"200":{"description":"Item returned successfully"}},"tags":["payments"]}},"/api/payments/customer-items/{group_id}/{owner_id}":{"get":{"operationId":"PaymentController_getCustomerItems","summary":"Get items of a customer","parameters":[{"name":"group_id","required":true,"in":"path","schema":{"type":"string"}},{"name":"owner_id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Items of the customer","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/SelectedByCustomerDTO"}}}}}},"tags":["payments"]}},"/api/payments/table-items/{group_id}":{"get":{"operationId":"PaymentController_getTableItems","summary":"Get items of the group","parameters":[{"name":"group_id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Items of the group","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/PaymentResponseTableDTO"}}}}}},"tags":["payments"]}},"/api/payments/sse/customer-items/{group_id}/{owner_id}":{"get":{"operationId":"PaymentController_sseCustomerItems","summary":"Get items of a customer in real-time","parameters":[{"name":"group_id","required":true,"in":"path","schema":{"type":"string"}},{"name":"owner_id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Items of the customer","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/SelectedByCustomerDTO"}}}}}},"tags":["payments"]}},"/api/payments/sse/table-items/{group_id}":{"get":{"operationId":"PaymentController_sseTableItems","summary":"Get items of the table in real-time","parameters":[{"name":"group_id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"items of the table in real-time","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/PaymentResponseTableDTO"}}}}}},"tags":["payments"]}},"/api/payments/pay/{groupId}/{ownerId}":{"post":{"operationId":"PaymentController_makePayment","parameters":[{"name":"groupId","required":true,"in":"path","schema":{"type":"string"}},{"name":"ownerId","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"201":{"description":""}},"tags":["payments"]}}},"info":{"title":"Payment Sharing API","description":"Payment Sharing API","version":"1.0","contact":{}},"tags":[],"servers":[],"components":{"schemas":{"ItemRequestDto":{"type":"object","properties":{"group_id":{"type":"string"},"owner_id":{"type":"string"},"item_short_name":{"type":"string"},"amount":{"type":"number"},"table_id":{"type":"string"}},"required":["group_id","owner_id","item_short_name","amount","table_id"]},"PaymentResponseItemDetailsDTO":{"type":"object","properties":{"name":{"type":"string"},"price":{"type":"number"},"id":{"type":"string"}},"required":["name","price","id"]},"SelectedItemDTO":{"type":"object","properties":{"item":{"$ref":"#/components/schemas/PaymentResponseItemDetailsDTO"},"selectedByCustomer":{"type":"number"},"remaining":{"type":"number"}},"required":["item","selectedByCustomer","remaining"]},"SelectedByCustomerDTO":{"type":"object","properties":{"number":{"type":"number"},"elements":{"type":"array","items":{"$ref":"#/components/schemas/SelectedItemDTO"}}},"required":["number","elements"]},"PaymentResponseItemDTO":{"type":"object","properties":{"item":{"$ref":"#/components/schemas/PaymentResponseItemDetailsDTO"},"onTable":{"type":"number"},"remaining":{"type":"number"}},"required":["item","onTable","remaining"]},"PaymentResponseTableDTO":{"type":"object","properties":{"number":{"type":"number"},"elements":{"type":"array","items":{"$ref":"#/components/schemas/PaymentResponseItemDTO"}}},"required":["number","elements"]}}}}
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/api/payments/take-item": {
+            "post": {
+                "operationId": "PaymentController_takeItemFromCenterTable",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ItemRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item taken successfully"
+                    }
+                },
+                "tags": [
+                    "payments"
+                ]
+            }
+        },
+        "/api/payments/return-item": {
+            "post": {
+                "operationId": "PaymentController_returnItemToCenterTable",
+                "summary": "Return an item to the center table",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ItemRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item returned successfully"
+                    }
+                },
+                "tags": [
+                    "payments"
+                ]
+            }
+        },
+        "/api/payments/customer-items/{group_id}/{owner_id}": {
+            "get": {
+                "operationId": "PaymentController_getCustomerItems",
+                "summary": "Get items of a customer",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "owner_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Items of the customer",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SelectedByCustomerDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "payments"
+                ]
+            }
+        },
+        "/api/payments/table-items/{group_id}": {
+            "get": {
+                "operationId": "PaymentController_getTableItems",
+                "summary": "Get items of the group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Items of the group",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaymentResponseTableDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "payments"
+                ]
+            }
+        },
+        "/api/payments/sse/customer-items/{group_id}/{owner_id}": {
+            "get": {
+                "operationId": "PaymentController_sseCustomerItems",
+                "summary": "Get items of a customer in real-time",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "owner_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Items of the customer",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SelectedByCustomerDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "payments"
+                ]
+            }
+        },
+        "/api/payments/sse/table-items/{group_id}": {
+            "get": {
+                "operationId": "PaymentController_sseTableItems",
+                "summary": "Get items of the table in real-time",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "items of the table in real-time",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaymentResponseTableDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "payments"
+                ]
+            }
+        },
+        "/api/payments/pay/{groupId}/{ownerId}": {
+            "post": {
+                "operationId": "PaymentController_makePayment",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ownerId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Payment made successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "payments"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Payment Sharing API",
+        "description": "Payment Sharing API",
+        "version": "1.0",
+        "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+        "schemas": {
+            "ItemRequestDto": {
+                "type": "object",
+                "properties": {
+                    "group_id": {
+                        "type": "string"
+                    },
+                    "owner_id": {
+                        "type": "string"
+                    },
+                    "item_short_name": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number"
+                    },
+                    "table_id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "group_id",
+                    "owner_id",
+                    "item_short_name",
+                    "amount",
+                    "table_id"
+                ]
+            },
+            "PaymentResponseItemDetailsDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "price",
+                    "id"
+                ]
+            },
+            "SelectedItemDTO": {
+                "type": "object",
+                "properties": {
+                    "item": {
+                        "$ref": "#/components/schemas/PaymentResponseItemDetailsDTO"
+                    },
+                    "selectedByCustomer": {
+                        "type": "number"
+                    },
+                    "remaining": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "item",
+                    "selectedByCustomer",
+                    "remaining"
+                ]
+            },
+            "SelectedByCustomerDTO": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    },
+                    "elements": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SelectedItemDTO"
+                        }
+                    }
+                },
+                "required": [
+                    "number",
+                    "elements"
+                ]
+            },
+            "PaymentResponseItemDTO": {
+                "type": "object",
+                "properties": {
+                    "item": {
+                        "$ref": "#/components/schemas/PaymentResponseItemDetailsDTO"
+                    },
+                    "onTable": {
+                        "type": "number"
+                    },
+                    "remaining": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "item",
+                    "onTable",
+                    "remaining"
+                ]
+            },
+            "PaymentResponseTableDTO": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    },
+                    "elements": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentResponseItemDTO"
+                        }
+                    }
+                },
+                "required": [
+                    "number",
+                    "elements"
+                ]
+            }
+        }
+    }
+}

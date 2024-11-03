@@ -71,7 +71,8 @@ export const CartStoreProvider = ({ children }) => {
     </StoreContext.Provider>
   );
 };
-export const useCarts = (selector) => {
+
+export const useCarts = <T,>(selector: (state: CartsState) => T): T => {
   const store = useContext(StoreContext);
   if (!store) {
     throw new Error('Missing StoreProvider');

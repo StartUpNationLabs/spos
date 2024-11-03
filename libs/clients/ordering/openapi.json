@@ -1,1 +1,80 @@
-{"openapi":"3.0.0","paths":{"/ordering":{"post":{"operationId":"OrderingController_sendToKitchen","summary":"Send a batch of element in the kitchen based on their category","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/OrderingRequestDTO"}}}},"responses":{"201":{"description":""}}}}},"info":{"title":"Ordering API","description":"Ordering API","version":"1.0","contact":{}},"tags":[],"servers":[],"components":{"schemas":{"CartItem":{"type":"object","properties":{"itemId":{"type":"string"},"shortName":{"type":"string"},"quantity":{"type":"number"}},"required":["itemId","shortName","quantity"]},"OrderingRequestDTO":{"type":"object","properties":{"cart":{"type":"array","items":{"$ref":"#/components/schemas/CartItem"}},"groupId":{"type":"string"},"tableNumber":{"type":"number"}},"required":["cart","groupId","tableNumber"]}}}}
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/ordering": {
+            "post": {
+                "operationId": "OrderingController_sendToKitchen",
+                "summary": "Send a batch of element in the kitchen based on their category",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderingRequestDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "info": {
+        "title": "Ordering API",
+        "description": "Ordering API",
+        "version": "1.0",
+        "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+        "schemas": {
+            "CartItem": {
+                "type": "object",
+                "properties": {
+                    "itemId": {
+                        "type": "string"
+                    },
+                    "shortName": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "itemId",
+                    "shortName",
+                    "quantity"
+                ]
+            },
+            "OrderingRequestDTO": {
+                "type": "object",
+                "properties": {
+                    "cart": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CartItem"
+                        }
+                    },
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "tableNumber": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "cart",
+                    "groupId",
+                    "tableNumber"
+                ]
+            }
+        }
+    }
+}

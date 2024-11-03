@@ -1,3 +1,15 @@
+## 0.6.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Addition of redirection page (thanking page) after group closed from payment ([e8207db](https://github.com/StartUpNationLabs/spos/commit/e8207db))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.5.0 (2024-11-01)
 
 

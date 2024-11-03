@@ -36,7 +36,7 @@ interface TableBillingShellProps {
   onIncrement: (itemId: string) => void;
   onDecrement: (itemId: string) => void;
   showRemoveButton?: boolean;
-  onRemove?: (itemId: string) => void;
+  onRemove?: (tableItem: TableItem) => void;
 }
 
 export function TableBillingShell({
@@ -49,19 +49,19 @@ export function TableBillingShell({
 }: TableBillingShellProps) {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table sx={{}} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center" width="25%">
+            <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
               Quantity Selected
             </StyledTableCell>
-            <StyledTableCell align="center" width="25%">
+            <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
               Quantity Remaining
             </StyledTableCell>
-            <StyledTableCell align="center" width="25%">
+            <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
               name
             </StyledTableCell>
-            <StyledTableCell align="center" width="25%">
+            <StyledTableCell align="center" width={showRemoveButton ? '20%' : "25%"}>
               Price&nbsp;($)
             </StyledTableCell>
             {showRemoveButton && (

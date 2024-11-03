@@ -1,3 +1,44 @@
+## 0.35.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Redirection for all the users of the table to /thanks ([1aed4e6](https://github.com/StartUpNationLabs/spos/commit/1aed4e6))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
+## 0.34.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Addition of redirection page (thanking page) after group closed from payment ([e8207db](https://github.com/StartUpNationLabs/spos/commit/e8207db))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
+## 0.33.0 (2024-11-02)
+
+
+### 🚀 Features
+
+- Begin implementation of partial payment for table ([0f23d8f](https://github.com/StartUpNationLabs/spos/commit/0f23d8f))
+
+
+### 🩹 Fixes
+
+- layout of TableBillingShell ([4daf506](https://github.com/StartUpNationLabs/spos/commit/4daf506))
+
+
+### ❤️  Thank You
+
+- Tsukoyachi
+
 ## 0.32.0 (2024-11-01)
 
 

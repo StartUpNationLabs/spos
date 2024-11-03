@@ -13,6 +13,7 @@ export const TYPES = {
   KitchenApiConfiguration: Symbol.for('KitchenApiConfiguration'),
   DiningApiConfiguration: Symbol.for('DiningApiConfiguration'),
   MenuApiConfiguration: Symbol.for('MenuApiConfiguration'),
-
+  OrderingApiConfiguration: Symbol.for('OrderingApiConfiguration'),
+  OrderingApiService: Symbol.for('OrderingApiService'),
 };
 

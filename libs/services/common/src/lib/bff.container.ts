@@ -12,13 +12,10 @@ import { OfferRemoteService } from './offer/offerRemoteService';
 import { CatalogueService } from './offer/catalogue.service';
 import { CatalogueRemoteService } from './offer/catalogueRemoteService';
 import { KitchenService } from './kitchen/kitchenService';
-import { KitchenServiceWorkflow } from './kitchen/kitchenServiceWorkflow';
 import { BillingService } from './billing/billingService';
-import { BillingServiceWorkflow } from './billing/billingServiceWorkflow';
 import { KitchenApiService } from './apis/kitchenApiService';
-import { Configuration as BffConfiguration } from '@spos/clients-bff';
-import { KitchenRemoteService } from "./kitchen/kitchenRemoteService";
-import { BillingRemoteService } from "./billing/billingRemoteService";
+import { KitchenRemoteService } from './kitchen/kitchenRemoteService';
+import { BillingRemoteService } from './billing/billingRemoteService';
 
 const bffContainer = new Container();
 bffContainer

@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import {
   DiningRoomTables,
   MealSelectionForPayment,
-  PayementAsignee,
+  PayementAsignee, Thanks
 } from '@spos/ui/common';
 import { Box } from '@mui/material';
 
@@ -35,6 +35,7 @@ export function App() {
             </Box>
           }
         />
+        <Route path="/thanks" element={<Thanks />} />
         <Route path="/diningRoomTables" element={<DiningRoomTables />} />
         <Route
           path={"/mealSelectionForPayment/:groupId/:tableNumber"}

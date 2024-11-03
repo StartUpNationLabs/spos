@@ -6,6 +6,7 @@ import { PaymentController } from './payment/payment.controller';
 import { PaymentService } from './payment/payment.service';
 import { Configuration, RemoteBillingApi } from '@spos/clients-bff';
 import { BillingCacheService } from './payment/billing-cache.service';
+import { SseService } from "./payment/sse.service";
 
 @Module({
   imports: [EventEmitterModule.forRoot()],
@@ -13,6 +14,7 @@ import { BillingCacheService } from './payment/billing-cache.service';
   providers: [
     PaymentService,
     BillingCacheService,
+    SseService,
     {
       provide: 'REDIS_CLIENT',
       useFactory: async () => {
@@ -33,7 +35,7 @@ import { BillingCacheService } from './payment/billing-cache.service';
       provide: 'BILLING_API',
       useFactory: async () => {
         // try to read from env
-        let url = process.env['BILLING_API_URL'];
+        let url = process.env['BACKEND_BFF_URL'];
         if (!url) {
           url = 'http://localhost:3000';
         }
