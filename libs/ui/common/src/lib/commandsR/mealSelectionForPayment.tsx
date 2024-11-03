@@ -13,6 +13,7 @@ import { useTableStore } from '../dining/stores/tableSelectionStore';
 import OtherTable from './otherTables';
 import useCarts from './stores/cart';
 
+
 interface MealSelectionContentProps {
   onClose: () => void;
   onSelectWhoPays: () => void;
@@ -39,10 +40,6 @@ export function MealSelectionForPayment() {
     tableNumber: string;
   }>();
 
-  function handleClose() {
-    console.log('Close button clicked');
-  }
-
   function handleSelectWhoPays() {
     console.log('Select who pays button clicked');
     navigate(`/payementAsignee/`);
@@ -63,7 +60,6 @@ export function MealSelectionForPayment() {
   return (
     <SSEProvider endpoint={`${import.meta.env.VITE_PAYMENT_SHARING_BASE_URL}/api/payments/sse/table-items/${groupId}`}>
       <MealSelectionContent
-        onClose={handleClose}
         onSelectWhoPays={handleSelectWhoPays}
         onGroupClick={handleGroupClick}
         onBackButtonClick={handleBackButtonClick}
@@ -102,6 +98,7 @@ function MealSelectionContent({
   }, [currentTable, otherTables]);
   
 
+
   const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
     queryKey: ['catalogMealSelectionForPayments', itemIds],
     queryFn: async () => {
@@ -129,6 +126,19 @@ function MealSelectionContent({
       updateItem(tableNumber, itemId, shortName, 0); // Remove item
     } else {
       updateItem(tableNumber, itemId, shortName, 1); // Add item
+    }
+  }
+
+  function handleClose(tableItems: PaymentResponseTableDTO[], updateItem: (tableNumber: number, itemId: string, shortName: string, quantity: number) => void): void {
+    console.log('Close button clicked');
+    for (const key in tableItems) {
+      const table = tableItems[key]
+      tableNumber = table.number
+      const elements = table.elements 
+      for (const elemKey in elements){
+        const element = elements[elemKey]
+        updateItem(tableNumber, element.item.id, element.item.name, 0)
+      }
     }
   }
 
@@ -189,7 +199,7 @@ function MealSelectionContent({
           <OtherTable key={table.number} table={table} catalog={catalog} handleSelectItem={handleSelectItem}/>
         ))}        
       </Box>
-      <Footer onClose={onClose} onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />
+      <Footer onClose={() => handleClose(tableItems, updateItem)}  onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />
     </Box>
   );
 }
