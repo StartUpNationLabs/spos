@@ -1,0 +1,62 @@
+// OtherTable.tsx
+
+import React from 'react';
+import { Grid, Box, Typography, CircularProgress, Divider } from '@mui/material';
+import { Item } from './Item';
+
+interface OtherTableProps {
+  table: {
+    number: number;
+    elements: {
+      item: { id: string; name: string; price: number };
+      remaining: number;
+    }[];
+  };
+  catalog: any[];
+}
+
+const OtherTable: React.FC<OtherTableProps> = ({ table, catalog }) => {
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'rgba(76, 175, 80, 0.1)', 
+        borderRadius: 2,
+        p: 3,
+        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+        mb: 3,
+      }}
+    >
+      <Typography variant="h5" color="secondary" sx={{ mb: 2, textAlign: 'center' }}>
+        Table Nb {table.number}
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+      <Grid container spacing={2}>
+        {table.elements.map((element, index) => {
+          const catalogItem = catalog?.find((item) => item._id === element.item.id);
+
+          return (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+              <Item
+                      item={{
+                          _id: element.item.id,
+                          fullName: element.item.name,
+                          shortName: element.item.name,
+                          category: catalogItem?.category || 'default',
+                          image: catalogItem?.image || '',
+                          price: element.item.price,
+                      }}
+                      tableNumber={table.number}
+                      remaining={element.remaining}
+                      isSelected={false} 
+                      handleSelectItem={function (itemId: string, shortName: string): void {
+                          console.log("Not implemented");
+                      } }/>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Box>
+  );
+};
+
+export default OtherTable;

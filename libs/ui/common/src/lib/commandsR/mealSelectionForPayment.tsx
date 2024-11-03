@@ -10,6 +10,8 @@ import { useContext } from 'react';
 import { ContainerContext } from '../containerHook/containerContext';
 import { useQuery } from '@tanstack/react-query';
 import { CatalogueService, TYPES } from '@spos/services/common';
+import { useTableStore } from '../dining/stores/tableSelectionStore';
+import OtherTable from './otherTables';
 
 interface MealSelectionContentProps {
   onClose: () => void;
@@ -80,9 +82,13 @@ function MealSelectionContent({
 }: MealSelectionContentProps) {
   const tableItems = useSSE<PaymentResponseTableDTO[]>('message', []);
   const container = React.useContext(ContainerContext);
+  //const selectedTables = useTableStore((state) => state.selectedTables ? Array.from(state.selectedTables) : []);
 
   const currentTable = tableItems.find((table) => table.number === tableNumber);
-  const itemIds = currentTable ? currentTable.elements.map((element) => element.item.id) : [];
+  //const otherTables = tableItems.filter((table) => selectedTables.includes(table.number) && table.number !== tableNumber);
+  //console.log("Selected Tables:", selectedTables);
+
+  const itemIds = React.useMemo(() => currentTable ? currentTable.elements.map((element) => element.item.id) : [], [currentTable]);
 
   
   const { data: catalog, isLoading: isLoadingCatalog } = useQuery({
@@ -94,11 +100,11 @@ function MealSelectionContent({
     enabled: itemIds.length > 0,
     refetchOnWindowFocus: 'always',
   });
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     if (itemIds.length > 0) {
       console.log('Item ids changed:', itemIds);
     }
-  }, [tableItems]);
+  }, [tableItems]);*/
 
   if (!tableItems || tableItems.length === 0) {
     return (
@@ -165,6 +171,7 @@ function MealSelectionContent({
             </Grid>
           </Box>
         )}
+        
       </Box>
       <Footer onClose={onClose} onSelectWhoPays={onSelectWhoPays} onGroupClick={onGroupClick} />
     </Box>

@@ -21,6 +21,7 @@ export function DiningRoomTables() {
 
   const handleContinueClick = () => {
     console.log('Continue button clicked');
+    navigate(`/mealSelectionForPayment/${groupId}/${tableNumber}`);
   };
 
   return (

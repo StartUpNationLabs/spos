@@ -20,7 +20,6 @@ const DiningRoomSVG = ({ onSelectionChange }: DiningRoomSVGProps) => {
   }>();
   const stringTableNumber = tableNumber;
   const userTable = tableNumber ? parseInt(tableNumber, 10) : undefined;
-  //const [selectedTables, setSelectedTables] = useState(new Set<number>());
   const [tablesInGroup, setTablesInGroup] = useState<number[]>([]); 
   const addTable = useTableStore((state) => state.addTable);
   const removeTable = useTableStore((state) => state.removeTable);
